@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/ll_openTime"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:background="@color/gray_eeeeee"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/ll_ot7"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="90dp">
+
+                <TextView
+                    android:text="@string/deal_sunday"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_start_7"
+                    android:layout_marginTop="3dp"
+                    android:text="00:00"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="～"
+                    android:layout_marginTop="3dp"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_end_7"
+                    android:layout_marginTop="3dp"
+                    android:text="23:59"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_ot1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="90dp">
+
+                <TextView
+                    android:text="@string/deal_monday"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_start_1"
+                    android:tag="1"
+                    android:layout_marginTop="3dp"
+                    android:text="00:00"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="～"
+                    android:layout_marginTop="3dp"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_end_1"
+                    android:tag="1"
+                    android:layout_marginTop="3dp"
+                    android:text="23:59"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_ot2"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="90dp">
+
+                <TextView
+                    android:text="@string/deal_tuesday"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_start_2"
+                    android:tag="2"
+                    android:layout_marginTop="3dp"
+                    android:text="00:00"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="～"
+                    android:layout_marginTop="3dp"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_end_2"
+                    android:tag="2"
+                    android:layout_marginTop="3dp"
+                    android:text="23:59"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_ot3"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="90dp">
+
+                <TextView
+                    android:text="@string/deal_wednesday"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_start_3"
+                    android:tag="3"
+                    android:layout_marginTop="3dp"
+                    android:text="00:00"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="～"
+                    android:layout_marginTop="3dp"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_end_3"
+                    android:tag="3"
+                    android:layout_marginTop="3dp"
+                    android:text="23:59"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_ot4"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="90dp">
+
+                <TextView
+                    android:text="@string/deal_thursday"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_start_4"
+                    android:tag="4"
+                    android:layout_marginTop="3dp"
+                    android:text="00:00"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="～"
+                    android:layout_marginTop="3dp"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_end_4"
+                    android:tag="4"
+                    android:layout_marginTop="3dp"
+                    android:text="23:59"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_ot5"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="90dp">
+
+                <TextView
+                    android:text="@string/deal_friday"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_start_5"
+                    android:tag="5"
+                    android:layout_marginTop="3dp"
+                    android:text="00:00"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="～"
+                    android:layout_marginTop="3dp"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_end_5"
+                    android:tag="5"
+                    android:layout_marginTop="3dp"
+                    android:text="23:59"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_ot6"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="90dp">
+
+                <TextView
+                    android:text="@string/deal_saturday"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_start_6"
+                    android:tag="6"
+                    android:layout_marginTop="3dp"
+                    android:text="00:00"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="～"
+                    android:layout_marginTop="3dp"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_end_6"
+                    android:tag="6"
+                    android:layout_marginTop="3dp"
+                    android:text="23:59"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

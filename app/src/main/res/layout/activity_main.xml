@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <com.cdkj.baselibrary.views.mViewpager
+                android:id="@+id/pager_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.cdkj.baselibrary.views.mViewpager>
+
+            <ImageButton
+                android:id="@+id/iv_publish"
+                android:background="@mipmap/deal_release"
+                android:layout_marginBottom="12sp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
+        <include
+            android:id="@+id/layout_main_bottom"
+            layout="@layout/activity_main_bottom" />
+
+    </LinearLayout>
+</layout>

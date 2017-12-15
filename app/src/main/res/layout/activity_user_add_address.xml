@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:background="@color/gray_f7f7f7"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:visibility="gone"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:text="账户类型\u3000"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_balance"
+                android:clickable="false"
+                android:hint="点击选择账户类型"
+                android:layout_marginLeft="25dp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginTop="10dp"
+            android:background="@color/gray_eeeeee"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:paddingLeft="10dp"
+                android:text="@string/user_address_add_tag"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/edt_tag"
+                android:background="@null"
+                android:layout_marginLeft="15dp"
+                android:textSize="14sp"
+                android:hint="@string/user_address_add_tag_hint"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_999999"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <View
+            android:background="@color/gray_eeeeee"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_address"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:paddingLeft="10dp"
+                android:text="@string/user_address_add_address"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:gravity="center_vertical"
+                android:background="@null"
+                android:layout_marginLeft="15dp"
+                android:textSize="11sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_999999"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:background="@mipmap/more"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <View
+            android:background="@color/gray_eeeeee"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="@string/sms_code_title"
+                android:textSize="14sp"
+                android:textColor="@color/fontColor_gray"
+                android:layout_width="90dp"
+                android:layout_height="match_parent" />
+
+            <EditText
+                android:id="@+id/edt_code"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:maxLength="4"
+                android:background="@null"
+                android:inputType="number"
+                android:textColor="@color/fontColor_gray"
+                android:textColorHint="@color/fontColor_hint"
+                android:hint="@string/sms_code_hint"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btn_send"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/corner_sign_btn"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="@string/sms_code_send"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <View
+            android:background="@color/gray_eeeeee"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:text="@string/user_address_add_is_default"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:background="@null"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <com.kyleduo.switchbutton.SwitchButton
+                style="@style/SwitchButtonMD"
+                android:layout_alignParentRight="true"
+                android:id="@+id/sb_transfer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line_google"
+            android:visibility="gone"
+            android:background="@color/gray_eeeeee"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_google"
+            android:visibility="gone"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="谷歌验证码"
+                android:textSize="14sp"
+                android:textColor="@color/fontColor_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <EditText
+                android:id="@+id/edt_google"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:maxLength="6"
+                android:background="@null"
+                android:inputType="number"
+                android:textColor="@color/fontColor_gray"
+                android:textColorHint="@color/fontColor_hint"
+                android:hint="请输入谷歌验证码"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btn_paste"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/corner_sign_btn"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="粘贴"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <View
+            android:background="@color/gray_eeeeee"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:text="@string/user_address_add_tip"
+                android:textSize="10sp"
+                android:textColor="@color/gray_666666"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:background="@drawable/corner_btn"
+            android:text="@string/confirm"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+    </LinearLayout>
+</layout>

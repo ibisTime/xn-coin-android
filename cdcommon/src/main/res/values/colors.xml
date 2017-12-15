@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f15353</color>
+    <color name="colorPrimaryDark">#00FFFFFF</color>
+    <color name="colorAccent">#f15353</color>
+
+    <color name="gray_bg">#f6f6f6</color>
+    <color name="title_bg">#0cb8ae</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#4D4D4D</color>
+    <color name="white_50">#82ffffff</color>
+    <!--透明度颜色-->
+    <color name="transparent">#00000000</color>
+    <color name="text_hint_color">#a1a1a1</color>
+    <color name="text_color">#484848</color>
+
+    <!--dialog-->
+    <color name="dialog_tips_content_txt">#444444</color>
+    <color name="dialog_tips_bg">#FAFAFA</color>
+    <color name="dialog_tips_title_txt">#030303</color>
+    <color name="dialog_tips_btn">#d6d6d6</color>
+    <color name="dialog_tips_line">#EAEAEA</color>
+    <color name="dialog_tips_negative_btn_txt">#0076ff</color>
+    <color name="dialog_tips_negative_btn_txt_red">#fe3824</color>
+    <color name="dialog_tips_positive_btn_txt">#0076ff</color>
+
+    <!---->
+    <color name="gray">#ececec</color>
+    <color name="txt_gray">#999999</color>
+
+    <!--分割线颜色-->
+    <color name="splitLine_color">#dededf</color>
+
+
+    <color name="color_content_font">#979797</color>
+    <color name="bg_gray">#a1a1a1</color>
+    <color name="gray_9f9f9f">#9f9f9f</color>
+    <color name="gray_f7f7f7">#f7f7f7</color>
+    <color name="gray_cccccc">#cccccc</color>
+    <color name="gray_dedede">#dedede</color>
+
+
+    <color name="btn_white">#ffffff</color>
+    <color name="btn_blue">#0cb8ae</color>
+    <color name="btn_title_bg">#ff6702</color>
+
+
+    <color name="fontColor_gray">#484848</color>
+
+    <color name="fontColor_hint">#aaaaaa</color>
+
+
+    <color name="btn_select_un">#f15353</color>
+    <color name="btn_select">#f15353</color>
+    <color name="tablayout_select">#0cb8ae</color>
+    <color name="lineColor">#ebeaea</color>
+
+</resources>

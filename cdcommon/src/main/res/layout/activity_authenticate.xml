@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:background="#F0F0F0"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="@string/activity_authenticate_name"
+                android:textSize="15sp"
+                android:textColor="@color/fontColor_gray"
+                android:layout_width="100dp"
+                android:layout_height="match_parent" />
+
+            <EditText
+                android:id="@+id/edt_name"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textSize="14sp"
+                android:inputType="text"
+                android:background="@null"
+                android:textColor="#333333"
+                android:textColorHint="@color/fontColor_hint"
+                android:hint="@string/activity_authenticate_name_hint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <View
+            android:background="#F0F0F0"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+        <LinearLayout
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="@string/activity_authenticate_id"
+                android:textSize="15sp"
+                android:textColor="@color/fontColor_gray"
+                android:layout_width="100dp"
+                android:layout_height="match_parent" />
+
+            <EditText
+                android:id="@+id/edt_identity"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:background="@null"
+                android:maxLines="18"
+                android:inputType="text"
+                android:textColorHint="@color/fontColor_hint"
+                android:hint="@string/activity_authenticate_id_hint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <!--<LinearLayout-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:background="@color/white"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp">-->
+
+        <!--<TextView-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingLeft="15dp"-->
+        <!--android:text="银行卡号"-->
+        <!--android:textSize="15sp"-->
+        <!--android:textColor="@color/fontColor_gray"-->
+        <!--android:layout_width="153dp"-->
+        <!--android:layout_height="match_parent" />-->
+
+        <!--<EditText-->
+        <!--android:id="@+id/edt_cardId"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:textSize="14sp"-->
+        <!--android:textColor="#333333"-->
+        <!--android:inputType="number"-->
+        <!--android:background="@null"-->
+        <!--android:maxLines="19"-->
+        <!--android:textColorHint="@color/fontColor_hint"-->
+        <!--android:hint="请输入银行卡号"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+
+        <!--</LinearLayout>-->
+
+        <!--<View-->
+        <!--android:background="#F0F0F0"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"/>-->
+
+        <!--<LinearLayout-->
+        <!--android:background="@color/white"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp">-->
+
+        <!--<TextView-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingLeft="15dp"-->
+        <!--android:text="银行卡预留手机号"-->
+        <!--android:textSize="15sp"-->
+        <!--android:textColor="@color/fontColor_gray"-->
+        <!--android:layout_width="153dp"-->
+        <!--android:layout_height="match_parent" />-->
+
+        <!--<EditText-->
+        <!--android:id="@+id/edt_phone"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:textSize="14sp"-->
+        <!--android:maxLength="11"-->
+        <!--android:inputType="number"-->
+        <!--android:background="@null"-->
+        <!--android:textColor="#333333"-->
+        <!--android:textColorHint="@color/fontColor_hint"-->
+        <!--android:hint="请输入手机号码"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+
+        <!--</LinearLayout>-->
+
+        <View
+            android:background="#F0F0F0"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+
+        <LinearLayout
+            android:visibility="gone"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="资金密码"
+                android:textSize="15sp"
+                android:textColor="@color/fontColor_gray"
+                android:layout_width="153dp"
+                android:layout_height="match_parent" />
+
+            <EditText
+                android:id="@+id/edt_trade"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textSize="14sp"
+                android:maxLength="11"
+                android:inputType="number"
+                android:background="@null"
+                android:textColor="#333333"
+                android:maxLines="6"
+                android:textColorHint="@color/fontColor_hint"
+                android:hint="请输入资金密码"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:textColor="@color/white"
+            android:text="@string/confirm"
+            android:textSize="18sp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/selector_blue"
+            android:layout_width="match_parent"
+            android:layout_height="45dp" />
+
+    </LinearLayout>
+</layout>

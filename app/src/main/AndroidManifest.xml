@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cdkj.ethereumdemo">
+
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"></uses-permission>
+
+
+    <application
+        android:name=".main.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/app_icon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/app_icon_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".user.login.StartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".main.MainActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".wallet.ExchangeActivity"/>
+        <activity android:name=".wallet.ExchangePastActivity"/>
+        <activity android:name=".wallet.account.BillActivity" />
+        <activity android:name=".wallet.account.BillDetailActivity" />
+        <activity android:name=".wallet.account.RechargeActivity"/>
+        <activity android:name=".wallet.account.TransferActivity"/>
+        <activity android:name=".wallet.account.WithdrawActivity"/>
+
+        <activity android:name=".deal.DealActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".deal.SaleActivity"/>
+        <activity android:name=".deal.SearchUserActivity"/>
+        <activity android:name=".deal.SearchDealActivity"/>
+        <activity android:name=".deal.DealSearchActivity"/>
+        <activity android:name=".deal.DealChatActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".deal.PublishBuyActivity"/>
+
+        <activity android:name=".order.OrderActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".market.MarketActivity"/>
+        <activity android:name=".market.SystemMessageActivity"/>
+
+        <activity android:name=".user.UserTrustActivity"/>
+        <activity android:name=".user.UserInviteActivity"/>
+        <activity android:name=".user.UserInviteHistoryActivity"/>
+        <activity android:name=".user.UserAddressActivity"/>
+        <activity android:name=".user.UserAddAddressActivity"/>
+        <activity android:name=".user.UserSettingActivity"/>
+        <activity android:name=".user.UserPersonActivity" />
+        <activity android:name=".user.UserTipActivity"/>
+        <activity android:name=".user.UserEmailActivity"/>
+        <activity android:name=".user.UserGoogleActivity" />
+        <activity android:name=".user.UserPublishedActivity"/>
+        <activity android:name=".user.UserLanguageActivity" />
+        <activity android:name=".user.UserPasswordActivity" />
+        <activity android:name=".user.login.SignInActivity"/>
+        <activity android:name=".user.login.SignUpActivity"/>
+
+        //找回密码
+        <activity
+            android:name="com.cdkj.baselibrary.activitys.FindPwdActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        //修改手机号
+        <activity
+            android:name="com.cdkj.baselibrary.activitys.UpdatePhoneActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        //资金密码修改
+        <activity
+            android:name="com.cdkj.baselibrary.activitys.PayPwdModifyActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        //H5
+        <activity
+            android:name="com.cdkj.baselibrary.activitys.WebViewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        //图片
+        <activity
+            android:name="com.cdkj.baselibrary.activitys.ImageSelectActivity"
+            android:theme="@style/ActivityDialogStyleBottom" />
+        //RichText
+        <activity
+            android:name="com.cdkj.baselibrary.activitys.RichTextActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        //实名认证
+        <activity
+            android:name="com.cdkj.baselibrary.activitys.AuthenticateActivity"
+            android:launchMode="singleTask">
+
+             需要添加下面的intent-filter配置
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="certi.back"
+                    android:scheme="bcoin" />
+            </intent-filter>
+        </activity>
+
+        //
+        <activity
+            android:theme="@style/ActivityTXLoginDialog"
+            android:name="com.cdkj.baseim.activity.TxImLogingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        //
+        <activity
+            android:name="com.cdkj.baseim.activity.TxImPushActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        //
+        <activity
+            android:name="com.cdkj.baseim.activity.ImImageViewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        //
+        <activity
+            android:name="com.cdkj.baseim.activity.ImImagePreviewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        //
+        <activity
+            android:name="com.cdkj.baseim.activity.ChatC2CActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!-- 三方相关 -->
+
+        <!-- 微信分享回调 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+
+        <!-- tencentIM -->
+        <!-- 【必须】消息收发service -->
+        <service
+            android:name="com.tencent.qalsdk.service.QalService"
+            android:exported="true"
+            android:process=":QALSERVICE" >
+        </service>
+        <service
+            android:name="com.tencent.qalsdk.service.QalAssistService"
+            android:exported="false"
+            android:process=":QALSERVICE" >
+        </service>
+
+        <!-- 【必须】 离线消息广播接收器 -->
+        <receiver
+            android:name="com.tencent.qalsdk.QALBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.tencent.qalsdk.broadcast.qal" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.tencent.qalsdk.core.NetConnInfoCenter" android:process=":QALSERVICE">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+            </intent-filter>
+
+            <!-- ImSDK 3.0.2 后添加 -->
+            <intent-filter>
+                <action android:name="com.tencent.qalsdk.service.TASK_REMOVED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

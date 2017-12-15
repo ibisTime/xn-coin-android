@@ -1,0 +1,500 @@
+<resources>
+    <string name="app_name">倍可盈</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
+
+    // 交易
+    <string name="deal">交易</string>
+    <string name="price">價格</string>
+    <string name="amount">金額</string>
+    <string name="quantity">數量</string>
+    <string name="confirm">確認</string>
+    <string name="cancel">放棄</string>
+    <string name="good">好評</string>
+    <string name="trust">信任</string>
+    <string name="limit">限額: </string>
+    <string name="quoted">報價: </string>
+    <string name="out">下架</string>
+    <string name="you_want">您想</string>
+    <string name="how_many">多少?</string>
+    <string name="buy">購買</string>
+    <string name="sale">出售</string>
+    <string name="trade_amount">交易金額:</string>
+    <string name="trade_limit">交易限額:</string>
+    <string name="order_code">編號:</string>
+    <string name="get_trust">+信任</string>
+    <string name="lost_trust">已信任</string>
+    <string name="add_black_list">+黑名單</string>
+    <string name="remove_black_list">已拉黑</string>
+
+    <string name="left_count">廣告剩余可交易量:</string>
+    <string name="deal_buy_cny_hint">請輸入數字</string>
+    <string name="deal_buy_coin_hint">請輸入數值</string>
+    <string name="deal_account_balance">賬戶可用余額: </string>
+    <string name="buy_success">購買成功</string>
+    <string name="sale_success">出售成功</string>
+    <string name="attention">注意</string>
+    <string name="tip">提示</string>
+    <string name="out_confirm">您確定要下架此廣告嗎?</string>
+    <string name="outed">廣告已下架</string>
+    <string name="buy_order">購買訂單</string>
+    <string name="sale_order">購買訂單</string>
+
+    <string name="deal_buy">買幣</string>
+    <string name="deal_sale">賣幣</string>
+    <string name="deal_none">暫無交易</string>
+
+    <!--<string name="deal_times">交易次數</string>-->
+
+    <string name="deal_publish_price">價\u3000\u3000格</string>
+    <string name="deal_publish_price_hint">請輸入價格</string>
+    <string name="deal_publish_premium">溢\u3000\u3000價</string>
+    <string name="deal_publish_premium_hint">根據市場的溢價比例</string>
+    <string name="deal_publish_pt_price_high">最高價格</string>
+    <string name="deal_publish_pt_price_high_hint">廣告最高可成交的價格</string>
+    <string name="deal_publish_min">最  小  量</string>
+    <string name="deal_publish_min_hint">每筆交易的最小限額</string>
+    <string name="deal_publish_max">最  大  量</string>
+    <string name="deal_publish_max_hint">每筆交易的最大限額</string>
+    <string name="deal_publish_amount_buy">購買總量</string>
+    <string name="deal_publish_amount_buy_hint">請輸入購買幣總量</string>
+    <string name="deal_publish_amount_sale">出售總量</string>
+    <string name="deal_publish_amount_sale_hint">請輸入出售幣總量</string>
+    <string name="deal_publish_pay_type">付款方式</string>
+    <string name="deal_publish_pay_type_hint">請選擇付款方式</string>
+    <string name="deal_publish_limit">付款期限</string>
+    <string name="deal_publish_limit_hint">請選擇付款期限</string>
+    <string name="deal_publish_limit_minutes">分鍾</string>
+    <string name="deal_publish_remark_hint">請寫下您的廣告留言吧</string>
+    <string name="deal_publish_setting">高級設置</string>
+    <string name="deal_publish_open_time">開放時間</string>
+    <string name="deal_publish_anytime">任何時候</string>
+    <string name="deal_publish_custom">自定義</string>
+    <string name="deal_publish_only_fans">僅粉絲</string>
+    <string name="deal_publish_confirm">直接發布</string>
+    <string name="deal_publish_pt_price_min">最低價格</string>
+    <string name="deal_publish_pt_price_min_hint">廣告最低可成交的價格</string>
+
+    <string name="deal_search">搜索</string>
+    <string name="deal_search_adv">搜廣告</string>
+    <string name="deal_search_user">搜用戶</string>
+    <string name="zhifubao">支付寶</string>
+    <string name="weixin">微信</string>
+    <string name="card">銀行卡轉賬</string>
+    <string name="deal_search_hint_type">請選擇廣告類型</string>
+    <string name="deal_search_hint_min">請填寫最低價</string>
+    <string name="deal_search_hint_max">請填寫最高價</string>
+    <string name="deal_search_hint_pay">請選擇支付方式</string>
+    <string name="deal_search_hint_user">請填寫用戶昵稱</string>
+
+    <string name="deal_publish_hint_end">請將結束時間設置為關閉</string>
+    <string name="deal_publish_hint_start">請將開始時間設置為關閉</string>
+    <string name="deal_publish_buy">發布購買</string>
+    <string name="deal_publish_sale">發布賣出</string>
+    <string name="deal_publish_save">保存草稿</string>
+    <string name="deal_publish_edit">編輯</string>
+    <string name="deal_publish_hint_premium">請輸入溢價</string>
+    <string name="deal_publish_hint_premium_scope_start">溢價應在</string>
+    <string name="deal_publish_hint_premium_scope_end">之間</string>
+    <string name="deal_publish_hint_protect_buy">請輸入最高價格</string>
+    <string name="deal_publish_hint_protect_sale">請輸入最低價格</string>
+    <string name="deal_publish_hint_min">請輸入交易最小額度</string>
+    <string name="deal_publish_hint_max">請輸入交易最大額度</string>
+    <string name="deal_publish_hint_way">請選擇付款方式</string>
+    <string name="deal_publish_hint_limit">請選擇付款時限</string>
+    <string name="deal_publish_hint_remark">請填寫廣告留言</string>
+    <string name="deal_publish_success">發布成功</string>
+    <string name="deal_publish_save_success">草稿保存成功</string>
+    <string name="deal_open_time_close">關閉</string>
+
+    <string name="deal_search_adv_type">廣告類型</string>
+    <string name="deal_search_adv_type_hint">請選擇廣告類型</string>
+    <string name="deal_search_limit">價格區間</string>
+    <string name="deal_search_limit_min">最低價</string>
+    <string name="deal_search_limit_max">最高價</string>
+    <string name="deal_search_user_nick">用戶昵稱</string>
+    <string name="deal_search_user_nick_hint">請輸入用戶昵稱</string>
+
+    <string name="deal_sunday">每周日</string>
+    <string name="deal_monday">每周一</string>
+    <string name="deal_tuesday">每周二</string>
+    <string name="deal_wednesday">每周三</string>
+    <string name="deal_thursday">每周四</string>
+    <string name="deal_friday">每周五</string>
+    <string name="deal_saturday">每周六</string>
+
+    <string name="deal_title_search_deal">搜索結果</string>
+
+    <string name="deal_times">交易次數</string>
+    <string name="trust_times">信任次數</string>
+    <string name="good_rate">好評率</string>
+    <string name="deal_history">曆史交易</string>
+
+    <string name="deal_tip">交易提醒</string>
+    <string name="deal_chat">聯系對方</string>
+
+    <string name="deal_type_select_tip">請選擇交易類型</string>
+    <string name="dialog_deal_confirm_title">下單確定</string>
+    <string name="dialog_deal_price">出售價格</string>
+    <string name="dialog_deal_amount">出售金額</string>
+    <string name="dialog_deal_quantity">出售數量</string>
+    <string name="dialog_deal_tip">提醒:請確認價格再下單，下單後此交易的ETH將托管鎖定,請放心下單</string>
+    <string name="dialog_deal_cancel">放棄出售</string>
+    <string name="dialog_deal_confirm">確認出售</string>
+    <string name="dialog_deal_custom">自定義</string>
+
+    // 訂單
+    <string name="order_title">訂單詳情</string>
+    <string name="order_none">暫無訂單</string>
+    <string name="order_copy_id">訂單編號已複制</string>
+    <string name="order_copy_amount">交易金額已複制</string>
+    <string name="order_tag">標記已打款</string>
+    <string name="order_tag_wait">等待標記打款</string>
+    <string name="order_tag_success">標記成功</string>
+    <string name="order_tag_confirm">您確定要標記已打款嗎？</string>
+    <string name="order_release">釋放貨幣</string>
+    <string name="order_release_wait">等待釋放貨幣</string>
+    <string name="order_release_success">貨幣已釋放</string>
+    <string name="order_release_confirm">您確定要釋放貨幣嗎？</string>
+    <string name="order_evaluation">交易評價</string>
+    <string name="order_evaluation_by_b">買家已評價</string>
+    <string name="order_evaluation_by_s">賣家已評價</string>
+    <string name="order_evaluation_success">交易評價成功</string>
+    <string name="order_evaluation_tip">已釋放貨幣，請對交易做出評價</string>
+    <string name="order_evaluation_tip_by_b">買家已評價，等待賣家評價</string>
+    <string name="order_evaluation_tip_by_s">賣家已評價，等待買家評價</string>
+    <string name="order_done">交易已完成，已評價交易</string>
+    <string name="order_wallet">查看錢包</string>
+    <string name="order_arbitrate">申請仲裁</string>
+    <string name="order_arbitrate_success">申請仲裁</string>
+    <string name="order_leave_message">廣告留言:</string>
+    <string name="order_save_limit_start">貨幣將在托管中保持至</string>
+    <string name="order_save_limit_end">,逾期未支付交易將自動取消</string>
+
+    <string name="order_delete_confirm">您確定要刪除這條訂單嗎？</string>
+    <string name="order_delete_success">刪除成功</string>
+
+    <string name="order_detail_id">訂單編號:</string>
+    <string name="order_detail_amount">交易金額</string>
+    <string name="order_detail_price">交易價格</string>
+    <string name="order_detail_quantity">交易數量</string>
+    <string name="order_detail_buyer">買家:</string>
+    <string name="order_detail_seller">賣家:</string>
+    <string name="order_detail_remark">廣告留言:</string>
+
+    <string name="order_arbitrate_title">申請仲裁</string>
+    <string name="order_arbitrate_reason_hint">請填寫您申請仲裁的理由</string>
+    <string name="order_arbitrate_cancel">放棄申請</string>
+    <string name="order_arbitrate_confirm">確認申請</string>
+
+    <string name="order_evaluate_title">交易評價</string>
+    <string name="order_evaluate_tip">交易有何印象？快來評價吧</string>
+    <string name="order_evaluate_good">好評</string>
+    <string name="order_evaluate_bad">差評</string>
+    <string name="order_evaluate_medium">中評</string>
+    <string name="order_evaluate_hint">請用文字簡單評價一下</string>
+    <string name="order_evaluate_confirm">提交</string>
+
+    <string name="order_jingxingzhong">進行中</string>
+    <string name="order_yijieshu">已結束</string>
+
+    // 行情
+    <string name="market_title">行情</string>
+    <string name="market_none">暫無行情</string>
+    <string name="market_wan">萬</string>
+    <string name="market_title_message">系統消息</string>
+    <string name="market_message_none">暫無系統消息</string>
+
+    // 錢包
+    <string name="property_eth">以太幣資産(ETH)</string>
+    <string name="freeze">凍結</string>
+
+    <string name="wallet_exchange_explain">計算規則:采用銀行櫃台彙率過去14天的平均值作為彙率參考值,在每一個交割結算日,若該平均值與系統當前彙率偏差超過0.2,則會采用新的14天平均是做為系統彙率。</string>
+    <string name="wallet_exchange_past_time">時間</string>
+    <string name="wallet_exchange_past_rate">當日彙率</string>
+    <string name="wallet_exchange_past_rate_week">兩周平均彙率</string>
+
+    <string name="wallet_charge_my_address">我的比特幣收款地址</string>
+    <string name="wallet_charge_address_copy">(點擊複制地址)</string>
+    <string name="wallet_charge_address">地址</string>
+
+    <string name="wallet_withdraw_balance">可用余額</string>
+    <string name="wallet_withdraw_address">接收地址</string>
+    <string name="wallet_withdraw_amount">轉賬數量</string>
+    <string name="wallet_withdraw_free">手續費\u3000</string>
+    <string name="wallet_withdraw_tip">手續費將在提現金額中扣除</string>
+    <string name="wallet_withdraw_confirm">確認付幣</string>
+
+    <string name="wallet_title">我的資産</string>
+    <string name="wallet_assets">總資産折合CNY</string>
+    <string name="wallet_frozen_0">凍結0</string>
+    <string name="wallet_charge">充幣</string>
+    <string name="wallet_withdraw">提幣</string>
+    <string name="wallet_bill">賬單</string>
+
+    <string name="bill_type_all">充幣</string>
+    <string name="bill_type_charge">充幣</string>
+    <string name="bill_type_withdraw">提現</string>
+    <string name="bill_type_select">篩選</string>
+    <string name="bill_title_all">余額明細</string>
+    <string name="bill_title_charge">充值明細</string>
+    <string name="bill_title_withdraw">提幣明細</string>
+    <string name="bill_title_frozen">凍結明細</string>
+    <string name="bill_none">暫無明細</string>
+    <string name="bill_all_none">暫無余額明細</string>
+    <string name="bill_charge_none">暫無充值明細</string>
+    <string name="bill_withdraw_none">暫無提幣明細</string>
+    <string name="bill_frozen_none">暫無凍結明細</string>
+
+    <string name="wallet_title_bill_detail">賬單詳情</string>
+    <string name="wallet_bill_detail_before">變動前金額</string>
+    <string name="wallet_bill_detail_after">變動後金額</string>
+    <string name="wallet_bill_detail_date">變動時間</string>
+    <string name="wallet_bill_detail_status">明細狀態</string>
+    <string name="wallet_bill_detail_type">明細摘要</string>
+
+    <string name="wallet_title_charge">充幣</string>
+    <string name="wallet_charge_recode">記錄</string>
+    <string name="wallet_charge_address_eth">我的以太幣收款地址</string>
+    <string name="wallet_charge_address_btc">我的比特幣收款地址</string>
+    <string name="wallet_charge_address_copy_success">地址已複制</string>
+
+    <string name="wallet_title_withdraw">提幣</string>
+    <string name="wallet_withdraw_address_hint">請填寫發送地址</string>
+    <string name="wallet_withdraw_amount_hint">請填寫數量</string>
+    <string name="wallet_withdraw_success">提現申請成功</string>
+    <string name="wallet_transfer_success">轉賬申請成功</string>
+
+    <string name="wallet_title_exchange">彙率概述</string>
+
+    <string name="wallet_title_exchange_past">曆史彙率</string>
+    <string name="wallet_title_exchange_past_none">暫無曆史彙率</string>
+
+    <string name="wallet_none">暫無錢包</string>
+
+    <string name="market_quantity">量</string>
+
+
+    // 我的
+    <string name="address_attestation">已認證</string>
+    <string name="address_unattestation">未認證</string>
+
+    <string name="user_title_address_add">添加地址</string>
+    <string name="user_title_address_add_success">添加地址成功</string>
+    <string name="user_address_tag_hint">請填寫地址標簽</string>
+    <string name="user_address_hint">請輸入地址</string>
+
+    <string name="user_title_address">地址管理</string>
+    <string name="user_address_none">暫無地址</string>
+    <string name="user_address_delete_confirm">您確定要刪除該地址嗎？</string>
+    <string name="user_address_delete_success">刪除成功？</string>
+
+    <string name="user_title_email_bind">綁定郵箱</string>
+    <string name="user_title_email_modify">修改郵箱</string>
+    <string name="user_email_bind_success">綁定成功</string>
+    <string name="user_email_modify_success">修改成功</string>
+    <string name="user_email_hint">請輸入郵箱</string>
+
+    <string name="user_title_language">語言設置</string>
+    <string name="user_language_english">英文</string>
+    <string name="user_language_simplified">中文簡體</string>
+    <string name="user_language_traditional">中文繁體</string>
+
+    <string name="user_title_google">谷歌驗證</string>
+    <string name="user_google_open">已開啓</string>
+    <string name="user_google_close">未開啓</string>
+    <string name="user_google_btn_open">開啓谷歌驗證</string>
+    <string name="user_google_btn_close">關閉谷歌驗證</string>
+    <string name="user_google_btn_modify">修改谷歌驗證</string>
+
+    <string name="user_title_invite_history">推薦曆史</string>
+
+    <string name="user_title_published">我發布的</string>
+    <string name="user_published_none">暫無發布</string>
+
+    <string name="user_title_setting">安全設置</string>
+    <string name="user_identity_success">您已通過實名認證</string>
+
+    <string name="user_title_person">個人主頁</string>
+
+    <string name="user_title_tip">個性設置</string>
+
+    <string name="user_title_sign_in">登錄</string>
+    <string name="user_mobile_hint">請填寫手機號碼</string>
+    <string name="user_mobile_format_hint">手機號碼格式不正確</string>
+    <string name="user_password_format_hint">密碼長度不能小于6位</string>
+
+    <string name="user_title_trust">受信任的</string>
+    <string name="user_trust_none">暫無信任人</string>
+
+    <string name="user_title_sign_up">注冊</string>
+    <string name="user_sign_up_protocol">注冊協議</string>
+    <string name="user_nick_hint">請設置您的昵稱</string>
+    <string name="user_code_hint">請填寫驗證碼</string>
+    <string name="user_code_format_hint">驗證碼格式不正確</string>
+    <string name="user_password_hint">請填寫密碼</string>
+    <string name="user_repassword_hint">請確認密碼</string>
+    <string name="user_repassword_two_hint">兩次輸入的密碼不相同</string>
+    <string name="user_protocol_hint">請閱讀並同意條款</string>
+    <string name="user_sign_up_success">注冊成功,已自動登錄</string>
+    <string name="user_sign_up_failure">注冊失敗</string>
+
+    <string name="user_person_deal">和Ta交易過</string>
+    <string name="user_person_times">次</string>
+
+    <string name="user_invite_people">成功邀請(人)</string>
+    <string name="user_invite_profit">提成收益(ETH)</string>
+    <string name="user_invite_confirm">我要推薦</string>
+    <string name="user_invite_activity">活動規則</string>
+    <string name="user_invite_share_title">分享到</string>
+    <string name="user_invite_share_wx">微信</string>
+    <string name="user_invite_share_pyq">朋友圈</string>
+    <string name="user_invite_title">邀請好友</string>
+    <string name="user_invite_title_right">推薦曆史</string>
+
+    <string name="user_sign_in_mobile_hint">請輸入手機號</string>
+    <string name="user_sign_in_pwd_hint">請輸入密碼</string>
+    <string name="user_sign_in_confirm">確認登錄</string>
+    <string name="user_sign_in_forget">忘記密碼?</string>
+
+    <string name="user_sign_up_nick">昵稱</string>
+    <string name="user_sign_up_nick_hint">請設置您的昵稱</string>
+    <string name="user_sign_up_mobile">手機號</string>
+    <string name="user_sign_up_mobile_hint">請輸入手機號碼</string>
+    <string name="user_sign_up_code">手機驗證碼</string>
+    <string name="user_sign_up_code_hint">請輸入驗證碼</string>
+    <string name="user_sign_up_send">獲取驗證碼</string>
+    <string name="user_sign_up_pwd">新密碼</string>
+    <string name="user_sign_up_pwd_hint">不少于6位</string>
+    <string name="user_sign_up_repwd">確認密碼</string>
+    <string name="user_sign_up_repwd_hint">不少于6位</string>
+    <string name="user_sign_up_agree">我已閱讀並同意</string>
+    <string name="user_sign_up_profile">《注冊協議》</string>
+    <string name="user_sign_up_confirm">確認注冊</string>
+
+    <string name="user_address_add_tag">標簽</string>
+    <string name="user_address_add_tag_hint">請輸入標簽</string>
+    <string name="user_address_add_address">提幣地址</string>
+    <string name="user_address_add_code">手機驗證碼</string>
+    <string name="user_address_add_code_hint">請輸入驗證碼</string>
+    <string name="user_address_add_is_default">將該賬戶設置為認證賬戶</string>
+    <string name="user_address_add_tip">向認證賬戶提現不再輸入資金密碼、谷歌驗證碼</string>
+
+    <string name="user_email">郵箱</string>
+
+    <string name="user_google_key">密鑰</string>
+    <string name="user_google_copy">複制</string>
+    <string name="user_google_paste">粘貼</string>
+
+    <string name="user_password_old">原密碼</string>
+    <string name="user_password_old_hint">請輸入原密碼</string>
+    <string name="user_password_new">新密碼</string>
+    <string name="user_password_new_hint">不少于6位</string>
+    <string name="user_password_re">確認密碼</string>
+    <string name="user_password_re_hint">不少于6位</string>
+    <string name="user_password_title">修改密碼</string>
+    <string name="user_password_pwdold_hint">請輸入原密碼</string>
+    <string name="user_password_google_hint">請輸入谷歌驗證碼</string>
+    <string name="user_password_pwdnew_hint">請輸入新密碼</string>
+    <string name="user_password_repwd_hint">請重新輸入密碼</string>
+    <string name="user_password_pwdnew_format_hint">密碼不少于6位</string>
+    <string name="user_password_repwd_format_hint">兩次密碼輸入不一致</string>
+    <string name="user_password_success">密碼修改成功</string>
+    <string name="user_password_failure">密碼修改失敗</string>
+    <string name="user_password_google">谷歌驗證碼</string>
+    <string name="user_password_google_paste">粘貼</string>
+
+    <string name="user_setting_trade_pwd">資金密碼</string>
+    <string name="user_setting_identity">實名認證</string>
+    <string name="user_setting_mail">綁定郵箱</string>
+    <string name="user_setting_mobile">修改手機號</string>
+    <string name="user_setting_password">修改登錄密碼</string>
+    <string name="user_setting_google">谷歌驗證</string>
+    <string name="user_setting_sign_out">退出登錄</string>
+
+    <string name="user_tip_good">自動好評</string>
+    <string name="user_tip_trust">自動加信任</string>
+    <string name="user_tip_language">語言設置</string>
+
+    <string name="user_address_add">添加新地址</string>
+    <string name="user_buy">我要購買</string>
+    <string name="user_sale">我要出售</string>
+    <string name="user_adv">我的廣告</string>
+    <string name="user_address">我的地址</string>
+    <string name="user_trust">受信任的</string>
+    <string name="user_invite">邀請好友</string>
+    <string name="user_setting">安全中心</string>
+    <string name="user_tip">個性設置</string>
+    <string name="user_issue">常見問題</string>
+    <string name="user_services">聯系客服</string>
+    <string name="user_about">關于我們</string>
+
+    // Util
+    <string name="coin_eth">以太幣</string>
+    <string name="coin_btc">比特幣</string>
+    <string name="biz_type_charge">ETH充值</string>
+    <string name="biz_type_withdraw">ETH取現</string>
+    <string name="biz_type_buy">交易買入</string>
+    <string name="biz_type_sell">交易賣出</string>
+    <string name="biz_type_tradefrozen">交易凍結</string>
+    <string name="biz_type_tradeunfrozen">交易解凍</string>
+    <string name="biz_type_withdrawfrozen">取現凍結</string>
+    <string name="biz_type_withdrawunfrozen">取現解凍</string>
+    <string name="biz_type_tradefee">交易手續費</string>
+    <string name="biz_type_withdrawfee">提現手續費</string>
+    <string name="biz_type_invite">邀請好友收入</string>
+
+    <string name="biz_status_daiduizhang">待對賬</string>
+    <string name="biz_status_yiduiyiping">已對賬且賬已平</string>
+    <string name="biz_status_zhangbuping">帳不平待調賬審批</string>
+    <string name="biz_status_yiduibuping">已對賬且賬不平</string>
+    <string name="biz_status_wuxuduizhang">無需對賬</string>
+
+    <string name="deal_status_yifabu">已發布</string>
+    <string name="deal_status_daifabu">待發布</string>
+    <string name="deal_status_yixiajia">已下架</string>
+    <string name="deal_status_check">查看</string>
+
+    <string name="order_status_daixiadan">待下單</string>
+    <string name="order_status_daizhifu">待支付</string>
+    <string name="order_status_daishifang">待釋放</string>
+    <string name="order_status_daipingjia">待評價</string>
+    <string name="order_status_yiwancheng">已完成</string>
+    <string name="order_status_yiquxiao">已取消</string>
+    <string name="order_status_zhongcaizhong">仲裁中</string>
+
+
+    <string name="popup_select">選擇地址</string>
+    <string name="popup_scan">掃描二維碼</string>
+    <string name="popup_paste">粘貼地址</string>
+    <string name="copy_tip_none">您還沒有複制內容</string>
+    <string name="qrcode_parsing_failure">解析二維碼失敗</string>
+    <string name="camera_refused">已拒絕打開相機</string>
+
+
+    <string name="sms_code_title">手機驗證碼</string>
+    <string name="sms_code_send">獲取驗證碼</string>
+    <string name="sms_code_hint">請輸入短信驗證碼</string>
+    <string name="trade_code_hint">請輸入資金密碼</string>
+    <string name="google_code_title">谷歌驗證碼</string>
+    <string name="google_code_hint">請輸入谷歌驗證碼</string>
+    <string name="google_code_format_hint">請輸入正確的谷歌驗證碼</string>
+
+    <string name="wx_share_success">分享成功</string>
+    <string name="wx_share_cancel">分享取消</string>
+    <string name="wx_share_denied">分享拒絕</string>
+    <string name="wx_share_failure">分享失敗</string>
+
+    <string name="build_type">環境切換</string>
+
+    <string name="main_tag_market">行情</string>
+    <string name="main_tab_order">訂單</string>
+    <string name="main_tab_deal">交易</string>
+    <string name="main_tab_wallet">錢包</string>
+    <string name="main_tab_my">我的</string>
+    <string name="exit_confirm">確認退出？</string>
+
+
+
+
+
+</resources>

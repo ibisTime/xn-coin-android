@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="@color/popup_bg"
+        android:gravity="center"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:background="@drawable/corner_deal_popup"
+            android:layout_width="300dp"
+            android:layout_height="310dp">
+
+            <ImageView
+                android:layout_marginTop="15dp"
+                android:background="@mipmap/deal_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="@string/order_arbitrate_title"
+                android:textSize="15sp"
+                android:layout_marginTop="13dp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:background="@drawable/corner_order_input"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="120dp">
+
+                <EditText
+                    android:id="@+id/edt_reason"
+                    android:background="@null"
+                    android:paddingLeft="12sp"
+                    android:hint="@string/order_arbitrate_reason_hint"
+                    android:padding="10dp"
+                    android:gravity="top"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp" />
+
+            <LinearLayout
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="35dp">
+
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:gravity="center"
+                    android:background="@drawable/corner_btn_gray"
+                    android:text="@string/order_arbitrate_cancel"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/tv_confirm"
+                    android:layout_marginLeft="30dp"
+                    android:gravity="center"
+                    android:background="@drawable/corner_btn"
+                    android:text="@string/order_arbitrate_confirm"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

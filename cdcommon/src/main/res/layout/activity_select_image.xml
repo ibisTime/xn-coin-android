@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <View
+        android:id="@+id/empty_view"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/mydialog_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_take_capture"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:text="拍照"
+            android:textColor="#3DA3FF"
+            android:textSize="16sp" />
+
+        <View style="@style/style_split_line" />
+
+        <TextView
+            android:id="@+id/tv_alumb"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:text="从手机相册选择"
+            android:textColor="#3DA3FF"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_cancle"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/mydialog_bg"
+        android:gravity="center"
+        android:text="取消"
+        android:textSize="16sp" />
+
+</LinearLayout>

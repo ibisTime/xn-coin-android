@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff">
+
+        <View
+            android:background="@color/gray_dedede"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <RadioGroup
+            android:id="@+id/rg_menu"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:clickable="false"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <LinearLayout
+                android:id="@+id/ll_market"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_market"
+                    android:src="@mipmap/main_market_dark"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp" />
+
+                <TextView
+                    android:id="@+id/tv_market"
+                    android:text="@string/main_tag_market"
+                    android:textSize="11sp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/gray_666666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_order"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/ll_payTypes"
+                        android:gravity="center"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/iv_order"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
+                            android:src="@mipmap/main_order_dark" />
+
+                        <TextView
+                            android:id="@+id/tv_order"
+                            android:text="@string/main_tab_order"
+                            android:textSize="11sp"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/gray_666666"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_msg_tip"
+                        android:visibility="gone"
+                        android:layout_marginTop="-4dp"
+                        android:layout_alignRight="@+id/ll_payTypes"
+                        android:layout_alignTop="@+id/ll_payTypes"
+                        android:background="@drawable/corner_im_msg_tip"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_deal"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_deal"
+                    android:src="@mipmap/main_deal_light"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp" />
+
+                <TextView
+                    android:id="@+id/tv_deal"
+                    android:text="@string/main_tab_deal"
+                    android:textSize="11sp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/colorAccent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_wallet"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_wallet"
+                    android:src="@mipmap/main_wallet_dark"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp" />
+
+                <TextView
+                    android:id="@+id/tv_wallet"
+                    android:text="@string/main_tab_wallet"
+                    android:textSize="11sp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/gray_666666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_my"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_my"
+                    android:src="@mipmap/main_my_dark"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp" />
+
+                <TextView
+                    android:id="@+id/tv_my"
+                    android:text="@string/main_tab_my"
+                    android:textSize="11sp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/gray_666666"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </RadioGroup>
+    </LinearLayout>
+</layout>

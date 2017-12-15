@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f15353</color>
+    <color name="colorPrimaryDark">#f15353</color>
+    <color name="colorAccent">#f15353</color>
+
+    <color name="gray_5e5e5f">#5e5e5f</color>
+    <color name="gray_b3b3b3">#b3b3b3</color>
+    <color name="gray_858c92">#858c92</color>
+    <color name="gray_f7f7f7">#f7f7f7</color>
+    <color name="gray_999999">#999999</color>
+    <color name="gray_666666">#666666</color>
+    <color name="gray_eeeeee">#eeeeee</color>
+    <color name="gray_eaeaea">#eaeaea</color>
+    <color name="gray_dedede">#dedede</color>
+
+    <color name="black">#484848</color>
+    <color name="white_80">#80ffffff</color>
+
+    <color name="green">#2ac64c</color>
+
+    <color name="yellow">#fff9eb</color>
+
+    <color name="popup_bg">#66000000</color>
+
+</resources>

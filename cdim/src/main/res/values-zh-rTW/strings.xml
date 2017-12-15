@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">cdim</string>
+
+    <!-- message -->
+    <string name="summary_image">[圖片]</string>
+    <string name="summary_voice">[語音]</string>
+    <string name="summary_video">[小視頻]</string>
+    <string name="summary_file">[文件]</string>
+    <string name="summary_friend_add">請求添加好友</string>
+    <string name="summary_friend_added">我已添加</string>
+    <string name="summary_friend_add_me">請求添加</string>
+    <string name="summary_friend_recommend">推薦添加</string>
+    <string name="summary_me">我</string>
+    <string name="summary_group_apply">申請加群</string>
+    <string name="summary_group_invite">邀請</string>
+    <string name="summary_group_add">加入群</string>
+    <string name="summary_agree">同意</string>
+    <string name="summary_disagree">拒絕</string>
+    <string name="summary_invite_person">邀請人</string>
+    <string name="summary_handle_person">處理人</string>
+    <string name="summary_group_admin_change">管理員變更</string>
+    <string name="summary_group_info_change">群資料變更</string>
+    <string name="summary_group_mem_change">群成員變更</string>
+    <string name="summary_group_mem_add">加入群</string>
+    <string name="summary_group_mem_quit">退出群</string>
+    <string name="summary_group_mem_kick">被踢出群</string>
+    <string name="summary_group_mem_modify">資料變更</string>
+
+    <!-- chat activity -->
+    <string name="chat_image">圖片</string>
+    <string name="chat_file">文件</string>
+    <string name="chat_photo">拍攝</string>
+    <string name="chat_video">小視頻</string>
+    <string name="chat_press_talk">按住 說話</string>
+    <string name="chat_release_send">松開 結束</string>
+    <string name="chat_up_finger">手指上滑，取消發送</string>
+    <string name="chat_audio_too_short">錄音過短，請重試</string>
+    <string name="chat_audio_too_long">錄音過長，請重試</string>
+    <string name="chat_video_too_short">錄制過短，請重試</string>
+    <string name="chat_resend">重新發送</string>
+    <string name="chat_pullback">撤回</string>
+    <string name="chat_pullback_not_support">改會話不支持消息撤回</string>
+    <string name="chat_del">刪除</string>
+    <string name="chat_save">保存</string>
+    <string name="chat_file_too_large">文件過大，發送失敗</string>
+    <string name="chat_file_not_exist">文件不存在，發送失敗</string>
+    <string name="chat_image_preview_title">圖片預覽</string>
+    <string name="chat_image_preview_send">發送</string>
+    <string name="chat_image_preview_load_err">圖片加載失敗</string>
+    <string name="chat_image_preview_ori">原圖發送</string>
+    <string name="chat_typing">對方正在輸入…</string>
+    <string name="chat_content_bad">內容含有敏感詞</string>
+
+    <string name="action_bar_back">返回</string>
+    <string name="confirm">確定</string>
+    <string name="cancel">取消</string>
+    <string name="agree">同意</string>
+    <string name="agreed">已同意</string>
+    <string name="refuse">拒絕</string>
+    <string name="refused">已拒絕</string>
+    <string name="done">完成</string>
+    <string name="friend_allow_all">允許任何人添加</string>
+    <string name="friend_refuse_all">拒絕任何人添加</string>
+    <string name="friend_need_confirm">需驗證</string>
+    <string name="default_group_name">默認分組</string>
+    <string name="change_group_error">修改分組失敗</string>
+    <string name="people">人</string>
+    <string name="login_error">登錄失敗，請稍後重試</string>
+    <string name="login_error_timeout">登錄失敗，當前無網絡</string>
+    <string name="login_succ">登錄成功</string>
+    <string name="kick_logout">您的賬號已在其他終端登錄,重新登錄</string>
+    <string name="operate_fail">操作失敗</string>
+    <string name="need_permission">您需要開啓權限,並重啓應用</string>
+    <string name="save_succ">保存成功</string>
+    <string name="download_fail">下載失敗</string>
+    <string name="downloading">正在下載，請稍候</string>
+    <string name="save_fail">保存失敗</string>
+    <string name="save_exist">文件已存在</string>
+    <string name="tls_expire">賬號登錄已過期，請重新登錄</string>
+    <string name="env_normal">當前連接正式環境</string>
+    <string name="env_test">當前連接測試環境</string>
+    <string name="file_not_found">未找到文件，請稍後重試</string>
+    <string name="google_service_not_available">google推送服務不可用，請檢查google play設置</string>
+
+    <!-- time -->
+    <string name="time_yesterday">昨天</string>
+    <string name="time_day">日</string>
+    <string name="time_month">月</string>
+    <string name="time_year">年</string>
+    <string name="time_more">99+</string>
+</resources>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:background="@color/gray_f7f7f7"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:background="@color/white"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/sign_mobile" />
+
+            <EditText
+                android:id="@+id/edt_username"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="25dp"
+                android:inputType="phone"
+                android:background="@null"
+                android:hint="@string/user_sign_in_mobile_hint"
+                android:textColorHint="@color/gray_999999"
+                android:textColor="@color/black"
+                android:maxLines="1"
+                android:maxLength="11"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            android:background="@color/gray_eeeeee"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:src="@mipmap/sign_pwd" />
+
+            <EditText
+                android:id="@+id/edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="25dp"
+                android:background="@null"
+                android:hint="@string/user_sign_in_pwd_hint"
+                android:maxLines="1"
+                android:textColorHint="@color/gray_999999"
+                android:textColor="@color/black"
+                android:inputType="textPassword"
+                android:layout_marginRight="21dp"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            android:background="@color/gray_eeeeee"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:text="@string/user_sign_in_confirm"
+            android:textColor="@color/white_80"
+            android:textSize="16sp"
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/corner_sign_btn"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="45dp" />
+
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_forget"
+                android:gravity="right"
+                android:text="@string/user_sign_in_forget"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/gray_999999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center_horizontal|bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+           <LinearLayout
+               android:id="@+id/ll_wechat"
+               android:visibility="gone"
+               android:gravity="center"
+               android:layout_marginBottom="95dp"
+               android:orientation="vertical"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content">
+
+               <ImageView
+                   android:background="@mipmap/sign_wechat"
+                   android:layout_width="41dp"
+                   android:layout_height="41dp" />
+
+               <TextView
+                   android:text="微信登录"
+                   android:textSize="13sp"
+                   android:textColor="@color/fontColor_gray"
+                   android:layout_marginTop="12dp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+
+           </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="LoadingViewStyle" format="reference" />
+    <declare-styleable name="LoadingView">
+        <attr name="loading_view_size" format="dimension" />
+        <attr name="loading_view_color" format="color" />
+    </declare-styleable>
+
+</resources>
