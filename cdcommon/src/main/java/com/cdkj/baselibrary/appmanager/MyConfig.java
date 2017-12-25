@@ -17,7 +17,6 @@ public class MyConfig {
     // 拍照文件保存路径
     public static final String CACHDIR = "beikeying";
 
-
     // 环境访问地址
     public static final String BASE_URL_DEV="http://121.43.101.148:4001/forward-service/"; // 研发
     public static final String BASE_URL_TEST="http://47.96.161.183:4001/forward-service/"; // 测试
