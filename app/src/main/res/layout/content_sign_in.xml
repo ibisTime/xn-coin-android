@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.cdkj.ethereumdemo.user.login.SignInActivity"
+    tools:context="com.cdkj.bcoin.user.login.SignInActivity"
     tools:showIn="@layout/activity_sign_in">
 
 </android.support.constraint.ConstraintLayout>

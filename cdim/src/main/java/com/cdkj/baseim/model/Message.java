@@ -75,14 +75,14 @@ public abstract class Message {
                 if (message.getConversation().getType() == TIMConversationType.Group){
                     viewHolder.sender.setVisibility(View.VISIBLE);
                     // 获取腾讯云的昵称,由后台在注册时设置，需要URLDecoder
-                    String name = "";
-                    if (message.getSenderGroupMemberProfile()!=null) name = message.getSenderGroupMemberProfile().getNameCard();
-                    if (name.equals("")&&message.getSenderProfile()!=null) name = message.getSenderProfile().getNickName();
-                    if (name.equals("")) name = message.getSender();
-                    viewHolder.sender.setText(URLDecoder.decode(name));
+//                    String name = "";
+//                    if (message.getSenderGroupMemberProfile()!=null) name = message.getSenderGroupMemberProfile().getNameCard();
+//                    if (name.equals("")&&message.getSenderProfile()!=null) name = message.getSenderProfile().getNickName();
+//                    if (name.equals("")) name = message.getSender();
+//                    viewHolder.sender.setText(URLDecoder.decode(name));
 
-//                    // 直接取本地系统的获取的昵称
-//                    viewHolder.sender.setText(viewHolder.leftName);
+                    // 直接取本地系统的获取的昵称
+                    viewHolder.sender.setText(viewHolder.leftName);
                 }else{
                     viewHolder.sender.setVisibility(View.GONE);
                 }

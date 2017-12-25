@@ -65,4 +65,7 @@
     <string name="activity_find_send">獲取驗證碼</string>
     <string name="activity_paypwd_pwd">資金密碼</string>
     <string name="activity_mobile_mobile">新手機號</string>
+
+    <string name="smscode_send_success">驗證碼已經發送請注意查收</string>
+    <string name="smscode_send_failure">驗證碼發送失敗</string>
 </resources>

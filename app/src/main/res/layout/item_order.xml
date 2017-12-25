@@ -90,7 +90,7 @@
                         android:id="@+id/tv_type"
                         android:gravity="center"
                         android:textSize="10sp"
-                        android:background="@drawable/corner_deal_btn"
+                        android:background="@drawable/corner_deal_btn_red"
                         android:textColor="@color/colorAccent"
                         android:layout_width="30dp"
                         android:layout_height="17dp" />

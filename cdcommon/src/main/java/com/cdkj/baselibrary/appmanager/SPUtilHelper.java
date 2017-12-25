@@ -74,8 +74,7 @@ public class SPUtilHelper {
 	 * 设置APP运行环境
 	 * @param s
 	 */
-	public static void setAPPBuildType(String s)
-	{
+	public static void setAPPBuildType(String s) {
 		SPUtils.put(BaseApplication.getContext(),BUILD_TYPE_KEY,s);
 	}
 
@@ -83,9 +82,8 @@ public class SPUtilHelper {
 	 * 获取APP运行环境，默认DEBUG
 	 * @param
 	 */
-	public static String getAPPBuildType()
-	{
-		return  SPUtils.getString(BaseApplication.getContext(),BUILD_TYPE_KEY, BUILD_TYPE_DEBUG);
+	public static String getAPPBuildType() {
+		return  SPUtils.getString(BaseApplication.getContext(),BUILD_TYPE_KEY, BUILD_TYPE_DEBUG );
 	}
 
 	/**
@@ -108,8 +106,7 @@ public class SPUtilHelper {
 	 * 设置用户token
 	 * @param s
 	 */
-	public static void saveUserToken(String s)
-	{
+	public static void saveUserToken(String s) {
 		SPUtils.put(BaseApplication.getContext(),USERTOKEN,s);
 	}
 
@@ -117,8 +114,7 @@ public class SPUtilHelper {
 	 * 设置用户token
 	 * @param
 	 */
-	public static String getUserToken()
-	{
+	public static String getUserToken() {
      	return  SPUtils.getString(BaseApplication.getContext(),USERTOKEN,"");
 	}
 
@@ -136,8 +132,7 @@ public class SPUtilHelper {
 	 * 设置用户UserId
 	 * @param
 	 */
-	public static String getUserId()
-	{
+	public static String getUserId() {
 		return SPUtils.getString(BaseApplication.getContext(),USERID,"");
 
 	}
@@ -147,15 +142,13 @@ public class SPUtilHelper {
 	 * 设置用户手机号码
 	 * @param s
 	 */
-	public static void saveUserPhoneNum(String s)
-	{
+	public static void saveUserPhoneNum(String s) {
 		SPUtils.put(BaseApplication.getContext(),"user_phone",s);
 	}
 	/**
 	 * 获取用户手机号
 	 */
-	public static String getUserPhoneNum()
-	{
+	public static String getUserPhoneNum() {
 	return 	SPUtils.getString(BaseApplication.getContext(),"user_phone","");
 	}
 

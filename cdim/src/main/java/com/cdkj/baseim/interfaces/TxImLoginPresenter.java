@@ -57,6 +57,7 @@ public class TxImLoginPresenter {
 
                 TXImManager.getInstance().init(Integer.parseInt(data.getTxAppCode()));
 
+                // 登录用小写userId去登录
                 TXImManager.getInstance().login(SPUtilHelper.getUserId(), data.getSign(), new TXImManager.LoginBallBack() {
                     @Override
                     public void onError(int i, String s) {

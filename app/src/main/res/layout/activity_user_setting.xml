@@ -115,6 +115,7 @@
             </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginLeft="15dp"
@@ -123,6 +124,7 @@
 
             <LinearLayout
                 android:id="@+id/ll_mobile"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical">

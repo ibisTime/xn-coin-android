@@ -51,7 +51,7 @@ public abstract class BaseRefreshActivity<T> extends AbsBaseActivity {
 
         mLimit = 10;//分页数量
 
-        mDataList = new ArrayList<T>();
+        mDataList = new ArrayList<>();
 
         mAdapter = onCreateAdapter(mDataList);
 

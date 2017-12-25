@@ -288,12 +288,6 @@
     <string name="user_address_delete_confirm">您確定要刪除該地址嗎？</string>
     <string name="user_address_delete_success">刪除成功？</string>
 
-    <string name="user_title_email_bind">綁定郵箱</string>
-    <string name="user_title_email_modify">修改郵箱</string>
-    <string name="user_email_bind_success">綁定成功</string>
-    <string name="user_email_modify_success">修改成功</string>
-    <string name="user_email_hint">請輸入郵箱</string>
-
     <string name="user_title_language">語言設置</string>
     <string name="user_language_english">英文</string>
     <string name="user_language_simplified">中文簡體</string>
@@ -379,7 +373,14 @@
     <string name="user_address_add_is_default">將該賬戶設置為認證賬戶</string>
     <string name="user_address_add_tip">向認證賬戶提現不再輸入資金密碼、谷歌驗證碼</string>
 
+    <string name="user_title_email_bind">綁定郵箱</string>
+    <string name="user_title_email_modify">修改郵箱</string>
+    <string name="user_email_bind_success">綁定成功</string>
+    <string name="user_email_modify_success">修改成功</string>
     <string name="user_email">郵箱</string>
+    <string name="user_email_hint">請輸入郵箱</string>
+    <string name="user_email_code">郵箱驗證碼</string>
+    <string name="user_email_code_hint">請輸入郵箱驗證碼</string>
 
     <string name="user_google_key">密鑰</string>
     <string name="user_google_copy">複制</string>
@@ -479,6 +480,9 @@
     <string name="google_code_hint">請輸入谷歌驗證碼</string>
     <string name="google_code_format_hint">請輸入正確的谷歌驗證碼</string>
 
+    <string name="email_code_send_success">驗證碼已經發送至郵箱，請注意查收</string>
+    <string name="email_code_send_failure">郵箱驗證碼發送失敗</string>
+
     <string name="wx_share_success">分享成功</string>
     <string name="wx_share_cancel">分享取消</string>
     <string name="wx_share_denied">分享拒絕</string>
@@ -492,9 +496,6 @@
     <string name="main_tab_wallet">錢包</string>
     <string name="main_tab_my">我的</string>
     <string name="exit_confirm">確認退出？</string>
-
-
-
 
 
 </resources>

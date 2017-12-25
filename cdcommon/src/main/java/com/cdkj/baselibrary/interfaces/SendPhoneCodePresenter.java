@@ -3,6 +3,7 @@ package com.cdkj.baselibrary.interfaces;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
@@ -31,7 +32,7 @@ public class SendPhoneCodePresenter {
     public void sendCodeRequest(String phone,String bizType,String kind,Context context) {
         this.mContext = context;
         if (TextUtils.isEmpty(phone)) {
-            ToastUtil.show(context, "请输入手机号");
+            ToastUtil.show(context, mContext.getString(R.string.activity_mobile_mobile_hint));
             return;
         }
 
@@ -58,10 +59,10 @@ public class SendPhoneCodePresenter {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 if(data.isSuccess()){
-                    ToastUtil.show(mContext,"验证码已经发送请注意查收");
-                    mListener.CodeSuccess("验证码已经发送请注意查收");
+                    ToastUtil.show(mContext,mContext.getString(R.string.smscode_send_success));
+                    mListener.CodeSuccess(mContext.getString(R.string.smscode_send_success));
                 }else{
-                    mListener.CodeFailed("", "验证码发送失败");
+                    mListener.CodeFailed("", mContext.getString(R.string.smscode_send_success));
                 }
             }
 
@@ -73,7 +74,7 @@ public class SendPhoneCodePresenter {
 
             @Override
             protected void onNoNet(String msg) {
-                ToastUtil.show(mContext,"验证码发送失败");
+                ToastUtil.show(mContext,mContext.getString(R.string.smscode_send_success));
             }
 
             @Override

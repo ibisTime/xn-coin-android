@@ -81,11 +81,16 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <ImageView
-                                    android:id="@+id/iv_payType"
-                                    android:background="@mipmap/deal_yhk"
+                                <TextView
+                                    android:id="@+id/tv_type"
+                                    android:gravity="center"
+                                    android:textSize="10sp"
+                                    android:paddingLeft="4dp"
+                                    android:paddingRight="4dp"
+                                    android:background="@drawable/corner_deal_btn_green"
+                                    android:textColor="@color/colorAccent"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="16dp" />
 
                             </LinearLayout>
 
@@ -126,7 +131,7 @@
                             android:text="@string/get_trust"
                             android:textSize="13sp"
                             android:textColor="@color/colorAccent"
-                            android:background="@drawable/corner_deal_btn"
+                            android:background="@drawable/corner_deal_btn_green"
                             android:layout_marginTop="6dp"
                             android:layout_width="59dp"
                             android:layout_height="24dp" />

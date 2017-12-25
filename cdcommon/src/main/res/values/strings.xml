@@ -65,4 +65,7 @@
     <string name="activity_find_send">获取验证码</string>
     <string name="activity_paypwd_pwd">资金密码</string>
     <string name="activity_mobile_mobile">新手机号</string>
+
+    <string name="smscode_send_success">验证码已经发送请注意查收</string>
+    <string name="smscode_send_failure">验证码发送失败</string>
 </resources>

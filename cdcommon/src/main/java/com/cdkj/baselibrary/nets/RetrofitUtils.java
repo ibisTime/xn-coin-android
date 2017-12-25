@@ -75,15 +75,15 @@ public class RetrofitUtils {
             switch (SPUtilHelper.getAPPBuildType()){
 
                 case SPUtilHelper.BUILD_TYPE_TEST: // 测试
-                    return "http://47.96.161.183:4001/forward-service/";
+                    return MyConfig.BASE_URL_TEST;
 
                 default: // 研发
-                    return "http://121.43.101.148:4001/forward-service/";
+                    return MyConfig.BASE_URL_DEV;
 
             }
         }else{
             // 线上
-            return "http://47.52.77.214:4001/forward-service/";
+            return MyConfig.BASE_URL_ONLINE;
         }
 
     }

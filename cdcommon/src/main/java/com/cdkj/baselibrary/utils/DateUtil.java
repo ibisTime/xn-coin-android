@@ -293,25 +293,28 @@ public class DateUtil {
 
     /**
      * 获取两个时间的差
+     * @param d1 大的时间（距离现在更近的时间）
+     * @param d2 小的时间（距离现在更远的时间）
+     * @return
      */
-    public static int getDateDValue(String s1, String s2){
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long hours;
-        long minutes = 0;
+    public static int getDateDValue(Date d1, Date d2){
         long diff;
-        long days;
-        try
-        {
-            diff = new Date(s1).getTime() - new Date(s2).getTime();//这样得到的差值是微秒级别
+        long hours;
+        long days = 0;
+        long minutes = 0;
+        long totalMinutes = 0;
+        try {
+            diff = d1.getTime() - d2.getTime();//这样得到的差值是微秒级别
+            totalMinutes = diff / (1000 * 60);
             days = diff / (1000 * 60 * 60 * 24);
             hours = (diff-days*(1000 * 60 * 60 * 24))/(1000* 60 * 60);
             minutes = (diff-days*(1000 * 60 * 60 * 24)-hours*(1000* 60 * 60))/(1000* 60);
-            System.out.println(""+days+"天"+hours+"小时"+minutes+"分");
+            System.out.println(""+days+"天"+hours+"小时"+minutes+"分,总共"+totalMinutes+"分钟、");
         }catch (Exception e) {
             e.printStackTrace();
         }
 
-        return (int) minutes;
+        return (int) totalMinutes;
     }
 
 }

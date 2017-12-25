@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cdkj.ethereumdemo">
+    package="com.cdkj.bcoin">
 
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"></uses-permission>
 
 
     <application
-        android:name=".main.MyApplication"
+        android:name="com.cdkj.bcoin.main.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".user.login.StartActivity">
+        <activity android:name="com.cdkj.bcoin.user.login.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.MainActivity"
+        <activity android:name="com.cdkj.bcoin.main.MainActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <activity android:name=".wallet.ExchangeActivity"/>
-        <activity android:name=".wallet.ExchangePastActivity"/>
-        <activity android:name=".wallet.account.BillActivity" />
-        <activity android:name=".wallet.account.BillDetailActivity" />
-        <activity android:name=".wallet.account.RechargeActivity"/>
-        <activity android:name=".wallet.account.TransferActivity"/>
-        <activity android:name=".wallet.account.WithdrawActivity"/>
+        <activity android:name="com.cdkj.bcoin.wallet.ExchangeActivity"/>
+        <activity android:name="com.cdkj.bcoin.wallet.ExchangePastActivity"/>
+        <activity android:name="com.cdkj.bcoin.wallet.account.BillActivity" />
+        <activity android:name="com.cdkj.bcoin.wallet.account.BillDetailActivity" />
+        <activity android:name="com.cdkj.bcoin.wallet.account.RechargeActivity"/>
+        <activity android:name="com.cdkj.bcoin.wallet.account.TransferActivity"/>
+        <activity android:name="com.cdkj.bcoin.wallet.account.WithdrawActivity"/>
 
-        <activity android:name=".deal.DealActivity"
+        <activity android:name="com.cdkj.bcoin.deal.DealActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".deal.SaleActivity"/>
-        <activity android:name=".deal.SearchUserActivity"/>
-        <activity android:name=".deal.SearchDealActivity"/>
-        <activity android:name=".deal.DealSearchActivity"/>
-        <activity android:name=".deal.DealChatActivity"
+        <activity android:name="com.cdkj.bcoin.deal.SaleActivity"/>
+        <activity android:name="com.cdkj.bcoin.deal.SearchUserActivity"/>
+        <activity android:name="com.cdkj.bcoin.deal.SearchDealActivity"/>
+        <activity android:name="com.cdkj.bcoin.deal.DealSearchActivity"/>
+        <activity android:name="com.cdkj.bcoin.deal.DealChatActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".deal.PublishBuyActivity"/>
+        <activity android:name="com.cdkj.bcoin.deal.PublishBuyActivity"/>
 
-        <activity android:name=".order.OrderActivity"
+        <activity android:name="com.cdkj.bcoin.order.OrderActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name=".market.MarketActivity"/>
-        <activity android:name=".market.SystemMessageActivity"/>
+        <activity android:name="com.cdkj.bcoin.market.MarketActivity"/>
+        <activity android:name="com.cdkj.bcoin.market.SystemMessageActivity"/>
 
-        <activity android:name=".user.UserTrustActivity"/>
-        <activity android:name=".user.UserInviteActivity"/>
-        <activity android:name=".user.UserInviteHistoryActivity"/>
-        <activity android:name=".user.UserAddressActivity"/>
-        <activity android:name=".user.UserAddAddressActivity"/>
-        <activity android:name=".user.UserSettingActivity"/>
-        <activity android:name=".user.UserPersonActivity" />
-        <activity android:name=".user.UserTipActivity"/>
-        <activity android:name=".user.UserEmailActivity"/>
-        <activity android:name=".user.UserGoogleActivity" />
-        <activity android:name=".user.UserPublishedActivity"/>
-        <activity android:name=".user.UserLanguageActivity" />
-        <activity android:name=".user.UserPasswordActivity" />
-        <activity android:name=".user.login.SignInActivity"/>
-        <activity android:name=".user.login.SignUpActivity"/>
+        <activity android:name="com.cdkj.bcoin.user.UserTrustActivity"/>
+        <activity android:name="com.cdkj.bcoin.user.UserInviteActivity"/>
+        <activity android:name="com.cdkj.bcoin.user.UserInviteHistoryActivity"/>
+        <activity android:name="com.cdkj.bcoin.user.UserAddressActivity"/>
+        <activity android:name="com.cdkj.bcoin.user.UserAddAddressActivity"/>
+        <activity android:name="com.cdkj.bcoin.user.UserSettingActivity"/>
+        <activity android:name="com.cdkj.bcoin.user.UserPersonActivity" />
+        <activity android:name="com.cdkj.bcoin.user.UserTipActivity"/>
+        <activity android:name="com.cdkj.bcoin.user.UserEmailActivity"/>
+        <activity android:name="com.cdkj.bcoin.user.UserGoogleActivity" />
+        <activity android:name="com.cdkj.bcoin.user.UserPublishedActivity"/>
+        <activity android:name="com.cdkj.bcoin.user.UserLanguageActivity" />
+        <activity android:name="com.cdkj.bcoin.user.UserPasswordActivity" />
+        <activity android:name="com.cdkj.bcoin.user.login.SignInActivity"/>
+        <activity android:name="com.cdkj.bcoin.user.login.SignUpActivity"/>
 
         //找回密码
         <activity
@@ -147,17 +147,24 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
+        // 设置支持和联系我们页面的主题（不过没用）
+        <activity android:name="com.zendesk.sdk.support.SupportActivity"
+            android:theme="@style/ZopimChatTheme" />
+
+        <activity android:name="com.zendesk.sdk.feedback.ui.ContactZendeskActivity"
+            android:theme="@style/ZopimChatTheme" />
+
+
         <!-- 三方相关 -->
 
         <!-- 微信分享回调 -->
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.cdkj.bcoin.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
 
         <!-- tencentIM -->
         <!-- 【必须】消息收发service -->

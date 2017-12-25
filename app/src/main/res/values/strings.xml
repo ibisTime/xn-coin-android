@@ -288,12 +288,6 @@
     <string name="user_address_delete_confirm">您确定要删除该地址吗？</string>
     <string name="user_address_delete_success">删除成功？</string>
 
-    <string name="user_title_email_bind">绑定邮箱</string>
-    <string name="user_title_email_modify">修改邮箱</string>
-    <string name="user_email_bind_success">绑定成功</string>
-    <string name="user_email_modify_success">修改成功</string>
-    <string name="user_email_hint">请输入邮箱</string>
-
     <string name="user_title_language">语言设置</string>
     <string name="user_language_english">英文</string>
     <string name="user_language_simplified">中文简体</string>
@@ -379,7 +373,14 @@
     <string name="user_address_add_is_default">将该账户设置为认证账户</string>
     <string name="user_address_add_tip">向认证账户提现不再输入资金密码、谷歌验证码</string>
 
+    <string name="user_title_email_bind">绑定邮箱</string>
+    <string name="user_title_email_modify">修改邮箱</string>
+    <string name="user_email_bind_success">绑定成功</string>
+    <string name="user_email_modify_success">修改成功</string>
     <string name="user_email">邮箱</string>
+    <string name="user_email_hint">请输入邮箱</string>
+    <string name="user_email_code">邮箱验证码</string>
+    <string name="user_email_code_hint">请输入邮箱验证码</string>
 
     <string name="user_google_key">密钥</string>
     <string name="user_google_copy">复制</string>
@@ -479,6 +480,9 @@
     <string name="google_code_hint">请输入谷歌验证码</string>
     <string name="google_code_format_hint">请输入正确的谷歌验证码</string>
 
+    <string name="email_code_send_success">验证码已经发送至邮箱，请注意查收</string>
+    <string name="email_code_send_failure">邮箱验证码发送失败</string>
+
     <string name="wx_share_success">分享成功</string>
     <string name="wx_share_cancel">分享取消</string>
     <string name="wx_share_denied">分享拒绝</string>
@@ -492,6 +496,8 @@
     <string name="main_tab_wallet">钱包</string>
     <string name="main_tab_my">我的</string>
     <string name="exit_confirm">确认退出？</string>
+
+
 
 
 </resources>

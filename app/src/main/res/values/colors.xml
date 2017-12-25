@@ -14,10 +14,14 @@
     <color name="gray_eaeaea">#eaeaea</color>
     <color name="gray_dedede">#dedede</color>
 
+    <color name="gray_434343">#434343</color>
+
     <color name="black">#484848</color>
     <color name="white_80">#80ffffff</color>
 
     <color name="green">#2ac64c</color>
+
+    <color name="blue">#48b0fb</color>
 
     <color name="yellow">#fff9eb</color>
 

@@ -39,8 +39,11 @@ import com.cdkj.baselibrary.interfaces.CameraPhotoListener;
 import com.cdkj.baselibrary.utils.CameraHelper;
 import com.cdkj.baselibrary.utils.LogUtil;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
+import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.message.TIMMessageDraft;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
@@ -130,8 +133,13 @@ public class ChatFragment extends BaseLazyFragment implements ChatView {
             return;
 
         mBinding.inputPanel.setChatView(this);
+
         presenter = new ChatPresenter(this, imUserInfo.getIdentify(), type);
 
+        //获取群组成员信息
+        TIMGroupManagerExt.getInstance().getGroupMembers(
+                imUserInfo.getIdentify(), //群组Id
+                cb);     //回调
 
         initMsgList();
         presenter.start();
@@ -146,6 +154,24 @@ public class ChatFragment extends BaseLazyFragment implements ChatView {
     protected void onInvisible() {
 
     }
+
+    //创建回调
+    TIMValueCallBack<List<TIMGroupMemberInfo>> cb = new TIMValueCallBack<List<TIMGroupMemberInfo>>() {
+        @Override
+        public void onError(int code, String desc) {
+            Log.d("char_group", "获取群组信息失败:"+code+","+desc);
+        }
+
+        @Override
+        public void onSuccess(List<TIMGroupMemberInfo> infoList) {//参数返回群组成员信息
+
+            for(TIMGroupMemberInfo info : infoList) {
+                Log.d("char_group", "user: " + info.getUser());
+                Log.d("char_group", "join time: " + info.getJoinTime());
+                Log.d("char_group", "role: " + info.getRole());
+            }
+        }
+    };
 
     /**
      * 初始化消息列表
