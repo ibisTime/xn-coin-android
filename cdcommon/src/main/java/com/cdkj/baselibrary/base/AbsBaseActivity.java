@@ -171,6 +171,30 @@ public abstract class AbsBaseActivity extends BaseActivity {
     }
 
     /**
+     * 设置标题点击事件
+     * @param listener
+     */
+    public void setTopTitleClickListener(View.OnClickListener listener) {
+        if(mTopTitleView == null){
+            return;
+        }
+        TextView tvTitle = (TextView) mTopTitleView.findViewById(R.id.tv_top_title_abs);
+        tvTitle.setOnClickListener(listener);
+    }
+
+    /**
+     * 设置标题图片是否显示
+     * @param b
+     */
+    public void setTopImgEnable(boolean b) {
+        if(mTopTitleView == null){
+            return;
+        }
+        ImageView ivImg = (ImageView) mTopTitleView.findViewById(R.id.iv_title_img);
+        ivImg.setVisibility(b ? View.VISIBLE : View.GONE);
+    }
+
+    /**
      * 设置标题
      * @param b
      */

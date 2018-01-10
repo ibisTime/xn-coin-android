@@ -44,7 +44,7 @@ public class UserTrustActivity extends BaseRefreshActivity<TrustModel.ListBean> 
 
             TrustModel.ListBean bean = (TrustModel.ListBean) mAdapter.getItem(position);
 
-            UserPersonActivity.open(this, bean.getToUser());
+            UserPersonActivity.open(this, bean.getToUser(), bean.getToUserInfo().getNickname(), bean.getToUserInfo().getPhoto());
         });
 
         getListData(pageIndex,limit,true);

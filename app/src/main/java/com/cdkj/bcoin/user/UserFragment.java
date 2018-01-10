@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cdkj.baselibrary.activitys.ImageSelectActivity;
-import com.cdkj.baselibrary.activitys.WebViewActivity;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
 import com.cdkj.baselibrary.model.IsSuccessModes;
@@ -133,7 +132,8 @@ public class UserFragment extends BaseLazyFragment {
         });
 
         mBinding.llAbout.setOnClickListener(view -> {
-            WebViewActivity.openkey(mActivity, mBinding.tvAbout.getText().toString(),"about_us");
+//            WebViewActivity.openkey(mActivity, mBinding.tvAbout.getText().toString(),"about_us");
+            UserAboutActivity.open(mActivity);
         });
     }
 
@@ -141,8 +141,6 @@ public class UserFragment extends BaseLazyFragment {
     protected void lazyLoad() {
         if (mBinding != null) {
             getUserInfoRequest();
-        }else {
-            Log.e("lazyLoad()",false+"");
         }
     }
 
@@ -154,11 +152,6 @@ public class UserFragment extends BaseLazyFragment {
             getUserInfoRequest();
         }
 
-        if (getUserVisibleHint() && mBinding != null) {
-            getUserInfoRequest();
-        }else {
-            Log.e("onResume()",false+"");
-        }
     }
 
     @Override

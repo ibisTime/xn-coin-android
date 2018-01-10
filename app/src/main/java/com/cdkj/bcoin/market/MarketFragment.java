@@ -147,7 +147,6 @@ public class MarketFragment extends BaseRefreshFragment<MarketModel> {
 
         call.enqueue(new BaseResponseModelCallBack<MarketCoinModel>(mActivity) {
 
-
             @Override
             protected void onSuccess(MarketCoinModel data, String SucMessage) {
                 if (data == null)

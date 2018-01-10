@@ -157,7 +157,7 @@ public class ImgUtils {
     }
 
     /**
-     *
+     * 设置头像，头像为空时用昵称首字符作为头像，英文则须大写
      * @param context 上下文
      * @param imgUrl 图片URL
      * @param nickName 用于设置文字头像的用户昵称

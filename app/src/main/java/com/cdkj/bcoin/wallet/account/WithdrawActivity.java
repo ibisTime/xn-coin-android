@@ -97,7 +97,7 @@ public class WithdrawActivity extends AbsBaseActivity {
         setTopLineState(true);
         setSubLeftImgState(true);
         setSubRightTitleAndClick(getStrRes(R.string.wallet_charge_recode),v -> {
-            BillActivity.open(this,model.getAccountNumber(),"withdraw");
+            BillActivity.open(this,model.getAccountNumber(),BillActivity.TYPE_WITHDRAW);
         });
 
         init();

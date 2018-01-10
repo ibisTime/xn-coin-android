@@ -2,6 +2,8 @@
     <string name="app_name">倍可盈</string>
     <string name="title_activity_sign_in">SignInActivity</string>
 
+    <string name="money_sing">￥</string>
+
     // 交易
     <string name="deal">交易</string>
     <string name="price">價格</string>
@@ -45,6 +47,8 @@
 
     <!--<string name="deal_times">交易次數</string>-->
 
+    <string name="deal_publish_coin">選擇幣種</string>
+    <string name="deal_publish_coin_hint">請選擇幣種</string>
     <string name="deal_publish_price">價\u3000\u3000格</string>
     <string name="deal_publish_price_hint">請輸入價格</string>
     <string name="deal_publish_premium">溢\u3000\u3000價</string>
@@ -86,8 +90,8 @@
     <string name="deal_search_hint_pay">請選擇支付方式</string>
     <string name="deal_search_hint_user">請填寫用戶昵稱</string>
 
-    <string name="deal_publish_hint_end">請將結束時間設置為關閉</string>
-    <string name="deal_publish_hint_start">請將開始時間設置為關閉</string>
+    <string name="deal_publish_hint_end">請將結束時間設置爲關閉</string>
+    <string name="deal_publish_hint_start">請將開始時間設置爲關閉</string>
     <string name="deal_publish_buy">發布購買</string>
     <string name="deal_publish_sale">發布賣出</string>
     <string name="deal_publish_save">保存草稿</string>
@@ -206,9 +210,10 @@
 
     // 錢包
     <string name="property_eth">以太幣資産(ETH)</string>
+    <string name="property_btc">比特幣資産(BTC)</string>
     <string name="freeze">凍結</string>
 
-    <string name="wallet_exchange_explain">計算規則:采用銀行櫃台彙率過去14天的平均值作為彙率參考值,在每一個交割結算日,若該平均值與系統當前彙率偏差超過0.2,則會采用新的14天平均是做為系統彙率。</string>
+    <string name="wallet_exchange_explain">計算規則:采用銀行櫃台彙率過去14天的平均值作爲彙率參考值,在每一個交割結算日,若該平均值與系統當前彙率偏差超過0.2,則會采用新的14天平均是做爲系統彙率。</string>
     <string name="wallet_exchange_past_time">時間</string>
     <string name="wallet_exchange_past_rate">當日彙率</string>
     <string name="wallet_exchange_past_rate_week">兩周平均彙率</string>
@@ -231,7 +236,7 @@
     <string name="wallet_withdraw">提幣</string>
     <string name="wallet_bill">賬單</string>
 
-    <string name="bill_type_all">充幣</string>
+    <string name="bill_type_all">全部</string>
     <string name="bill_type_charge">充幣</string>
     <string name="bill_type_withdraw">提現</string>
     <string name="bill_type_select">篩選</string>
@@ -302,7 +307,7 @@
 
     <string name="user_title_invite_history">推薦曆史</string>
 
-    <string name="user_title_published">我發布的</string>
+    <string name="user_title_published">我的廣告</string>
     <string name="user_published_none">暫無發布</string>
 
     <string name="user_title_setting">安全設置</string>
@@ -370,7 +375,7 @@
     <string name="user_address_add_address">提幣地址</string>
     <string name="user_address_add_code">手機驗證碼</string>
     <string name="user_address_add_code_hint">請輸入驗證碼</string>
-    <string name="user_address_add_is_default">將該賬戶設置為認證賬戶</string>
+    <string name="user_address_add_is_default">將該賬戶設置爲認證賬戶</string>
     <string name="user_address_add_tip">向認證賬戶提現不再輸入資金密碼、谷歌驗證碼</string>
 
     <string name="user_title_email_bind">綁定郵箱</string>
@@ -491,11 +496,23 @@
     <string name="build_type">環境切換</string>
 
     <string name="main_tag_market">行情</string>
-    <string name="main_tab_order">訂單</string>
+    <string name="main_tab_order">訂單</string>·
     <string name="main_tab_deal">交易</string>
     <string name="main_tab_wallet">錢包</string>
     <string name="main_tab_my">我的</string>
     <string name="exit_confirm">確認退出？</string>
 
+    // 自定義 ZenDesk 本地化頁面Title
+    <string name="contact_fragment_title">提交工單</string>
+    <string name="support_activity_title">常見問題</string>
+    <string name="chat_activity_title">聯系客服</string>
+    <string name="user_about_copyright">2018BCOIN版權所有</string>
+
+    <string name="user_about_update">更新至最新版本</string>
+    <string name="user_about_updated">已經是最新版本</string>
+    <string name="user_sign_up_referee">推薦人手機</string>
+    <string name="user_sign_up_referee_hint">推薦人手機號(選填)</string>
+    <string name="user_invite_url">分享鏈接</string>
+    <string name="user_invite_pic">分享二維碼</string>
 
 </resources>

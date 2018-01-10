@@ -19,6 +19,7 @@ import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.RefreshHelper;
 import com.cdkj.baselibrary.utils.StringUtils;
+import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.adapter.AddressAdapter;
 import com.cdkj.bcoin.api.MyApi;
@@ -54,6 +55,10 @@ public class UserAddressActivity extends AbsBaseActivity {
     private BaseRefreshCallBack back;
 
     private AddressAdapter adapter;
+
+    private String type = "ETH";
+    private String[] types = {"ETH"};
+//    private String[] types = {"ETH","BTC"};
 
     public static void open(Context context, String openType){
         if (context == null) {
@@ -133,8 +138,12 @@ public class UserAddressActivity extends AbsBaseActivity {
     @Override
     public void afterCreate(Bundle savedInstanceState) {
         setTopTitle(getStrRes(R.string.user_title_address));
+//        setTopTitle(getStrRes(R.string.user_title_address)+"("+type+")");
+//        setTopImgEnable(true);
         setTopLineState(true);
         setSubLeftImgState(true);
+
+//        setTopTitleClickListener(this::initPopup);
 
         refreshHelper.init(10);
         // 刷新
@@ -176,6 +185,25 @@ public class UserAddressActivity extends AbsBaseActivity {
         openType = getIntent().getStringExtra("openType");
     }
 
+    private void initPopup(View view) {
+        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
+        popupWindow.setNumberPicker(R.id.np_type, types);
+
+        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
+            popupWindow.dismiss();
+        });
+
+        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+            type = popupWindow.getNumberPickerValue(R.id.np_type, types);
+
+            setTopTitle(getStrRes(R.string.user_title_published)+"("+type+")");
+            refreshHelper.onMRefresh(1,10,true);
+            popupWindow.dismiss();
+        });
+
+        popupWindow.show(view);
+    }
+
     private void initListener() {
 
 //        mBinding.rlBtc.setOnClickListener(view -> {
@@ -199,7 +227,7 @@ public class UserAddressActivity extends AbsBaseActivity {
         footBinding.btnWithdraw.setOnClickListener(view -> {
 
             if (SPUtilHelper.getTradePwdFlag()){
-                UserAddAddressActivity.open(this);
+                UserAddAddressActivity.open(this, type);
             }else {
                 PayPwdModifyActivity.open(this,SPUtilHelper.getTradePwdFlag(),SPUtilHelper.getUserPhoneNum());
             }

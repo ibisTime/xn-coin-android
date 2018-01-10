@@ -22,7 +22,6 @@ import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.deal.DealChatActivity;
 import com.cdkj.bcoin.model.OrderDetailModel;
 import com.cdkj.bcoin.model.OrderModel;
-import com.cdkj.bcoin.util.StringUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
@@ -175,7 +174,7 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
 
     @Override
     public String getEmptyInfo() {
-        return StringUtil.getStirng(R.string.order_none);
+        return getStrRes(R.string.order_none);
     }
 
     @Override
@@ -253,16 +252,16 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
 
     private void deleteConfirm(String code) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity).setTitle(StringUtil.getStirng(R.string.attention))
-                .setMessage(StringUtil.getStirng(R.string.order_delete_confirm))
-                .setPositiveButton(StringUtil.getStirng(R.string.confirm), (dialogInterface, i) -> {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity).setTitle(getStrRes(R.string.attention))
+                .setMessage(getStrRes(R.string.order_delete_confirm))
+                .setPositiveButton(getStrRes(R.string.confirm), (dialogInterface, i) -> {
 
                     delete(code);
 
                 })
                 .setCancelable(false);
 
-        builder.setNegativeButton(StringUtil.getStirng(R.string.cancel), null).show();
+        builder.setNegativeButton(getStrRes(R.string.cancel), null).show();
 
     }
 
@@ -286,7 +285,7 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
                     return;
 
                 if (data.isSuccess()){
-                    ToastUtil.show(mActivity, StringUtil.getStirng(R.string.order_delete_success));
+                    ToastUtil.show(mActivity, getStrRes(R.string.order_delete_success));
                     onMRefresh(1,10,true);
                 }
 

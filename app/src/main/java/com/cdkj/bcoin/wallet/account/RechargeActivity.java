@@ -48,7 +48,7 @@ public class RechargeActivity extends AbsBaseActivity {
         setTopLineState(true);
         setSubLeftImgState(true);
         setSubRightTitleAndClick(getStrRes(R.string.wallet_charge_recode),v -> {
-            BillActivity.open(this,model.getAccountNumber(), "charge");
+            BillActivity.open(this,model.getAccountNumber(), BillActivity.TYPE_CHARGE);
         });
 
         if (getIntent() != null){

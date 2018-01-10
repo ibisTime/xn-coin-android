@@ -1,6 +1,7 @@
 package com.cdkj.baselibrary.nets;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.cdkj.baselibrary.BaseApplication;
 import com.cdkj.baselibrary.api.BaseResponseListModel;
@@ -168,8 +169,12 @@ public abstract class BaseResponseListCallBack<T> implements Callback<BaseRespon
      * @param errorMessage
      */
     protected void onReqFailure(int errorCode, String errorMessage) {
-        LogUtil.E("数据  错误"+errorMessage);
-        ToastUtil.show(context, errorMessage);
+        if (errorMessage.equals("服务器响应超时java.net.SocketTimeoutException: SSL handshake timed out")){
+            Log.e("okhttp",errorMessage);
+        }else {
+            LogUtil.E("请求失败  错误："+errorMessage);
+            ToastUtil.show(context, errorMessage);
+        }
     }
 
     /**

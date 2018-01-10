@@ -8,6 +8,10 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.cdkj.baselibrary.BaseApplication;
 import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.baselibrary.utils.LogUtil;
+import com.cdkj.bcoin.R;
+import com.tencent.imsdk.TIMGroupReceiveMessageOpt;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.qalsdk.sdk.MsfSdkUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.zendesk.sdk.network.impl.ZendeskConfig;
 import com.zopim.android.sdk.api.ZopimChat;
@@ -39,6 +43,16 @@ public class MyApplication extends Application {
 
         initZXing();
         initZenDesk();
+
+
+        if(MsfSdkUtils.isMainProcess(this)) {
+            TIMManager.getInstance().setOfflinePushListener(notification -> {
+                if (notification.getGroupReceiveMsgOpt() == TIMGroupReceiveMessageOpt.ReceiveAndNotify){
+                    //消息被设置为需要提醒
+                    notification.doNotify(getApplicationContext(), R.mipmap.app_icon);
+                }
+            });
+        }
 
     }
 

@@ -6,12 +6,14 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.BaseRefreshActivity;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
+import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.adapter.PublishedAdapter;
 import com.cdkj.bcoin.api.MyApi;
@@ -40,6 +42,10 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
 
     private ActivityUserPublishedBinding mBinding;
 
+    private String type = "ETH";
+    private String[] types = {"ETH"};
+//    private String[] types = {"ETH","BTC"};
+
     private List<String> statusList = new ArrayList<>();
 
     public static void open(Context context){
@@ -54,8 +60,14 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
         mBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_user_published, null, false);
 
         setTopTitle(getStrRes(R.string.user_title_published));
+//        setTopTitle(getStrRes(R.string.user_title_published)+"("+type+")");
+//        setTopImgEnable(true);
         setTopLineState(true);
         setSubLeftImgState(true);
+
+        setTopTitleClickListener(v -> {
+//            initPopup(v);
+        });
 
         mAdapter.setHeaderAndEmpty(true);
         mAdapter.addHeaderView(mBinding.getRoot());
@@ -80,6 +92,25 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
         // 初始化
         statusList.add("0");
         getListData(pageIndex,limit,true);
+    }
+
+    private void initPopup(View view) {
+        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
+        popupWindow.setNumberPicker(R.id.np_type, types);
+
+        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
+            popupWindow.dismiss();
+        });
+
+        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+            type = popupWindow.getNumberPickerValue(R.id.np_type, types);
+
+            setTopTitle(getStrRes(R.string.user_title_published)+"("+type+")");
+            onMRefresh(1,10);
+            popupWindow.dismiss();
+        });
+
+        popupWindow.show(view);
     }
 
     private void initListener() {
@@ -121,7 +152,7 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
     @Override
     protected void getListData(int pageIndex, int limit, boolean canShowDialog) {
         Map<String, Object> map = new HashMap<>();
-        map.put("coin", "ETH");
+        map.put("coin", type);
         map.put("userId", SPUtilHelper.getUserId());
         map.put("statusList", statusList);
         map.put("start", pageIndex+"");
@@ -169,6 +200,6 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
     @Override
     protected void onResume() {
         super.onResume();
-        onMRefresh(1,10);
+        onMRefresh(1,10,true);
     }
 }

@@ -1,0 +1,518 @@
+<resources>
+    <string name="app_name">倍可盈</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
+
+    <string name="money_sing">￥</string>
+
+    // 交易
+    <string name="deal">交易</string>
+    <string name="price">价格</string>
+    <string name="amount">金额</string>
+    <string name="quantity">数量</string>
+    <string name="confirm">确认</string>
+    <string name="cancel">放弃</string>
+    <string name="good">好评</string>
+    <string name="trust">信任</string>
+    <string name="limit">限额: </string>
+    <string name="quoted">报价: </string>
+    <string name="out">下架</string>
+    <string name="you_want">您想</string>
+    <string name="how_many">多少?</string>
+    <string name="buy">购买</string>
+    <string name="sale">出售</string>
+    <string name="trade_amount">交易金额:</string>
+    <string name="trade_limit">交易限额:</string>
+    <string name="order_code">编号:</string>
+    <string name="get_trust">+信任</string>
+    <string name="lost_trust">已信任</string>
+    <string name="add_black_list">+黑名单</string>
+    <string name="remove_black_list">已拉黑</string>
+
+    <string name="left_count">广告剩余可交易量:</string>
+    <string name="deal_buy_cny_hint">请输入数字</string>
+    <string name="deal_buy_coin_hint">请输入数值</string>
+    <string name="deal_account_balance">账户可用余额: </string>
+    <string name="buy_success">购买成功</string>
+    <string name="sale_success">出售成功</string>
+    <string name="attention">注意</string>
+    <string name="tip">提示</string>
+    <string name="out_confirm">您确定要下架此广告吗?</string>
+    <string name="outed">广告已下架</string>
+    <string name="buy_order">购买订单</string>
+    <string name="sale_order">购买订单</string>
+
+    <string name="deal_buy">买币</string>
+    <string name="deal_sale">卖币</string>
+    <string name="deal_none">暂无交易</string>
+
+    <!--<string name="deal_times">交易次数</string>-->
+
+    <string name="deal_publish_coin">选择币种</string>
+    <string name="deal_publish_coin_hint">请选择币种</string>
+    <string name="deal_publish_price">价\u3000\u3000格</string>
+    <string name="deal_publish_price_hint">请输入价格</string>
+    <string name="deal_publish_premium">溢\u3000\u3000价</string>
+    <string name="deal_publish_premium_hint">根据市场的溢价比例</string>
+    <string name="deal_publish_pt_price_high">最高价格</string>
+    <string name="deal_publish_pt_price_high_hint">广告最高可成交的价格</string>
+    <string name="deal_publish_min">最  小  量</string>
+    <string name="deal_publish_min_hint">每笔交易的最小限额</string>
+    <string name="deal_publish_max">最  大  量</string>
+    <string name="deal_publish_max_hint">每笔交易的最大限额</string>
+    <string name="deal_publish_amount_buy">购买总量</string>
+    <string name="deal_publish_amount_buy_hint">请输入购买币总量</string>
+    <string name="deal_publish_amount_sale">出售总量</string>
+    <string name="deal_publish_amount_sale_hint">请输入出售币总量</string>
+    <string name="deal_publish_pay_type">付款方式</string>
+    <string name="deal_publish_pay_type_hint">请选择付款方式</string>
+    <string name="deal_publish_limit">付款期限</string>
+    <string name="deal_publish_limit_hint">请选择付款期限</string>
+    <string name="deal_publish_limit_minutes">分钟</string>
+    <string name="deal_publish_remark_hint">请写下您的广告留言吧</string>
+    <string name="deal_publish_setting">高级设置</string>
+    <string name="deal_publish_open_time">开放时间</string>
+    <string name="deal_publish_anytime">任何时候</string>
+    <string name="deal_publish_custom">自定义</string>
+    <string name="deal_publish_only_fans">仅粉丝</string>
+    <string name="deal_publish_confirm">直接发布</string>
+    <string name="deal_publish_pt_price_min">最低价格</string>
+    <string name="deal_publish_pt_price_min_hint">广告最低可成交的价格</string>
+
+    <string name="deal_search">搜索</string>
+    <string name="deal_search_adv">搜广告</string>
+    <string name="deal_search_user">搜用户</string>
+    <string name="zhifubao">支付宝</string>
+    <string name="weixin">微信</string>
+    <string name="card">银行卡转账</string>
+    <string name="deal_search_hint_type">请选择广告类型</string>
+    <string name="deal_search_hint_min">请填写最低价</string>
+    <string name="deal_search_hint_max">请填写最高价</string>
+    <string name="deal_search_hint_pay">请选择支付方式</string>
+    <string name="deal_search_hint_user">请填写用户昵称</string>
+
+    <string name="deal_publish_hint_end">请将结束时间设置为关闭</string>
+    <string name="deal_publish_hint_start">请将开始时间设置为关闭</string>
+    <string name="deal_publish_buy">发布购买</string>
+    <string name="deal_publish_sale">发布卖出</string>
+    <string name="deal_publish_save">保存草稿</string>
+    <string name="deal_publish_edit">编辑</string>
+    <string name="deal_publish_hint_premium">请输入溢价</string>
+    <string name="deal_publish_hint_premium_scope_start">溢价应在</string>
+    <string name="deal_publish_hint_premium_scope_end">之间</string>
+    <string name="deal_publish_hint_protect_buy">请输入最高价格</string>
+    <string name="deal_publish_hint_protect_sale">请输入最低价格</string>
+    <string name="deal_publish_hint_min">请输入交易最小额度</string>
+    <string name="deal_publish_hint_max">请输入交易最大额度</string>
+    <string name="deal_publish_hint_way">请选择付款方式</string>
+    <string name="deal_publish_hint_limit">请选择付款时限</string>
+    <string name="deal_publish_hint_remark">请填写广告留言</string>
+    <string name="deal_publish_success">发布成功</string>
+    <string name="deal_publish_save_success">草稿保存成功</string>
+    <string name="deal_open_time_close">关闭</string>
+
+    <string name="deal_search_adv_type">广告类型</string>
+    <string name="deal_search_adv_type_hint">请选择广告类型</string>
+    <string name="deal_search_limit">价格区间</string>
+    <string name="deal_search_limit_min">最低价</string>
+    <string name="deal_search_limit_max">最高价</string>
+    <string name="deal_search_user_nick">用户昵称</string>
+    <string name="deal_search_user_nick_hint">请输入用户昵称</string>
+
+    <string name="deal_sunday">每周日</string>
+    <string name="deal_monday">每周一</string>
+    <string name="deal_tuesday">每周二</string>
+    <string name="deal_wednesday">每周三</string>
+    <string name="deal_thursday">每周四</string>
+    <string name="deal_friday">每周五</string>
+    <string name="deal_saturday">每周六</string>
+
+    <string name="deal_title_search_deal">搜索结果</string>
+
+    <string name="deal_times">交易次数</string>
+    <string name="trust_times">信任次数</string>
+    <string name="good_rate">好评率</string>
+    <string name="deal_history">历史交易</string>
+
+    <string name="deal_tip">交易提醒</string>
+    <string name="deal_chat">联系对方</string>
+
+    <string name="deal_type_select_tip">请选择交易类型</string>
+    <string name="dialog_deal_confirm_title">下单确定</string>
+    <string name="dialog_deal_price">出售价格</string>
+    <string name="dialog_deal_amount">出售金额</string>
+    <string name="dialog_deal_quantity">出售数量</string>
+    <string name="dialog_deal_tip">提醒:请确认价格再下单，下单后此交易的ETH将托管锁定,请放心下单</string>
+    <string name="dialog_deal_cancel">放弃出售</string>
+    <string name="dialog_deal_confirm">确认出售</string>
+    <string name="dialog_deal_custom">自定义</string>
+
+    // 订单
+    <string name="order_title">订单详情</string>
+    <string name="order_none">暂无订单</string>
+    <string name="order_copy_id">订单编号已复制</string>
+    <string name="order_copy_amount">交易金额已复制</string>
+    <string name="order_tag">标记已打款</string>
+    <string name="order_tag_wait">等待标记打款</string>
+    <string name="order_tag_success">标记成功</string>
+    <string name="order_tag_confirm">您确定要标记已打款吗？</string>
+    <string name="order_release">释放货币</string>
+    <string name="order_release_wait">等待释放货币</string>
+    <string name="order_release_success">货币已释放</string>
+    <string name="order_release_confirm">您确定要释放货币吗？</string>
+    <string name="order_evaluation">交易评价</string>
+    <string name="order_evaluation_by_b">买家已评价</string>
+    <string name="order_evaluation_by_s">卖家已评价</string>
+    <string name="order_evaluation_success">交易评价成功</string>
+    <string name="order_evaluation_tip">已释放货币，请对交易做出评价</string>
+    <string name="order_evaluation_tip_by_b">买家已评价，等待卖家评价</string>
+    <string name="order_evaluation_tip_by_s">卖家已评价，等待买家评价</string>
+    <string name="order_done">交易已完成，已评价交易</string>
+    <string name="order_wallet">查看钱包</string>
+    <string name="order_arbitrate">申请仲裁</string>
+    <string name="order_arbitrate_success">申请仲裁</string>
+    <string name="order_leave_message">广告留言:</string>
+    <string name="order_save_limit_start">货币将在托管中保持至</string>
+    <string name="order_save_limit_end">,逾期未支付交易将自动取消</string>
+
+    <string name="order_delete_confirm">您确定要删除这条订单吗？</string>
+    <string name="order_delete_success">删除成功</string>
+
+    <string name="order_detail_id">订单编号:</string>
+    <string name="order_detail_amount">交易金额</string>
+    <string name="order_detail_price">交易价格</string>
+    <string name="order_detail_quantity">交易数量</string>
+    <string name="order_detail_buyer">买家:</string>
+    <string name="order_detail_seller">卖家:</string>
+    <string name="order_detail_remark">广告留言:</string>
+
+    <string name="order_arbitrate_title">申请仲裁</string>
+    <string name="order_arbitrate_reason_hint">请填写您申请仲裁的理由</string>
+    <string name="order_arbitrate_cancel">放弃申请</string>
+    <string name="order_arbitrate_confirm">确认申请</string>
+
+    <string name="order_evaluate_title">交易评价</string>
+    <string name="order_evaluate_tip">交易有何印象？快来评价吧</string>
+    <string name="order_evaluate_good">好评</string>
+    <string name="order_evaluate_bad">差评</string>
+    <string name="order_evaluate_medium">中评</string>
+    <string name="order_evaluate_hint">请用文字简单评价一下</string>
+    <string name="order_evaluate_confirm">提交</string>
+
+    <string name="order_jingxingzhong">进行中</string>
+    <string name="order_yijieshu">已结束</string>
+
+    // 行情
+    <string name="market_title">行情</string>
+    <string name="market_none">暂无行情</string>
+    <string name="market_wan">万</string>
+    <string name="market_title_message">系统消息</string>
+    <string name="market_message_none">暂无系统消息</string>
+
+    // 钱包
+    <string name="property_eth">以太币资产(ETH)</string>
+    <string name="property_btc">比特币资产(BTC)</string>
+    <string name="freeze">冻结</string>
+
+    <string name="wallet_exchange_explain">计算规则:采用银行柜台汇率过去14天的平均值作为汇率参考值,在每一个交割结算日,若该平均值与系统当前汇率偏差超过0.2,则会采用新的14天平均是做为系统汇率。</string>
+    <string name="wallet_exchange_past_time">时间</string>
+    <string name="wallet_exchange_past_rate">当日汇率</string>
+    <string name="wallet_exchange_past_rate_week">两周平均汇率</string>
+
+    <string name="wallet_charge_my_address">我的比特币收款地址</string>
+    <string name="wallet_charge_address_copy">(点击复制地址)</string>
+    <string name="wallet_charge_address">地址</string>
+
+    <string name="wallet_withdraw_balance">可用余额</string>
+    <string name="wallet_withdraw_address">接收地址</string>
+    <string name="wallet_withdraw_amount">转账数量</string>
+    <string name="wallet_withdraw_free">手续费\u3000</string>
+    <string name="wallet_withdraw_tip">手续费将在提现金额中扣除</string>
+    <string name="wallet_withdraw_confirm">确认付币</string>
+
+    <string name="wallet_title">我的资产</string>
+    <string name="wallet_assets">总资产折合CNY</string>
+    <string name="wallet_frozen_0">冻结0</string>
+    <string name="wallet_charge">充币</string>
+    <string name="wallet_withdraw">提币</string>
+    <string name="wallet_bill">账单</string>
+
+    <string name="bill_type_all">全部</string>
+    <string name="bill_type_charge">充币</string>
+    <string name="bill_type_withdraw">提现</string>
+    <string name="bill_type_select">筛选</string>
+    <string name="bill_title_all">余额明细</string>
+    <string name="bill_title_charge">充值明细</string>
+    <string name="bill_title_withdraw">提币明细</string>
+    <string name="bill_title_frozen">冻结明细</string>
+    <string name="bill_none">暂无明细</string>
+    <string name="bill_all_none">暂无余额明细</string>
+    <string name="bill_charge_none">暂无充值明细</string>
+    <string name="bill_withdraw_none">暂无提币明细</string>
+    <string name="bill_frozen_none">暂无冻结明细</string>
+
+    <string name="wallet_title_bill_detail">账单详情</string>
+    <string name="wallet_bill_detail_before">变动前金额</string>
+    <string name="wallet_bill_detail_after">变动后金额</string>
+    <string name="wallet_bill_detail_date">变动时间</string>
+    <string name="wallet_bill_detail_status">明细状态</string>
+    <string name="wallet_bill_detail_type">明细摘要</string>
+
+    <string name="wallet_title_charge">充币</string>
+    <string name="wallet_charge_recode">记录</string>
+    <string name="wallet_charge_address_eth">我的以太币收款地址</string>
+    <string name="wallet_charge_address_btc">我的比特币收款地址</string>
+    <string name="wallet_charge_address_copy_success">地址已复制</string>
+
+    <string name="wallet_title_withdraw">提币</string>
+    <string name="wallet_withdraw_address_hint">请填写发送地址</string>
+    <string name="wallet_withdraw_amount_hint">请填写数量</string>
+    <string name="wallet_withdraw_success">提现申请成功</string>
+    <string name="wallet_transfer_success">转账申请成功</string>
+
+    <string name="wallet_title_exchange">汇率概述</string>
+
+    <string name="wallet_title_exchange_past">历史汇率</string>
+    <string name="wallet_title_exchange_past_none">暂无历史汇率</string>
+
+    <string name="wallet_none">暂无钱包</string>
+
+    <string name="market_quantity">量</string>
+
+
+    // 我的
+    <string name="address_attestation">已认证</string>
+    <string name="address_unattestation">未认证</string>
+
+    <string name="user_title_address_add">添加地址</string>
+    <string name="user_title_address_add_success">添加地址成功</string>
+    <string name="user_address_tag_hint">请填写地址标签</string>
+    <string name="user_address_hint">请输入地址</string>
+
+    <string name="user_title_address">地址管理</string>
+    <string name="user_address_none">暂无地址</string>
+    <string name="user_address_delete_confirm">您确定要删除该地址吗？</string>
+    <string name="user_address_delete_success">删除成功？</string>
+
+    <string name="user_title_language">语言设置</string>
+    <string name="user_language_english">英文</string>
+    <string name="user_language_simplified">中文简体</string>
+    <string name="user_language_traditional">中文繁体</string>
+
+    <string name="user_title_google">谷歌验证</string>
+    <string name="user_google_open">已开启</string>
+    <string name="user_google_close">未开启</string>
+    <string name="user_google_btn_open">开启谷歌验证</string>
+    <string name="user_google_btn_close">关闭谷歌验证</string>
+    <string name="user_google_btn_modify">修改谷歌验证</string>
+
+    <string name="user_title_invite_history">推荐历史</string>
+
+    <string name="user_title_published">我的广告</string>
+    <string name="user_published_none">暂无发布</string>
+
+    <string name="user_title_setting">安全设置</string>
+    <string name="user_identity_success">您已通过实名认证</string>
+
+    <string name="user_title_person">个人主页</string>
+
+    <string name="user_title_tip">个性设置</string>
+
+    <string name="user_title_sign_in">登录</string>
+    <string name="user_mobile_hint">请填写手机号码</string>
+    <string name="user_mobile_format_hint">手机号码格式不正确</string>
+    <string name="user_password_format_hint">密码长度不能小于6位</string>
+
+    <string name="user_title_trust">受信任的</string>
+    <string name="user_trust_none">暂无信任人</string>
+
+    <string name="user_title_sign_up">注册</string>
+    <string name="user_sign_up_protocol">注册协议</string>
+    <string name="user_nick_hint">请设置您的昵称</string>
+    <string name="user_code_hint">请填写验证码</string>
+    <string name="user_code_format_hint">验证码格式不正确</string>
+    <string name="user_password_hint">请填写密码</string>
+    <string name="user_repassword_hint">请确认密码</string>
+    <string name="user_repassword_two_hint">两次输入的密码不相同</string>
+    <string name="user_protocol_hint">请阅读并同意条款</string>
+    <string name="user_sign_up_success">注册成功,已自动登录</string>
+    <string name="user_sign_up_failure">注册失败</string>
+
+    <string name="user_person_deal">和Ta交易过</string>
+    <string name="user_person_times">次</string>
+
+    <string name="user_invite_people">成功邀请(人)</string>
+    <string name="user_invite_profit">提成收益(ETH)</string>
+    <string name="user_invite_confirm">我要推荐</string>
+    <string name="user_invite_activity">活动规则</string>
+    <string name="user_invite_share_title">分享到</string>
+    <string name="user_invite_share_wx">微信</string>
+    <string name="user_invite_share_pyq">朋友圈</string>
+    <string name="user_invite_title">邀请好友</string>
+    <string name="user_invite_title_right">推荐历史</string>
+
+    <string name="user_sign_in_mobile_hint">请输入手机号</string>
+    <string name="user_sign_in_pwd_hint">请输入密码</string>
+    <string name="user_sign_in_confirm">确认登录</string>
+    <string name="user_sign_in_forget">忘记密码?</string>
+
+    <string name="user_sign_up_nick">昵称</string>
+    <string name="user_sign_up_nick_hint">请设置您的昵称</string>
+    <string name="user_sign_up_mobile">手机号</string>
+    <string name="user_sign_up_mobile_hint">请输入手机号码</string>
+    <string name="user_sign_up_code">手机验证码</string>
+    <string name="user_sign_up_code_hint">请输入验证码</string>
+    <string name="user_sign_up_send">获取验证码</string>
+    <string name="user_sign_up_pwd">新密码</string>
+    <string name="user_sign_up_pwd_hint">不少于6位</string>
+    <string name="user_sign_up_repwd">确认密码</string>
+    <string name="user_sign_up_repwd_hint">不少于6位</string>
+    <string name="user_sign_up_agree">我已阅读并同意</string>
+    <string name="user_sign_up_profile">《注册协议》</string>
+    <string name="user_sign_up_confirm">确认注册</string>
+
+    <string name="user_address_add_tag">标签</string>
+    <string name="user_address_add_tag_hint">请输入标签</string>
+    <string name="user_address_add_address">提币地址</string>
+    <string name="user_address_add_code">手机验证码</string>
+    <string name="user_address_add_code_hint">请输入验证码</string>
+    <string name="user_address_add_is_default">将该账户设置为认证账户</string>
+    <string name="user_address_add_tip">向认证账户提现不再输入资金密码、谷歌验证码</string>
+
+    <string name="user_title_email_bind">绑定邮箱</string>
+    <string name="user_title_email_modify">修改邮箱</string>
+    <string name="user_email_bind_success">绑定成功</string>
+    <string name="user_email_modify_success">修改成功</string>
+    <string name="user_email">邮箱</string>
+    <string name="user_email_hint">请输入邮箱</string>
+    <string name="user_email_code">邮箱验证码</string>
+    <string name="user_email_code_hint">请输入邮箱验证码</string>
+
+    <string name="user_google_key">密钥</string>
+    <string name="user_google_copy">复制</string>
+    <string name="user_google_paste">粘贴</string>
+
+    <string name="user_password_old">原密码</string>
+    <string name="user_password_old_hint">请输入原密码</string>
+    <string name="user_password_new">新密码</string>
+    <string name="user_password_new_hint">不少于6位</string>
+    <string name="user_password_re">确认密码</string>
+    <string name="user_password_re_hint">不少于6位</string>
+    <string name="user_password_title">修改密码</string>
+    <string name="user_password_pwdold_hint">请输入原密码</string>
+    <string name="user_password_google_hint">请输入谷歌验证码</string>
+    <string name="user_password_pwdnew_hint">请输入新密码</string>
+    <string name="user_password_repwd_hint">请重新输入密码</string>
+    <string name="user_password_pwdnew_format_hint">密码不少于6位</string>
+    <string name="user_password_repwd_format_hint">两次密码输入不一致</string>
+    <string name="user_password_success">密码修改成功</string>
+    <string name="user_password_failure">密码修改失败</string>
+    <string name="user_password_google">谷歌验证码</string>
+    <string name="user_password_google_paste">粘贴</string>
+
+    <string name="user_setting_trade_pwd">资金密码</string>
+    <string name="user_setting_identity">实名认证</string>
+    <string name="user_setting_mail">绑定邮箱</string>
+    <string name="user_setting_mobile">修改手机号</string>
+    <string name="user_setting_password">修改登录密码</string>
+    <string name="user_setting_google">谷歌验证</string>
+    <string name="user_setting_sign_out">退出登录</string>
+
+    <string name="user_tip_good">自动好评</string>
+    <string name="user_tip_trust">自动加信任</string>
+    <string name="user_tip_language">语言设置</string>
+
+    <string name="user_address_add">添加新地址</string>
+    <string name="user_buy">我要购买</string>
+    <string name="user_sale">我要出售</string>
+    <string name="user_adv">我的广告</string>
+    <string name="user_address">我的地址</string>
+    <string name="user_trust">受信任的</string>
+    <string name="user_invite">邀请好友</string>
+    <string name="user_setting">安全中心</string>
+    <string name="user_tip">个性设置</string>
+    <string name="user_issue">常见问题</string>
+    <string name="user_services">联系客服</string>
+    <string name="user_about">关于我们</string>
+
+    // Util
+    <string name="coin_eth">以太币</string>
+    <string name="coin_btc">比特币</string>
+    <string name="biz_type_charge">ETH充值</string>
+    <string name="biz_type_withdraw">ETH取现</string>
+    <string name="biz_type_buy">交易买入</string>
+    <string name="biz_type_sell">交易卖出</string>
+    <string name="biz_type_tradefrozen">交易冻结</string>
+    <string name="biz_type_tradeunfrozen">交易解冻</string>
+    <string name="biz_type_withdrawfrozen">取现冻结</string>
+    <string name="biz_type_withdrawunfrozen">取现解冻</string>
+    <string name="biz_type_tradefee">交易手续费</string>
+    <string name="biz_type_withdrawfee">提现手续费</string>
+    <string name="biz_type_invite">邀请好友收入</string>
+
+    <string name="biz_status_daiduizhang">待对账</string>
+    <string name="biz_status_yiduiyiping">已对账且账已平</string>
+    <string name="biz_status_zhangbuping">帐不平待调账审批</string>
+    <string name="biz_status_yiduibuping">已对账且账不平</string>
+    <string name="biz_status_wuxuduizhang">无需对账</string>
+
+    <string name="deal_status_yifabu">已发布</string>
+    <string name="deal_status_daifabu">待发布</string>
+    <string name="deal_status_yixiajia">已下架</string>
+    <string name="deal_status_check">查看</string>
+
+    <string name="order_status_daixiadan">待下单</string>
+    <string name="order_status_daizhifu">待支付</string>
+    <string name="order_status_daishifang">待释放</string>
+    <string name="order_status_daipingjia">待评价</string>
+    <string name="order_status_yiwancheng">已完成</string>
+    <string name="order_status_yiquxiao">已取消</string>
+    <string name="order_status_zhongcaizhong">仲裁中</string>
+
+
+    <string name="popup_select">选择地址</string>
+    <string name="popup_scan">扫描二维码</string>
+    <string name="popup_paste">粘贴地址</string>
+    <string name="copy_tip_none">您还没有复制内容</string>
+    <string name="qrcode_parsing_failure">解析二维码失败</string>
+    <string name="camera_refused">已拒绝打开相机</string>
+
+
+    <string name="sms_code_title">手机验证码</string>
+    <string name="sms_code_send">获取验证码</string>
+    <string name="sms_code_hint">请输入短信验证码</string>
+    <string name="trade_code_hint">请输入资金密码</string>
+    <string name="google_code_title">谷歌验证码</string>
+    <string name="google_code_hint">请输入谷歌验证码</string>
+    <string name="google_code_format_hint">请输入正确的谷歌验证码</string>
+
+    <string name="email_code_send_success">验证码已经发送至邮箱，请注意查收</string>
+    <string name="email_code_send_failure">邮箱验证码发送失败</string>
+
+    <string name="wx_share_success">分享成功</string>
+    <string name="wx_share_cancel">分享取消</string>
+    <string name="wx_share_denied">分享拒绝</string>
+    <string name="wx_share_failure">分享失败</string>
+
+    <string name="build_type">环境切换</string>
+
+    <string name="main_tag_market">行情</string>
+    <string name="main_tab_order">订单</string>·
+    <string name="main_tab_deal">交易</string>
+    <string name="main_tab_wallet">钱包</string>
+    <string name="main_tab_my">我的</string>
+    <string name="exit_confirm">确认退出？</string>
+
+    // 自定义 ZenDesk 本地化页面Title
+    <string name="contact_fragment_title">提交工单</string>
+    <string name="support_activity_title">常见问题</string>
+    <string name="chat_activity_title">联系客服</string>
+    <string name="user_about_copyright">2018BCOIN版权所有</string>
+
+    <string name="user_about_update">更新至最新版本</string>
+    <string name="user_about_updated">已经是最新版本</string>
+    <string name="user_sign_up_referee">推荐人手机</string>
+    <string name="user_sign_up_referee_hint">推荐人手机号(选填)</string>
+    <string name="user_invite_url">分享链接</string>
+    <string name="user_invite_pic">分享二维码</string>
+
+</resources>

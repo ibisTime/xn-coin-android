@@ -45,6 +45,10 @@ public class MarketAdapter extends BaseQuickAdapter<MarketModel,BaseViewHolder> 
 
         // 取24小时交易信息
         helper.setText(R.id.tv_dValue,item.getPercent_change_24h()+"%");
+
+        if (item.getPercent_change_24h() == null)
+            return;
+
         if (parseDouble(item.getPercent_change_24h()) >= 0){
             helper.setTextColor(R.id.tv_usd, ContextCompat.getColor(mContext, R.color.colorAccent));
             helper.setTextColor(R.id.tv_cny, ContextCompat.getColor(mContext, R.color.colorAccent));

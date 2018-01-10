@@ -42,10 +42,10 @@ public class TxImLoginPresenter {
      */
     private void getTxKeyRequest() {
 
-
         Map map = new HashMap<>();
 
         map.put("userId", SPUtilHelper.getUserId());
+        map.put("token", SPUtilHelper.getUserToken());
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);
 
@@ -61,15 +61,16 @@ public class TxImLoginPresenter {
                 TXImManager.getInstance().login(SPUtilHelper.getUserId(), data.getSign(), new TXImManager.LoginBallBack() {
                     @Override
                     public void onError(int i, String s) {
-                        Log.e("onError","onError");
+                        Log.e("TxImLoginPresenter","onError");
+
                         mListener.onError(i,s);
                     }
 
                     @Override
                     public void onSuccess() {
-                        Log.e("onSuccess","onSuccess");
+                        Log.e("TxImLoginPresenter","onSuccess");
 
-                        txLoginSucc();
+                        txLoginSuccess();
                         mListener.onSuccess();
                     }
                 });
@@ -82,18 +83,16 @@ public class TxImLoginPresenter {
 
             @Override
             protected void onNull() {
-                mListener.keyRequestOnNull();
             }
 
 
             @Override
             protected void onFinish() {
-                mListener.keyRequestOnFinish();
             }
         });
     }
 
-    private void txLoginSucc() {
+    private void txLoginSuccess() {
         TXImManager.getInstance().setUserNickName(SPUtilHelper.getUserName(), new TXImManager.changeInfoBallBack() {
             @Override
             public void onError(int i, String s) {

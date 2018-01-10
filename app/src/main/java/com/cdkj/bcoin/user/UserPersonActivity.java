@@ -11,7 +11,6 @@ import android.view.View;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.AbsBaseActivity;
 import com.cdkj.baselibrary.model.IsSuccessModes;
-import com.cdkj.baselibrary.model.UserInfoModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.ImgUtils;
@@ -38,15 +37,20 @@ public class UserPersonActivity extends AbsBaseActivity {
     private ActivityUserPersonBinding mBinding;
 
     private String userId;
+    private String nickName;
+    private String photo;
 
-    public static void open(Context context, String userId){
+    public static void open(Context context, String userId, String nickName, String photo){
         if (context == null) {
             return;
         }
 
         // 自己不能打开个人主页
        if (!SPUtilHelper.getUserId().equals(userId)){
-            context.startActivity(new Intent(context, UserPersonActivity.class).putExtra("userId", userId));
+            context.startActivity(new Intent(context, UserPersonActivity.class)
+                    .putExtra("userId", userId)
+                    .putExtra("photo", photo)
+                    .putExtra("nickName", nickName));
         }
 
     }
@@ -65,8 +69,9 @@ public class UserPersonActivity extends AbsBaseActivity {
             return;
 
         userId = getIntent().getStringExtra("userId");
+        photo = getIntent().getStringExtra("photo");
+        nickName = getIntent().getStringExtra("nickName");
 
-        getUserInfoRequest();
         getUserData();
     }
 
@@ -98,39 +103,6 @@ public class UserPersonActivity extends AbsBaseActivity {
     }
 
     /**
-     * 获取用户信息
-     */
-    public void getUserInfoRequest() {
-        Map<String, String> map = new HashMap<>();
-
-        map.put("userId", userId);
-        map.put("token", SPUtilHelper.getUserToken());
-
-        Call call = RetrofitUtils.createApi(MyApi.class).getUserInfoDetails("805121", StringUtils.getJsonToString(map));
-
-        addCall(call);
-
-        call.enqueue(new BaseResponseModelCallBack<UserInfoModel>(this) {
-            @Override
-            protected void onSuccess(UserInfoModel data, String SucMessage) {
-                if (data == null)
-                    return;
-
-                if (data.getNickname() == null)
-                    return;
-
-                mBinding.tvName.setText(data.getNickname());
-                ImgUtils.loadAvatar(UserPersonActivity.this, data.getPhoto(), data.getNickname(), mBinding.ivAvatar, mBinding.tvAvatar);
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
-    }
-
-    /**
      * 查询用户统计信息（包含信任 和 黑名单关系）
      */
     private void getUserData(){
@@ -159,6 +131,10 @@ public class UserPersonActivity extends AbsBaseActivity {
     }
 
     private void setShowData(DealUserDataModel data) {
+        // 设置昵称和头像
+        mBinding.tvName.setText(nickName);
+        ImgUtils.loadAvatar(UserPersonActivity.this, photo, nickName, mBinding.ivAvatar, mBinding.tvAvatar);
+
         mBinding.tvTimes.setText(Html.fromHtml(getString(R.string.user_person_deal)+"<font color='#f15353'>" + data.getBetweenTradeTimes() + "</font>"+getString(R.string.user_person_times)));
 
         mBinding.tvDeal.setText(data.getJiaoYiCount()+"");

@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
+import com.cdkj.baselibrary.activitys.AuthenticateActivity;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.deal.PublishBuyActivity;
@@ -129,15 +131,10 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
 
         LinearLayout llClose= layout.findViewById(R.id.ll_close);
 
-        llClose.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (isShowing()) {
-                    closeAnimation(layout);
-                }
+        llClose.setOnClickListener(v -> {
+            if (isShowing()) {
+                closeAnimation(layout);
             }
-
         });
 
         showAnimation(layout);
@@ -230,9 +227,14 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
                     dismiss();
                     return;
                 }
-
-                PublishBuyActivity.open(mContext, DAIFABU, null);
+                // 发布买币广告之前需实名认证
+                if (TextUtils.isEmpty(SPUtilHelper.getRealName())){
+                    AuthenticateActivity.open(mContext);
+                }else {
+                    PublishBuyActivity.open(mContext, DAIFABU, null);
+                }
                 dismiss();
+
                 break;
 
             case R.id.ll_sale:

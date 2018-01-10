@@ -62,8 +62,11 @@ public class SPUtilHelper {
 	public static void logOutClear(){
 		saveUserId("");
 		saveUserToken("");
+
 		saveRealName("");
 		saveUserName("");
+		saveUserPhoto("");
+		saveUserEmail("");
 		saveUserPhoneNum("");
 		saveTradePwdFlag(false);
 		saveGoogleAuthFlag(false);

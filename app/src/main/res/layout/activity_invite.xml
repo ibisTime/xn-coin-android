@@ -92,20 +92,42 @@
 
             </FrameLayout>
 
-            <Button
-                android:id="@+id/btn_confirm"
-                android:text="@string/user_invite_confirm"
-                android:textSize="15sp"
-                android:textColor="@color/white"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:background="@drawable/corner_invite_btn"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="45dp" />
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btn_url"
+                    android:text="@string/user_invite_url"
+                    android:textSize="15sp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/corner_invite_btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:id="@+id/btn_pic"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/user_invite_pic"
+                    android:textSize="15sp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/corner_invite_btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp" />
+
+            </LinearLayout>
+
+
 
             <LinearLayout
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="25dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

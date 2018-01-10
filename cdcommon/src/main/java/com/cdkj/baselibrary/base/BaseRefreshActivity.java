@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -117,6 +116,12 @@ public abstract class BaseRefreshActivity<T> extends AbsBaseActivity {
         getListData(pageIndex, limit, false);
     }
 
+    //刷新
+    protected void onMRefresh(int pageIndex, int limit, boolean canShowDialog) {
+        mPageIndex = pageIndex;
+        getListData(mPageIndex, limit, canShowDialog);
+    }
+
     //加载
     protected void onMLoadMore(int pageIndex, int limit) {
         getListData(pageIndex, limit, false);
@@ -162,7 +167,6 @@ public abstract class BaseRefreshActivity<T> extends AbsBaseActivity {
      * @param datas
      */
     protected void setData(List<T> datas) {
-        Log.e("setData.datas.size()",datas.size()+"");
         if (mPageIndex == 1) {
             if (mBinding.refreshLayout.isRefreshing()) mBinding.refreshLayout.finishRefresh();
             if (datas != null) {

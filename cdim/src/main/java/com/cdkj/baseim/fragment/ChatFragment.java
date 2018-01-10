@@ -41,6 +41,7 @@ import com.cdkj.baselibrary.utils.LogUtil;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMMessageOfflinePushSettings;
 import com.tencent.imsdk.TIMMessageStatus;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
@@ -441,7 +442,46 @@ public class ChatFragment extends BaseLazyFragment implements ChatView {
     @Override
     public void sendText() {
         Message message = new TextMessage(mBinding.inputPanel.getText());
-        presenter.sendMessage(message.getMessage());
+
+        //构造一条消息
+        TIMMessage msg = message.getMessage();
+
+        // 设置当前消息的离线推送配置  desc : 订单(发送人昵称):内容   ext:订单Id
+        TIMMessageOfflinePushSettings settings = new TIMMessageOfflinePushSettings();
+        settings.setEnabled(true);
+        settings.setDescr("订单("+imUserInfo.getRightName()+"):"+mBinding.inputPanel.getText().toString());
+        try {
+            settings.setExt(imUserInfo.getIdentify().getBytes("utf-8"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //设置在Android设备上收到消息时的离线配置
+        TIMMessageOfflinePushSettings.AndroidSettings androidSettings = new TIMMessageOfflinePushSettings.AndroidSettings();
+        //ImSDK 2.5.3之前的构造方式
+        //TIMMessageOfflinePushSettings.AndroidSettings androidSettings = settings.new AndroidSettings();
+        androidSettings.setTitle(imUserInfo.getIdentify());
+        //推送自定义通知栏消息，接收方收到消息后点击通知栏消息会给应用回调（针对小米、华为离线推送）
+        androidSettings.setNotifyMode(TIMMessageOfflinePushSettings.NotifyMode.Custom);
+        //设置android设备收到消息时的提示音，声音文件需要放置到raw文件夹
+//        androidSettings.setSound(Uri.parse("android.resource://" + getPackageName() + "/" +R.raw.hualala));
+        settings.setAndroidSettings(androidSettings);
+
+        //设置在IOS设备上收到消息时的离线配置
+        TIMMessageOfflinePushSettings.IOSSettings iosSettings = new TIMMessageOfflinePushSettings.IOSSettings();
+        //ImSDK 2.5.3之前的构造方式
+        //TIMMessageOfflinePushSettings.IOSSettings iosSettings = settings.new IOSSettings();
+        //开启Badge计数
+        iosSettings.setBadgeEnabled(false);
+        //设置ios收到消息时没有提示音且不振动（ImSDK 2.5.3新增特性）
+//        iosSettings.setSound(TIMMessageOfflinePushSettings.IOSSettings.NO_SOUND_NO_VIBRATION);
+        //设置IOS设备收到离线消息时的提示音
+        iosSettings.setSound("/path/to/sound/file");
+        settings.setIosSettings(iosSettings);
+
+        msg.setOfflinePushSettings(settings);
+
+        presenter.sendMessage(msg);
         mBinding.inputPanel.setText("");
     }
 

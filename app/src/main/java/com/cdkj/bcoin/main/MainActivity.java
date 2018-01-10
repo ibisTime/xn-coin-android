@@ -38,12 +38,12 @@ import com.cdkj.bcoin.market.MarketFragment;
 import com.cdkj.bcoin.model.VersionModel;
 import com.cdkj.bcoin.order.OrderFragment;
 import com.cdkj.bcoin.user.UserFragment;
+import com.cdkj.bcoin.user.login.SignInActivity;
 import com.cdkj.bcoin.util.StringUtil;
 import com.cdkj.bcoin.wallet.WalletFragment;
-import com.tencent.imsdk.TIMGroupEventListener;
-import com.tencent.imsdk.TIMGroupTipsElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMUserConfig;
+import com.tencent.imsdk.TIMUserStatusListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -103,14 +103,16 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
         init();
 
         getVersion();
-        grounpEvent();
+        groupEvent();
 
 
         if(!SPUtilHelper.getUserId().equals("")){
             getUserData();
             updateOnLineTime();
 
+            initTencent();
             initZenDeskIdentity(SPUtilHelper.getUserName(), SPUtilHelper.getUserEmail());
+
         }
 
     }
@@ -123,15 +125,19 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
         PushUtil.getInstance().reset();
 
         if(!SPUtilHelper.getUserId().equals("")){
+
+
             initZenDeskIdentity(SPUtilHelper.getUserName(), SPUtilHelper.getUserEmail());
         }
     }
 
-    private void init() {
+    private void initTencent() {
         // 登录腾讯云
         mPresenter = new TxImLoginPresenter(this);
         mPresenter.login();
+    }
 
+    private void init() {
         setShowIndex(DEAL);
     }
 
@@ -322,7 +328,7 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
     }
 
     /**
-     * 更新登陆时间
+     * 更新在线时间
      */
     public void updateOnLineTime() {
         Map<String, String> map = new HashMap<>();
@@ -372,7 +378,6 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
         if (eventBusModel == null) {
             return;
         }
-        Log.e("eventBusModel.getEvInt",eventBusModel.getEvInt()+"");
 
         if (TextUtils.equals(eventBusModel.getTag(), MAINCHANGESHOWINDEX)) {
             setShowIndex(eventBusModel.getEvInt());
@@ -402,9 +407,6 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
 
                 if (data.getVersion() == null)
                     return;
-
-                Log.e("getVersionName()", getVersionName());
-                Log.e("data.getVersion()", data.getVersion());
 
                 if (!data.getVersion().equals(getVersionName())) {
                     update(data.getNote(), data.getDownloadUrl(), data.getForceUpdate());
@@ -446,16 +448,6 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
     }
 
     @Override
-    public void keyRequestOnNull() {
-
-    }
-
-    @Override
-    public void keyRequestOnFinish() {
-
-    }
-
-    @Override
     public void onError(int i, String s) {
 
     }
@@ -493,22 +485,36 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
         mBinding.layoutMainBottom.ivMsgTip.setVisibility(newUnreadMsg+doneUnreadMsg == 0 ? View.GONE:View.VISIBLE);
     }
 
+    /**
+     * 设置刷新腾讯云群组监听
+     */
+    public void groupEvent(){
+        TIMUserConfig userConfig = new TIMUserConfig()
+                .setGroupEventListener(timGroupTipsElem -> Log.e("onGroupTipsEven1t", "you have new system msg!"))
+                .setUserStatusListener(new TIMUserStatusListener() {
+                    @Override
+                    public void onForceOffline() {
+                        //被其他终端踢下线
+                        Log.i("onForceOffline", "onForceOffline");
+                        showToast("该账号在其他设备登录，请重新登录");
+                        SPUtilHelper.logOutClear();
+                        EventBus.getDefault().post(EventTags.AllFINISH);
 
-    public void grounpEvent(){
-        TIMUserConfig userConfig = new TIMUserConfig();
-        userConfig.setGroupEventListener(new TIMGroupEventListener() {
-            @Override
-            public void onGroupTipsEvent(TIMGroupTipsElem timGroupTipsElem) {
+                        SignInActivity.open(MainActivity.this,true);
+                        finish();
+                    }
 
-                Log.e("onGroupTipsEven1t", "you have new system msg!");
+                    @Override
+                    public void onUserSigExpired() {
+                        //用户签名过期了，需要刷新userSig重新登录SDK
+//                        Log.i(tag, "onUserSigExpired");
+                    }
+                });
 
-            }
-        });
-
-        //设置刷新监听
         RefreshEvent.getInstance().init(userConfig);
         userConfig = GroupEvent.getInstance().init(userConfig);
         userConfig = MessageEvent.getInstance().init(userConfig);
         TIMManager.getInstance().setUserConfig(userConfig);
+
     }
 }

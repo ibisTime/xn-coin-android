@@ -105,7 +105,7 @@ public class WalletFragment extends BaseLazyFragment {
                             return;
 
                         setView(data);
-                        refreshHelper.setData(data.getAccountList(),getStrRes(R.string.wallet_none), R.mipmap.order_none);
+                        refreshHelper.setData(data.getAccountList(), getStrRes(R.string.wallet_none), R.mipmap.order_none);
                     }
 
                     @Override

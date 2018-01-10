@@ -8,6 +8,8 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.cdkj.baseim.interfaces.TxImLoginInterface;
+import com.cdkj.baseim.interfaces.TxImLoginPresenter;
 import com.cdkj.baselibrary.activitys.AppBuildTypeActivity;
 import com.cdkj.baselibrary.activitys.WebViewActivity;
 import com.cdkj.baselibrary.appmanager.EventTags;
@@ -36,12 +38,14 @@ import retrofit2.Call;
 
 import static com.cdkj.bcoin.util.ZenDeskUtil.initZenDeskIdentity;
 
-public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface {
+public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface,TxImLoginInterface {
 
     private boolean agreeState = true;
 
     private SendPhoneCodePresenter mPresenter;
     private ActivitySignUpBinding mBinding;
+
+    private TxImLoginPresenter txImLoginPresenter;
 
     public static void open(Context context) {
         if (context == null) {
@@ -157,6 +161,8 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
         Map<String, Object> map = new HashMap<>();
         map.put("nickname", mBinding.edtNick.getText().toString().trim());
         map.put("kind", "C");
+        map.put("userRefereeKind", "C");
+        map.put("userReferee", mBinding.edtReferee.getText().toString().trim());
         map.put("mobile", mBinding.edtMobile.getText().toString().trim());
         map.put("loginPwd", mBinding.edtPassword.getText().toString().trim());
         map.put("smsCaptcha", mBinding.edtCode.getText().toString().trim());
@@ -182,14 +188,9 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
                     SPUtilHelper.saveUserName(mBinding.edtNick.getText().toString().trim());
                     SPUtilHelper.saveUserPhoneNum(mBinding.edtMobile.getText().toString().trim());
 
-                    EventBus.getDefault().post(EventTags.AllFINISH);
-                    EventBus.getDefault().post(EventTags.MAINFINISH);
-
                     initZenDeskIdentity(SPUtilHelper.getUserName(), SPUtilHelper.getUserEmail());
 
-                    MainActivity.open(SignUpActivity.this);
-
-                    finish();
+                    loginTencent();
 
                 } else {
                     showToast(getStrRes(R.string.user_sign_up_failure));
@@ -248,4 +249,38 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
         }
     }
 
+    /**
+     * 登录腾讯云
+     */
+    private void loginTencent() {
+        // 登录腾讯云
+        txImLoginPresenter = new TxImLoginPresenter(this);
+        txImLoginPresenter.login();
+    }
+
+    // 腾讯云登录回调方法
+    @Override
+    public void keyRequestOnNoNet(String msg) {
+        // 腾讯登录失败，先按照自己系统登录结果，保证用户可以继续登录
+        toMianPage();
+    }
+
+    @Override
+    public void onError(int i, String s) {
+        // 腾讯登录失败，先按照自己系统登录结果，保证用户可以继续登录
+        toMianPage();
+    }
+
+    @Override
+    public void onSuccess() {
+        toMianPage();
+    }
+
+    private void toMianPage(){
+        EventBus.getDefault().post(EventTags.AllFINISH);
+        EventBus.getDefault().post(EventTags.MAINFINISH);
+
+        MainActivity.open(SignUpActivity.this);
+        finish();
+    }
 }

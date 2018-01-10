@@ -9,9 +9,12 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.cdkj.baseim.interfaces.TxImLoginInterface;
+import com.cdkj.baseim.interfaces.TxImLoginPresenter;
 import com.cdkj.baselibrary.activitys.FindPwdActivity;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.AbsBaseActivity;
@@ -25,12 +28,14 @@ import com.cdkj.bcoin.main.MainActivity;
 import static com.cdkj.bcoin.util.ZenDeskUtil.initZenDeskIdentity;
 
 @Route(path = "/user/login")
-public class SignInActivity extends AbsBaseActivity implements LoginInterface {
+public class SignInActivity extends AbsBaseActivity implements LoginInterface,TxImLoginInterface {
 
     private boolean canOpenMain;
 
     private LoginPresenter mPresenter;
     private ActivitySignInBinding mBinding;
+
+    private TxImLoginPresenter txImLoginPresenter;
 
     /**
      * 打开当前页面
@@ -171,14 +176,17 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface {
 
     @Override
     public void LoginSuccess(UserLoginModel user, String msg) {
+
+        Log.e("user.getToken()",user.getToken());
+
         SPUtilHelper.saveUserId(user.getUserId());
         SPUtilHelper.saveUserToken(user.getToken());
         SPUtilHelper.saveUserPhoneNum(mBinding.edtUsername.getText().toString().trim());
 
         initZenDeskIdentity(SPUtilHelper.getUserName(), SPUtilHelper.getUserEmail());
+        initTencent();
 
-        MainActivity.open(this);
-        finish();
+
     }
 
     @Override
@@ -194,6 +202,35 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface {
     @Override
     public void EndLogin() {
         disMissLoading();
+    }
+
+    /**
+     * 登录腾讯云
+     */
+    private void initTencent() {
+        // 登录腾讯云
+        txImLoginPresenter = new TxImLoginPresenter(this);
+        txImLoginPresenter.login();
+    }
+
+    @Override
+    public void keyRequestOnNoNet(String msg) {
+        // 腾讯登录失败，先按照自己系统登录结果，保证用户可以继续登录
+        MainActivity.open(this);
+        finish();
+    }
+
+    @Override
+    public void onError(int i, String s) {
+        // 腾讯登录失败，先按照自己系统登录结果，保证用户可以继续登录
+        MainActivity.open(this);
+        finish();
+    }
+
+    @Override
+    public void onSuccess() {
+        MainActivity.open(this);
+        finish();
     }
 
 
@@ -226,6 +263,7 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface {
             super.onBackPressed();
         }
     }
+
 
 
 }

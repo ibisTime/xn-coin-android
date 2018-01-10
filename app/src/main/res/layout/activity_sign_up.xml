@@ -96,6 +96,43 @@
                 <TextView
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
+                    android:text="@string/user_sign_up_referee"
+                    android:textSize="14sp"
+                    android:textColor="@color/fontColor_gray"
+                    android:layout_width="115dp"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/edt_referee"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:maxLength="11"
+                    android:background="@null"
+                    android:inputType="number"
+                    android:textColor="@color/fontColor_gray"
+                    android:textColorHint="@color/fontColor_hint"
+                    android:hint="@string/user_sign_up_referee_hint"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
+
+            <View
+                android:background="#F0F0F0"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
                     android:text="@string/user_sign_up_code"
                     android:textSize="14sp"
                     android:textColor="@color/fontColor_gray"
@@ -131,6 +168,7 @@
                     android:textSize="12sp" />
 
             </LinearLayout>
+
 
         </LinearLayout>
 

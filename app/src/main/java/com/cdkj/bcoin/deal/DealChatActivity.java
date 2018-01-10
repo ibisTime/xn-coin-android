@@ -23,7 +23,6 @@ import com.cdkj.bcoin.databinding.ActivityDealChatBinding;
 import com.cdkj.bcoin.model.DealDetailModel;
 import com.cdkj.bcoin.model.OrderDetailModel;
 import com.cdkj.bcoin.util.AccountUtil;
-import com.cdkj.bcoin.util.StringUtil;
 import com.tencent.imsdk.TIMConversationType;
 
 import java.util.HashMap;
@@ -158,15 +157,15 @@ public class DealChatActivity extends AbsBaseActivity {
     }
 
     private void setView(DealDetailModel data) {
-        mBinding.tvPrice.setText(StringUtil.getStirng(R.string.quoted)+ AccountUtil.formatDouble(data.getTruePrice())+"CNY");
-        mBinding.tvLimit.setText(StringUtil.getStirng(R.string.limit)+data.getMinTrade()+"-"+data.getMaxTrade()+"CNY");
+        mBinding.tvPrice.setText(getStrRes(R.string.quoted)+ AccountUtil.formatDouble(data.getTruePrice())+"CNY");
+        mBinding.tvLimit.setText(getStrRes(R.string.limit)+data.getMinTrade()+"-"+data.getMaxTrade()+"CNY");
 
         if (data.getTradeType().equals("1")){ // 1是卖币，UI展示买币
-            setTopTitle(StringUtil.getStirng(R.string.buy_order)+"("+data.getUser().getNickname()+")");
-            mBinding.btnConfirm.setText(StringUtil.getStirng(R.string.buy));
+            setTopTitle(getStrRes(R.string.buy_order)+"("+data.getUser().getNickname()+")");
+            mBinding.btnConfirm.setText(getStrRes(R.string.buy));
         }else{ //反之
-            setTopTitle(StringUtil.getStirng(R.string.sale_order)+"("+data.getUser().getNickname()+")");
-            mBinding.btnConfirm.setText(StringUtil.getStirng(R.string.sale));
+            setTopTitle(getStrRes(R.string.sale_order)+"("+data.getUser().getNickname()+")");
+            mBinding.btnConfirm.setText(getStrRes(R.string.sale));
         }
 
         Double leftAmount = Double.parseDouble(data.getLeftCountString());

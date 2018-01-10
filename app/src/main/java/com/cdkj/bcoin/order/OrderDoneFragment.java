@@ -18,7 +18,6 @@ import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.deal.DealChatActivity;
 import com.cdkj.bcoin.model.OrderDetailModel;
 import com.cdkj.bcoin.model.OrderModel;
-import com.cdkj.bcoin.util.StringUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
@@ -160,7 +159,7 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
 
     @Override
     public String getEmptyInfo() {
-        return StringUtil.getStirng(R.string.order_none);
+        return getStrRes(R.string.order_none);
     }
 
     @Override

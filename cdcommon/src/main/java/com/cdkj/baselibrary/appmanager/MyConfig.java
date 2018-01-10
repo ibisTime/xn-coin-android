@@ -20,5 +20,5 @@ public class MyConfig {
     // 环境访问地址
     public static final String BASE_URL_DEV="http://121.43.101.148:4001/forward-service/"; // 研发
     public static final String BASE_URL_TEST="http://47.96.161.183:4001/forward-service/"; // 测试
-    public static final String BASE_URL_ONLINE="http://47.52.77.214:4001/forward-service/"; // 线上
+    public static final String BASE_URL_ONLINE="https://www.bcoin.im/"; // 线上
 }

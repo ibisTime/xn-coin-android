@@ -40,7 +40,6 @@ public class MarketActivity extends BaseRefreshActivity<MarketCoinModel> {
     @Override
     protected void onInit(Bundle savedInstanceState, int pageIndex, int limit) {
         // 初始化title
-        setTopTitle(StringUtil.getStirng(R.string.market_title));
         setTopLineState(true);
         setSubLeftImgState(true);
 

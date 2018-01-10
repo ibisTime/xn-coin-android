@@ -9,7 +9,6 @@ import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMLogLevel;
 import com.tencent.imsdk.TIMManager;
-import com.tencent.imsdk.TIMOfflinePushSettings;
 import com.tencent.imsdk.TIMSdkConfig;
 import com.tencent.qalsdk.sdk.MsfSdkUtils;
 
@@ -109,9 +108,10 @@ public class TXImManager {
 //                }
 
                 //全局推送开启离线推送
-                TIMOfflinePushSettings settings = new TIMOfflinePushSettings();
-                settings.setEnabled(true);
-                TIMManager.getInstance().setOfflinePushSettings(settings);
+//                TIMOfflinePushSettings settings = new TIMOfflinePushSettings();
+//                settings.setEnabled(true);
+//                TIMManager.getInstance().setOfflinePushSettings(settings);
+
                 if (loCallBack == null) return;
                 loCallBack.onSuccess();
             }

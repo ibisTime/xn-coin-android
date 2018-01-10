@@ -35,11 +35,8 @@ public class OrderDoneAdapter extends BaseQuickAdapter<OrderDetailModel, BaseVie
     @Override
     protected void convert(BaseViewHolder helper, OrderDetailModel item) {
 
-        String orderUserId;
-
         if (TextUtils.equals(item.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
             helper.setText(R.id.tv_type, StringUtil.getStirng(R.string.buy));
-            orderUserId = item.getSellUser();
 
             helper.setText(R.id.tv_name, item.getSellUserInfo().getNickname());
             TextView tvAvatar = helper.getView(R.id.tv_avatar);
@@ -47,7 +44,6 @@ public class OrderDoneAdapter extends BaseQuickAdapter<OrderDetailModel, BaseVie
             ImgUtils.loadAvatar(mContext, item.getSellUserInfo().getPhoto(), item.getSellUserInfo().getNickname(), ivAvatar, tvAvatar);
         } else {
             helper.setText(R.id.tv_type, StringUtil.getStirng(R.string.sale));
-            orderUserId = item.getBuyUser();
 
             helper.setText(R.id.tv_name, item.getBuyUserInfo().getNickname());
             TextView tvAvatar = helper.getView(R.id.tv_avatar);
@@ -57,7 +53,7 @@ public class OrderDoneAdapter extends BaseQuickAdapter<OrderDetailModel, BaseVie
 
         helper.setText(R.id.tv_status, getOrderStatus(item));
 
-        if (item.getStatus().equals("-1")) {
+        if (item.getStatus().equals("-1")) { // 待下单订单
             helper.setText(R.id.tv_amount, "");
             helper.setText(R.id.tv_code, "");
         }else {
@@ -66,12 +62,13 @@ public class OrderDoneAdapter extends BaseQuickAdapter<OrderDetailModel, BaseVie
         }
 
         if (TIMManagerExt.getInstance().getConversationList().size() > 0) {
-
+            // 遍历会话列表
             for (TIMConversation conversation : TIMManagerExt.getInstance().getConversationList()) {
-
+                // 根据订单Id获取当前会话
                 if (item.getCode().equals(conversation.getPeer())) {
                     //获取会话扩展实例
                     TIMConversationExt conExt = new TIMConversationExt(conversation);
+                    // 未读消息数
                     long num = conExt.getUnreadMessageNum();
 
                     TextView tvMsg = helper.getView(R.id.tv_msg);
@@ -87,11 +84,16 @@ public class OrderDoneAdapter extends BaseQuickAdapter<OrderDetailModel, BaseVie
 
         }
 
+        // 头像点击事件
         helper.getView(R.id.fl_avatar).setOnClickListener(view -> {
             if (TextUtils.equals(item.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
-                UserPersonActivity.open(mContext, item.getSellUserInfo().getUserId());
+                UserPersonActivity.open(mContext, item.getSellUserInfo().getUserId()
+                        ,item.getSellUserInfo().getNickname()
+                        ,item.getSellUserInfo().getPhoto());
             } else {
-                UserPersonActivity.open(mContext, item.getBuyUserInfo().getUserId());
+                UserPersonActivity.open(mContext, item.getBuyUserInfo().getUserId()
+                        ,item.getBuyUserInfo().getNickname()
+                        ,item.getBuyUserInfo().getPhoto());
             }
 
         });

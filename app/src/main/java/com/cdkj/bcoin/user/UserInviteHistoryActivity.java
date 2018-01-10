@@ -45,7 +45,7 @@ public class UserInviteHistoryActivity extends BaseRefreshActivity<UserRefereeMo
             UserRefereeModel.ListBean bean = (UserRefereeModel.ListBean) mAdapter.getItem(position);
 
             assert bean != null;
-            UserPersonActivity.open(this, bean.getUserId());
+            UserPersonActivity.open(this, bean.getUserId(), bean.getNickname(), bean.getPhoto());
         });
 
         getListData(pageIndex,limit,true);

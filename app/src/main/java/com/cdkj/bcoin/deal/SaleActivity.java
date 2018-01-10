@@ -77,7 +77,7 @@ public class SaleActivity extends AbsBaseActivity {
 
     // 付款方式
     private String type = "0";
-    private String[] types = {StringUtil.getStirng(R.string.zhifubao), StringUtil.getStirng(R.string.weixin), StringUtil.getStirng(R.string.card)};
+    private String[] types;
     private String[] typeValue = {"0", "1", "2"};
 
     // 付款时限
@@ -128,6 +128,8 @@ public class SaleActivity extends AbsBaseActivity {
     }
 
     private void init() {
+        types = new String[]{StringUtil.getStirng(R.string.zhifubao), StringUtil.getStirng(R.string.weixin), StringUtil.getStirng(R.string.card)};
+
         mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
 
         if (getIntent() != null){
@@ -163,7 +165,7 @@ public class SaleActivity extends AbsBaseActivity {
     }
 
     private void initHour() {
-        // 关闭
+
         int i = 24;
         startHours = new String[25];
         for (int j=0; j<i; j++){

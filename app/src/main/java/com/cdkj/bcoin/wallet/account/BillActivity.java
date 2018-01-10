@@ -31,6 +31,11 @@ import retrofit2.Call;
 
 public class BillActivity extends BaseRefreshActivity<BillModel.ListBean> {
 
+    public static final String TYPE_ALL = "all";
+    public static final String TYPE_CHARGE = "charge";
+    public static final String TYPE_WITHDRAW = "withdraw";
+    public static final String TYPE_FROZEN = "frozen";
+
     private String openType;
     private String accountNumber;
 
@@ -82,28 +87,28 @@ public class BillActivity extends BaseRefreshActivity<BillModel.ListBean> {
         if (openType != null){
             switch (openType){
 
-                case "all": // 默认显示全部流水
+                case TYPE_ALL: // 默认显示全部流水
                     type = "";
                     kind = "0";
                     setTopTitle(getStrRes(R.string.bill_title_all));
                     break;
 
-                case "charge": // 默认显示充值流水
-                    type = "charge";
+                case TYPE_CHARGE: // 默认显示充值流水
+                    type = TYPE_CHARGE;
                     kind = "0";
                     setTopTitle(getStrRes(R.string.bill_title_charge));
                     setSubRightTitHide();
                     break;
 
-                case "withdraw": // 默认显示提币流水
-                    type = "withdraw";
+                case TYPE_WITHDRAW: // 默认显示提币流水
+                    type = TYPE_WITHDRAW;
                     kind = "0";
                     setTopTitle(getStrRes(R.string.bill_title_withdraw));
                     setSubRightTitHide();
                     break;
 
-                case "frozen": // 默认显示冻结流水
-                    type = "frozen";
+                case TYPE_FROZEN: // 默认显示冻结流水
+                    type = TYPE_FROZEN;
                     kind = "1";
                     setTopTitle(getStrRes(R.string.bill_title_frozen));
                     setSubRightTitHide();
@@ -177,13 +182,13 @@ public class BillActivity extends BaseRefreshActivity<BillModel.ListBean> {
                 default: // 默认显示全部流水
                     return getStrRes(R.string.bill_all_none);
 
-                case "charge": // 默认显示充值流水
+                case TYPE_CHARGE: // 默认显示充值流水
                     return getStrRes(R.string.bill_charge_none);
 
-                case "withdraw": // 默认显示提币流水
+                case TYPE_WITHDRAW: // 默认显示提币流水
                     return getStrRes(R.string.bill_withdraw_none);
 
-                case "frozen": // 默认显示冻结流水
+                case TYPE_FROZEN: // 默认显示冻结流水
                     return getStrRes(R.string.bill_frozen_none);
 
             }
@@ -198,15 +203,7 @@ public class BillActivity extends BaseRefreshActivity<BillModel.ListBean> {
         return R.mipmap.order_none;
     }
 
-    private NumberPicker.OnValueChangeListener provinceChangedListener = new NumberPicker.OnValueChangeListener() {
-
-        @Override
-        public void onValueChange(NumberPicker arg0, int arg1, int arg2) {
-
-            type = bizType[arg2];
-        }
-
-    };
+    private NumberPicker.OnValueChangeListener provinceChangedListener = (arg0, arg1, arg2) -> type = bizType[arg2];
 
     private void popupType(View view) {
 

@@ -136,7 +136,6 @@ public class OrderActivity extends AbsBaseActivity {
         mBinding.btnConfirm.setOnClickListener(view -> {
 
             if (mBinding.btnConfirm.getText().equals(StringUtil.getStirng(R.string.order_tag))){
-
                 tip(StringUtil.getStirng(R.string.order_tag_confirm));
             }else if (mBinding.btnConfirm.getText().equals(StringUtil.getStirng(R.string.order_release))){
                 tip(StringUtil.getStirng(R.string.order_release_confirm));
@@ -302,6 +301,7 @@ public class OrderActivity extends AbsBaseActivity {
         map.put("code", code);
         map.put("comment", comment);
         map.put("userId", SPUtilHelper.getUserId());
+        map.put("token", SPUtilHelper.getUserToken());
 
         Call call = RetrofitUtils.getBaseAPiService().successRequest("625245", StringUtils.getJsonToString(map));
 
@@ -393,6 +393,10 @@ public class OrderActivity extends AbsBaseActivity {
                     + DateUtil.formatStringData(bean.getInvalidDatetime(), DateUtil.DATE_HMS)
                     + "</font>"+StringUtil.getStirng(R.string.order_save_limit_end);
 
+            // 取消订单
+//            if (bean.getBuyUserInfo().getUserId().equals(SPUtilHelper.getUserId())){
+//                cancel();
+//            }
 
         } else if (bean.getStatus().equals("1")){ //已支付待释放
 
@@ -529,6 +533,7 @@ public class OrderActivity extends AbsBaseActivity {
         Map<String, String> map = new HashMap<>();
         map.put("code", code);
         map.put("applyUser", SPUtilHelper.getUserId());
+        map.put("token", SPUtilHelper.getUserToken());
         map.put("reason", reason);
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);

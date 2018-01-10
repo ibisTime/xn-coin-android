@@ -8,10 +8,6 @@ public interface TxImLoginInterface {
 
     void keyRequestOnNoNet(String msg);
 
-    void keyRequestOnNull();
-
-    void keyRequestOnFinish();
-
     void onError(int i, String s);
 
     void onSuccess();

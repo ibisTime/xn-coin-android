@@ -34,7 +34,6 @@ import com.cdkj.bcoin.model.SystemParameterListModel;
 import com.cdkj.bcoin.model.SystemParameterModel;
 import com.cdkj.bcoin.util.AccountUtil;
 import com.cdkj.bcoin.util.DealUtil;
-import com.cdkj.bcoin.util.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -76,7 +75,7 @@ public class PublishBuyActivity extends AbsBaseActivity {
 
     // 付款方式
     private String type = "0";
-    private String[] types = {StringUtil.getStirng(R.string.zhifubao), StringUtil.getStirng(R.string.weixin), StringUtil.getStirng(R.string.card)};
+    private String[] types;
     private String[] typeValue = {"0", "1", "2"};
 
     // 付款时限
@@ -123,6 +122,8 @@ public class PublishBuyActivity extends AbsBaseActivity {
     }
 
     private void init() {
+        types = new String[]{getStrRes(R.string.zhifubao), getStrRes(R.string.weixin), getStrRes(R.string.card)};
+
         mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
 
         if (getIntent() != null){
@@ -133,21 +134,21 @@ public class PublishBuyActivity extends AbsBaseActivity {
         switch (status){ // "1", "直接发布" "2", "草稿发布" "3", "编辑发布，原广告下
 
             case DAIFABU:
-                setTopTitle(StringUtil.getStirng(R.string.deal_publish_buy));
-                setSubRightTitleAndClick(StringUtil.getStirng(R.string.deal_publish_save),v -> {
+                setTopTitle(getStrRes(R.string.deal_publish_buy));
+                setSubRightTitleAndClick(getStrRes(R.string.deal_publish_save),v -> {
                     if (check()){
-                        sale("0");
+                        release("0");
                     }
                 });
                 break;
 
             case CAOGAO:
-                setTopTitle(StringUtil.getStirng(R.string.deal_publish_buy));
+                setTopTitle(getStrRes(R.string.deal_publish_buy));
                 setSubRightTitHide();
                 break;
 
             case YIFABU:
-                setTopTitle(StringUtil.getStirng(R.string.deal_publish_edit));
+                setTopTitle(getStrRes(R.string.deal_publish_edit));
                 setSubRightTitHide();
                 break;
         }
@@ -168,11 +169,11 @@ public class PublishBuyActivity extends AbsBaseActivity {
                 startHours[j] = j+":00";
             }
         }
-        startHours[startHours.length-1] = StringUtil.getStirng(R.string.deal_open_time_close);
+        startHours[startHours.length-1] = getStrRes(R.string.deal_open_time_close);
 
         endHours = new String[25];
         endHours[0] = "23:59";
-        endHours[1] = StringUtil.getStirng(R.string.deal_open_time_close);
+        endHours[1] = getStrRes(R.string.deal_open_time_close);
         for (int j=2; j<=i; j++){
             if (j < 10){
                 endHours[j] = "0"+(j-1)+":00";
@@ -226,15 +227,15 @@ public class PublishBuyActivity extends AbsBaseActivity {
                 switch (status){ // "1", "直接发布" "2", "草稿发布" "3", "编辑发布，原广告下
 
                     case DAIFABU:
-                        sale("1");
+                        release("1");
                         break;
 
                     case CAOGAO:
-                        sale("2");
+                        release("2");
                         break;
 
                     case YIFABU:
-                        sale("3");
+                        release("3");
                         break;
                 }
             }
@@ -307,17 +308,12 @@ public class PublishBuyActivity extends AbsBaseActivity {
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().equals("")){
                     mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
-                    showToast(StringUtil.getStirng(R.string.deal_publish_hint_premium));
+                    showToast(getStrRes(R.string.deal_publish_hint_premium));
                 } else if (editable.toString().equals("-") || editable.toString().equals(".")){
                     return;
                 } else {
                     Double price = Double.parseDouble(SPUtilHelper.getMarketCoin("ETH"));
                     Double premiumRate = Double.parseDouble(editable.toString());
-
-                    Log.e("price", price+"");
-                    Log.e("premiumRate", (premiumRate /100)+"");
-                    Log.e("price * premiumRate", (price * premiumRate /100)+"");
-                    Log.e("total price", price + (price * premiumRate /100)+"");
 
                     try {
                         mBinding.tvPrice.setText(AccountUtil.formatDouble(price + (price * premiumRate /100)));
@@ -417,12 +413,12 @@ public class PublishBuyActivity extends AbsBaseActivity {
             startHour = startHours[npStartHour.getValue()];
             endHour = endHours[npEndHour.getValue()];
 
-            if(startHour.equals(StringUtil.getStirng(R.string.deal_open_time_close)) && !endHour.equals(StringUtil.getStirng(R.string.deal_open_time_close)) ){
-                showToast(StringUtil.getStirng(R.string.deal_publish_hint_end));
+            if(startHour.equals(getStrRes(R.string.deal_open_time_close)) && !endHour.equals(getStrRes(R.string.deal_open_time_close)) ){
+                showToast(getStrRes(R.string.deal_publish_hint_end));
                 return;
             }
-            if (!startHour.equals(StringUtil.getStirng(R.string.deal_open_time_close)) && endHour.equals(StringUtil.getStirng(R.string.deal_open_time_close))){
-                showToast(StringUtil.getStirng(R.string.deal_publish_hint_start));
+            if (!startHour.equals(getStrRes(R.string.deal_open_time_close)) && endHour.equals(getStrRes(R.string.deal_open_time_close))){
+                showToast(getStrRes(R.string.deal_publish_hint_start));
                 return;
             }
 
@@ -516,15 +512,15 @@ public class PublishBuyActivity extends AbsBaseActivity {
             popupWindow.dismiss();
             switch (type){
                 case "0":
-                    mBinding.tvWay.setText(StringUtil.getStirng(R.string.zhifubao));
+                    mBinding.tvWay.setText(getStrRes(R.string.zhifubao));
                     break;
 
                 case "1":
-                    mBinding.tvWay.setText(StringUtil.getStirng(R.string.weixin));
+                    mBinding.tvWay.setText(getStrRes(R.string.weixin));
                     break;
 
                 case "2":
-                    mBinding.tvWay.setText(StringUtil.getStirng(R.string.card));
+                    mBinding.tvWay.setText(getStrRes(R.string.card));
                     break;
             }
 
@@ -621,7 +617,7 @@ public class PublishBuyActivity extends AbsBaseActivity {
 
     private String formatOpenStartTime(int startTime, int endTime){
         if (startTime == endTime && startTime == 24){
-            return StringUtil.getStirng(R.string.deal_open_time_close);
+            return getStrRes(R.string.deal_open_time_close);
 
         }else {
             if (startTime < 10){
@@ -638,7 +634,7 @@ public class PublishBuyActivity extends AbsBaseActivity {
 
     private String formatOpenEndTime(int startTime, int endTime){
         if (startTime == endTime && endTime == 24){
-            return StringUtil.getStirng(R.string.deal_open_time_close);
+            return getStrRes(R.string.deal_open_time_close);
         }else {
             if (endTime < 10){
                 return "0"+endTime+":00";
@@ -757,43 +753,43 @@ public class PublishBuyActivity extends AbsBaseActivity {
 
     private Boolean check(){
         if (mBinding.edtPremium.getText().toString().equals("")){
-            showToast(StringUtil.getStirng(R.string.deal_publish_hint_premium));
+            showToast(getStrRes(R.string.deal_publish_hint_premium));
             return false;
         }
 
         Double premium = Double.parseDouble(mBinding.edtPremium.getText().toString().trim());
         if (premium < -99.99 || premium > 99.99){
-            showToast(StringUtil.getStirng(R.string.deal_publish_hint_premium_scope_start)+"-99.99%~+99.99%"+getStrRes(R.string.deal_publish_hint_premium_scope_end));
+            showToast(getStrRes(R.string.deal_publish_hint_premium_scope_start)+"-99.99%~+99.99%"+getStrRes(R.string.deal_publish_hint_premium_scope_end));
             return false;
         }
 
         if (mBinding.edtProtectPrice.getText().toString().equals("")){
-            showToast(StringUtil.getStirng(R.string.deal_publish_hint_protect_buy));
+            showToast(getStrRes(R.string.deal_publish_hint_protect_buy));
             return false;
         }
 
         if (mBinding.edtMin.getText().toString().equals("")){
-            showToast(StringUtil.getStirng(R.string.deal_publish_hint_min));
+            showToast(getStrRes(R.string.deal_publish_hint_min));
             return false;
         }
         if (mBinding.edtMax.getText().toString().equals("")){
-            showToast(StringUtil.getStirng(R.string.deal_publish_hint_max));
+            showToast(getStrRes(R.string.deal_publish_hint_max));
             return false;
         }
         if (mBinding.edtAmount.getText().toString().equals("")){
-            showToast(StringUtil.getStirng(R.string.deal_publish_amount_buy_hint));
+            showToast(getStrRes(R.string.deal_publish_amount_buy_hint));
             return false;
         }
         if (mBinding.tvWay.getText().toString().equals("")){
-            showToast(StringUtil.getStirng(R.string.deal_publish_hint_way));
+            showToast(getStrRes(R.string.deal_publish_hint_way));
             return false;
         }
         if (mBinding.tvLimit.getText().toString().equals("")){
-            showToast(StringUtil.getStirng(R.string.deal_publish_hint_limit));
+            showToast(getStrRes(R.string.deal_publish_hint_limit));
             return false;
         }
         if (mBinding.edtRemark.getText().toString().equals("")){
-            showToast(StringUtil.getStirng(R.string.deal_publish_hint_remark));
+            showToast(getStrRes(R.string.deal_publish_hint_remark));
             return false;
         }
 
@@ -811,7 +807,7 @@ public class PublishBuyActivity extends AbsBaseActivity {
         if (startTime.getText().equals("00:00") && endTime.getText().equals("23:59")){
             // 时间为00:00~23:59,全天打开
             return "open";
-        } else if (startTime.getText().equals(StringUtil.getStirng(R.string.deal_open_time_close)) && endTime.getText().equals(StringUtil.getStirng(R.string.deal_open_time_close))){
+        } else if (startTime.getText().equals(getStrRes(R.string.deal_open_time_close)) && endTime.getText().equals(getStrRes(R.string.deal_open_time_close))){
             // 全天关闭
             return "close";
         }else {
@@ -858,7 +854,7 @@ public class PublishBuyActivity extends AbsBaseActivity {
 
     }
 
-    private void sale(String publishType) {
+    private void release(String publishType) {
 
         JSONObject object = new JSONObject();
 
@@ -904,7 +900,7 @@ public class PublishBuyActivity extends AbsBaseActivity {
 
                 if (data.isSuccess()){
                     if (publishType.equals("0")){
-                        showToast(StringUtil.getStirng(R.string.deal_publish_save_success));
+                        showToast(getStrRes(R.string.deal_publish_save_success));
                     }else {
 
                         EventBusModel model = new EventBusModel();
@@ -912,7 +908,7 @@ public class PublishBuyActivity extends AbsBaseActivity {
                         model.setEvInt(0);
                         EventBus.getDefault().post(model);
 
-                        showToast(StringUtil.getStirng(R.string.deal_publish_success));
+                        showToast(getStrRes(R.string.deal_publish_success));
                     }
                     finish();
                 }
@@ -968,9 +964,9 @@ public class PublishBuyActivity extends AbsBaseActivity {
         for(SystemParameterListModel.ListBean bean : model.getList()){
 
             if (bean.getCkey().equals(key)){
-                new AlertDialog.Builder(this).setTitle(StringUtil.getStirng(R.string.tip))
+                new AlertDialog.Builder(this).setTitle(getStrRes(R.string.tip))
                         .setMessage(bean.getCvalue())
-                        .setPositiveButton(StringUtil.getStirng(R.string.confirm), null).show();
+                        .setPositiveButton(getStrRes(R.string.confirm), null).show();
             }
 
         }

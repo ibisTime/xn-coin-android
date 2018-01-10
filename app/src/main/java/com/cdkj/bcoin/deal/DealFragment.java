@@ -2,13 +2,7 @@ package com.cdkj.bcoin.deal;
 
 import android.databinding.DataBindingUtil;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.NumberPicker;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.cdkj.baselibrary.activitys.WebViewActivity;
 import com.cdkj.baselibrary.appmanager.MyConfig;
@@ -19,6 +13,7 @@ import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
+import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.adapter.DealAdapter;
 import com.cdkj.bcoin.api.MyApi;
@@ -60,8 +55,9 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
     private List<BannerModel> bannerData = new ArrayList<>();
 
     // 币种
-    private String type = "ETH";
-    private String[] types = {"ETH"};
+    private String coinType = "ETH";
+    private String[] coinTypes = {"ETH"};
+//    private String[] coinTypes = {"ETH","BTC"};
 
     /**
      * 获得fragment实例
@@ -114,12 +110,15 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         initTitleBar();
         initListener();
 
-        getBanner();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        // 刷新轮播图
+        getBanner();
+
         getListData(1,10,true);
     }
 
@@ -133,9 +132,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         setTitleBar("ETH", StringUtil.getStirng(R.string.deal_buy),StringUtil.getStirng(R.string.deal_sale));
         setTopTitleLine(true);
 
-        setTitleBarCoinClick(v -> {
-            popupType(v);
-        });
+        setTitleBarCoinClick(this::initPopup);
 
         setTitleBarBtn1Click(v -> {
             setTitleBarBtnViewChange(1);
@@ -163,7 +160,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
     @Override
     protected void getListData(int pageIndex, int limit, boolean canShowDialog) {
         Map<String, Object> map = new HashMap<>();
-        map.put("coin", "ETH");
+        map.put("coin", coinType);
         map.put("tradeType", tradeType);
         map.put("start", pageIndex+"");
         map.put("limit", limit+"");
@@ -182,8 +179,6 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
                     return;
 
                 setData(data.getList());
-                // 刷新轮播图
-                getBanner();
             }
 
             @Override
@@ -282,53 +277,75 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
 //        mBinding.banner.setOnPageChangeListener(new MyPageChangeListener());
     }
 
-    private void popupType(View view) {
+//    private void popupType(View view) {
+//
+//
+//        // 一个自定义的布局，作为显示的内容
+//        View mView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_wallet_type, null);
+//
+//        TextView tvCancel = mView.findViewById(R.id.tv_cancel);
+//        TextView tvConfirm = mView.findViewById(R.id.tv_confirm);
+//        NumberPicker npType = mView.findViewById(R.id.np_type);
+//        npType.setDisplayedValues(coinTypes);
+//        npType.setMinValue(0);
+//        npType.setMaxValue(coinTypes.length - 1);
+//        // 禁止输入
+//        npType.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+//
+//
+//        final PopupWindow popupWindow = new PopupWindow(mView,
+//                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+//
+//        popupWindow.setTouchable(true);
+//        popupWindow.setAnimationStyle(R.style.PopupAnimation);
+//
+//        popupWindow.setTouchInterceptor((v, event) -> {
+//
+//            // 这里如果返回true的话，touch事件将被拦截
+//            // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+//            return false;
+//        });
+//
+//        tvCancel.setOnClickListener(v -> {
+//            popupWindow.dismiss();
+//        });
+//
+//        tvConfirm.setOnClickListener(v -> {
+//            popupWindow.dismiss();
+//
+//            coinType = coinTypes[npType.getValue()];
+//
+//            Log.e("coinType", coinType);
+//        });
+//
+//        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+//        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_popup));
+//        // 设置好参数之后再show
+//        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
+//
+//    }
 
+    private void initPopup(View view) {
+        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(mActivity, R.layout.popup_picker);
+        popupWindow.setNumberPicker(R.id.np_type, coinTypes);
 
-        // 一个自定义的布局，作为显示的内容
-        View mView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_wallet_type, null);
-
-        TextView tvCancel = mView.findViewById(R.id.tv_cancel);
-        TextView tvConfirm = mView.findViewById(R.id.tv_confirm);
-        NumberPicker npType = mView.findViewById(R.id.np_type);
-        npType.setDisplayedValues(types);
-        npType.setMinValue(0);
-        npType.setMaxValue(types.length - 1);
-        npType.setOnValueChangedListener(ChangedListener);
-        // 禁止输入
-        npType.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
-
-        final PopupWindow popupWindow = new PopupWindow(mView,
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-
-        popupWindow.setTouchable(true);
-        popupWindow.setAnimationStyle(R.style.PopupAnimation);
-
-        popupWindow.setTouchInterceptor((v, event) -> {
-
-            // 这里如果返回true的话，touch事件将被拦截
-            // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-            return false;
-        });
-
-        tvCancel.setOnClickListener(v -> {
+        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
             popupWindow.dismiss();
         });
 
-        tvConfirm.setOnClickListener(v -> {
-            popupWindow.dismiss();
+        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+            coinType = popupWindow.getNumberPickerValue(R.id.np_type, coinTypes);
 
+            setTitleBarCoin(coinType);
+            onMRefresh(1,10,true);
+
+            popupWindow.dismiss();
         });
 
-        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_popup));
-        // 设置好参数之后再show
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
-
+        popupWindow.show(view);
     }
 
-    private NumberPicker.OnValueChangeListener ChangedListener = (arg0, arg1, arg2) -> type = types[arg2];
+//    private NumberPicker.OnValueChangeListener ChangedListener = (arg0, arg1, arg2) -> coinType = coinTypes[arg2];
 
     @Subscribe
     public void DealEventBus(EventBusModel eventBusModel) {

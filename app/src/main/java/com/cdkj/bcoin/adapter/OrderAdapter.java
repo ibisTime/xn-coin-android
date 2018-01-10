@@ -53,7 +53,8 @@ public class OrderAdapter extends BaseQuickAdapter<OrderDetailModel, BaseViewHol
 
         helper.setText(R.id.tv_status, getOrderStatus(item));
 
-        if (item.getStatus().equals("-1")) {
+
+        if (item.getStatus().equals("-1")) { // 待下单订单
             helper.setText(R.id.tv_amount, "");
             helper.setText(R.id.tv_code, "");
         }else {
@@ -61,13 +62,15 @@ public class OrderAdapter extends BaseQuickAdapter<OrderDetailModel, BaseViewHol
             helper.setText(R.id.tv_code, StringUtil.getStirng(R.string.order_code) + item.getCode().substring(item.getCode().length() - 8, item.getCode().length()));
         }
 
+
         if (TIMManagerExt.getInstance().getConversationList().size() > 0) {
-
+            // 遍历会话列表
             for (TIMConversation conversation : TIMManagerExt.getInstance().getConversationList()) {
-
+                // 根据订单Id获取当前会话
                 if (item.getCode().equals(conversation.getPeer())) {
-                    //获取会话扩展实例
+                    // 获取会话扩展实例
                     TIMConversationExt conExt = new TIMConversationExt(conversation);
+                    // 未读消息数
                     long num = conExt.getUnreadMessageNum();
 
                     TextView tvMsg = helper.getView(R.id.tv_msg);
@@ -83,11 +86,16 @@ public class OrderAdapter extends BaseQuickAdapter<OrderDetailModel, BaseViewHol
 
         }
 
+        // 头像点击事件
         helper.getView(R.id.fl_avatar).setOnClickListener(view -> {
             if (TextUtils.equals(item.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
-                UserPersonActivity.open(mContext, item.getSellUserInfo().getUserId());
+                UserPersonActivity.open(mContext, item.getSellUserInfo().getUserId()
+                        ,item.getSellUserInfo().getNickname()
+                        ,item.getSellUserInfo().getPhoto());
             } else {
-                UserPersonActivity.open(mContext, item.getBuyUserInfo().getUserId());
+                UserPersonActivity.open(mContext, item.getBuyUserInfo().getUserId()
+                        ,item.getBuyUserInfo().getNickname()
+                        ,item.getBuyUserInfo().getPhoto());
             }
 
         });

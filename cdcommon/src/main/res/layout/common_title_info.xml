@@ -13,15 +13,32 @@
             android:layout_height="@dimen/title_height"
             android:background="@color/white">
 
-            <TextView
-                android:id="@+id/tv_top_title_abs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
                 android:layout_gravity="center"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_top_title_abs"
+                    android:text="ssss"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/iv_title_img"
+                    android:visibility="gone"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="3dp"
+                    android:background="@mipmap/title_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/fram_img_back"

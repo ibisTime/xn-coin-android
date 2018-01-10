@@ -13,7 +13,6 @@ import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.adapter.SystemMessageAdapter;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.model.SystemMessageModel;
-import com.cdkj.bcoin.util.StringUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.HashMap;
@@ -39,7 +38,7 @@ public class SystemMessageActivity extends BaseRefreshActivity<SystemMessageMode
     @Override
     protected void onInit(Bundle savedInstanceState, int pageIndex, int limit) {
         // 初始化title
-        setTopTitle(StringUtil.getStirng(R.string.market_title_message));
+        setTopTitle(getStrRes(R.string.market_title_message));
         setTopLineState(true);
         setSubLeftImgState(true);
 
@@ -89,7 +88,7 @@ public class SystemMessageActivity extends BaseRefreshActivity<SystemMessageMode
 
     @Override
     public String getEmptyInfo() {
-        return StringUtil.getStirng(R.string.market_message_none);
+        return getStrRes(R.string.market_message_none);
     }
 
     @Override

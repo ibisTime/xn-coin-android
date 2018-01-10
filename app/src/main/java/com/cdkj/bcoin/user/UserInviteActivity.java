@@ -89,8 +89,12 @@ public class UserInviteActivity extends AbsBaseActivity {
     }
 
     private void initListener() {
-        mBinding.btnConfirm.setOnClickListener(view -> {
+        mBinding.btnUrl.setOnClickListener(view -> {
             popupInvite(view);
+        });
+
+        mBinding.btnPic.setOnClickListener(view -> {
+            WebViewActivity.openURL(this, getStrRes(R.string.user_invite_title),regUrl+"/user/qrcode.html?m="+SPUtilHelper.getUserPhoneNum());
         });
     }
 

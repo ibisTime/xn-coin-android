@@ -1,7 +1,6 @@
 package com.cdkj.bcoin.loader;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -18,8 +17,6 @@ public class BannerImageLoader extends ImageLoader {
                     .load(path.toString())
                     .into(imageView);
         } else {
-
-            Log.e("BannerImageLoader",MyConfig.IMGURL + path.toString());
 
             Glide.with(context)
                     .load(MyConfig.IMGURL + path.toString())

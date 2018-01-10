@@ -204,6 +204,7 @@ public class TxImLogingActivity extends AbsBaseActivity {
         Map map = new HashMap<>();
 
         map.put("userId", SPUtilHelper.getUserId());
+        map.put("token", SPUtilHelper.getUserToken());
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);
 

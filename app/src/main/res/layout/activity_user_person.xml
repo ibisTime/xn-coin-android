@@ -252,7 +252,7 @@
                             android:text="@string/get_trust"
                             android:textSize="16sp"
                             android:textColor="@color/colorAccent"
-                            android:background="@drawable/corner_deal_btn_green"
+                            android:background="@drawable/corner_deal_btn_red"
                             android:layout_width="100dp"
                             android:layout_height="35dp" />
 
@@ -262,7 +262,7 @@
                             android:text="@string/add_black_list"
                             android:textSize="16sp"
                             android:textColor="@color/colorAccent"
-                            android:background="@drawable/corner_deal_btn_green"
+                            android:background="@drawable/corner_deal_btn_red"
                             android:layout_width="100dp"
                             android:layout_height="35dp" />
 

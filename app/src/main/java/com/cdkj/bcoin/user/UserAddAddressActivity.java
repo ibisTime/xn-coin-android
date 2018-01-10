@@ -58,6 +58,9 @@ public class UserAddAddressActivity extends AbsBaseActivity implements SendCodeI
 
     private InputDialog inputDialog;
 
+    // 地址类型:ETH、BTC
+    private String addressType;
+
     // 输入方式
     private String type;
     private String[] types;
@@ -67,11 +70,11 @@ public class UserAddAddressActivity extends AbsBaseActivity implements SendCodeI
 
     private PermissionHelper permissionHelper;
 
-    public static void open(Context context){
+    public static void open(Context context, String addressType){
         if (context == null) {
             return;
         }
-        context.startActivity(new Intent(context, UserAddAddressActivity.class));
+        context.startActivity(new Intent(context, UserAddAddressActivity.class).putExtra("addressType", addressType));
     }
 
     @Override
@@ -95,6 +98,9 @@ public class UserAddAddressActivity extends AbsBaseActivity implements SendCodeI
     private void init() {
         type = getStrRes(R.string.popup_scan);
         types = new String[]{getStrRes(R.string.popup_scan), getStrRes(R.string.popup_paste)};
+
+        addressType = getIntent().getStringExtra("addressType");
+        mBinding.tvType.setText(addressType);
     }
 
     private void initListener() {
@@ -372,7 +378,6 @@ public class UserAddAddressActivity extends AbsBaseActivity implements SendCodeI
         }else {
             map.put("isCerti", "0");
         }
-
         map.put("smsCaptcha", mBinding.edtCode.getText().toString().trim());
         map.put("googleCaptcha", mBinding.edtGoogle.getText().toString());
         map.put("label", mBinding.edtTag.getText().toString().trim());

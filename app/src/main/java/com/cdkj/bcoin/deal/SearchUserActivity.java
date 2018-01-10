@@ -13,7 +13,6 @@ import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.adapter.DealAdapter;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.model.DealDetailModel;
-import com.cdkj.bcoin.util.StringUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.HashMap;
@@ -79,7 +78,7 @@ public class SearchUserActivity extends BaseRefreshActivity<DealDetailModel> {
     }
 
     private void init(int pageIndex, int limit) {
-        setTopTitle(StringUtil.getStirng(R.string.deal_title_search_deal));
+        setTopTitle(getStrRes(R.string.deal_title_search_deal));
         setTopLineState(true);
         setSubLeftImgState(true);
 
@@ -129,7 +128,7 @@ public class SearchUserActivity extends BaseRefreshActivity<DealDetailModel> {
 
     @Override
     public String getEmptyInfo() {
-        return StringUtil.getStirng(R.string.deal_none);
+        return getStrRes(R.string.deal_none);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.cdkj.bcoin.adapter;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -59,9 +58,8 @@ public class DealAdapter extends BaseQuickAdapter<DealDetailModel, BaseViewHolde
 
         if (item.getUser().getLastLogin() == null)
             return;
-        // 绿灯10以内；黄色10-30；灰色30以后
+        // 在线时间:绿灯10以内；黄色10-30；灰色30以后
         int loginTimeDValue = DateUtil.getDateDValue(new Date(),new Date(item.getUser().getLastLogin()));
-        Log.e("loginTimeDValue",loginTimeDValue+"");
         if (loginTimeDValue <= 10){
             helper.setBackgroundRes(R.id.tv_status, R.drawable.corner_deal_online_status_green);
         }else if (loginTimeDValue > 10 && loginTimeDValue <=30 ){

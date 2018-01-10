@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.cdkj.baselibrary.base.AbsBaseActivity;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.databinding.ActivityDealSearchBinding;
-import com.cdkj.bcoin.util.StringUtil;
 
 /**
  * Created by lei on 2017/10/30.
@@ -30,12 +29,12 @@ public class DealSearchActivity extends AbsBaseActivity {
 
     // 广告类型
     private String type = "1";
-    private String[] types = {StringUtil.getStirng(R.string.deal_buy), StringUtil.getStirng(R.string.deal_sale)};
+    private String[] types;
     private String[] typeValue = {"1", "0"};
 
     // 付款方式
     private String payType = "0";
-    private String[] payTypes = {StringUtil.getStirng(R.string.zhifubao), StringUtil.getStirng(R.string.weixin), StringUtil.getStirng(R.string.card)};
+    private String[] payTypes;
     private String[] payTypeValue = {"0", "1", "2"};
 
     public static void open(Context context){
@@ -53,11 +52,17 @@ public class DealSearchActivity extends AbsBaseActivity {
 
     @Override
     public void afterCreate(Bundle savedInstanceState) {
-        setTopTitle(StringUtil.getStirng(R.string.deal_search));
+        setTopTitle(getStrRes(R.string.deal_search));
         setTopLineState(true);
         setSubLeftImgState(true);
 
+        init();
         initListener();
+    }
+
+    private void init() {
+        types = new String[]{getStrRes(R.string.deal_buy), getStrRes(R.string.deal_sale)};
+        payTypes = new String[]{getStrRes(R.string.zhifubao), getStrRes(R.string.weixin), getStrRes(R.string.card)};
     }
 
     private void initListener() {
@@ -72,7 +77,7 @@ public class DealSearchActivity extends AbsBaseActivity {
             mBinding.llUser.setVisibility(View.GONE);
 
             searchType = "adv";
-            mBinding.btnConfirm.setText(StringUtil.getStirng(R.string.deal_search_adv));
+            mBinding.btnConfirm.setText(getStrRes(R.string.deal_search_adv));
         });
 
         mBinding.rlUser.setOnClickListener(view -> {
@@ -85,7 +90,7 @@ public class DealSearchActivity extends AbsBaseActivity {
             mBinding.llUser.setVisibility(View.VISIBLE);
 
             searchType = "user";
-            mBinding.btnConfirm.setText(StringUtil.getStirng(R.string.deal_search_user));
+            mBinding.btnConfirm.setText(getStrRes(R.string.deal_search_user));
         });
 
         mBinding.llType.setOnClickListener(this::popupType);
@@ -227,29 +232,29 @@ public class DealSearchActivity extends AbsBaseActivity {
         if (searchType.equals("adv")){
 
             if (type.equals("")){
-                showToast(StringUtil.getStirng(R.string.deal_search_hint_type));
+                showToast(getStrRes(R.string.deal_search_hint_type));
                 return false;
             }
 
             if (mBinding.edtMin.getText().toString().trim().equals("")){
-                showToast(StringUtil.getStirng(R.string.deal_search_hint_min));
+                showToast(getStrRes(R.string.deal_search_hint_min));
                 return false;
             }
 
             if (mBinding.edtMax.getText().toString().trim().equals("")){
-                showToast(StringUtil.getStirng(R.string.deal_search_hint_max));
+                showToast(getStrRes(R.string.deal_search_hint_max));
                 return false;
             }
 
             if (payType.equals("")){
-                showToast(StringUtil.getStirng(R.string.deal_search_hint_pay));
+                showToast(getStrRes(R.string.deal_search_hint_pay));
                 return false;
             }
 
         }else {
 
             if (mBinding.edtUser.getText().toString().trim().equals("")){
-                showToast(StringUtil.getStirng(R.string.deal_search_hint_user));
+                showToast(getStrRes(R.string.deal_search_hint_user));
                 return false;
             }
 

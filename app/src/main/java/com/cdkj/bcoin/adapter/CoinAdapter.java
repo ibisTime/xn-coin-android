@@ -19,6 +19,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static com.cdkj.bcoin.wallet.account.BillActivity.TYPE_ALL;
+import static com.cdkj.bcoin.wallet.account.BillActivity.TYPE_FROZEN;
+
 /**
  * Created by lei on 2017/10/25.
  */
@@ -38,6 +41,13 @@ public class CoinAdapter extends BaseQuickAdapter<CoinModel.AccountListBean, Bas
                 helper.setText(R.id.tv_amount, AccountUtil.sub(Double.parseDouble(item.getAmountString()), Double.parseDouble(item.getFrozenAmountString())));
                 helper.setText(R.id.tv_frozen, StringUtil.getStirng(R.string.freeze)+ AccountUtil.weiToEth(new BigDecimal(item.getFrozenAmountString())));
                 helper.setBackgroundRes(R.id.iv_watermark, R.mipmap.wallet_coin_eth);
+                break;
+
+            case "BTC":
+                helper.setText(R.id.tv_name, StringUtil.getStirng(R.string.property_btc));
+                helper.setText(R.id.tv_amount, AccountUtil.sub(Double.parseDouble(item.getAmountString()), Double.parseDouble(item.getFrozenAmountString())));
+                helper.setText(R.id.tv_frozen, StringUtil.getStirng(R.string.freeze)+ AccountUtil.weiToEth(new BigDecimal(item.getFrozenAmountString())));
+                helper.setBackgroundRes(R.id.iv_watermark, R.mipmap.wallet_coin_btc);
                 break;
         }
 
@@ -60,11 +70,11 @@ public class CoinAdapter extends BaseQuickAdapter<CoinModel.AccountListBean, Bas
         });
 
         helper.getView(R.id.ll_bill).setOnClickListener(v -> {
-            BillActivity.open(mContext, item.getAccountNumber(), "all");
+            BillActivity.open(mContext, item.getAccountNumber(), TYPE_ALL);
         });
 
         helper.getView(R.id.tv_frozen).setOnClickListener(view -> {
-            BillActivity.open(mContext, item.getAccountNumber(), "frozen");
+            BillActivity.open(mContext, item.getAccountNumber(), TYPE_FROZEN);
         });
     }
 }
