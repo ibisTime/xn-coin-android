@@ -93,11 +93,11 @@ public class UserInviteHistoryActivity extends BaseRefreshActivity<UserRefereeMo
 
     @Override
     public String getEmptyInfo() {
-        return null;
+        return getStrRes(R.string.invite_history_none);
     }
 
     @Override
     public int getEmptyImg() {
-        return 0;
+        return R.mipmap.order_none;
     }
 }

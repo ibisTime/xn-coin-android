@@ -38,6 +38,7 @@
                     android:layout_height="100dp">
 
                     <LinearLayout
+                        android:id="@+id/ll_invite"
                         android:orientation="vertical"
                         android:gravity="center"
                         android:layout_weight="1"

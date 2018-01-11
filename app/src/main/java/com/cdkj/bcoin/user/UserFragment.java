@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -241,7 +240,8 @@ public class UserFragment extends BaseLazyFragment {
     private void setShowData(UserInfoModel data) {
         if (data == null) return;
 
-        Log.e("CHAT nick",data.getMobile());
+        SPUtilHelper.saveSecretUserId(data.getSecretUserId());
+
         SPUtilHelper.saveUserPhoto(data.getPhoto());
         SPUtilHelper.saveUserEmail(data.getEmail());
         SPUtilHelper.saveUserName(data.getNickname());

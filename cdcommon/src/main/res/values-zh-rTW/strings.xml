@@ -66,6 +66,12 @@
     <string name="activity_paypwd_pwd">資金密碼</string>
     <string name="activity_mobile_mobile">新手機號</string>
 
+    <string name="user_invite_share_title">分享到</string>
+    <string name="user_invite_share_wx">微信</string>
+    <string name="user_invite_share_pyq">朋友圈</string>
+
     <string name="smscode_send_success">驗證碼已經發送請注意查收</string>
     <string name="smscode_send_failure">驗證碼發送失敗</string>
+    <string name="storage_refused">已拒絕BCoin獲取您的內存權限</string>
+    <string name="web_create_pic_failure">生成圖片失敗</string>
 </resources>

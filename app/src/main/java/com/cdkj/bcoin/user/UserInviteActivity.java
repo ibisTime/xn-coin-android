@@ -94,7 +94,11 @@ public class UserInviteActivity extends AbsBaseActivity {
         });
 
         mBinding.btnPic.setOnClickListener(view -> {
-            WebViewActivity.openURL(this, getStrRes(R.string.user_invite_title),regUrl+"/user/qrcode.html?m="+SPUtilHelper.getUserPhoneNum());
+            WebViewActivity.openURL(this, getStrRes(R.string.user_invite_title_web),regUrl+"/user/qrcode.html?inviteCode="+SPUtilHelper.getSecretUserId());
+        });
+
+        mBinding.llInvite.setOnClickListener(view -> {
+            UserInviteHistoryActivity.open(this);
         });
     }
 
@@ -102,7 +106,7 @@ public class UserInviteActivity extends AbsBaseActivity {
 
 
         // 一个自定义的布局，作为显示的内容
-        View mView = LayoutInflater.from(this).inflate(R.layout.user_dialog_invite, null);
+        View mView = LayoutInflater.from(this).inflate(R.layout.popup_web_sharet, null);
 
         LinearLayout llClose = (LinearLayout) mView.findViewById(R.id.ll_close);
         LinearLayout llWx = (LinearLayout) mView.findViewById(R.id.ll_wx);
@@ -126,12 +130,12 @@ public class UserInviteActivity extends AbsBaseActivity {
         });
 
         llWx.setOnClickListener(v -> {
-            WxUtil.shareToWX(this, regUrl+"?mobile="+SPUtilHelper.getUserPhoneNum()+"&kind=C", "邀请好友", "快邀请好友来玩吧", R.mipmap.app_icon);
+            WxUtil.shareText(this, false, regUrl+"/user/register.html?inviteCode="+SPUtilHelper.getSecretUserId(), "邀请好友", "即将开启新币种push交易", R.mipmap.app_icon);
             popupWindow.dismiss();
         });
 
         llPyq.setOnClickListener(v -> {
-            WxUtil.shareToPYQ(this, regUrl+"?mobile="+SPUtilHelper.getUserPhoneNum()+"&kind=C", "邀请好友", "快邀请好友来玩吧", R.mipmap.app_icon);
+            WxUtil.shareText(this, true, regUrl+"/user/register.html?inviteCode="+SPUtilHelper.getSecretUserId(), "邀请好友", "即将开启新币种push交易", R.mipmap.app_icon);
             popupWindow.dismiss();
         });
 

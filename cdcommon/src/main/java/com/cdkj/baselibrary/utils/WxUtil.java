@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -59,17 +60,22 @@ public class WxUtil {
     }
 
     /**
-     *  分享到朋友圈
-     * @param
+     * 微信分享 链接
+     * @param context
+     * @param scene 为true:分享到朋友圈,为false:分享到微信朋友
+     * @param url
+     * @param title
+     * @param description
+     * @param img
      */
-    public static void shareToPYQ(Context context, String url, String title, String description, int img) {
+    public static void shareText(Context context, boolean scene, String url, String title, String description, int img) {
         Log.e("shareURL" , url);
         api = registToWx(context);
 
-        WXWebpageObject webpage = new WXWebpageObject();
-        webpage.webpageUrl = url;
+        WXWebpageObject webPage = new WXWebpageObject();
+        webPage.webpageUrl = url;
 
-        WXMediaMessage msg = new WXMediaMessage(webpage);
+        WXMediaMessage msg = new WXMediaMessage(webPage);
         msg.title = title;
         msg.description = description;
 
@@ -81,38 +87,34 @@ public class WxUtil {
             e.printStackTrace();
         }
         SendMessageToWX.Req req = new SendMessageToWX.Req();
-//        req.transaction = buildTransaction("图文链接");
         req.message = msg;
-        req.scene = SendMessageToWX.Req.WXSceneTimeline;
+        req.scene = scene ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
         api.sendReq(req);
     }
 
     /**
-     *  分享微信聊天界面
-     * @param
+     * 微信分享 图片
+     * @param context
+     * @param scene
+     * @param bitmap
      */
-    public static void shareToWX(Context context, String url, String title, String description,int img) {
-        Log.e("shareURL" , url);
+    public static void shareImg(Context context, boolean scene, Bitmap bitmap) {
         api = registToWx(context);
 
-        WXWebpageObject webpage = new WXWebpageObject();
-        webpage.webpageUrl = url;
-
-        WXMediaMessage msg = new WXMediaMessage(webpage);
-        msg.title = title;
-        msg.description = description;
+        WXImageObject imgObj = new WXImageObject(bitmap);
+        WXMediaMessage msg = new WXMediaMessage();
+        msg.mediaObject = imgObj;
 
         try {
-            Bitmap bmp1 = BitmapFactory.decodeResource(context.getResources(),img);
-            Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp1, 100, 100, true);
+            Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
+            bitmap.recycle();
             msg.thumbData = Bitmap2Bytes(thumbBmp);
         } catch (Exception e) {
             e.printStackTrace();
         }
         SendMessageToWX.Req req = new SendMessageToWX.Req();
-//        req.transaction = buildTransaction("图文链接");
         req.message = msg;
-        req.scene = SendMessageToWX.Req.WXSceneSession;
+        req.scene = scene ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
         api.sendReq(req);
     }
 

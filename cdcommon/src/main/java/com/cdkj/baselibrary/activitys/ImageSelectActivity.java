@@ -3,6 +3,7 @@ package com.cdkj.baselibrary.activitys;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -49,6 +50,7 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
     private boolean isSplit = false;//是否裁剪
 
     private static final String CACHDIR = "ylqpicimgcach";
+    public static final String IMAGE_URL = "/bky/bcoin/";
     //private final static int RUNTIME_PERMISSION_REQUEST_CODE = 0x1;
 
     private CapturePhotoHelper mCapturePhotoHelper;
@@ -594,6 +596,47 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
             imagePath = localUri.getPath();
         }
         return imagePath;
+    }
+
+    /**
+     * 保存到系统相册
+     *
+     * @param context
+     * @param bmp
+     */
+    public static void saveImageToGallery(final Context context, final Bitmap bmp) {
+        // 首先保存图片
+        File appDir = new File(Environment.getExternalStorageDirectory(), IMAGE_URL);
+        if (!appDir.exists()) {
+            appDir.mkdirs();
+        }
+        String fileName = System.currentTimeMillis() + ".jpg";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 其次把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                    file.getAbsolutePath(), fileName, null);
+            ToastUtil.show(context ,"图片已保存至"+ IMAGE_URL);
+        } catch (FileNotFoundException e) {
+            ToastUtil.show(context ,"保存失败");
+            e.printStackTrace();
+        }
+
+        // 最后通知图库更新
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(file);
+        intent.setData(uri);
+        context.sendBroadcast(intent);
     }
 
 }

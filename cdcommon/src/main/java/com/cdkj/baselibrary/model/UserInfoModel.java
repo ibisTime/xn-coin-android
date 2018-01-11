@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class UserInfoModel {
 
     private String userId;
+    private String secretUserId;
     private String loginName;
     private String mobile;
     private String nickname;
@@ -38,6 +39,14 @@ public class UserInfoModel {
     private int totalFansNum;
     private RefereeUserBean refereeUser;
     private UserStatisticsBean userStatistics;
+
+    public String getSecretUserId() {
+        return secretUserId;
+    }
+
+    public void setSecretUserId(String secretUserId) {
+        this.secretUserId = secretUserId;
+    }
 
     public boolean isGoogleAuthFlag() {
         return googleAuthFlag;

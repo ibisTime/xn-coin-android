@@ -126,7 +126,6 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
 
         if(!SPUtilHelper.getUserId().equals("")){
 
-
             initZenDeskIdentity(SPUtilHelper.getUserName(), SPUtilHelper.getUserEmail());
         }
     }
@@ -309,6 +308,8 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
 
                 if (data == null)
                     return;
+
+                SPUtilHelper.saveSecretUserId(data.getSecretUserId());
 
                 SPUtilHelper.saveUserPhoto(data.getPhoto());
                 SPUtilHelper.saveUserEmail(data.getEmail());

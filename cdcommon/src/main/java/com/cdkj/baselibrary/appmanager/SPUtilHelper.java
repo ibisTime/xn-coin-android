@@ -19,6 +19,7 @@ public class SPUtilHelper {
 
 	private static final String USERTOKEN="user_toke";
 	private static final String USERID="user_id";
+	private static final String SECRET_USERID="secret_user_id";
 	private static final String LOCATIONINFO="location_info";
 
 	// app运行环境
@@ -137,6 +138,23 @@ public class SPUtilHelper {
 	 */
 	public static String getUserId() {
 		return SPUtils.getString(BaseApplication.getContext(),USERID,"");
+
+	}
+
+	/**
+	 * 设置用户UserId
+	 * @param s
+	 */
+	public static void saveSecretUserId(String s) {
+		SPUtils.put(BaseApplication.getContext(),SECRET_USERID,s);
+	}
+
+	/**
+	 * 设置用户UserId
+	 * @param
+	 */
+	public static String getSecretUserId() {
+		return SPUtils.getString(BaseApplication.getContext(),SECRET_USERID,"");
 
 	}
 

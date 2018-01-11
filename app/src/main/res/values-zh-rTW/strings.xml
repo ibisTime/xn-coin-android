@@ -306,6 +306,7 @@
     <string name="user_google_btn_modify">修改谷歌驗證</string>
 
     <string name="user_title_invite_history">推薦曆史</string>
+    <string name="invite_history_none">暫無推薦曆史</string>
 
     <string name="user_title_published">我的廣告</string>
     <string name="user_published_none">暫無發布</string>
@@ -348,6 +349,7 @@
     <string name="user_invite_share_wx">微信</string>
     <string name="user_invite_share_pyq">朋友圈</string>
     <string name="user_invite_title">邀請好友</string>
+    <string name="user_invite_title_web">點擊分享</string>
     <string name="user_invite_title_right">推薦曆史</string>
 
     <string name="user_sign_in_mobile_hint">請輸入手機號</string>

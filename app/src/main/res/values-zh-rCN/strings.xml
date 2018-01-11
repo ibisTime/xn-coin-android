@@ -306,6 +306,7 @@
     <string name="user_google_btn_modify">修改谷歌验证</string>
 
     <string name="user_title_invite_history">推荐历史</string>
+    <string name="invite_history_none">暂无推荐历史</string>
 
     <string name="user_title_published">我的广告</string>
     <string name="user_published_none">暂无发布</string>
@@ -348,6 +349,7 @@
     <string name="user_invite_share_wx">微信</string>
     <string name="user_invite_share_pyq">朋友圈</string>
     <string name="user_invite_title">邀请好友</string>
+    <string name="user_invite_title_web">点击分享</string>
     <string name="user_invite_title_right">推荐历史</string>
 
     <string name="user_sign_in_mobile_hint">请输入手机号</string>
