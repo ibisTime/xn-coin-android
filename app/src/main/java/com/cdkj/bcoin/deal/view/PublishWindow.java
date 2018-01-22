@@ -25,10 +25,22 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.cdkj.baselibrary.activitys.AuthenticateActivity;
+import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
+import com.cdkj.baselibrary.dialog.LoadingDialog;
+import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
+import com.cdkj.baselibrary.nets.RetrofitUtils;
+import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.bcoin.R;
+import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.deal.PublishBuyActivity;
 import com.cdkj.bcoin.deal.SaleActivity;
+import com.cdkj.bcoin.model.MarketCoinModel;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
 
 import static com.cdkj.bcoin.util.DealUtil.DAIFABU;
 
@@ -47,6 +59,11 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
     private Bitmap overlay = null;
 
     private Handler mHandler = new Handler();
+
+    //网络请求
+    private Call call;
+    //网络请求小菊花
+    private LoadingDialog loadingDialog;
 
     public PublishWindow(Activity context) {
         mContext = context;
@@ -223,6 +240,8 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_buy:
+//                getCoin(R.id.ll_buy);
+
                 if (!SPUtilHelper.isLogin(mContext, false)) {
                     dismiss();
                     return;
@@ -238,6 +257,8 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
                 break;
 
             case R.id.ll_sale:
+//                getCoin(R.id.ll_sale);
+
                 if (!SPUtilHelper.isLogin(mContext,  false)) {
                     dismiss();
                     return;
@@ -252,6 +273,102 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
         }
     }
 
+    private void getCoin(int id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("coin", "ETH");
+        map.put("systemCode", MyConfig.SYSTEMCODE);
+        map.put("companyCode", MyConfig.COMPANYCODE);
+
+        call = RetrofitUtils.createApi(MyApi.class).getTruePrice("625292", StringUtils.getJsonToString(map));
+
+        showLoadingDialog();
+
+        call.enqueue(new BaseResponseModelCallBack<MarketCoinModel>(mContext) {
+
+            @Override
+            protected void onSuccess(MarketCoinModel data, String SucMessage) {
+                if (data == null)
+                    return;
+
+                SPUtilHelper.saveMarketCoin("ETH",data.getMid());
+
+                doToPublish(id);
+            }
+
+            @Override
+            protected void onFinish() {
+                disMissLoading();
+            }
+        });
+
+    }
+
+    private void doToPublish(int id){
+        switch (id) {
+            case R.id.ll_buy:
+                if (!SPUtilHelper.isLogin(mContext, false)) {
+                    dismiss();
+                    return;
+                }
+                // 发布买币广告之前需实名认证
+                if (TextUtils.isEmpty(SPUtilHelper.getRealName())){
+                    AuthenticateActivity.open(mContext);
+                }else {
+                    PublishBuyActivity.open(mContext, DAIFABU, null);
+                }
+                dismiss();
+
+                if (call != null){
+                    call.cancel();
+                }
+
+
+                break;
+
+            case R.id.ll_sale:
+                if (!SPUtilHelper.isLogin(mContext,  false)) {
+                    dismiss();
+                    return;
+                }
+
+                SaleActivity.open(mContext, DAIFABU, null);
+                dismiss();
+
+                if (call != null){
+                    call.cancel();
+                }
+
+
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 隐藏Dialog
+     */
+    public void disMissLoading() {
+
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.closeDialog();
+        }
+    }
+
+    /**
+     * 显示dialog
+     */
+    public void showLoadingDialog() {
+        if(loadingDialog==null){
+            loadingDialog=new LoadingDialog(mContext);
+        }
+
+        if (loadingDialog != null && !loadingDialog.isShowing()) {
+            loadingDialog.showDialog();
+        }
+    }
+
     public void destroy() {
         if (null != overlay) {
             overlay.recycle();
@@ -263,6 +380,11 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
             mBitmap = null;
             System.gc();
         }
+
+        if (call != null){
+            call.cancel();
+        }
+
     }
 
 }

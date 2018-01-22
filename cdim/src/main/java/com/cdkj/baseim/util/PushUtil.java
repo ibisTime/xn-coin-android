@@ -49,13 +49,7 @@ public class PushUtil implements Observer {
 
     private void PushNotify(TIMMessage msg) {
 
-        Log.e("message？", (msg == null)+"");
-        Log.e("message？", Foreground.get().isForeground()+"");
-        Log.e("message？", (msg.getConversation().getType() != TIMConversationType.Group && msg.getConversation().getType() != TIMConversationType.C2C)+"");
-        Log.e("message？", msg.isSelf()+"");
-        Log.e("message？", (MessageFactory.getMessage(msg) instanceof CustomMessage)+"");
-
-//        //系统消息，自己发的消息，程序在前台的时候不通知
+        //系统消息，自己发的消息，程序在前台的时候不通知
         if (msg == null || Foreground.get().isForeground() ||
                 (msg.getConversation().getType() != TIMConversationType.Group && msg.getConversation().getType() != TIMConversationType.C2C) ||
                 msg.isSelf() ||
@@ -65,7 +59,6 @@ public class PushUtil implements Observer {
 
         Message message = MessageFactory.getMessage(msg);
 
-        Log.e("message？", (message == null)+"");
         if (message == null)
             return;
 
@@ -74,6 +67,8 @@ public class PushUtil implements Observer {
 
         senderStr = message.getSender();
 
+        Log.e("getSender", message.getSender());
+        Log.e("getSummary", message.getSummary());
 
         if (senderStr.equals("admin")){ // 系统消息，需解码
             contentStr = URLDecoder.decode(message.getSummary());
@@ -98,6 +93,9 @@ public class PushUtil implements Observer {
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent intent = PendingIntent.getActivity(BaseApplication.getContext(), 0,
                 notificationIntent, 0);
+
+        Log.e("senderNick", senderNick);
+        Log.e("contentStr", contentStr);
 
         mBuilder.setContentTitle(senderNick)//设置通知栏标题
                 .setContentText(contentStr)

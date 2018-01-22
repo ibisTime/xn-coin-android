@@ -6,6 +6,7 @@ import android.widget.RelativeLayout;
 
 import com.cdkj.baseim.adapter.ChatAdapter;
 import com.cdkj.baseim.util.TimeUtil;
+import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
@@ -132,7 +133,7 @@ public abstract class Message {
 
     String getRevokeSummary() {
         if (message.status() == TIMMessageStatus.HasRevoked) {
-            return getSender() + "撤回了一条消息";
+            return getRevoker() + "撤回了一条消息";
         }
         return null;
     }
@@ -216,8 +217,24 @@ public abstract class Message {
      *
      */
     public String getSender(){
-        if (message.getSender() == null) return "";
+        if (message.getSender() == null)
+            return "";
         return message.getSender();
+    }
+
+    /**
+     * 获取撤回的人是否是自己
+     * @return
+     */
+    public String getRevoker(){
+        if (message.getSender() == null)
+            return "";
+        if (message.getSender().equals(SPUtilHelper.getUserId())){
+            return "您";
+        }else {
+            return "对方";
+        }
+
     }
 
     public String getDesc() {

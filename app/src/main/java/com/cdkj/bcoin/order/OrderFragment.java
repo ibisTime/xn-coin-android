@@ -18,6 +18,7 @@ import com.cdkj.baselibrary.adapters.ViewPagerAdapter;
 import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
 import com.cdkj.baselibrary.model.EventBusModel;
+import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.databinding.FragmentOrderBinding;
 import com.tencent.imsdk.TIMConversation;
@@ -196,6 +197,29 @@ public class OrderFragment extends BaseLazyFragment {
     }
 
     private NumberPicker.OnValueChangeListener ChangedListener = (arg0, arg1, arg2) -> type = types[arg2];
+
+    /**
+     *
+     * @param view
+     */
+    private void initPopup(View view) {
+        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(mActivity, R.layout.popup_picker);
+        popupWindow.setNumberPicker(R.id.np_type, types);
+
+        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
+            popupWindow.dismiss();
+        });
+
+        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+//            coinType = popupWindow.getNumberPicker(R.id.np_type, types);
+
+//            onMRefresh(1,10,true);
+
+            popupWindow.dismiss();
+        });
+
+        popupWindow.show(view);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

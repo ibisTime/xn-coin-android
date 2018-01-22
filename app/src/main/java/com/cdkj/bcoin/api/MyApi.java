@@ -28,6 +28,7 @@ import com.cdkj.bcoin.model.TrustModel;
 import com.cdkj.bcoin.model.UserRefereeModel;
 import com.cdkj.bcoin.model.UserSettingModel;
 import com.cdkj.bcoin.model.VersionModel;
+import com.cdkj.bcoin.model.WithdrawOrderModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -260,6 +261,16 @@ public interface MyApi {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseListModel<DealDetailModel>> getDealList(@Field("code") String code, @Field("json") String json);
+
+    /**
+     * 获取交易
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<WithdrawOrderModel>> getWithdrawOrder(@Field("code") String code, @Field("json") String json);
 
     /**
      * 获取交易

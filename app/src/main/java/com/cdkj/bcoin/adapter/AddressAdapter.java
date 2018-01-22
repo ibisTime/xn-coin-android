@@ -28,11 +28,11 @@ public class AddressAdapter extends BaseQuickAdapter<AddressModel.ListBean, Base
 
         switch (item.getStatus()){
             case "0":
-                helper.setText(R.id.tv_status, StringUtil.getStirng(R.string.address_unattestation));
+                helper.setText(R.id.tv_status, StringUtil.getString(R.string.address_unattestation));
                 break;
 
             case "1":
-                helper.setText(R.id.tv_status, StringUtil.getStirng(R.string.address_attestation));
+                helper.setText(R.id.tv_status, StringUtil.getString(R.string.address_attestation));
                 break;
 
         }

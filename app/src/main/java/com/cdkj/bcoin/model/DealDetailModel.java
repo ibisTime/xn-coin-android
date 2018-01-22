@@ -22,9 +22,9 @@ public class DealDetailModel implements Serializable {
     private String leftCountString;
     private double marketPrice;
     private double truePrice;
-    private int protectPrice;
-    private int minTrade;
-    private int maxTrade;
+    private double protectPrice;
+    private double minTrade;
+    private double maxTrade;
     private String payType;
     private int payLimit;
     private String status;
@@ -33,7 +33,6 @@ public class DealDetailModel implements Serializable {
     private String leaveMessage;
     private UserStatisticsBean userStatistics;
     private List<DisplayTimeBean> displayTime;
-
 
     public List<DisplayTimeBean> getDisplayTime() {
         return displayTime;
@@ -147,27 +146,27 @@ public class DealDetailModel implements Serializable {
         this.truePrice = truePrice;
     }
 
-    public int getProtectPrice() {
+    public double getProtectPrice() {
         return protectPrice;
     }
 
-    public void setProtectPrice(int protectPrice) {
+    public void setProtectPrice(double protectPrice) {
         this.protectPrice = protectPrice;
     }
 
-    public int getMinTrade() {
+    public double getMinTrade() {
         return minTrade;
     }
 
-    public void setMinTrade(int minTrade) {
+    public void setMinTrade(double minTrade) {
         this.minTrade = minTrade;
     }
 
-    public int getMaxTrade() {
+    public double getMaxTrade() {
         return maxTrade;
     }
 
-    public void setMaxTrade(int maxTrade) {
+    public void setMaxTrade(double maxTrade) {
         this.maxTrade = maxTrade;
     }
 

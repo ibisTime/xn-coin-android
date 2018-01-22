@@ -36,14 +36,14 @@ public class OrderDoneAdapter extends BaseQuickAdapter<OrderDetailModel, BaseVie
     protected void convert(BaseViewHolder helper, OrderDetailModel item) {
 
         if (TextUtils.equals(item.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
-            helper.setText(R.id.tv_type, StringUtil.getStirng(R.string.buy));
+            helper.setText(R.id.tv_type, StringUtil.getString(R.string.buy));
 
             helper.setText(R.id.tv_name, item.getSellUserInfo().getNickname());
             TextView tvAvatar = helper.getView(R.id.tv_avatar);
             ImageView ivAvatar = helper.getView(R.id.iv_avatar);
             ImgUtils.loadAvatar(mContext, item.getSellUserInfo().getPhoto(), item.getSellUserInfo().getNickname(), ivAvatar, tvAvatar);
         } else {
-            helper.setText(R.id.tv_type, StringUtil.getStirng(R.string.sale));
+            helper.setText(R.id.tv_type, StringUtil.getString(R.string.sale));
 
             helper.setText(R.id.tv_name, item.getBuyUserInfo().getNickname());
             TextView tvAvatar = helper.getView(R.id.tv_avatar);
@@ -51,14 +51,14 @@ public class OrderDoneAdapter extends BaseQuickAdapter<OrderDetailModel, BaseVie
             ImgUtils.loadAvatar(mContext, item.getBuyUserInfo().getPhoto(), item.getBuyUserInfo().getNickname(), ivAvatar, tvAvatar);
         }
 
-        helper.setText(R.id.tv_status, getOrderStatus(item));
+        helper.setText(R.id.tv_status, getOrderStatus(item.getStatus()));
 
         if (item.getStatus().equals("-1")) { // 待下单订单
             helper.setText(R.id.tv_amount, "");
             helper.setText(R.id.tv_code, "");
         }else {
-            helper.setText(R.id.tv_amount, StringUtil.getStirng(R.string.trade_amount) + item.getTradeAmount() + "CNY");
-            helper.setText(R.id.tv_code, StringUtil.getStirng(R.string.order_code) + item.getCode().substring(item.getCode().length() - 8, item.getCode().length()));
+            helper.setText(R.id.tv_amount, StringUtil.getString(R.string.trade_amount) + item.getTradeAmount() + "CNY");
+            helper.setText(R.id.tv_code, StringUtil.getString(R.string.order_code) + item.getCode().substring(item.getCode().length() - 8, item.getCode().length()));
         }
 
         if (TIMManagerExt.getInstance().getConversationList().size() > 0) {

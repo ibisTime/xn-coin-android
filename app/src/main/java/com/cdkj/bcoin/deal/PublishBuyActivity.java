@@ -8,12 +8,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.NumberPicker;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.cdkj.baselibrary.appmanager.EventTags;
@@ -26,17 +22,20 @@ import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
+import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.ActivityDealPublishBinding;
 import com.cdkj.bcoin.model.DealDetailModel;
+import com.cdkj.bcoin.model.MarketCoinModel;
 import com.cdkj.bcoin.model.SystemParameterListModel;
 import com.cdkj.bcoin.model.SystemParameterModel;
 import com.cdkj.bcoin.util.AccountUtil;
 import com.cdkj.bcoin.util.DealUtil;
+import com.cdkj.bcoin.util.EditTextJudgeNumberWatcher;
+import com.cdkj.bcoin.util.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -113,18 +112,49 @@ public class PublishBuyActivity extends AbsBaseActivity {
         setTopLineState(true);
         setSubLeftImgState(true);
 
-        initHour();
-        initListener();
-        init();
+        getCoin();
+    }
 
-        getLimit();
-        getListData();
+    private void getCoin() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("coin", "ETH");
+        map.put("systemCode", MyConfig.SYSTEMCODE);
+        map.put("companyCode", MyConfig.COMPANYCODE);
+
+        Call call = RetrofitUtils.createApi(MyApi.class).getTruePrice("625292", StringUtils.getJsonToString(map));
+
+        showLoadingDialog();
+
+        call.enqueue(new BaseResponseModelCallBack<MarketCoinModel>(this) {
+
+            @Override
+            protected void onSuccess(MarketCoinModel data, String SucMessage) {
+                if (data == null)
+                    return;
+
+                SPUtilHelper.saveMarketCoin("ETH",data.getMid());
+
+                initHour();
+                initListener();
+                init();
+
+                getLimit();
+                getListData();
+            }
+
+            @Override
+            protected void onFinish() {
+                disMissLoading();
+            }
+        });
+
     }
 
     private void init() {
         types = new String[]{getStrRes(R.string.zhifubao), getStrRes(R.string.weixin), getStrRes(R.string.card)};
 
         mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
+        mBinding.tvMarketPrice.setText(StringUtil.getString(R.string.deal_market_price)+SPUtilHelper.getMarketCoin("ETH"));
 
         if (getIntent() != null){
             status = getIntent().getStringExtra("status");
@@ -204,13 +234,9 @@ public class PublishBuyActivity extends AbsBaseActivity {
 
     private void initListener() {
 
-        mBinding.llSelect.setOnClickListener(view -> {
-            popupPayType(view);
-        });
+        mBinding.llSelect.setOnClickListener(this::initPayTypePopup);
 
-        mBinding.llLimit.setOnClickListener(view -> {
-            popupLimit(view);
-        });
+        mBinding.llLimit.setOnClickListener(this::initLimitPopup);
 
         mBinding.llTick.setOnClickListener(view -> {
             if (onlyFans.equals("0")){
@@ -254,31 +280,31 @@ public class PublishBuyActivity extends AbsBaseActivity {
         });
 
         mBinding.llOpenTime.llOt1.setOnClickListener(view -> {
-            popupCustom(view,1);
+            initCustomPopup(view,1);
         });
 
         mBinding.llOpenTime.llOt2.setOnClickListener(view -> {
-            popupCustom(view,2);
+            initCustomPopup(view,2);
         });
 
         mBinding.llOpenTime.llOt3.setOnClickListener(view -> {
-            popupCustom(view,3);
+            initCustomPopup(view,3);
         });
 
         mBinding.llOpenTime.llOt4.setOnClickListener(view -> {
-            popupCustom(view,4);
+            initCustomPopup(view,4);
         });
 
         mBinding.llOpenTime.llOt5.setOnClickListener(view -> {
-            popupCustom(view,5);
+            initCustomPopup(view,5);
         });
 
         mBinding.llOpenTime.llOt6.setOnClickListener(view -> {
-            popupCustom(view,6);
+            initCustomPopup(view,6);
         });
 
         mBinding.llOpenTime.llOt7.setOnClickListener(view -> {
-            popupCustom(view,7);
+            initCustomPopup(view,7);
         });
 
         mBinding.llSettingSwitch.setOnClickListener(view -> {
@@ -307,7 +333,7 @@ public class PublishBuyActivity extends AbsBaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().equals("")){
-                    mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
+                    mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH"));
                     showToast(getStrRes(R.string.deal_publish_hint_premium));
                 } else if (editable.toString().equals("-") || editable.toString().equals(".")){
                     return;
@@ -365,53 +391,32 @@ public class PublishBuyActivity extends AbsBaseActivity {
         mBinding.llTrust.setOnClickListener(view -> {
             getFieldExplain(view.getTag().toString());
         });
+
+        // 限制EditText的小数点前后输入位数
+        mBinding.edtPremium.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtPremium,10,2));
+        mBinding.edtProtectPrice.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtProtectPrice,10,2));
+        mBinding.edtMax.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtMax,8,2));
+        mBinding.edtMin.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtMin,8,2));
+        mBinding.edtAmount.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtAmount,10,8));
     }
 
-    private void popupCustom(View view, int location) {
+    /**
+     * 选择自定义时间
+     * @param view
+     */
+    private void initCustomPopup(View view, int location) {
+        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.dialog_deal_time);
+        popupWindow.setNumberPicker(R.id.np_start_hour, startHours);
+        popupWindow.setNumberPicker(R.id.np_end_hour, endHours);
 
-
-        // 一个自定义的布局，作为显示的内容
-        View mView = LayoutInflater.from(this).inflate(R.layout.dialog_deal_time, null);
-
-        TextView tvCancel = (TextView) mView.findViewById(R.id.tv_cancel);
-        TextView tvConfirm = (TextView) mView.findViewById(R.id.tv_confirm);
-        NumberPicker npStartHour = (NumberPicker) mView.findViewById(R.id.np_start_hour);
-        NumberPicker npEndHour = (NumberPicker) mView.findViewById(R.id.np_end_hour);
-
-        npStartHour.setDisplayedValues(startHours);
-        npStartHour.setMinValue(0);
-        npStartHour.setMaxValue(startHours.length - 1);
-        // 禁止输入
-        npStartHour.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
-        npEndHour.setDisplayedValues(endHours);
-        npEndHour.setValue(endHours.length-1);
-        npEndHour.setMinValue(0);
-        npEndHour.setMaxValue(endHours.length - 1);
-        // 禁止输入
-        npEndHour.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
-
-        final PopupWindow popupWindow = new PopupWindow(mView,
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-
-        popupWindow.setTouchable(true);
-        popupWindow.setAnimationStyle(R.style.PopupAnimation);
-
-        popupWindow.setTouchInterceptor((v, event) -> {
-
-            // 这里如果返回true的话，touch事件将被拦截
-            // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-            return false;
-        });
-
-        tvCancel.setOnClickListener(v -> {
+        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
             popupWindow.dismiss();
         });
 
-        tvConfirm.setOnClickListener(v -> {
-            startHour = startHours[npStartHour.getValue()];
-            endHour = endHours[npEndHour.getValue()];
+        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+
+            startHour = startHours[popupWindow.getNumberPickerValue(R.id.np_start_hour)];
+            endHour = endHours[popupWindow.getNumberPickerValue(R.id.np_end_hour)];
 
             if(startHour.equals(getStrRes(R.string.deal_open_time_close)) && !endHour.equals(getStrRes(R.string.deal_open_time_close)) ){
                 showToast(getStrRes(R.string.deal_publish_hint_end));
@@ -462,54 +467,26 @@ public class PublishBuyActivity extends AbsBaseActivity {
             }
 
             popupWindow.dismiss();
-
         });
 
-        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_popup));
-        // 设置好参数之后再show
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
-
+        popupWindow.show(view);
     }
 
     /**
-     * 支付方式
+     * 选择支付方式
      * @param view
      */
-    private void popupPayType(View view) {
-        // 一个自定义的布局，作为显示的内容
-        View mView = LayoutInflater.from(this).inflate(R.layout.dialog_wallet_type, null);
+    private void initPayTypePopup(View view) {
+        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
+        popupWindow.setNumberPicker(R.id.np_type, types);
 
-        TextView tvCancel = mView.findViewById(R.id.tv_cancel);
-        TextView tvConfirm = mView.findViewById(R.id.tv_confirm);
-        NumberPicker npType = mView.findViewById(R.id.np_type);
-        npType.setDisplayedValues(types);
-        npType.setMinValue(0);
-        npType.setMaxValue(types.length - 1);
-        npType.setOnValueChangedListener(payTypeChangedListener);
-
-        // 禁止输入
-        npType.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
-        final PopupWindow popupWindow = new PopupWindow(mView,
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-
-        popupWindow.setTouchable(true);
-        popupWindow.setAnimationStyle(R.style.PopupAnimation);
-
-        popupWindow.setTouchInterceptor((v, event) -> {
-
-            // 这里如果返回true的话，touch事件将被拦截
-            // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-            return false;
-        });
-
-        tvCancel.setOnClickListener(v -> {
+        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
             popupWindow.dismiss();
         });
 
-        tvConfirm.setOnClickListener(v -> {
-            popupWindow.dismiss();
+        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+            type = popupWindow.getNumberPicker(R.id.np_type, typeValue);
+
             switch (type){
                 case "0":
                     mBinding.tvWay.setText(getStrRes(R.string.zhifubao));
@@ -524,18 +501,11 @@ public class PublishBuyActivity extends AbsBaseActivity {
                     break;
             }
 
-            // 为下一次初始化type（没有滚动的情况）
-            type = "0";
+            popupWindow.dismiss();
         });
 
-        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_popup));
-        // 设置好参数之后再show
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
-
+        popupWindow.show(view);
     }
-
-    private NumberPicker.OnValueChangeListener payTypeChangedListener = (arg0, arg1, arg2) -> type = typeValue[arg2];
 
     /**
      * 获取广告详情
@@ -560,6 +530,9 @@ public class PublishBuyActivity extends AbsBaseActivity {
                     return;
 
                 bean = data;
+
+                // 已有的广告（编辑）时，行情价格取marketPrice去计算
+//                SPUtilHelper.saveMarketCoin("ETH",data.getMarketPrice());
 
                 setView();
             }
@@ -696,60 +669,81 @@ public class PublishBuyActivity extends AbsBaseActivity {
     }
 
     /**
-     * 支付方式
+     * 选择付款时限
      * @param view
      */
-    private void popupLimit(View view) {
-        // 一个自定义的布局，作为显示的内容
-        View mView = LayoutInflater.from(this).inflate(R.layout.dialog_wallet_type, null);
+    private void initLimitPopup(View view) {
+        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
+        popupWindow.setNumberPicker(R.id.np_type, limits);
 
-        TextView tvCancel = mView.findViewById(R.id.tv_cancel);
-        TextView tvConfirm = mView.findViewById(R.id.tv_confirm);
-        NumberPicker npType = mView.findViewById(R.id.np_type);
-        npType.setDisplayedValues(limits);
-        npType.setMinValue(0);
-        npType.setMaxValue(limits.length - 1);
-        npType.setOnValueChangedListener(limitChangedListener);
-
-        // 禁止输入
-        npType.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
-
-        final PopupWindow popupWindow = new PopupWindow(mView,
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-
-        popupWindow.setTouchable(true);
-        popupWindow.setAnimationStyle(R.style.PopupAnimation);
-
-        popupWindow.setTouchInterceptor((v, event) -> {
-
-            // 这里如果返回true的话，touch事件将被拦截
-            // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-            return false;
-        });
-
-        tvCancel.setOnClickListener(v -> {
+        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
             popupWindow.dismiss();
         });
 
-        tvConfirm.setOnClickListener(v -> {
-            popupWindow.dismiss();
-
+        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+            limit = popupWindow.getNumberPicker(R.id.np_type, limits);
             mBinding.tvLimit.setText(limit);
 
-            // 为下一次初始化type（没有滚动的情况）
-            limit = limits[0];
+            popupWindow.dismiss();
         });
 
-        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_popup));
-        // 设置好参数之后再show
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
-
+        popupWindow.show(view);
     }
 
-    private NumberPicker.OnValueChangeListener limitChangedListener = (arg0, arg1, arg2) -> limit = limits[arg2];
+    /**
+     * 获取字段说明
+     * @return
+     */
+    protected void getListData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", "buy_ads_hint");
+        map.put("start", "1");
+        map.put("limit", "20");
+        map.put("systemCode", MyConfig.SYSTEMCODE);
+        map.put("companyCode", MyConfig.COMPANYCODE);
 
+        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameterList("625915", StringUtils.getJsonToString(map));
+
+        addCall(call);
+
+        showLoadingDialog();
+
+        call.enqueue(new BaseResponseModelCallBack<SystemParameterListModel>(this) {
+
+            @Override
+            protected void onSuccess(SystemParameterListModel data, String SucMessage) {
+                if (data == null)
+                    return;
+
+                model = data;
+
+            }
+
+            @Override
+            protected void onFinish() {
+                disMissLoading();
+            }
+        });
+    }
+
+    /**
+     * 根据KEY获取相应字段说明
+     * @return
+     */
+    private void getFieldExplain(String key){
+
+        for(SystemParameterListModel.ListBean bean : model.getList()){
+
+            if (bean.getCkey().equals(key)){
+                new AlertDialog.Builder(this).setTitle(getStrRes(R.string.tip))
+                        .setMessage(bean.getCvalue())
+                        .setPositiveButton(getStrRes(R.string.confirm), null).show();
+            }
+
+        }
+
+
+    }
 
     private Boolean check(){
         if (mBinding.edtPremium.getText().toString().equals("")){
@@ -923,78 +917,28 @@ public class PublishBuyActivity extends AbsBaseActivity {
     }
 
 
-    protected void getListData() {
-        Map<String, String> map = new HashMap<>();
-        map.put("type", "buy_ads_hint");
-        map.put("start", "1");
-        map.put("limit", "20");
-        map.put("systemCode", MyConfig.SYSTEMCODE);
-        map.put("companyCode", MyConfig.COMPANYCODE);
 
-        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameterList("625915", StringUtils.getJsonToString(map));
-
-        addCall(call);
-
-        showLoadingDialog();
-
-        call.enqueue(new BaseResponseModelCallBack<SystemParameterListModel>(this) {
-
-            @Override
-            protected void onSuccess(SystemParameterListModel data, String SucMessage) {
-                if (data == null)
-                    return;
-
-                model = data;
-
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
-    }
-
-    /**
-     *
-     * @return
-     */
-    private void getFieldExplain(String key){
-
-        for(SystemParameterListModel.ListBean bean : model.getList()){
-
-            if (bean.getCkey().equals(key)){
-                new AlertDialog.Builder(this).setTitle(getStrRes(R.string.tip))
-                        .setMessage(bean.getCvalue())
-                        .setPositiveButton(getStrRes(R.string.confirm), null).show();
-            }
-
-        }
-
-
-    }
-
-    /**
-     *  根据行情轮询获取最新的行情数据
-     * @param model
-     */
-    @Subscribe
-    public void getNowCoinPrice(EventBusModel model){
-        if (model.getTag().equals(EventTags.COIN_PRICE_CHANGE)){
-            if (mBinding.edtPremium.getText().toString().equals("")){
-                mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
-            }else {
-                Double price = Double.parseDouble(SPUtilHelper.getMarketCoin("ETH"));
-                Double premiumRate = Double.parseDouble(mBinding.edtPremium.getText().toString());
-
-                try {
-                    mBinding.tvPrice.setText(AccountUtil.formatDouble(price + (price * premiumRate /100)));
-                }catch (Exception e){
-                    mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+//    /**
+//     *  根据行情轮询获取最新的行情数据
+//     * @param model
+//     */
+//    @Subscribe
+//    public void getNowCoinPrice(EventBusModel model){
+//        if (model.getTag().equals(EventTags.COIN_PRICE_CHANGE)){
+//            if (mBinding.edtPremium.getText().toString().equals("")){
+//                mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
+//            }else {
+//                Double price = Double.parseDouble(SPUtilHelper.getMarketCoin("ETH"));
+//                Double premiumRate = Double.parseDouble(mBinding.edtPremium.getText().toString());
+//
+//                try {
+//                    mBinding.tvPrice.setText(AccountUtil.formatDouble(price + (price * premiumRate /100)));
+//                }catch (Exception e){
+//                    mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//    }
 
 }

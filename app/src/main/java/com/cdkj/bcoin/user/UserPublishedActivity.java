@@ -103,7 +103,7 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
         });
 
         popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
-            type = popupWindow.getNumberPickerValue(R.id.np_type, types);
+            type = popupWindow.getNumberPicker(R.id.np_type, types);
 
             setTopTitle(getStrRes(R.string.user_title_published)+"("+type+")");
             onMRefresh(1,10);

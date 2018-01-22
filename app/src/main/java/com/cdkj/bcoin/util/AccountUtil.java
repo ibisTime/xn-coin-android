@@ -63,10 +63,10 @@ public class AccountUtil {
     public static String getCurrency(String currency){
         switch (currency){
             case "ETH":
-                return StringUtil.getStirng(R.string.coin_eth);
+                return StringUtil.getString(R.string.coin_eth);
 
             case "BTC":
-                return StringUtil.getStirng(R.string.coin_btc);
+                return StringUtil.getString(R.string.coin_btc);
 
             default:
                 return "";
@@ -77,37 +77,37 @@ public class AccountUtil {
     public static String formatBizType(String bizType){
         switch (bizType){
             case "charge":
-                return StringUtil.getStirng(R.string.biz_type_charge);
+                return StringUtil.getString(R.string.biz_type_charge);
 
             case "withdraw":
-                return StringUtil.getStirng(R.string.biz_type_withdraw);
+                return StringUtil.getString(R.string.biz_type_withdraw);
 
             case "buy":
-                return StringUtil.getStirng(R.string.biz_type_buy);
+                return StringUtil.getString(R.string.biz_type_buy);
 
             case "sell":
-                return StringUtil.getStirng(R.string.biz_type_sell);
+                return StringUtil.getString(R.string.biz_type_sell);
 
             case "tradefrozen":
-                return StringUtil.getStirng(R.string.biz_type_tradefrozen);
+                return StringUtil.getString(R.string.biz_type_tradefrozen);
 
             case "tradeunfrozen":
-                return StringUtil.getStirng(R.string.biz_type_tradeunfrozen);
+                return StringUtil.getString(R.string.biz_type_tradeunfrozen);
 
             case "withdrawfrozen":
-                return StringUtil.getStirng(R.string.biz_type_withdrawfrozen);
+                return StringUtil.getString(R.string.biz_type_withdrawfrozen);
 
             case "withdrawunfrozen":
-                return StringUtil.getStirng(R.string.biz_type_withdrawunfrozen);
+                return StringUtil.getString(R.string.biz_type_withdrawunfrozen);
 
             case "tradefee":
-                return StringUtil.getStirng(R.string.biz_type_tradefee);
+                return StringUtil.getString(R.string.biz_type_tradefee);
 
             case "withdrawfee":
-                return StringUtil.getStirng(R.string.biz_type_withdrawfee);
+                return StringUtil.getString(R.string.biz_type_withdrawfee);
 
             case "invite":
-                return StringUtil.getStirng(R.string.biz_type_invite);
+                return StringUtil.getString(R.string.biz_type_invite);
 
             default:
                 return "";
@@ -121,19 +121,19 @@ public class AccountUtil {
         switch (status){
 
             case "1":
-                return StringUtil.getStirng(R.string.biz_status_daiduizhang);
+                return StringUtil.getString(R.string.biz_status_daiduizhang);
 
             case "3":
-                return StringUtil.getStirng(R.string.biz_status_yiduiyiping);
+                return StringUtil.getString(R.string.biz_status_yiduiyiping);
 
             case "4":
-                return StringUtil.getStirng(R.string.biz_status_zhangbuping);
+                return StringUtil.getString(R.string.biz_status_zhangbuping);
 
             case "5":
-                return StringUtil.getStirng(R.string.biz_status_yiduibuping);
+                return StringUtil.getString(R.string.biz_status_yiduibuping);
 
             case "6":
-                return StringUtil.getStirng(R.string.biz_status_wuxuduizhang);
+                return StringUtil.getString(R.string.biz_status_wuxuduizhang);
 
             default:
                 return "";

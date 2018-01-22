@@ -1,7 +1,6 @@
 package com.cdkj.baselibrary.nets;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.cdkj.baselibrary.BaseApplication;
 import com.cdkj.baselibrary.api.BaseResponseModel;
@@ -103,7 +102,7 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
             errorString = "网络加载异常";
             errorCode = NETERRORCODE1;
         } else if (t instanceof SocketTimeoutException) {//响应超时
-            errorString = "服务器响应超时";
+            errorString = "当前网络不给力，请稍后再试或切换网络";
             errorCode = NETERRORCODE2;
         } else if (t instanceof ConnectException) {//请求超时
             errorString = "网络请求超时";
@@ -168,12 +167,12 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
      * @param errorMessage
      */
     protected void onReqFailure(int errorCode, String errorMessage) {
-        if (errorMessage.equals("服务器响应超时java.net.SocketTimeoutException: SSL handshake timed out")){
-            Log.e("okhttp",errorMessage);
-        }else {
-            LogUtil.E("请求失败  错误："+errorMessage);
+//        if (errorMessage.equals("服务器响应超时java.net.SocketTimeoutException: SSL handshake timed out")){
+//            Log.e("okhttp",errorMessage);
+//        }else {
+            LogUtil.E("Model请求失败  错误："+errorMessage);
             ToastUtil.show(context, errorMessage);
-        }
+//        }
 
     }
 

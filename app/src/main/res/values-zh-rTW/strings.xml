@@ -49,6 +49,7 @@
 
     <string name="deal_publish_coin">選擇幣種</string>
     <string name="deal_publish_coin_hint">請選擇幣種</string>
+    <string name="deal_market_price">行情價格:</string>
     <string name="deal_publish_price">價\u3000\u3000格</string>
     <string name="deal_publish_price_hint">請輸入價格</string>
     <string name="deal_publish_premium">溢\u3000\u3000價</string>
@@ -90,8 +91,8 @@
     <string name="deal_search_hint_pay">請選擇支付方式</string>
     <string name="deal_search_hint_user">請填寫用戶昵稱</string>
 
-    <string name="deal_publish_hint_end">請將結束時間設置爲關閉</string>
-    <string name="deal_publish_hint_start">請將開始時間設置爲關閉</string>
+    <string name="deal_publish_hint_end">請將結束時間設置為關閉</string>
+    <string name="deal_publish_hint_start">請將開始時間設置為關閉</string>
     <string name="deal_publish_buy">發布購買</string>
     <string name="deal_publish_sale">發布賣出</string>
     <string name="deal_publish_save">保存草稿</string>
@@ -152,6 +153,9 @@
     <string name="order_copy_id">訂單編號已複制</string>
     <string name="order_copy_amount">交易金額已複制</string>
     <string name="order_tag">標記已打款</string>
+    <string name="order_cancel">取消訂單</string>
+    <string name="order_cancel_confirm">您確定要取消訂單嗎?如果您已付款請不要取消訂單!</string>
+    <string name="order_cancel_success">取消成功</string>
     <string name="order_tag_wait">等待標記打款</string>
     <string name="order_tag_success">標記成功</string>
     <string name="order_tag_confirm">您確定要標記已打款嗎？</string>
@@ -213,7 +217,7 @@
     <string name="property_btc">比特幣資産(BTC)</string>
     <string name="freeze">凍結</string>
 
-    <string name="wallet_exchange_explain">計算規則:采用銀行櫃台彙率過去14天的平均值作爲彙率參考值,在每一個交割結算日,若該平均值與系統當前彙率偏差超過0.2,則會采用新的14天平均是做爲系統彙率。</string>
+    <string name="wallet_exchange_explain">計算規則:采用銀行櫃台彙率過去14天的平均值作為彙率參考值,在每一個交割結算日,若該平均值與系統當前彙率偏差超過0.2,則會采用新的14天平均是做為系統彙率。</string>
     <string name="wallet_exchange_past_time">時間</string>
     <string name="wallet_exchange_past_rate">當日彙率</string>
     <string name="wallet_exchange_past_rate_week">兩周平均彙率</string>
@@ -228,6 +232,9 @@
     <string name="wallet_withdraw_free">手續費\u3000</string>
     <string name="wallet_withdraw_tip">手續費將在提現金額中扣除</string>
     <string name="wallet_withdraw_confirm">確認付幣</string>
+
+    <string name="wallet_withdraw_order_title">提幣訂單</string>
+    <string name="wallet_withdraw_order_none">暫無提現記錄</string>
 
     <string name="wallet_title">我的資産</string>
     <string name="wallet_assets">總資産折合CNY</string>
@@ -377,7 +384,7 @@
     <string name="user_address_add_address">提幣地址</string>
     <string name="user_address_add_code">手機驗證碼</string>
     <string name="user_address_add_code_hint">請輸入驗證碼</string>
-    <string name="user_address_add_is_default">將該賬戶設置爲認證賬戶</string>
+    <string name="user_address_add_is_default">將該賬戶設置為認證賬戶</string>
     <string name="user_address_add_tip">向認證賬戶提現不再輸入資金密碼、谷歌驗證碼</string>
 
     <string name="user_title_email_bind">綁定郵箱</string>
@@ -470,6 +477,12 @@
     <string name="order_status_yiquxiao">已取消</string>
     <string name="order_status_zhongcaizhong">仲裁中</string>
 
+    <string name="order_status_daishenpi">待審批</string>
+    <string name="order_status_butongguo">審批不通過</string>
+    <string name="order_status_daiguangbo">審批通過待廣播</string>
+    <string name="order_status_guangbozhong">廣播中</string>
+    <string name="order_status_shibai">廣播失敗</string>
+    <string name="order_status_chenggong">廣播成功</string>
 
     <string name="popup_select">選擇地址</string>
     <string name="popup_scan">掃描二維碼</string>
@@ -516,5 +529,7 @@
     <string name="user_sign_up_referee_hint">推薦人手機號(選填)</string>
     <string name="user_invite_url">分享鏈接</string>
     <string name="user_invite_pic">分享二維碼</string>
+
+
 
 </resources>

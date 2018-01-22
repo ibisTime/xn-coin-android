@@ -37,16 +37,16 @@ public class CoinAdapter extends BaseQuickAdapter<CoinModel.AccountListBean, Bas
         switch (item.getCurrency()){
 
             case "ETH":
-                helper.setText(R.id.tv_name, StringUtil.getStirng(R.string.property_eth));
+                helper.setText(R.id.tv_name, StringUtil.getString(R.string.property_eth));
                 helper.setText(R.id.tv_amount, AccountUtil.sub(Double.parseDouble(item.getAmountString()), Double.parseDouble(item.getFrozenAmountString())));
-                helper.setText(R.id.tv_frozen, StringUtil.getStirng(R.string.freeze)+ AccountUtil.weiToEth(new BigDecimal(item.getFrozenAmountString())));
+                helper.setText(R.id.tv_frozen, StringUtil.getString(R.string.freeze)+ AccountUtil.weiToEth(new BigDecimal(item.getFrozenAmountString())));
                 helper.setBackgroundRes(R.id.iv_watermark, R.mipmap.wallet_coin_eth);
                 break;
 
             case "BTC":
-                helper.setText(R.id.tv_name, StringUtil.getStirng(R.string.property_btc));
+                helper.setText(R.id.tv_name, StringUtil.getString(R.string.property_btc));
                 helper.setText(R.id.tv_amount, AccountUtil.sub(Double.parseDouble(item.getAmountString()), Double.parseDouble(item.getFrozenAmountString())));
-                helper.setText(R.id.tv_frozen, StringUtil.getStirng(R.string.freeze)+ AccountUtil.weiToEth(new BigDecimal(item.getFrozenAmountString())));
+                helper.setText(R.id.tv_frozen, StringUtil.getString(R.string.freeze)+ AccountUtil.weiToEth(new BigDecimal(item.getFrozenAmountString())));
                 helper.setBackgroundRes(R.id.iv_watermark, R.mipmap.wallet_coin_btc);
                 break;
         }

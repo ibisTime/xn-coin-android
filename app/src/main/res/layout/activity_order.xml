@@ -25,7 +25,7 @@
                         android:background="@color/white"
                         android:gravity="center_vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp">
+                        android:layout_height="40dp">
 
                         <LinearLayout
                             android:id="@+id/ll_orderId"
@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content">
 
                         <LinearLayout
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="7dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginLeft="15dp"
                             android:layout_width="match_parent"
@@ -92,7 +92,7 @@
 
                             <TextView
                                 android:text="@string/order_detail_amount"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textColor="@color/black"
                                 android:layout_weight="1"
                                 android:layout_width="0dp"
@@ -101,7 +101,7 @@
                             <TextView
                                 android:id="@+id/tv_amount"
                                 android:text="0.00CNY"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
@@ -109,7 +109,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="7dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginLeft="15dp"
                             android:layout_width="match_parent"
@@ -117,7 +117,7 @@
 
                             <TextView
                                 android:text="@string/order_detail_price"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textColor="@color/black"
                                 android:layout_weight="1"
                                 android:layout_width="0dp"
@@ -126,7 +126,7 @@
                             <TextView
                                 android:id="@+id/tv_price"
                                 android:text="0.00CNY"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
@@ -134,16 +134,16 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="7dp"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginBottom="7dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                             <TextView
                                 android:text="@string/order_detail_quantity"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textColor="@color/black"
                                 android:layout_weight="1"
                                 android:layout_width="0dp"
@@ -152,7 +152,7 @@
                             <TextView
                                 android:id="@+id/tv_quantity"
                                 android:text="0.00ETH"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textColor="@color/black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
@@ -172,7 +172,7 @@
                         android:layout_height="wrap_content">
 
                         <LinearLayout
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="7dp"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:layout_width="match_parent"
@@ -185,7 +185,7 @@
 
                                 <TextView
                                     android:text="@string/order_detail_buyer"
-                                    android:textSize="14sp"
+                                    android:textSize="13sp"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />
@@ -193,7 +193,7 @@
                                 <TextView
                                     android:id="@+id/tv_buyer"
                                     android:layout_marginLeft="3dp"
-                                    android:textSize="14sp"
+                                    android:textSize="13sp"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />
@@ -208,7 +208,7 @@
 
                                 <TextView
                                     android:text="@string/order_detail_seller"
-                                    android:textSize="14sp"
+                                    android:textSize="13sp"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />
@@ -216,7 +216,7 @@
                                 <TextView
                                     android:id="@+id/tv_seller"
                                     android:layout_marginLeft="3dp"
-                                    android:textSize="14sp"
+                                    android:textSize="13sp"
                                     android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />
@@ -227,15 +227,18 @@
 
                         <TextView
                             android:id="@+id/tv_remark"
-                            android:layout_marginTop="10dp"
+                            android:gravity="top"
+                            android:layout_marginTop="7dp"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginBottom="10dp"
                             android:text="@string/order_detail_remark"
-                            android:textSize="13sp"
+                            android:textSize="12sp"
+                            android:scrollbars="vertical"
+                            android:fadeScrollbars="false"
                             android:textColor="@color/black"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="62dp" />
 
                     </LinearLayout>
 
@@ -252,7 +255,7 @@
                         android:layout_height="wrap_content">
 
                         <LinearLayout
-                            android:layout_margin="10dp"
+                            android:layout_margin="7dp"
                             android:gravity="center_horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -269,13 +272,12 @@
 
                         <Button
                             android:id="@+id/btn_confirm"
-                            android:text=""
-                            android:textSize="16sp"
+                            android:textSize="15sp"
                             android:textColor="@color/white"
-                            android:layout_marginBottom="12dp"
+                            android:layout_marginBottom="10dp"
                             android:background="@drawable/corner_order_btn"
-                            android:layout_width="150dp"
-                            android:layout_height="44dp" />
+                            android:layout_width="145dp"
+                            android:layout_height="38dp" />
 
                     </LinearLayout>
 

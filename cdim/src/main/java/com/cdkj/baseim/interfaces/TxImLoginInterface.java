@@ -6,8 +6,6 @@ package com.cdkj.baseim.interfaces;
 
 public interface TxImLoginInterface {
 
-    void keyRequestOnNoNet(String msg);
-
     void onError(int i, String s);
 
     void onSuccess();

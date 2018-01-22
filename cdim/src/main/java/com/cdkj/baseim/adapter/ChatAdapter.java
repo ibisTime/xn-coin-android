@@ -1,7 +1,6 @@
 package com.cdkj.baseim.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,14 +86,6 @@ public class ChatAdapter extends ArrayAdapter<Message> {
     }
 
     private void setAvatar() {
-
-        Log.e("ChatAdapter"," setAvatar()");
-        Log.e("getRightImg",imUserInfo.getRightImg());
-        Log.e("getRightName",imUserInfo.getRightName());
-        Log.e("getLeftImg",imUserInfo.getLeftImg());
-        Log.e("getLeftName",imUserInfo.getLeftName());
-        Log.e("getIdentify",imUserInfo.getIdentify());
-
         // 设置右头像
         ImgUtils.loadAvatar(context,
                 imUserInfo.getRightImg(),

@@ -66,17 +66,17 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			switch (resp.errCode) {
 
 				case BaseResp.ErrCode.ERR_OK:
-					result = StringUtil.getStirng(R.string.wx_share_success);
+					result = StringUtil.getString(R.string.wx_share_success);
 					break;
 
 				case BaseResp.ErrCode.ERR_USER_CANCEL:
-					result = StringUtil.getStirng(R.string.wx_share_cancel);
+					result = StringUtil.getString(R.string.wx_share_cancel);
 					break;
 				case BaseResp.ErrCode.ERR_AUTH_DENIED:
-					result = StringUtil.getStirng(R.string.wx_share_denied);
+					result = StringUtil.getString(R.string.wx_share_denied);
 					break;
 				default:
-					result = StringUtil.getStirng(R.string.wx_share_failure);
+					result = StringUtil.getString(R.string.wx_share_failure);
 					break;
 			}
             Toast.makeText(this, result, Toast.LENGTH_SHORT).show();

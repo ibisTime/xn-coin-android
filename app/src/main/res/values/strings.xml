@@ -49,6 +49,7 @@
 
     <string name="deal_publish_coin">选择币种</string>
     <string name="deal_publish_coin_hint">请选择币种</string>
+    <string name="deal_market_price">行情价格:</string>
     <string name="deal_publish_price">价\u3000\u3000格</string>
     <string name="deal_publish_price_hint">请输入价格</string>
     <string name="deal_publish_premium">溢\u3000\u3000价</string>
@@ -152,6 +153,9 @@
     <string name="order_copy_id">订单编号已复制</string>
     <string name="order_copy_amount">交易金额已复制</string>
     <string name="order_tag">标记已打款</string>
+    <string name="order_cancel">取消订单</string>
+    <string name="order_cancel_confirm">您确定要取消订单吗?如果您已付款请不要取消订单!</string>
+    <string name="order_cancel_success">取消成功</string>
     <string name="order_tag_wait">等待标记打款</string>
     <string name="order_tag_success">标记成功</string>
     <string name="order_tag_confirm">您确定要标记已打款吗？</string>
@@ -228,6 +232,9 @@
     <string name="wallet_withdraw_free">手续费\u3000</string>
     <string name="wallet_withdraw_tip">手续费将在提现金额中扣除</string>
     <string name="wallet_withdraw_confirm">确认付币</string>
+
+    <string name="wallet_withdraw_order_title">提币订单</string>
+    <string name="wallet_withdraw_order_none">暂无提现记录</string>
 
     <string name="wallet_title">我的资产</string>
     <string name="wallet_assets">总资产折合CNY</string>
@@ -470,6 +477,12 @@
     <string name="order_status_yiquxiao">已取消</string>
     <string name="order_status_zhongcaizhong">仲裁中</string>
 
+    <string name="order_status_daishenpi">待审批</string>
+    <string name="order_status_butongguo">审批不通过</string>
+    <string name="order_status_daiguangbo">审批通过待广播</string>
+    <string name="order_status_guangbozhong">广播中</string>
+    <string name="order_status_shibai">广播失败</string>
+    <string name="order_status_chenggong">广播成功</string>
 
     <string name="popup_select">选择地址</string>
     <string name="popup_scan">扫描二维码</string>
@@ -516,5 +529,7 @@
     <string name="user_sign_up_referee_hint">推荐人手机号(选填)</string>
     <string name="user_invite_url">分享链接</string>
     <string name="user_invite_pic">分享二维码</string>
+
+
 
 </resources>

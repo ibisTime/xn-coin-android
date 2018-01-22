@@ -63,7 +63,7 @@ public class MarketFragment extends BaseRefreshFragment<MarketModel> {
         mBinding = DataBindingUtil.inflate(LayoutInflater.from(mActivity), R.layout.head_market, null, false);
         mFootBinding = DataBindingUtil.inflate(LayoutInflater.from(mActivity), R.layout.foot_market, null, false);
 
-        setTopTitle(StringUtil.getStirng(R.string.market_title));
+        setTopTitle(StringUtil.getString(R.string.market_title));
         setTopTitleLine(true);
 
         mAdapter.setHeaderAndEmpty(true);
@@ -73,8 +73,14 @@ public class MarketFragment extends BaseRefreshFragment<MarketModel> {
         // 取消上啦加载
         setEnableLoadmore(false);
 
-        getCoin();
-        getListData(pageIndex, limit, true);
+    }
+
+    @Override
+    protected void lazyLoad() {
+        super.lazyLoad();
+
+//        getCoin();
+        getListData(1, 10, true);
     }
 
     @Override
@@ -112,7 +118,7 @@ public class MarketFragment extends BaseRefreshFragment<MarketModel> {
 
     @Override
     public String getEmptyInfo() {
-        return StringUtil.getStirng(R.string.market_none);
+        return StringUtil.getString(R.string.market_none);
     }
 
     @Override

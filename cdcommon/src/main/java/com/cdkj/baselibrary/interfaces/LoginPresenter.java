@@ -46,10 +46,10 @@ public class LoginPresenter {
         hashMap.put("kind",MyConfig.USERTYPE);
         hashMap.put("systemCode", MyConfig.SYSTEMCODE);
 
-
         call = RetrofitUtils.getBaseAPiService().userLogin("805050", StringUtils.getJsonToString(hashMap));
 
         mListener.StartLogin();
+
         call.enqueue(new BaseResponseModelCallBack<UserLoginModel>(mContext) {
             @Override
             protected void onSuccess(UserLoginModel data, String SucMessage) {

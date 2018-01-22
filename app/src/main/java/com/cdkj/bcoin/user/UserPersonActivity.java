@@ -81,7 +81,7 @@ public class UserPersonActivity extends AbsBaseActivity {
         });
 
         mBinding.btnTrust.setOnClickListener(view -> {
-            if (mBinding.btnTrust.getText().equals(StringUtil.getStirng(R.string.get_trust))){
+            if (mBinding.btnTrust.getText().equals(StringUtil.getString(R.string.get_trust))){
                 trustOrList("1", "805110");
             }else {
                 trustOrList("1", "805111");
@@ -89,7 +89,7 @@ public class UserPersonActivity extends AbsBaseActivity {
         });
 
         mBinding.btnBlackList.setOnClickListener(view -> {
-            if (mBinding.btnBlackList.getText().equals(StringUtil.getStirng(R.string.add_black_list))){
+            if (mBinding.btnBlackList.getText().equals(StringUtil.getString(R.string.add_black_list))){
                 trustOrList("0", "805110");
             }else {
                 trustOrList("0", "805111");
@@ -158,15 +158,15 @@ public class UserPersonActivity extends AbsBaseActivity {
         }
 
         if(data.getIsTrust().equals("0")){ // 未信任
-            mBinding.btnTrust.setText(StringUtil.getStirng(R.string.get_trust));
+            mBinding.btnTrust.setText(StringUtil.getString(R.string.get_trust));
         }else { // 已信任
-            mBinding.btnTrust.setText(StringUtil.getStirng(R.string.lost_trust));
+            mBinding.btnTrust.setText(StringUtil.getString(R.string.lost_trust));
         }
 
         if(data.getIsAddBlackList().equals("0")){ // 未被加入黑名单
-            mBinding.btnBlackList.setText(StringUtil.getStirng(R.string.add_black_list));
+            mBinding.btnBlackList.setText(StringUtil.getString(R.string.add_black_list));
         }else { // 已被加入黑名单
-            mBinding.btnBlackList.setText(StringUtil.getStirng(R.string.remove_black_list));
+            mBinding.btnBlackList.setText(StringUtil.getString(R.string.remove_black_list));
         }
 
     }

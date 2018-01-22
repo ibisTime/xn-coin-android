@@ -30,7 +30,7 @@ public class PublishedAdapter extends BaseQuickAdapter<DealDetailModel, BaseView
     @Override
     protected void convert(BaseViewHolder helper, DealDetailModel item) {
         helper.setText(R.id.tv_price, AccountUtil.formatDouble(item.getTruePrice())+"CNY");
-        helper.setText(R.id.tv_max, StringUtil.getStirng(R.string.limit)+item.getMinTrade()+"-"+item.getMaxTrade()+"CNY");
+        helper.setText(R.id.tv_max, StringUtil.getString(R.string.limit)+item.getMinTrade()+"-"+item.getMaxTrade()+"CNY");
         helper.setText(R.id.btn_confirm, setStatus(item));
         TextView tv = helper.getView(R.id.tv_type);
         setDealPayType(mContext, item, tv);
@@ -44,13 +44,13 @@ public class PublishedAdapter extends BaseQuickAdapter<DealDetailModel, BaseView
 
         if (item.getUserStatistics() == null)
             return;
-        helper.setText(R.id.tv_deal, StringUtil.getStirng(R.string.deal)+item.getUserStatistics().getJiaoYiCount());
-        helper.setText(R.id.tv_trust, StringUtil.getStirng(R.string.trust)+item.getUserStatistics().getBeiXinRenCount());
+        helper.setText(R.id.tv_deal, StringUtil.getString(R.string.deal)+item.getUserStatistics().getJiaoYiCount());
+        helper.setText(R.id.tv_trust, StringUtil.getString(R.string.trust)+item.getUserStatistics().getBeiXinRenCount());
         if(item.getUserStatistics().getBeiPingJiaCount() == 0){
-            helper.setText(R.id.tv_good,StringUtil.getStirng(R.string.good) + "0%");
+            helper.setText(R.id.tv_good,StringUtil.getString(R.string.good) + "0%");
         }else {
             double hpRate = item.getUserStatistics().getBeiHaoPingCount() / item.getUserStatistics().getBeiPingJiaCount();
-            helper.setText(R.id.tv_good, StringUtil.getStirng(R.string.good)+ AccountUtil.formatInt(hpRate * 100)+"%");
+            helper.setText(R.id.tv_good, StringUtil.getString(R.string.good)+ AccountUtil.formatInt(hpRate * 100)+"%");
         }
     }
 }

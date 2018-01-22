@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -32,6 +34,7 @@ import com.cdkj.baseim.model.MessageFactory;
 import com.cdkj.baseim.model.TextMessage;
 import com.cdkj.baseim.presenter.ChatPresenter;
 import com.cdkj.baseim.ui.ChatInput;
+import com.cdkj.baseim.util.EmoticonUtil;
 import com.cdkj.baseim.util.MediaUtil;
 import com.cdkj.baseim.viewfeatures.ChatView;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
@@ -39,10 +42,12 @@ import com.cdkj.baselibrary.interfaces.CameraPhotoListener;
 import com.cdkj.baselibrary.utils.CameraHelper;
 import com.cdkj.baselibrary.utils.LogUtil;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMFaceElem;
 import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageOfflinePushSettings;
 import com.tencent.imsdk.TIMMessageStatus;
+import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.message.TIMMessageDraft;
@@ -50,7 +55,10 @@ import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -216,9 +224,6 @@ public class ChatFragment extends BaseLazyFragment implements ChatView {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 firstItem = firstVisibleItem;
 
-                Log.e("firstVisibleItem",firstVisibleItem+"");
-                Log.e("visibleItemCount",visibleItemCount+"");
-                Log.e("totalItemCount",totalItemCount+"");
             }
         });
 
@@ -449,7 +454,7 @@ public class ChatFragment extends BaseLazyFragment implements ChatView {
         // 设置当前消息的离线推送配置  desc : 订单(发送人昵称):内容   ext:订单Id
         TIMMessageOfflinePushSettings settings = new TIMMessageOfflinePushSettings();
         settings.setEnabled(true);
-        settings.setDescr("订单("+imUserInfo.getRightName()+"):"+mBinding.inputPanel.getText().toString());
+        settings.setDescr("订单("+imUserInfo.getRightName()+"):"+TextMessage(mBinding.inputPanel.getText()));
         try {
             settings.setExt(imUserInfo.getIdentify().getBytes("utf-8"));
         } catch (Exception e) {
@@ -458,9 +463,7 @@ public class ChatFragment extends BaseLazyFragment implements ChatView {
 
         //设置在Android设备上收到消息时的离线配置
         TIMMessageOfflinePushSettings.AndroidSettings androidSettings = new TIMMessageOfflinePushSettings.AndroidSettings();
-        //ImSDK 2.5.3之前的构造方式
-        //TIMMessageOfflinePushSettings.AndroidSettings androidSettings = settings.new AndroidSettings();
-        androidSettings.setTitle(imUserInfo.getIdentify());
+        androidSettings.setTitle("Bcoin");
         //推送自定义通知栏消息，接收方收到消息后点击通知栏消息会给应用回调（针对小米、华为离线推送）
         androidSettings.setNotifyMode(TIMMessageOfflinePushSettings.NotifyMode.Custom);
         //设置android设备收到消息时的提示音，声音文件需要放置到raw文件夹
@@ -469,8 +472,6 @@ public class ChatFragment extends BaseLazyFragment implements ChatView {
 
         //设置在IOS设备上收到消息时的离线配置
         TIMMessageOfflinePushSettings.IOSSettings iosSettings = new TIMMessageOfflinePushSettings.IOSSettings();
-        //ImSDK 2.5.3之前的构造方式
-        //TIMMessageOfflinePushSettings.IOSSettings iosSettings = settings.new IOSSettings();
         //开启Badge计数
         iosSettings.setBadgeEnabled(false);
         //设置ios收到消息时没有提示音且不振动（ImSDK 2.5.3新增特性）
@@ -574,5 +575,57 @@ public class ChatFragment extends BaseLazyFragment implements ChatView {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         cameraHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public String TextMessage(Editable s){
+
+        TIMMessage msg = new TIMMessage();
+        ImageSpan[] spans = s.getSpans(0, s.length(), ImageSpan.class);
+        List<ImageSpan> listSpans = sortByIndex(s, spans);
+        int currentIndex = 0;
+        for (ImageSpan span : listSpans){
+            int startIndex = s.getSpanStart(span);
+            int endIndex = s.getSpanEnd(span);
+            if (currentIndex < startIndex){
+                TIMTextElem textElem = new TIMTextElem();
+                textElem.setText(s.subSequence(currentIndex, startIndex).toString());
+                msg.addElement(textElem);
+            }
+            TIMFaceElem faceElem = new TIMFaceElem();
+            int index = Integer.parseInt(s.subSequence(startIndex, endIndex).toString());
+            faceElem.setIndex(index);
+            if (index < EmoticonUtil.emoticonData.length){
+                faceElem.setData(EmoticonUtil.emoticonData[index].getBytes(Charset.forName("UTF-8")));
+            }
+            msg.addElement(faceElem);
+            currentIndex = endIndex;
+        }
+        if (currentIndex < s.length()){
+            TIMTextElem textElem = new TIMTextElem();
+            textElem.setText(s.subSequence(currentIndex, s.length()).toString());
+            msg.addElement(textElem);
+        }
+
+        Message message = MessageFactory.getMessage(msg);
+
+        Log.e("getSender", message.getSender());
+        Log.e("getSummary", message.getSummary());
+
+        return message.getSummary();
+    }
+
+    private List<ImageSpan> sortByIndex(final Editable editInput, ImageSpan[]array){
+        ArrayList<ImageSpan> sortList = new ArrayList<>();
+        for (ImageSpan span : array){
+            sortList.add(span);
+        }
+        Collections.sort(sortList, new Comparator<ImageSpan>() {
+            @Override
+            public int compare(ImageSpan lhs, ImageSpan rhs) {
+                return editInput.getSpanStart(lhs) - editInput.getSpanStart(rhs);
+            }
+        });
+
+        return sortList;
     }
 }

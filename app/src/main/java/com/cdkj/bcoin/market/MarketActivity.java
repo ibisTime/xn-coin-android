@@ -47,7 +47,7 @@ public class MarketActivity extends BaseRefreshActivity<MarketCoinModel> {
             return;
 
         coin = getIntent().getStringExtra("coin");
-        setTopTitle(coin + StringUtil.getStirng(R.string.market_title));
+        setTopTitle(coin + StringUtil.getString(R.string.market_title));
         getListData(pageIndex, limit, true);
     }
 
@@ -88,7 +88,7 @@ public class MarketActivity extends BaseRefreshActivity<MarketCoinModel> {
 
     @Override
     public String getEmptyInfo() {
-        return StringUtil.getStirng(R.string.market_none);
+        return StringUtil.getString(R.string.market_none);
     }
 
     @Override

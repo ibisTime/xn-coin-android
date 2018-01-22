@@ -17,6 +17,7 @@ import com.cdkj.baseim.event.MessageEvent;
 import com.cdkj.baseim.event.RefreshEvent;
 import com.cdkj.baseim.interfaces.TxImLoginInterface;
 import com.cdkj.baseim.interfaces.TxImLoginPresenter;
+import com.cdkj.baseim.maneger.TXImManager;
 import com.cdkj.baseim.util.PushUtil;
 import com.cdkj.baselibrary.adapters.ViewPagerAdapter;
 import com.cdkj.baselibrary.appmanager.EventTags;
@@ -103,14 +104,14 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
         init();
 
         getVersion();
-        groupEvent();
+//        groupEvent();
 
 
         if(!SPUtilHelper.getUserId().equals("")){
             getUserData();
             updateOnLineTime();
 
-            initTencent();
+//            initTencent();
             initZenDeskIdentity(SPUtilHelper.getUserName(), SPUtilHelper.getUserEmail());
 
         }
@@ -125,6 +126,18 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
         PushUtil.getInstance().reset();
 
         if(!SPUtilHelper.getUserId().equals("")){
+            // 设置腾讯云的昵称
+            TXImManager.getInstance().setUserNickName(SPUtilHelper.getUserName(), new TXImManager.changeInfoBallBack() {
+                @Override
+                public void onError(int i, String s) {
+                    Log.e("TencentNickName:Error","code="+i+":"+s);
+                }
+
+                @Override
+                public void onSuccess() {
+                    Log.e("TencentNickName:Success","");
+                }
+            });
 
             initZenDeskIdentity(SPUtilHelper.getUserName(), SPUtilHelper.getUserEmail());
         }
@@ -368,7 +381,7 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
 
     @Override
     public void onBackPressed() {
-        showDoubleWarnListen(StringUtil.getStirng(R.string.exit_confirm), view -> {
+        showDoubleWarnListen(StringUtil.getString(R.string.exit_confirm), view -> {
             EventBus.getDefault().post(EventTags.AllFINISH);
             finish();
         });
@@ -424,9 +437,9 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
 
     private void update(String msg, final String url, String force) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle(StringUtil.getStirng(R.string.tip))
+        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle(StringUtil.getString(R.string.tip))
                 .setMessage(msg)
-                .setPositiveButton(StringUtil.getStirng(R.string.confirm), (dialogInterface, i) -> {
+                .setPositiveButton(StringUtil.getString(R.string.confirm), (dialogInterface, i) -> {
 
                     startWeb(MainActivity.this,url);
                     EventBus.getDefault().post(EventTags.AllFINISH);
@@ -439,13 +452,8 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
         if(force.equals("1")){ // 强制更新
             builder.show();
         }else {
-            builder.setNegativeButton(StringUtil.getStirng(R.string.cancel), null).show();
+            builder.setNegativeButton(StringUtil.getString(R.string.cancel), null).show();
         }
-    }
-
-    @Override
-    public void keyRequestOnNoNet(String msg) {
-
     }
 
     @Override

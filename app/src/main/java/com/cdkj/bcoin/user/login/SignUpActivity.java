@@ -6,10 +6,16 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
+import com.cdkj.baseim.event.GroupEvent;
+import com.cdkj.baseim.event.MessageEvent;
+import com.cdkj.baseim.event.RefreshEvent;
 import com.cdkj.baseim.interfaces.TxImLoginInterface;
 import com.cdkj.baseim.interfaces.TxImLoginPresenter;
+import com.cdkj.baseim.ui.NotifyDialog;
+import com.cdkj.baseim.util.PushUtil;
 import com.cdkj.baselibrary.activitys.AppBuildTypeActivity;
 import com.cdkj.baselibrary.activitys.WebViewActivity;
 import com.cdkj.baselibrary.appmanager.EventTags;
@@ -27,11 +33,17 @@ import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.ActivitySignUpBinding;
 import com.cdkj.bcoin.main.MainActivity;
+import com.huawei.android.pushagent.PushManager;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMUserConfig;
+import com.tencent.imsdk.TIMUserStatusListener;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -190,7 +202,7 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
 
                     initZenDeskIdentity(SPUtilHelper.getUserName(), SPUtilHelper.getUserEmail());
 
-                    loginTencent();
+                    initTencent();
 
                 } else {
                     showToast(getStrRes(R.string.user_sign_up_failure));
@@ -252,23 +264,32 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
     /**
      * 登录腾讯云
      */
-    private void loginTencent() {
+    private void initTencent() {
         // 登录腾讯云
         txImLoginPresenter = new TxImLoginPresenter(this);
         txImLoginPresenter.login();
     }
 
-    // 腾讯云登录回调方法
-    @Override
-    public void keyRequestOnNoNet(String msg) {
-        // 腾讯登录失败，先按照自己系统登录结果，保证用户可以继续登录
-        toMianPage();
-    }
-
     @Override
     public void onError(int i, String s) {
-        // 腾讯登录失败，先按照自己系统登录结果，保证用户可以继续登录
-        toMianPage();
+        Log.e("StartActivity", "login error : code " + i + " " + s);
+        switch (i) {
+            case 6208:
+                //离线状态下被其他终端踢下线
+                NotifyDialog dialog = new NotifyDialog();
+                dialog.show(getString(R.string.kick_logout), getSupportFragmentManager(), (dialog1, which) -> groupEvent());
+                break;
+            case 6200:
+                showToast(getString(R.string.login_error_timeout));
+                SignInActivity.open(this,true);
+                finish();
+                break;
+            default:
+                showToast(getString(R.string.login_error));
+                SignInActivity.open(this,true);
+                finish();
+                break;
+        }
     }
 
     @Override
@@ -277,10 +298,63 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
     }
 
     private void toMianPage(){
+        //初始化程序后台后消息推送
+        PushUtil.getInstance();
+        //初始化消息监听
+        MessageEvent.getInstance();
+        String vendor = android.os.Build.MANUFACTURER;
+        //注册小米和华为推送
+        if(vendor.toLowerCase(Locale.ENGLISH).contains("xiaomi")) {
+            //注册小米推送服务
+            MiPushClient.registerPush(this, "2882303761517705483", "5941770524483");
+        }else if(vendor.toLowerCase(Locale.ENGLISH).contains("huawei")) {
+            //请求华为推送设备token
+            PushManager.requestToken(this);
+        }
+
         EventBus.getDefault().post(EventTags.AllFINISH);
         EventBus.getDefault().post(EventTags.MAINFINISH);
 
         MainActivity.open(SignUpActivity.this);
         finish();
+    }
+
+    /**
+     * 设置腾讯云监听,登录腾讯云
+     */
+    public void groupEvent(){
+        //登录之前要初始化群和好友关系链缓存
+        TIMUserConfig userConfig = new TIMUserConfig()
+                .setUserStatusListener(new TIMUserStatusListener() {
+                    @Override
+                    public void onForceOffline() {
+                        //被其他终端踢下线
+                        showToast("该账号在其他设备登录，请重新登录");
+                        SPUtilHelper.logOutClear();
+                        EventBus.getDefault().post(EventTags.AllFINISH);
+
+                        SignInActivity.open(SignUpActivity.this,true);
+                        finish();
+                    }
+
+                    @Override
+                    public void onUserSigExpired() {
+                        //用户签名过期了，需要刷新userSig重新登录SDK
+                        showToast(getString(R.string.tls_expire));
+                        SPUtilHelper.logOutClear();
+                        EventBus.getDefault().post(EventTags.AllFINISH);
+
+                        SignInActivity.open(SignUpActivity.this,true);
+                        finish();
+                    }
+                });
+
+        //设置刷新监听
+        RefreshEvent.getInstance().init(userConfig);
+        userConfig = GroupEvent.getInstance().init(userConfig);
+        userConfig = MessageEvent.getInstance().init(userConfig);
+        TIMManager.getInstance().setUserConfig(userConfig);
+
+        initTencent();
     }
 }

@@ -78,7 +78,7 @@ public class TxImLoginPresenter {
 
             @Override
             protected void onNoNet(String msg) {
-                mListener.keyRequestOnNoNet(msg);
+
             }
 
             @Override

@@ -118,9 +118,9 @@ public class UserAboutActivity extends AbsBaseActivity {
 
     private void update() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle(StringUtil.getStirng(R.string.tip))
+        AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle(StringUtil.getString(R.string.tip))
                 .setMessage(msg)
-                .setPositiveButton(StringUtil.getStirng(R.string.confirm), (dialogInterface, i) -> {
+                .setPositiveButton(StringUtil.getString(R.string.confirm), (dialogInterface, i) -> {
 
                     startWeb(UserAboutActivity.this, url);
                     EventBus.getDefault().post(EventTags.AllFINISH);
@@ -133,7 +133,7 @@ public class UserAboutActivity extends AbsBaseActivity {
         if(force.equals("1")){ // 强制更新
             builder.show();
         }else {
-            builder.setNegativeButton(StringUtil.getStirng(R.string.cancel), null).show();
+            builder.setNegativeButton(StringUtil.getString(R.string.cancel), null).show();
         }
     }
 }

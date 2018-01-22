@@ -35,7 +35,7 @@ public class MarketAdapter extends BaseQuickAdapter<MarketModel,BaseViewHolder> 
         try {
             // 成交量
             if (parseDouble(item.getOne_day_volume_usd()) > 10000){
-                helper.setText(R.id.tv_coin,formatDoubleDiv(item.getOne_day_volume_usd(), 10000)+ StringUtil.getStirng(R.string.market_wan));
+                helper.setText(R.id.tv_coin,formatDoubleDiv(item.getOne_day_volume_usd(), 10000)+ StringUtil.getString(R.string.market_wan));
             }else {
                 helper.setText(R.id.tv_coin,item.getOne_day_volume_usd()+"");
             }

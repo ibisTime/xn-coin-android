@@ -166,10 +166,6 @@ public class ImgUtils {
      */
     public static void loadAvatar(Context context, String imgUrl, String nickName, ImageView imgAvatar, TextView txtAvatar){
 
-        Log.e("ChatAdapter"," setAvatar()");
-        Log.e("imgUrl",imgUrl);
-        Log.e("nickName",nickName);
-
         if (context == null || imgUrl == null)
             return;
 

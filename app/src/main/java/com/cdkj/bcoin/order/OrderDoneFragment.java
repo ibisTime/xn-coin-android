@@ -104,7 +104,6 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
 
         if (mBinding == null)
             return;
-
         onMRefresh(1,10,true);
     }
 

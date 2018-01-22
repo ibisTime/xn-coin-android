@@ -185,12 +185,6 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
     @Subscribe
     public void openOrderActivity(ImUserInfo imUserInfo){
         if (imUserInfo.getEventTag().equals(ORDER_NEW)){
-            Log.e("getRightImg",imUserInfo.getRightImg());
-            Log.e("getRightName",imUserInfo.getRightName());
-            Log.e("getLeftImg",imUserInfo.getLeftImg());
-            Log.e("getLeftName",imUserInfo.getLeftName());
-            Log.e("getIdentify",imUserInfo.getIdentify());
-            Log.e("--------------","--------------");
 
             OrderActivity.open(mActivity, bean.getCode(), imUserInfo);
         }

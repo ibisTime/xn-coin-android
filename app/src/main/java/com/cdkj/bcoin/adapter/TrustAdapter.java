@@ -37,13 +37,13 @@ public class TrustAdapter extends BaseQuickAdapter<TrustModel.ListBean, BaseView
 
         if (item.getToUserInfo().getUserStatistics() == null)
             return;
-        helper.setText(R.id.tv_deal, StringUtil.getStirng(R.string.deal)+item.getToUserInfo().getUserStatistics().getJiaoYiCount());
-        helper.setText(R.id.tv_trust, StringUtil.getStirng(R.string.trust)+item.getToUserInfo().getUserStatistics().getBeiXinRenCount());
+        helper.setText(R.id.tv_deal, StringUtil.getString(R.string.deal)+item.getToUserInfo().getUserStatistics().getJiaoYiCount());
+        helper.setText(R.id.tv_trust, StringUtil.getString(R.string.trust)+item.getToUserInfo().getUserStatistics().getBeiXinRenCount());
         if(item.getToUserInfo().getUserStatistics().getBeiPingJiaCount() == 0){
-            helper.setText(R.id.tv_good, StringUtil.getStirng(R.string.good) +"0%");
+            helper.setText(R.id.tv_good, StringUtil.getString(R.string.good) +"0%");
         }else {
             double hpRate = item.getToUserInfo().getUserStatistics().getBeiHaoPingCount() / item.getToUserInfo().getUserStatistics().getBeiPingJiaCount();
-            helper.setText(R.id.tv_good, StringUtil.getStirng(R.string.good)+AccountUtil.formatInt(hpRate * 100)+"%");
+            helper.setText(R.id.tv_good, StringUtil.getString(R.string.good)+AccountUtil.formatInt(hpRate * 100)+"%");
         }
     }
 }

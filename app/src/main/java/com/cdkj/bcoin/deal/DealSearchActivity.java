@@ -5,15 +5,11 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.NumberPicker;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.cdkj.baselibrary.base.AbsBaseActivity;
+import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.databinding.ActivityDealSearchBinding;
 
@@ -93,9 +89,9 @@ public class DealSearchActivity extends AbsBaseActivity {
             mBinding.btnConfirm.setText(getStrRes(R.string.deal_search_user));
         });
 
-        mBinding.llType.setOnClickListener(this::popupType);
+        mBinding.llType.setOnClickListener(this::initTypePopup);
 
-        mBinding.llPayType.setOnClickListener(this::popupPayType);
+        mBinding.llPayType.setOnClickListener(this::initPayTypePopup);
 
         mBinding.btnConfirm.setOnClickListener(view -> {
             if (check()){
@@ -125,106 +121,44 @@ public class DealSearchActivity extends AbsBaseActivity {
     }
 
     /**
-     * 支付方式
+     * 选择广告类型
      * @param view
      */
-    private void popupType(View view) {
-        // 一个自定义的布局，作为显示的内容
-        View mView = LayoutInflater.from(this).inflate(R.layout.dialog_wallet_type, null);
+    private void initTypePopup(View view) {
+        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
+        popupWindow.setNumberPicker(R.id.np_type, types);
 
-        TextView tvCancel = mView.findViewById(R.id.tv_cancel);
-        TextView tvConfirm = mView.findViewById(R.id.tv_confirm);
-        NumberPicker npType = mView.findViewById(R.id.np_type);
-        npType.setDisplayedValues(types);
-        npType.setMinValue(0);
-        npType.setMaxValue(types.length - 1);
+        popupWindow.setOnClickListener(R.id.tv_cancel, (View v) -> popupWindow.dismiss());
 
-        // 禁止输入
-        npType.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+            type = typeValue[popupWindow.getNumberPickerValue(R.id.np_type)];
+            mBinding.tvType.setText(popupWindow.getNumberPicker(R.id.np_type, types));
 
-
-        final PopupWindow popupWindow = new PopupWindow(mView,
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-
-        popupWindow.setTouchable(true);
-        popupWindow.setAnimationStyle(R.style.PopupAnimation);
-
-        popupWindow.setTouchInterceptor((v, event) -> {
-
-            // 这里如果返回true的话，touch事件将被拦截
-            // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-            return false;
-        });
-
-        tvCancel.setOnClickListener(v -> {
             popupWindow.dismiss();
         });
 
-        tvConfirm.setOnClickListener(v -> {
-            popupWindow.dismiss();
-
-            type = typeValue[npType.getValue()];
-            mBinding.tvType.setText(types[npType.getValue()]);
-
-        });
-
-        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_popup));
-        // 设置好参数之后再show
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
-
+        popupWindow.show(view);
     }
 
+
     /**
-     * 支付方式
+     * 选择支付方式
      * @param view
      */
-    private void popupPayType(View view) {
-        // 一个自定义的布局，作为显示的内容
-        View mView = LayoutInflater.from(this).inflate(R.layout.dialog_wallet_type, null);
+    private void initPayTypePopup(View view) {
+        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
+        popupWindow.setNumberPicker(R.id.np_type, payTypes);
 
-        TextView tvCancel = mView.findViewById(R.id.tv_cancel);
-        TextView tvConfirm = mView.findViewById(R.id.tv_confirm);
-        NumberPicker npType = mView.findViewById(R.id.np_type);
-        npType.setDisplayedValues(payTypes);
-        npType.setMinValue(0);
-        npType.setMaxValue(payTypes.length - 1);
+        popupWindow.setOnClickListener(R.id.tv_cancel,v -> popupWindow.dismiss());
 
-        // 禁止输入
-        npType.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+            payType = payTypeValue[popupWindow.getNumberPickerValue(R.id.np_type)];
+            mBinding.tvWay.setText(popupWindow.getNumberPicker(R.id.np_type, payTypes));
 
-
-        final PopupWindow popupWindow = new PopupWindow(mView,
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-
-        popupWindow.setTouchable(true);
-        popupWindow.setAnimationStyle(R.style.PopupAnimation);
-
-        popupWindow.setTouchInterceptor((v, event) -> {
-
-            // 这里如果返回true的话，touch事件将被拦截
-            // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-            return false;
-        });
-
-        tvCancel.setOnClickListener(v -> {
             popupWindow.dismiss();
         });
 
-        tvConfirm.setOnClickListener(v -> {
-            popupWindow.dismiss();
-
-            payType = payTypeValue[npType.getValue()];
-            mBinding.tvWay.setText(payTypes[npType.getValue()]);
-
-
-        });
-
-        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_popup));
-        // 设置好参数之后再show
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
-
+        popupWindow.show(view);
     }
 
 

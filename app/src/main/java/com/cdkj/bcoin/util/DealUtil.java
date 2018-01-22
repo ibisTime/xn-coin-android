@@ -42,19 +42,19 @@ public class DealUtil {
             case "0":
                 tv.setBackgroundResource(R.drawable.corner_deal_btn_blue);
                 tv.setTextColor(ContextCompat.getColor(context, R.color.blue));
-                tv.setText(StringUtil.getStirng(R.string.zhifubao));
+                tv.setText(StringUtil.getString(R.string.zhifubao));
                 break;
 
             case "1":
                 tv.setBackgroundResource(R.drawable.corner_deal_btn_green);
                 tv.setTextColor(ContextCompat.getColor(context, R.color.green));
-                tv.setText(StringUtil.getStirng(R.string.weixin));
+                tv.setText(StringUtil.getString(R.string.weixin));
                 break;
 
             case "2":
                 tv.setBackgroundResource(R.drawable.corner_deal_btn_red);
                 tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-                tv.setText(StringUtil.getStirng(R.string.card));
+                tv.setText(StringUtil.getString(R.string.card));
                 break;
         }
         return bgRes;
@@ -63,11 +63,11 @@ public class DealUtil {
     public static String getPayType(String p){
         String payType = "";
 
-        if (p.equals(StringUtil.getStirng(R.string.zhifubao))){
+        if (p.equals(StringUtil.getString(R.string.zhifubao))){
             payType = "0";
-        } else if (p.equals(StringUtil.getStirng(R.string.weixin))){
+        } else if (p.equals(StringUtil.getString(R.string.weixin))){
             payType = "1";
-        } else if (p.equals(StringUtil.getStirng(R.string.card))){
+        } else if (p.equals(StringUtil.getString(R.string.card))){
             payType = "2";
         }
 
@@ -79,15 +79,15 @@ public class DealUtil {
 
         // 是否是自己发布的
         if (item.getUser().getUserId().equals(SPUtilHelper.getUserId())){
-            tradeType = StringUtil.getStirng(R.string.deal_publish_edit);
+            tradeType = StringUtil.getString(R.string.deal_publish_edit);
         }else {
             switch (item.getTradeType()){
                 case "0":
-                    tradeType = StringUtil.getStirng(R.string.sale);
+                    tradeType = StringUtil.getString(R.string.sale);
                     break;
 
                 case "1":
-                    tradeType = StringUtil.getStirng(R.string.buy);
+                    tradeType = StringUtil.getString(R.string.buy);
                     break;
             }
         }
@@ -102,15 +102,15 @@ public class DealUtil {
         String tradeType;
         switch (item.getStatus()){
             case "0": // 待发布
-                tradeType = StringUtil.getStirng(R.string.deal_status_daifabu);
+                tradeType = StringUtil.getString(R.string.deal_status_daifabu);
                 break;
 
             case "2": // 已下架
-                tradeType = StringUtil.getStirng(R.string.deal_status_yixiajia);
+                tradeType = StringUtil.getString(R.string.deal_status_yixiajia);
                 break;
 
             default: // 1 已上架
-                tradeType = StringUtil.getStirng(R.string.deal_status_check);
+                tradeType = StringUtil.getString(R.string.deal_status_check);
                 break;
         }
         return tradeType;

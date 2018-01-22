@@ -9,13 +9,7 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.NumberPicker;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cdkj.baselibrary.appmanager.EventTags;
@@ -31,6 +25,7 @@ import com.cdkj.baselibrary.utils.PermissionHelper;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.utils.SystemUtils;
 import com.cdkj.baselibrary.utils.ToastUtil;
+import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.ActivityWithdrawBinding;
@@ -38,6 +33,7 @@ import com.cdkj.bcoin.model.CoinModel;
 import com.cdkj.bcoin.model.SystemParameterModel;
 import com.cdkj.bcoin.user.UserAddressActivity;
 import com.cdkj.bcoin.util.AccountUtil;
+import com.cdkj.bcoin.util.EditTextJudgeNumberWatcher;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
@@ -97,7 +93,8 @@ public class WithdrawActivity extends AbsBaseActivity {
         setTopLineState(true);
         setSubLeftImgState(true);
         setSubRightTitleAndClick(getStrRes(R.string.wallet_charge_recode),v -> {
-            BillActivity.open(this,model.getAccountNumber(),BillActivity.TYPE_WITHDRAW);
+            WithdrawOrderActivity.open(this);
+//            BillActivity.open(this,model.getAccountNumber(),BillActivity.TYPE_WITHDRAW);
         });
 
         init();
@@ -122,9 +119,7 @@ public class WithdrawActivity extends AbsBaseActivity {
 
     private void initListener(){
 
-        mBinding.llAddress.setOnClickListener(view -> {
-            popupType(view);
-        });
+        mBinding.llAddress.setOnClickListener(this::initPopup);
 
         mBinding.btnPaste.setOnClickListener(view -> {
             mBinding.edtGoogle.setText(SystemUtils.paste(this));
@@ -168,6 +163,8 @@ public class WithdrawActivity extends AbsBaseActivity {
 
             }
         });
+
+        mBinding.edtAmount.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtAmount,10,8));
     }
 
     //权限处理
@@ -362,42 +359,83 @@ public class WithdrawActivity extends AbsBaseActivity {
     }
 
 
-    private void popupType(View view) {
+//    private void popupType(View view) {
+//
+//
+//        // 一个自定义的布局，作为显示的内容
+//        View mView = LayoutInflater.from(this).inflate(R.layout.dialog_wallet_type, null);
+//
+//        TextView tvCancel = mView.findViewById(R.id.tv_cancel);
+//        TextView tvConfirm = mView.findViewById(R.id.tv_confirm);
+//        NumberPicker npType = mView.findViewById(R.id.np_type);
+//        npType.setDisplayedValues(types);
+//        npType.setMinValue(0);
+//        npType.setMaxValue(types.length - 1);
+//        npType.setOnValueChangedListener(ChangedListener);
+//        // 禁止输入
+//        npType.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+//
+//
+//        final PopupWindow popupWindow = new PopupWindow(mView,
+//                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+//
+//        popupWindow.setTouchable(true);
+//        popupWindow.setAnimationStyle(R.style.PopupAnimation);
+//
+//        popupWindow.setTouchInterceptor((v, event) -> {
+//
+//            // 这里如果返回true的话，touch事件将被拦截
+//            // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+//            return false;
+//        });
+//
+//        tvCancel.setOnClickListener(v -> {
+//            popupWindow.dismiss();
+//        });
+//
+//        tvConfirm.setOnClickListener(v -> {
+//            popupWindow.dismiss();
+//
+//            if (type.equals(getStrRes(R.string.popup_select))){
+//                UserAddressActivity.open(this, TYPE_WITHDRAW);
+//            } else if (type.equals(getStrRes(R.string.popup_scan))){
+//                // 是否需要交易密码和谷歌验证 认证账户不需要交易密码和谷歌验证
+//                isCerti = true;
+//                scan();
+//            } else if (type.equals(getStrRes(R.string.popup_paste))){
+//                // 是否需要交易密码和谷歌验证 认证账户不需要交易密码和谷歌验证
+//                isCerti = true;
+//
+//                mBinding.tvAddress.setText(paste(this));
+//            }
+//
+//            // 初始化type（没有滚动的情况）
+//            type = getStrRes(R.string.popup_select);
+//        });
+//
+//        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+//        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_popup));
+//        // 设置好参数之后再show
+//        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
+//
+//    }
+//
+//    private NumberPicker.OnValueChangeListener ChangedListener = (arg0, arg1, arg2) -> type = types[arg2];
 
+    /**
+     *
+     * @param view
+     */
+    private void initPopup(View view) {
+        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
+        popupWindow.setNumberPicker(R.id.np_type, types);
 
-        // 一个自定义的布局，作为显示的内容
-        View mView = LayoutInflater.from(this).inflate(R.layout.dialog_wallet_type, null);
-
-        TextView tvCancel = mView.findViewById(R.id.tv_cancel);
-        TextView tvConfirm = mView.findViewById(R.id.tv_confirm);
-        NumberPicker npType = mView.findViewById(R.id.np_type);
-        npType.setDisplayedValues(types);
-        npType.setMinValue(0);
-        npType.setMaxValue(types.length - 1);
-        npType.setOnValueChangedListener(ChangedListener);
-        // 禁止输入
-        npType.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
-
-        final PopupWindow popupWindow = new PopupWindow(mView,
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-
-        popupWindow.setTouchable(true);
-        popupWindow.setAnimationStyle(R.style.PopupAnimation);
-
-        popupWindow.setTouchInterceptor((v, event) -> {
-
-            // 这里如果返回true的话，touch事件将被拦截
-            // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-            return false;
-        });
-
-        tvCancel.setOnClickListener(v -> {
+        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
             popupWindow.dismiss();
         });
 
-        tvConfirm.setOnClickListener(v -> {
-            popupWindow.dismiss();
+        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+            type = popupWindow.getNumberPicker(R.id.np_type, types);
 
             if (type.equals(getStrRes(R.string.popup_select))){
                 UserAddressActivity.open(this, TYPE_WITHDRAW);
@@ -408,24 +446,14 @@ public class WithdrawActivity extends AbsBaseActivity {
             } else if (type.equals(getStrRes(R.string.popup_paste))){
                 // 是否需要交易密码和谷歌验证 认证账户不需要交易密码和谷歌验证
                 isCerti = true;
-
                 mBinding.tvAddress.setText(paste(this));
             }
 
-            // 初始化type（没有滚动的情况）
-            type = getStrRes(R.string.popup_select);
+            popupWindow.dismiss();
         });
 
-        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_popup));
-        // 设置好参数之后再show
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
-
+        popupWindow.show(view);
     }
-
-    private NumberPicker.OnValueChangeListener ChangedListener = (arg0, arg1, arg2) -> type = types[arg2];
-
-
 
     private void scan(){
         permissionHelper = new PermissionHelper(this);

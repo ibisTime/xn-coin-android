@@ -22,6 +22,7 @@ import com.cdkj.bcoin.loader.BannerImageLoader;
 import com.cdkj.bcoin.model.BannerModel;
 import com.cdkj.bcoin.model.DealDetailModel;
 import com.cdkj.bcoin.model.DealModel;
+import com.cdkj.bcoin.model.MarketCoinModel;
 import com.cdkj.bcoin.util.StringUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youth.banner.BannerConfig;
@@ -86,6 +87,9 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
             // 是否是自己发布的
             if (model.getUser().getUserId().equals(SPUtilHelper.getUserId())){
 
+//                // 先获取行情价格
+//                getCoin(model);
+
                 if (model.getTradeType().equals("1")){ // 卖币广告
 
                     SaleActivity.open(mActivity, YIFABU, model);
@@ -122,6 +126,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         getListData(1,10,true);
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -129,7 +134,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
     }
 
     private void initTitleBar() {
-        setTitleBar("ETH", StringUtil.getStirng(R.string.deal_buy),StringUtil.getStirng(R.string.deal_sale));
+        setTitleBar("ETH", StringUtil.getString(R.string.deal_buy),StringUtil.getString(R.string.deal_sale));
         setTopTitleLine(true);
 
         setTitleBarCoinClick(this::initPopup);
@@ -195,7 +200,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
 
     @Override
     public String getEmptyInfo() {
-        return StringUtil.getStirng(R.string.deal_none);
+        return StringUtil.getString(R.string.deal_none);
     }
 
     @Override
@@ -277,54 +282,6 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
 //        mBinding.banner.setOnPageChangeListener(new MyPageChangeListener());
     }
 
-//    private void popupType(View view) {
-//
-//
-//        // 一个自定义的布局，作为显示的内容
-//        View mView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_wallet_type, null);
-//
-//        TextView tvCancel = mView.findViewById(R.id.tv_cancel);
-//        TextView tvConfirm = mView.findViewById(R.id.tv_confirm);
-//        NumberPicker npType = mView.findViewById(R.id.np_type);
-//        npType.setDisplayedValues(coinTypes);
-//        npType.setMinValue(0);
-//        npType.setMaxValue(coinTypes.length - 1);
-//        // 禁止输入
-//        npType.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-//
-//
-//        final PopupWindow popupWindow = new PopupWindow(mView,
-//                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-//
-//        popupWindow.setTouchable(true);
-//        popupWindow.setAnimationStyle(R.style.PopupAnimation);
-//
-//        popupWindow.setTouchInterceptor((v, event) -> {
-//
-//            // 这里如果返回true的话，touch事件将被拦截
-//            // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-//            return false;
-//        });
-//
-//        tvCancel.setOnClickListener(v -> {
-//            popupWindow.dismiss();
-//        });
-//
-//        tvConfirm.setOnClickListener(v -> {
-//            popupWindow.dismiss();
-//
-//            coinType = coinTypes[npType.getValue()];
-//
-//            Log.e("coinType", coinType);
-//        });
-//
-//        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-//        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_popup));
-//        // 设置好参数之后再show
-//        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
-//
-//    }
-
     private void initPopup(View view) {
         MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(mActivity, R.layout.popup_picker);
         popupWindow.setNumberPicker(R.id.np_type, coinTypes);
@@ -334,7 +291,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         });
 
         popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
-            coinType = popupWindow.getNumberPickerValue(R.id.np_type, coinTypes);
+            coinType = popupWindow.getNumberPicker(R.id.np_type, coinTypes);
 
             setTitleBarCoin(coinType);
             onMRefresh(1,10,true);
@@ -345,7 +302,44 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         popupWindow.show(view);
     }
 
-//    private NumberPicker.OnValueChangeListener ChangedListener = (arg0, arg1, arg2) -> coinType = coinTypes[arg2];
+    private void getCoin(DealDetailModel model) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("coin", "ETH");
+        map.put("systemCode", MyConfig.SYSTEMCODE);
+        map.put("companyCode", MyConfig.COMPANYCODE);
+
+        Call call = RetrofitUtils.createApi(MyApi.class).getTruePrice("625292", StringUtils.getJsonToString(map));
+
+        showLoadingDialog();
+
+        call.enqueue(new BaseResponseModelCallBack<MarketCoinModel>(mActivity) {
+
+            @Override
+            protected void onSuccess(MarketCoinModel data, String SucMessage) {
+                if (data == null)
+                    return;
+
+                SPUtilHelper.saveMarketCoin("ETH",data.getMid());
+
+
+                if (model.getTradeType().equals("1")){ // 卖币广告
+
+                    SaleActivity.open(mActivity, YIFABU, model);
+
+                }else { // 卖币广告
+
+                    PublishBuyActivity.open(mActivity, YIFABU, model);
+
+                }
+            }
+
+            @Override
+            protected void onFinish() {
+                disMissLoading();
+            }
+        });
+
+    }
 
     @Subscribe
     public void DealEventBus(EventBusModel eventBusModel) {

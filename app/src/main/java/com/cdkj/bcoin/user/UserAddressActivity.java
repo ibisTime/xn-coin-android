@@ -194,7 +194,7 @@ public class UserAddressActivity extends AbsBaseActivity {
         });
 
         popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
-            type = popupWindow.getNumberPickerValue(R.id.np_type, types);
+            type = popupWindow.getNumberPicker(R.id.np_type, types);
 
             setTopTitle(getStrRes(R.string.user_title_published)+"("+type+")");
             refreshHelper.onMRefresh(1,10,true);

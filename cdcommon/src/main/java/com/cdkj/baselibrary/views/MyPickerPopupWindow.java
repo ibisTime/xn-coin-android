@@ -51,11 +51,18 @@ public class MyPickerPopupWindow extends PopupWindow {
         numberPicker.setDisplayedValues(str);
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(str.length - 1);
+        // 禁止输入
+        numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
     }
 
-    public String getNumberPickerValue(int viewId, String[] str){
+    public String getNumberPicker(int viewId, String[] str){
         NumberPicker numberPicker = (NumberPicker) contentView.findViewById(viewId);
         return str[numberPicker.getValue()];
+    }
+
+    public int getNumberPickerValue(int viewId){
+        NumberPicker numberPicker = (NumberPicker) contentView.findViewById(viewId);
+        return numberPicker.getValue();
     }
 
     public <T extends View> T getView(int viewId) {

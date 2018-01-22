@@ -8,7 +8,7 @@ import com.cdkj.bcoin.main.MyApplication;
 
 public class StringUtil {
 
-    public static String getStirng(int resources){
+    public static String getString(int resources){
         return MyApplication.application.getString(resources);
     }
 }

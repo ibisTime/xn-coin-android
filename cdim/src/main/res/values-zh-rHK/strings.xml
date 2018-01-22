@@ -76,7 +76,7 @@
     <string name="downloading">正在下載，請稍候</string>
     <string name="save_fail">保存失敗</string>
     <string name="save_exist">文件已存在</string>
-    <string name="tls_expire">賬號登錄已過期，請重新登錄</string>
+    <string name="tls_expire">登錄驗證已過期，請重新登錄</string>
     <string name="env_normal">當前連接正式環境</string>
     <string name="env_test">當前連接測試環境</string>
     <string name="file_not_found">未找到文件，請稍後重試</string>

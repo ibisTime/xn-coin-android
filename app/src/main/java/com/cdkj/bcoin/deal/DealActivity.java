@@ -40,6 +40,7 @@ import com.cdkj.bcoin.model.DealResultModel;
 import com.cdkj.bcoin.model.SystemParameterModel;
 import com.cdkj.bcoin.user.UserPersonActivity;
 import com.cdkj.bcoin.util.AccountUtil;
+import com.cdkj.bcoin.util.EditTextJudgeNumberWatcher;
 import com.cdkj.bcoin.util.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,7 +65,7 @@ public class DealActivity extends AbsBaseActivity {
 
     private String code;
     private DealDetailModel bean;
-    private String tradeString = StringUtil.getStirng(R.string.sale);
+    private String tradeString = StringUtil.getString(R.string.sale);
 
     private String inputType = "";
 
@@ -204,6 +205,10 @@ public class DealActivity extends AbsBaseActivity {
         mBinding.btnTrust.setOnClickListener(view -> trust());
 
         mBinding.tvConfirm.setOnClickListener(view -> {
+            if (!SPUtilHelper.isLogin(this, false)) {
+                return;
+            }
+
             if (mBinding.edtCny.getText().toString().equals("")){
                showToast(getStrRes(R.string.deal_buy_cny_hint));
                return;
@@ -233,6 +238,10 @@ public class DealActivity extends AbsBaseActivity {
         });
 
         mBinding.llChat.setOnClickListener(view -> {
+            if (!SPUtilHelper.isLogin(this, false)) {
+                return;
+            }
+
             // 购买数字货币聊天之前需实名认证
             if (tradeString.equals(getStrRes(R.string.buy))){
                 if (TextUtils.isEmpty(SPUtilHelper.getRealName())){
@@ -258,6 +267,9 @@ public class DealActivity extends AbsBaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (inputType.equals("edtCny")){
+
+                    // 限制edtCny的 小数点前后输入位数
+                    EditTextJudgeNumberWatcher.judgeNumber(editable, mBinding.edtCny, 10,2);
 
                     if (editable.toString().equals("")){
                         mBinding.edtCoin.setText("");
@@ -289,6 +301,9 @@ public class DealActivity extends AbsBaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (inputType.equals("edtCoin")){
+
+                    EditTextJudgeNumberWatcher.judgeNumber(editable, mBinding.edtCoin, 10,8);
+
                     if (editable.toString().equals("")){
                         mBinding.edtCny.setText("");
                     }else {
@@ -437,7 +452,7 @@ public class DealActivity extends AbsBaseActivity {
         });
     }
 
-    private void getHistory(){
+        private void getHistory(){
         Map<String, Object> map = new HashMap<>();
         map.put("userId", bean.getUser().getUserId());
         map.put("token", SPUtilHelper.getUserToken());
@@ -498,8 +513,10 @@ public class DealActivity extends AbsBaseActivity {
             protected void onSuccess(DealResultModel model, String SucMessage) {
                 showToast(getStrRes(R.string.buy_success));
                 finish();
+
+                // 购买成功后跳到订单
                 EventBusModel eventBusModel = new EventBusModel();
-                eventBusModel.setEvInt(MainActivity.ORDER); //显示认证界面
+                eventBusModel.setEvInt(MainActivity.ORDER);
                 eventBusModel.setTag(EventTags.MAINCHANGESHOWINDEX);
                 EventBus.getDefault().post(eventBusModel);
             }
@@ -534,8 +551,10 @@ public class DealActivity extends AbsBaseActivity {
                 protected void onSuccess(DealResultModel model, String SucMessage) {
                     showToast(getStrRes(R.string.sale_success));
                     finish();
+
+                    // 出售成功后跳到订单
                     EventBusModel eventBusModel = new EventBusModel();
-                    eventBusModel.setEvInt(MainActivity.ORDER); //显示认证界面
+                    eventBusModel.setEvInt(MainActivity.ORDER);
                     eventBusModel.setTag(EventTags.MAINCHANGESHOWINDEX);
                     EventBus.getDefault().post(eventBusModel);
                 }

@@ -126,8 +126,29 @@ public class ChatPresenter implements Observer {
         timConversationExt.revokeMessage(message, new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
-                Log.d(TAG,"revoke error " + i);
-                view.showToast("revoke error " + s);
+                Log.e(TAG,"revoke error ：" + i);
+
+                switch (i){
+                    case 10031:
+                        view.showToast("消息已发出超过两分钟，不能撤回");
+                        break;
+
+                    case 10032:
+                        view.showToast("消息不支持撤回操作");
+                        break;
+
+                    case 10030:
+                        view.showToast("请求撤回的消息不存在");
+                        break;
+
+                    case 10026:
+                        view.showToast("群组类型不支持消息撤回操作");
+                        break;
+
+                    default:
+                        view.showToast("revoke error "+s);
+                        break;
+                }
             }
 
             @Override

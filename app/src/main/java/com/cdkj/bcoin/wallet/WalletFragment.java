@@ -131,8 +131,8 @@ public class WalletFragment extends BaseLazyFragment {
     private void init() {
 
         refreshHelper.init(10);
-        // 刷新
-        refreshHelper.onDefaluteMRefresh(true);
+//        // 刷新
+//        refreshHelper.onDefaluteMRefresh(true);
     }
 
     private void initListener() {

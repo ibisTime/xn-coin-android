@@ -3,14 +3,16 @@ package com.cdkj.bcoin.main;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.cdkj.baselibrary.BaseApplication;
 import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.baselibrary.utils.LogUtil;
 import com.cdkj.bcoin.R;
-import com.tencent.imsdk.TIMGroupReceiveMessageOpt;
 import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMOfflinePushListener;
+import com.tencent.imsdk.TIMOfflinePushNotification;
 import com.tencent.qalsdk.sdk.MsfSdkUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.zendesk.sdk.network.impl.ZendeskConfig;
@@ -24,7 +26,11 @@ import org.greenrobot.eventbus.EventBus;
 
 public class MyApplication extends Application {
 
+    private final int pushId = 1;
+
     public static Application application;
+
+
 
     @Override
     public void onCreate() {
@@ -44,15 +50,61 @@ public class MyApplication extends Application {
         initZXing();
         initZenDesk();
 
-
         if(MsfSdkUtils.isMainProcess(this)) {
-            TIMManager.getInstance().setOfflinePushListener(notification -> {
-                if (notification.getGroupReceiveMsgOpt() == TIMGroupReceiveMessageOpt.ReceiveAndNotify){
-                    //消息被设置为需要提醒
+            TIMManager.getInstance().setOfflinePushListener(new TIMOfflinePushListener() {
+                @Override
+                public void handleNotification(TIMOfflinePushNotification notification) {
+                    Log.e("setOfflinePushListener","setOfflinePushListener");
+                    Log.e("getTitle",notification.getTitle());
+                    Log.e("getContent",notification.getContent());
+                    Log.e("getConversationId",notification.getConversationId());
+
                     notification.doNotify(getApplicationContext(), R.mipmap.app_icon);
+                    notification.setTitle("Bcoin");
                 }
+
             });
         }
+
+//        if(MsfSdkUtils.isMainProcess(this)) {
+//
+//            TIMManager.getInstance().setOfflinePushListener(notification -> {
+//
+//
+//                Log.e("getConversationType",notification.getConversationType()+"");
+//
+//                if (notification.getGroupReceiveMsgOpt() == TIMGroupReceiveMessageOpt.ReceiveAndNotify){
+                    //消息被设置为需要提醒
+//                    notification.doNotify(getApplicationContext(), R.mipmap.app_icon);
+//                    notification.setTitle(StringUtil.getString(R.string.app_name));
+
+//                    Intent notificationIntent = new Intent(BaseApplication.getContext(), TxImPushActivity.class);
+//                    notificationIntent.putExtra("toUserId", notification.getConversationId());
+//                    // 状态消息打开type
+//                    notificationIntent.putExtra("openType", TxImPushActivity.OPEN_TYPE_ORDER);
+//
+//                    NotificationManager mNotificationManager = (NotificationManager) BaseApplication.getContext().getSystemService(BaseApplication.getContext().NOTIFICATION_SERVICE);
+//                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(BaseApplication.getContext());
+//
+//                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+//                            | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                    PendingIntent intent = PendingIntent.getActivity(BaseApplication.getContext(), 0,
+//                            notificationIntent, 0);
+//
+//                    mBuilder.setContentTitle("倍可盈")//设置通知栏标题
+//                            .setContentText(notification.getContent())
+//                            .setContentIntent(intent) //设置通知栏点击意图
+////                            .setNumber(++pushNum) //设置通知集合的数量
+////                            .setTicker(senderNick + ":" + contentStr) //通知首次出现在通知栏，带上升动画效果的
+//                            .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示，一般是系统获取到的时间
+//                            .setDefaults(Notification.DEFAULT_ALL)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合
+//                            .setSmallIcon(com.cdkj.baseim.R.mipmap.app_icon);//设置通知小ICON
+//                    Notification notify = mBuilder.build();
+//                    notify.flags |= Notification.FLAG_AUTO_CANCEL;
+//                    mNotificationManager.notify(pushId, notify);
+//                }
+//            });
+//        }
 
     }
 
@@ -77,6 +129,10 @@ public class MyApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    public static Context getInstance(){
+        return application;
     }
 
 }
