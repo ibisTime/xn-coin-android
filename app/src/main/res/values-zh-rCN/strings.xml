@@ -56,9 +56,9 @@
     <string name="deal_publish_premium_hint">根据市场的溢价比例</string>
     <string name="deal_publish_pt_price_high">最高价格</string>
     <string name="deal_publish_pt_price_high_hint">广告最高可成交的价格</string>
-    <string name="deal_publish_min">最  小  量</string>
+    <string name="deal_publish_min">最小限额</string>
     <string name="deal_publish_min_hint">每笔交易的最小限额</string>
-    <string name="deal_publish_max">最  大  量</string>
+    <string name="deal_publish_max">最大限额</string>
     <string name="deal_publish_max_hint">每笔交易的最大限额</string>
     <string name="deal_publish_amount_buy">购买总量</string>
     <string name="deal_publish_amount_buy_hint">请输入购买币总量</string>
@@ -342,7 +342,7 @@
     <string name="user_repassword_hint">请确认密码</string>
     <string name="user_repassword_two_hint">两次输入的密码不相同</string>
     <string name="user_protocol_hint">请阅读并同意条款</string>
-    <string name="user_sign_up_success">注册成功,已自动登录</string>
+    <string name="user_sign_up_success">注册成功,为您自动登录</string>
     <string name="user_sign_up_failure">注册失败</string>
 
     <string name="user_person_deal">和Ta交易过</string>
@@ -529,5 +529,7 @@
     <string name="user_sign_up_referee_hint">推荐人手机号(选填)</string>
     <string name="user_invite_url">分享链接</string>
     <string name="user_invite_pic">分享二维码</string>
+
+
 
 </resources>

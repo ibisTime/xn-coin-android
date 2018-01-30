@@ -10,4 +10,6 @@ public interface TxImLoginInterface {
 
     void onSuccess();
 
+    void onFinish();
+
 }

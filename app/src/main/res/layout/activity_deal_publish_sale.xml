@@ -543,6 +543,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:backgroundTint="@null"
+                android:maxLength="100"
+                android:maxLines="5"
                 android:textColorHint="@color/gray_999999"
                 android:hint="@string/deal_publish_remark_hint"
                 android:textColor="@color/black"

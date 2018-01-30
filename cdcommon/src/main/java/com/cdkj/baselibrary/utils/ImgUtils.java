@@ -3,7 +3,6 @@ package com.cdkj.baselibrary.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -146,8 +145,6 @@ public class ImgUtils {
                     .load(path.toString())
                     .into(iv);
         } else {
-
-            Log.e("loadImage",MyConfig.IMGURL + path.toString());
 
             Glide.with(context)
                     .load(MyConfig.IMGURL + path.toString())

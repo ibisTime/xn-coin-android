@@ -1,7 +1,6 @@
 package com.cdkj.baseim.model;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.cdkj.baseim.adapter.ChatAdapter;
 import com.tencent.imsdk.TIMCustomElem;
@@ -45,7 +44,7 @@ public class CustomMessage extends Message {
                     data = dataJson.toString();
             }
         }catch (JSONException e){
-            Log.e(TAG, "generate json error");
+            e.printStackTrace();
         }
         TIMCustomElem elem = new TIMCustomElem();
         elem.setData(data.getBytes());
@@ -78,8 +77,7 @@ public class CustomMessage extends Message {
             }
 
         }catch (IOException | JSONException e){
-            Log.e(TAG, "parse json error");
-
+            e.printStackTrace();
         }
     }
 

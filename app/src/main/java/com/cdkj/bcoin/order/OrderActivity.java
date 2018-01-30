@@ -62,17 +62,16 @@ public class OrderActivity extends AbsBaseActivity {
 
     private ActivityOrderBinding mBinding;
 
-    private String code;
-    private OrderDetailModel bean;
+    private OrderDetailModel model;
 
     private ImUserInfo imUserInfo;
 
-    public static void open(Context context, String code, ImUserInfo imUserInfo){
+    public static void open(Context context, OrderDetailModel model, ImUserInfo imUserInfo){
         if (context == null) {
             return;
         }
 
-        context.startActivity(new Intent(context, OrderActivity.class).putExtra("code", code).putExtra("imUserInfo",imUserInfo));
+        context.startActivity(new Intent(context, OrderActivity.class).putExtra("model", model).putExtra("imUserInfo",imUserInfo));
     }
 
     @Override
@@ -90,16 +89,17 @@ public class OrderActivity extends AbsBaseActivity {
 
         init();
         initListener();
-
-        getOrder(true);
     }
 
     private void init() {
         if (getIntent() == null)
             return;
 
-        code = getIntent().getStringExtra("code");
+        model = (OrderDetailModel) getIntent().getSerializableExtra("model");
         imUserInfo = getIntent().getParcelableExtra("imUserInfo");
+
+        if (model != null)
+            setView();
 
         // 重写键盘，不根据点击坐标隐藏键盘，避免与聊天Fragment冲突
         isNeedHideKeyBord = false;
@@ -158,7 +158,7 @@ public class OrderActivity extends AbsBaseActivity {
 
     private void tag(){
         Map<String, Object> map = new HashMap<>();
-        map.put("code", bean.getCode());
+        map.put("code", model.getCode());
         map.put("updater", SPUtilHelper.getUserId());
         map.put("token", SPUtilHelper.getUserToken());
         map.put("remark", "买家标记打款");
@@ -192,7 +192,7 @@ public class OrderActivity extends AbsBaseActivity {
 
     private void cancel(){
         Map<String, Object> map = new HashMap<>();
-        map.put("code", bean.getCode());
+        map.put("code", model.getCode());
         map.put("updater", SPUtilHelper.getUserId());
         map.put("token", SPUtilHelper.getUserToken());
         map.put("remark", "买家取消订单");
@@ -226,7 +226,7 @@ public class OrderActivity extends AbsBaseActivity {
 
     private void release(){
         Map<String, Object> map = new HashMap<>();
-        map.put("code", bean.getCode());
+        map.put("code", model.getCode());
         map.put("updater", SPUtilHelper.getUserId());
         map.put("token", SPUtilHelper.getUserToken());
         map.put("remark", "卖家释放货币");
@@ -332,7 +332,7 @@ public class OrderActivity extends AbsBaseActivity {
 
     private void evaluate(String comment){
         Map<String, Object> map = new HashMap<>();
-        map.put("code", code);
+        map.put("code", model.getCode());
         map.put("comment", comment);
         map.put("userId", SPUtilHelper.getUserId());
         map.put("token", SPUtilHelper.getUserToken());
@@ -367,7 +367,7 @@ public class OrderActivity extends AbsBaseActivity {
     protected void getOrder(boolean isShow) {
 
         Map<String, Object> map = new HashMap<>();
-        map.put("code", code);
+        map.put("code", model.getCode());
 
         Call call = RetrofitUtils.createApi(MyApi.class).getOrderDetail("625251", StringUtils.getJsonToString(map));
 
@@ -383,7 +383,7 @@ public class OrderActivity extends AbsBaseActivity {
                 if (data == null)
                     return;
 
-                bean = data;
+                model = data;
                 setView();
 
             }
@@ -397,26 +397,26 @@ public class OrderActivity extends AbsBaseActivity {
     }
 
     private void setView() {
-        mBinding.tvOrderId.setText(bean.getCode().substring(bean.getCode().length()-8, bean.getCode().length()));
-        mBinding.tvStatus.setText(getOrderStatus(bean.getStatus()));
+        mBinding.tvOrderId.setText(model.getCode().substring(model.getCode().length()-8, model.getCode().length()));
+        mBinding.tvStatus.setText(getOrderStatus(model.getStatus()));
 
-        mBinding.tvPrice.setText(bean.getTradePrice()+"CNY");
-        mBinding.tvAmount.setText(bean.getTradeAmount()+"CNY");
-        mBinding.tvQuantity.setText(AccountUtil.weiToEth(new BigDecimal(bean.getCountString()))+"ETH");
+        mBinding.tvPrice.setText(model.getTradePrice()+"CNY");
+        mBinding.tvAmount.setText(model.getTradeAmount()+"CNY");
+        mBinding.tvQuantity.setText(AccountUtil.weiToEth(new BigDecimal(model.getCountString()))+"ETH");
 
-        mBinding.tvBuyer.setText(bean.getBuyUserInfo().getNickname());
-        mBinding.tvSeller.setText(bean.getSellUserInfo().getNickname());
-        mBinding.tvRemark.setText(StringUtil.getString(R.string.order_leave_message) + bean.getLeaveMessage());
+        mBinding.tvBuyer.setText(model.getBuyUserInfo().getNickname());
+        mBinding.tvSeller.setText(model.getSellUserInfo().getNickname());
+        mBinding.tvRemark.setText(StringUtil.getString(R.string.order_leave_message) + model.getLeaveMessage());
         mBinding.tvRemark.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         // 设置右边Title按钮隐藏，之后根据条件显示
         setSubRightTitHide();
         String tip="";
-//        int limit =  DateUtil.getDateDValue(bean.getInvalidDatetime(),bean.getCreateDatetime());
+//        int limit =  DateUtil.getDateDValue(model.getInvalidDatetime(),model.getCreateDatetime());
 
-        if (bean.getStatus().equals("0")) { //待支付
+        if (model.getStatus().equals("0")) { //待支付
 
-            if (TextUtils.equals(bean.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
+            if (TextUtils.equals(model.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
                 mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_tag));
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
 
@@ -431,12 +431,12 @@ public class OrderActivity extends AbsBaseActivity {
             }
 
             tip = StringUtil.getString(R.string.order_save_limit_start)+"<font color='#f15353'>"
-                    + DateUtil.formatStringData(bean.getInvalidDatetime(), DateUtil.DATE_HMS)
+                    + DateUtil.formatStringData(model.getInvalidDatetime(), DateUtil.DATE_HMS)
                     + "</font>"+StringUtil.getString(R.string.order_save_limit_end);
 
-        } else if (bean.getStatus().equals("1")){ //已支付待释放
+        } else if (model.getStatus().equals("1")){ //已支付待释放
 
-            if (TextUtils.equals(bean.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
+            if (TextUtils.equals(model.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
                 mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_release_wait));
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn_gray);
             }else { // 自己是卖家
@@ -445,7 +445,7 @@ public class OrderActivity extends AbsBaseActivity {
             }
 
             tip = StringUtil.getString(R.string.order_save_limit_start)+"<font color='#f15353'>"
-                    + DateUtil.formatStringData(bean.getInvalidDatetime(), DateUtil.DATE_HMS)
+                    + DateUtil.formatStringData(model.getInvalidDatetime(), DateUtil.DATE_HMS)
                     + "</font>"+StringUtil.getString(R.string.order_save_limit_end);
 
             // 可以申请仲裁
@@ -453,21 +453,21 @@ public class OrderActivity extends AbsBaseActivity {
                 popupArbitrate(v);
             });
 
-        } else if(bean.getStatus().equals("2")){ //待评价
+        } else if(model.getStatus().equals("2")){ //待评价
 
-            if (TextUtils.equals(bean.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
+            if (TextUtils.equals(model.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
 
                 mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_evaluation));
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
                 tip = StringUtil.getString(R.string.order_evaluation_tip);
 
-                if (!TextUtils.isEmpty(bean.getBsComment())){ // 买家已评价
+                if (!TextUtils.isEmpty(model.getBsComment())){ // 买家已评价
                     mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_evaluation_by_b));
                     mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn_gray);
                     tip = StringUtil.getString(R.string.order_evaluation_tip_by_b);
                 }
 
-                if (!TextUtils.isEmpty(bean.getSbComment())){ // 卖家已评价
+                if (!TextUtils.isEmpty(model.getSbComment())){ // 卖家已评价
                     mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_evaluation));
                     mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
                     tip = StringUtil.getString(R.string.order_evaluation_tip_by_s);
@@ -478,13 +478,13 @@ public class OrderActivity extends AbsBaseActivity {
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
                 tip = StringUtil.getString(R.string.order_evaluation_tip);
 
-                if (!TextUtils.isEmpty(bean.getBsComment())){ // 买家已评价
+                if (!TextUtils.isEmpty(model.getBsComment())){ // 买家已评价
                     mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_evaluation));
                     mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
                     tip = StringUtil.getString(R.string.order_evaluation_tip_by_b);
                 }
 
-                if (!TextUtils.isEmpty(bean.getSbComment())){ // 卖家已评价
+                if (!TextUtils.isEmpty(model.getSbComment())){ // 卖家已评价
                     mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_evaluation_by_s));
                     mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn_gray);
                     tip = StringUtil.getString(R.string.order_evaluation_tip_by_s);
@@ -492,9 +492,9 @@ public class OrderActivity extends AbsBaseActivity {
 
             }
 
-        } else if(bean.getStatus().equals("3")){ //已完成
+        } else if(model.getStatus().equals("3")){ //已完成
 
-            if (TextUtils.equals(bean.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
+            if (TextUtils.equals(model.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
                 mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_wallet));
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
             }else { // 自己是卖家
@@ -505,10 +505,10 @@ public class OrderActivity extends AbsBaseActivity {
             tip = StringUtil.getString(R.string.order_done);
 
         } else {
-            mBinding.btnConfirm.setText(OrderUtil.getOrderStatus(bean.getStatus()));
+            mBinding.btnConfirm.setText(OrderUtil.getOrderStatus(model.getStatus()));
             mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn_gray);
 
-            tip = bean.getRemark();
+            tip = model.getRemark();
         }
 
         mBinding.tvTip.setText(Html.fromHtml(tip));
@@ -570,7 +570,7 @@ public class OrderActivity extends AbsBaseActivity {
 
     private void arbitrate(String reason){
         Map<String, String> map = new HashMap<>();
-        map.put("code", code);
+        map.put("code", model.getCode());
         map.put("applyUser", SPUtilHelper.getUserId());
         map.put("token", SPUtilHelper.getUserToken());
         map.put("reason", reason);
@@ -608,6 +608,7 @@ public class OrderActivity extends AbsBaseActivity {
     @Subscribe
     public void imMsgUpdate(String tag) {
         if (tag.equals(IM_MSG_UPDATE_ORDER)){
+
             getOrder(false);
 
         }

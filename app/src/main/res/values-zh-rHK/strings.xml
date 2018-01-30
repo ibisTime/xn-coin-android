@@ -56,9 +56,9 @@
     <string name="deal_publish_premium_hint">根據市場的溢價比例</string>
     <string name="deal_publish_pt_price_high">最高價格</string>
     <string name="deal_publish_pt_price_high_hint">廣告最高可成交的價格</string>
-    <string name="deal_publish_min">最  小  量</string>
+    <string name="deal_publish_min">最小限額</string>
     <string name="deal_publish_min_hint">每筆交易的最小限額</string>
-    <string name="deal_publish_max">最  大  量</string>
+    <string name="deal_publish_max">最大限額</string>
     <string name="deal_publish_max_hint">每筆交易的最大限額</string>
     <string name="deal_publish_amount_buy">購買總量</string>
     <string name="deal_publish_amount_buy_hint">請輸入購買幣總量</string>
@@ -342,7 +342,7 @@
     <string name="user_repassword_hint">請確認密碼</string>
     <string name="user_repassword_two_hint">兩次輸入的密碼不相同</string>
     <string name="user_protocol_hint">請閱讀並同意條款</string>
-    <string name="user_sign_up_success">注冊成功,已自動登錄</string>
+    <string name="user_sign_up_success">注冊成功,為您自動登錄</string>
     <string name="user_sign_up_failure">注冊失敗</string>
 
     <string name="user_person_deal">和Ta交易過</string>

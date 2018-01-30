@@ -34,7 +34,6 @@ public class MarketCoinAdapter extends BaseQuickAdapter<MarketCoinModel,BaseView
 
         // USD
         BigDecimal cny = new BigDecimal(item.getMid());
-        Log.e("USD", SPUtilHelper.getRate(SPUtilHelper.USD));
         BigDecimal rate = new BigDecimal(SPUtilHelper.getRate(SPUtilHelper.USD));
 
         helper.setText(R.id.tv_usd,cny.divide(rate, 8, BigDecimal.ROUND_HALF_DOWN)+"");

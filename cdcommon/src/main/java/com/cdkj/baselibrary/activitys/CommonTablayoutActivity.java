@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.cdkj.baselibrary.R;
-import com.cdkj.baselibrary.adapters.TablayoutAdapter;
+import com.cdkj.baselibrary.adapters.TabLayoutAdapter;
 import com.cdkj.baselibrary.base.AbsBaseActivity;
 import com.cdkj.baselibrary.databinding.ActivityTabBinding;
 
@@ -21,7 +21,7 @@ public abstract class CommonTablayoutActivity extends AbsBaseActivity {
     protected ActivityTabBinding mbinding;
 
     /*Tablayout 适配器*/
-    protected TablayoutAdapter tablayoutAdapter;
+    protected TabLayoutAdapter tablayoutAdapter;
 
     @Override
     public View addMainView() {
@@ -35,7 +35,7 @@ public abstract class CommonTablayoutActivity extends AbsBaseActivity {
     }
     private void initViewPager() {
 
-        tablayoutAdapter=new TablayoutAdapter(getSupportFragmentManager());
+        tablayoutAdapter=new TabLayoutAdapter(getSupportFragmentManager());
 
         List<Fragment> mFragments=getFragments();
         List<String> mTitles=getFragmentTitles();

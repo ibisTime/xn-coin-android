@@ -12,10 +12,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.cdkj.baseim.event.GroupEvent;
-import com.cdkj.baseim.event.MessageEvent;
-import com.cdkj.baseim.event.RefreshEvent;
-import com.cdkj.baseim.interfaces.TxImLoginInterface;
 import com.cdkj.baseim.interfaces.TxImLoginPresenter;
 import com.cdkj.baseim.maneger.TXImManager;
 import com.cdkj.baseim.util.PushUtil;
@@ -39,12 +35,9 @@ import com.cdkj.bcoin.market.MarketFragment;
 import com.cdkj.bcoin.model.VersionModel;
 import com.cdkj.bcoin.order.OrderFragment;
 import com.cdkj.bcoin.user.UserFragment;
-import com.cdkj.bcoin.user.login.SignInActivity;
+import com.cdkj.bcoin.util.PushOrder;
 import com.cdkj.bcoin.util.StringUtil;
 import com.cdkj.bcoin.wallet.WalletFragment;
-import com.tencent.imsdk.TIMManager;
-import com.tencent.imsdk.TIMUserConfig;
-import com.tencent.imsdk.TIMUserStatusListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -63,12 +56,14 @@ import static com.cdkj.bcoin.util.UpdateUtil.startWeb;
 import static com.cdkj.bcoin.util.ZenDeskUtil.initZenDeskIdentity;
 
 @Route(path = "/main/page")
-public class MainActivity extends AbsBaseActivity implements TxImLoginInterface {
+public class MainActivity extends AbsBaseActivity {
 
     private PublishWindow mPublishWindow;
     private ActivityMainBinding mBinding;
 
     private TxImLoginPresenter mPresenter;
+
+    private PushOrder pushOrder;
 
     public static final int MARKET = 0;
     public static final int ORDER = 1;
@@ -76,6 +71,8 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
     public static final int WALLET = 3;
     public static final int MY = 4;
     private List<Fragment> fragments;
+
+    public static Context mContext;
 
     /**
      * 打开当前页面
@@ -103,16 +100,16 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
 
         init();
 
-        getVersion();
-//        groupEvent();
-
+        // 离线推送：如果有订单先打开订单详情，避免更新提示阻挡用户操作
+        if (!SPUtilHelper.getPushOrder().equals("")){
+            pushOrder.getOrder(this, SPUtilHelper.getPushOrder(), true);
+        }else {
+            getVersion();
+        }
 
         if(!SPUtilHelper.getUserId().equals("")){
             getUserData();
             updateOnLineTime();
-
-//            initTencent();
-            initZenDeskIdentity(SPUtilHelper.getUserName(), SPUtilHelper.getUserEmail());
 
         }
 
@@ -127,7 +124,7 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
 
         if(!SPUtilHelper.getUserId().equals("")){
             // 设置腾讯云的昵称
-            TXImManager.getInstance().setUserNickName(SPUtilHelper.getUserName(), new TXImManager.changeInfoBallBack() {
+            TXImManager.getInstance().setUserNickName(SPUtilHelper.getUserName(), new TXImManager.ChangeInfoBallBack() {
                 @Override
                 public void onError(int i, String s) {
                     Log.e("TencentNickName:Error","code="+i+":"+s);
@@ -143,13 +140,11 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
         }
     }
 
-    private void initTencent() {
-        // 登录腾讯云
-        mPresenter = new TxImLoginPresenter(this);
-        mPresenter.login();
-    }
 
     private void init() {
+        mContext = this;
+        pushOrder = new PushOrder();
+
         setShowIndex(DEAL);
     }
 
@@ -332,6 +327,9 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
                 SPUtilHelper.saveTradePwdFlag(data.isTradepwdFlag());
                 SPUtilHelper.saveGoogleAuthFlag(data.isGoogleAuthFlag());
 
+                //
+                initZenDeskIdentity(SPUtilHelper.getUserName(), SPUtilHelper.getUserEmail());
+
             }
 
             @Override
@@ -456,16 +454,6 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
         }
     }
 
-    @Override
-    public void onError(int i, String s) {
-
-    }
-
-    @Override
-    public void onSuccess() {
-
-    }
-
 
     int newUnreadMsg = 0;
     int doneUnreadMsg = 0;
@@ -494,36 +482,4 @@ public class MainActivity extends AbsBaseActivity implements TxImLoginInterface 
         mBinding.layoutMainBottom.ivMsgTip.setVisibility(newUnreadMsg+doneUnreadMsg == 0 ? View.GONE:View.VISIBLE);
     }
 
-    /**
-     * 设置刷新腾讯云群组监听
-     */
-    public void groupEvent(){
-        TIMUserConfig userConfig = new TIMUserConfig()
-                .setGroupEventListener(timGroupTipsElem -> Log.e("onGroupTipsEven1t", "you have new system msg!"))
-                .setUserStatusListener(new TIMUserStatusListener() {
-                    @Override
-                    public void onForceOffline() {
-                        //被其他终端踢下线
-                        Log.i("onForceOffline", "onForceOffline");
-                        showToast("该账号在其他设备登录，请重新登录");
-                        SPUtilHelper.logOutClear();
-                        EventBus.getDefault().post(EventTags.AllFINISH);
-
-                        SignInActivity.open(MainActivity.this,true);
-                        finish();
-                    }
-
-                    @Override
-                    public void onUserSigExpired() {
-                        //用户签名过期了，需要刷新userSig重新登录SDK
-//                        Log.i(tag, "onUserSigExpired");
-                    }
-                });
-
-        RefreshEvent.getInstance().init(userConfig);
-        userConfig = GroupEvent.getInstance().init(userConfig);
-        userConfig = MessageEvent.getInstance().init(userConfig);
-        TIMManager.getInstance().setUserConfig(userConfig);
-
-    }
 }

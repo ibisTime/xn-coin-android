@@ -221,7 +221,6 @@ public class TxImLogingActivity extends AbsBaseActivity {
                 TXImManager.getInstance().login(SPUtilHelper.getUserId(), data.getSign(), new TXImManager.LoginBallBack() {
                     @Override
                     public void onError(int i, String s) {
-                        Log.e("onError","onError");
                         ToastUtil.show(TxImLogingActivity.this, s);
                         disMissLoading();
                         finishNoTransition();
@@ -231,7 +230,6 @@ public class TxImLogingActivity extends AbsBaseActivity {
 
                     @Override
                     public void onSuccess() {
-                        Log.e("onSuccess","onSuccess");
                         txLoginSucc();
                     }
                 });
@@ -259,8 +257,7 @@ public class TxImLogingActivity extends AbsBaseActivity {
     }
 
     private void txLoginSucc() {
-        Log.e("txLoginSucc","txLoginSucc");
-        TXImManager.getInstance().setUserNickName(SPUtilHelper.getUserName(), new TXImManager.changeInfoBallBack() {
+        TXImManager.getInstance().setUserNickName(SPUtilHelper.getUserName(), new TXImManager.ChangeInfoBallBack() {
             @Override
             public void onError(int i, String s) {
                 setLogo();
@@ -274,8 +271,7 @@ public class TxImLogingActivity extends AbsBaseActivity {
     }
 
     private void setLogo() {
-        Log.e("setLogo","setLogo");
-        TXImManager.getInstance().setUserLogo(SPUtilHelper.getUserPhoto(), new TXImManager.changeInfoBallBack() {
+        TXImManager.getInstance().setUserLogo(SPUtilHelper.getUserPhoto(), new TXImManager.ChangeInfoBallBack() {
             @Override
             public void onError(int i, String s) {
                 startChat();
@@ -292,7 +288,6 @@ public class TxImLogingActivity extends AbsBaseActivity {
      * 启动聊天
      */
     private void startChat() {
-        Log.e("startChat",openFlag);
         disMissLoading();
         if (isStartChat) {
             switch (openFlag){

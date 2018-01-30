@@ -6,9 +6,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.huawei.android.pushagent.api.PushEventReceiver;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMOfflinePushToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 
 /**
@@ -42,6 +46,8 @@ public class HwPushMessageReceiver extends PushEventReceiver {
 
     @Override
     public void onEvent(Context context, Event event, Bundle extras) {
+        Log.e(TAG, extras.toString());
+
         if (Event.NOTIFICATION_OPENED.equals(event) || Event.NOTIFICATION_CLICK_BTN.equals(event)) {
             int notifyId = extras.getInt(BOUND_KEY.pushNotifyId, 0);
             if (0 != notifyId) {
@@ -50,7 +56,19 @@ public class HwPushMessageReceiver extends PushEventReceiver {
             }
             String content = "收到通知附加消息： " + extras.getString(BOUND_KEY.pushMsgKey);
 
+            try {
+                JSONArray j = new JSONArray(extras.getString(BOUND_KEY.pushMsgKey));
+                String ext = j.getJSONObject(0).getString("ext");
+
+                if (ext==null)
+                    return;
+                SPUtilHelper.savePushOrder(ext);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             Log.e(TAG, content);
+
         } else if (Event.PLUGINRSP.equals(event)) {
             final int TYPE_LBS = 1;
             final int TYPE_TAG = 2;

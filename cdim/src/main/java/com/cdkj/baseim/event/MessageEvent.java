@@ -1,8 +1,10 @@
 package com.cdkj.baseim.event;
 
 
-import android.util.Log;
-
+import com.cdkj.baseim.model.CustomMessage;
+import com.cdkj.baseim.model.Message;
+import com.cdkj.baseim.model.MessageFactory;
+import com.cdkj.baselibrary.appmanager.EventTags;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
@@ -10,6 +12,8 @@ import com.tencent.imsdk.TIMUserConfig;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.tencent.imsdk.ext.message.TIMMessageRevokedListener;
 import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 import java.util.Observable;
@@ -48,8 +52,6 @@ public class MessageEvent extends Observable implements TIMMessageListener, TIMM
     @Override
     public boolean onNewMessages(List<TIMMessage> list) {
 
-        Log.e("onNewMessages", list+"");
-
         for (TIMMessage item : list){
             setChanged();
             notifyObservers(item);
@@ -63,10 +65,35 @@ public class MessageEvent extends Observable implements TIMMessageListener, TIMM
      */
     public void onNewMessage(TIMMessage message){
 
-        Log.e("onNewMessage", message+"");
-
         setChanged();
         notifyObservers(message);
+
+    }
+
+    /**
+     * 本地新消息通知处理
+     * @param msg
+     */
+    public void newMessageNotify(TIMMessage msg){
+        if (MessageFactory.getMessage(msg) instanceof CustomMessage)
+            return;
+
+        String senderStr;
+
+        Message message = MessageFactory.getMessage(msg);
+
+        if (message == null)
+            return;
+
+        senderStr = message.getSender();
+
+        if (senderStr.equals("admin")){ // 系统消息
+            // 更新订单详情数据
+            EventBus.getDefault().post(EventTags.IM_MSG_UPDATE_ORDER);
+        }else {
+            // 更新订单列表消息状态
+            EventBus.getDefault().post(EventTags.IM_MSG_UPDATE);
+        }
     }
 
     /**

@@ -3,7 +3,6 @@ package com.cdkj.baselibrary.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.tencent.mm.opensdk.constants.Build;
@@ -69,7 +68,6 @@ public class WxUtil {
      * @param img
      */
     public static void shareText(Context context, boolean scene, String url, String title, String description, int img) {
-        Log.e("shareURL" , url);
         api = registToWx(context);
 
         WXWebpageObject webPage = new WXWebpageObject();

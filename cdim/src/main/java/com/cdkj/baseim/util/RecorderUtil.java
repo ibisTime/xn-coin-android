@@ -45,6 +45,7 @@ public class RecorderUtil {
             isRecording = true;
         } catch (Exception e){
             Log.e(TAG, "prepare() failed");
+            e.printStackTrace();
         }
 
     }
@@ -65,6 +66,7 @@ public class RecorderUtil {
             isRecording =false;
         }catch (Exception e){
             Log.e(TAG, "release() failed");
+            e.printStackTrace();
         }
 
     }

@@ -2,6 +2,7 @@ package com.cdkj.baselibrary.utils;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -23,6 +24,7 @@ public class ToastUtil {
     public static void showToast(Context mContext, String text, int duration) {
 
         mHandler.removeCallbacks(r);
+
         if (mToast != null)
             mToast.setText(text);
         else
@@ -35,28 +37,26 @@ public class ToastUtil {
 
     public static void show(Context context, String info) {
 
-        if(context==null)
-        {
+        if(context==null) {
             return;
         }
 
         try {
             showToast(context, info, Toast.LENGTH_LONG);
         }catch (Exception e){
-
+            e.printStackTrace();
         }
 
     }
 
     public static void show(Context context, int info) {
-        if(context==null)
-        {
+        if(context==null) {
             return;
         }
         try{
             showToast(context, info+"", Toast.LENGTH_LONG);
         }catch (Exception e){
-
+            e.printStackTrace();
         }
     }
 }

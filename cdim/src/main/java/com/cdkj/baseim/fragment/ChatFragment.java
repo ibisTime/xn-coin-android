@@ -34,6 +34,7 @@ import com.cdkj.baseim.model.MessageFactory;
 import com.cdkj.baseim.model.TextMessage;
 import com.cdkj.baseim.presenter.ChatPresenter;
 import com.cdkj.baseim.ui.ChatInput;
+import com.cdkj.baseim.util.ChatForeground;
 import com.cdkj.baseim.util.EmoticonUtil;
 import com.cdkj.baseim.util.MediaUtil;
 import com.cdkj.baseim.viewfeatures.ChatView;
@@ -156,12 +157,29 @@ public class ChatFragment extends BaseLazyFragment implements ChatView {
 
     @Override
     protected void lazyLoad() {
-
     }
 
     @Override
     protected void onInvisible() {
+    }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // 推送逻辑:进入聊天界面
+        ChatForeground.get().setForeground(true);
+        ChatForeground.get().setIdentify(imUserInfo.getIdentify());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // 推送逻辑:退出聊天界面
+        ChatForeground.get().setForeground(false);
+        ChatForeground.get().setIdentify("");
     }
 
     //创建回调
@@ -210,8 +228,6 @@ public class ChatFragment extends BaseLazyFragment implements ChatView {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-                Log.e("firstItem",firstItem+"");
-                Log.e("scrollState",scrollState+"");
 
 //                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && firstItem == 0) {
 //                    //如果拉到顶端读取更多消息
@@ -607,9 +623,6 @@ public class ChatFragment extends BaseLazyFragment implements ChatView {
         }
 
         Message message = MessageFactory.getMessage(msg);
-
-        Log.e("getSender", message.getSender());
-        Log.e("getSummary", message.getSummary());
 
         return message.getSummary();
     }

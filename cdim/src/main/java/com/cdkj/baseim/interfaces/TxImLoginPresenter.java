@@ -32,8 +32,8 @@ public class TxImLoginPresenter {
     }
 
     //处理登录逻辑
-    public void login() {
-
+    public void login(Context context) {
+        this.mContext = context;
         getTxKeyRequest();
     }
 
@@ -54,60 +54,51 @@ public class TxImLoginPresenter {
         call.enqueue(new BaseResponseModelCallBack<TencentSignModel>(mContext) {
             @Override
             protected void onSuccess(TencentSignModel data, String SucMessage) {
-
                 TXImManager.getInstance().init(Integer.parseInt(data.getTxAppCode()));
 
                 // 登录用小写userId去登录
                 TXImManager.getInstance().login(SPUtilHelper.getUserId(), data.getSign(), new TXImManager.LoginBallBack() {
                     @Override
                     public void onError(int i, String s) {
-                        Log.e("TxImLoginPresenter","onError");
-
                         mListener.onError(i,s);
                     }
 
                     @Override
                     public void onSuccess() {
-                        Log.e("TxImLoginPresenter","onSuccess");
-
                         txLoginSuccess();
-                        mListener.onSuccess();
                     }
                 });
             }
 
             @Override
-            protected void onNoNet(String msg) {
-
+            protected void onReqFailure(int code, String error) {
+                super.onReqFailure(code, error);
+                mListener.onError(6000, error);
             }
-
-            @Override
-            protected void onNull() {
-            }
-
 
             @Override
             protected void onFinish() {
+                mListener.onFinish();
             }
         });
     }
 
     private void txLoginSuccess() {
-        TXImManager.getInstance().setUserNickName(SPUtilHelper.getUserName(), new TXImManager.changeInfoBallBack() {
+        TXImManager.getInstance().setUserNickName(SPUtilHelper.getUserName(), new TXImManager.ChangeInfoBallBack() {
             @Override
             public void onError(int i, String s) {
-                setLogo();
+                mListener.onError(i,s);
             }
 
             @Override
             public void onSuccess() {
-                setLogo();
+                mListener.onSuccess();
             }
         });
     }
 
     private void setLogo() {
-        TXImManager.getInstance().setUserLogo(SPUtilHelper.getUserPhoto(), new TXImManager.changeInfoBallBack() {
+        TXImManager.getInstance().setUserLogo(SPUtilHelper.getUserPhoto(), new TXImManager.ChangeInfoBallBack() {
             @Override
             public void onError(int i, String s) {
             }

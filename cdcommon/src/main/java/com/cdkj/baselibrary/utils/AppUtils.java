@@ -95,7 +95,7 @@ public class AppUtils {
                 return "";
             }
         } catch (Exception e) {
-            Log.e("VersionInfo", "Exception", e);
+            e.printStackTrace();
         }
         return versionName;
     }

@@ -7,7 +7,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -393,11 +392,11 @@ public class PublishBuyActivity extends AbsBaseActivity {
         });
 
         // 限制EditText的小数点前后输入位数
-        mBinding.edtPremium.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtPremium,10,2));
-        mBinding.edtProtectPrice.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtProtectPrice,10,2));
+        mBinding.edtPremium.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtPremium,8,2));
+        mBinding.edtProtectPrice.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtProtectPrice,8,2));
         mBinding.edtMax.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtMax,8,2));
         mBinding.edtMin.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtMin,8,2));
-        mBinding.edtAmount.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtAmount,10,8));
+        mBinding.edtAmount.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtAmount,8,8));
     }
 
     /**
@@ -534,7 +533,12 @@ public class PublishBuyActivity extends AbsBaseActivity {
                 // 已有的广告（编辑）时，行情价格取marketPrice去计算
 //                SPUtilHelper.saveMarketCoin("ETH",data.getMarketPrice());
 
-                setView();
+                try{
+                    setView();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
 
             @Override
@@ -545,9 +549,11 @@ public class PublishBuyActivity extends AbsBaseActivity {
     }
 
     private void setView() {
+
+
         mBinding.edtPremium.setText(AccountUtil.formatDouble(bean.getPremiumRate() * 100)+"");
         mBinding.edtMin.setText(bean.getMinTrade()+"");
-        mBinding.edtMax.setText(bean.getMaxTrade()+"");
+        mBinding.edtMax.setText(AccountUtil.formatDouble(bean.getMaxTrade()));
         mBinding.edtProtectPrice.setText(bean.getProtectPrice()+"");
         mBinding.edtAmount.setText(AccountUtil.weiToEth(new BigDecimal(bean.getLeftCountString())));
         mBinding.tvWay.setText(types[Integer.parseInt(bean.getPayType())]);
@@ -878,7 +884,6 @@ public class PublishBuyActivity extends AbsBaseActivity {
             e.printStackTrace();
         }
 
-        Log.e("JSON 转换__",object.toString());
         Call call = RetrofitUtils.getBaseAPiService().successRequest("625220", object.toString());
 
         addCall(call);

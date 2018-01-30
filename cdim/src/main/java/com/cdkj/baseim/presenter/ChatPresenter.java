@@ -126,8 +126,6 @@ public class ChatPresenter implements Observer {
         timConversationExt.revokeMessage(message, new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
-                Log.e(TAG,"revoke error ：" + i);
-
                 switch (i){
                     case 10031:
                         view.showToast("消息已发出超过两分钟，不能撤回");
@@ -204,7 +202,6 @@ public class ChatPresenter implements Observer {
                 @Override
                 public void onError(int i, String s) {
                     isGetingMessage = false;
-                    Log.e(TAG,"get message error"+s);
                 }
 
                 @Override

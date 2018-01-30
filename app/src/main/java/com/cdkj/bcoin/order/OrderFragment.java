@@ -14,6 +14,7 @@ import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.cdkj.baseim.util.VibratorUtil;
 import com.cdkj.baselibrary.adapters.ViewPagerAdapter;
 import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
@@ -31,6 +32,7 @@ import java.util.List;
 
 import static com.cdkj.baselibrary.appmanager.EventTags.IM_MSG_TIP_DONE;
 import static com.cdkj.baselibrary.appmanager.EventTags.IM_MSG_TIP_NEW;
+import static com.cdkj.baselibrary.appmanager.EventTags.IM_MSG_VIBRATOR;
 
 /**
  * Created by lei on 2017/11/29.
@@ -242,5 +244,17 @@ public class OrderFragment extends BaseLazyFragment {
         if (model.getTag().equals(IM_MSG_TIP_DONE)){
             mBinding.ivMsgDoneTip.setVisibility(model.getEvInt() == 0 ? View.GONE:View.VISIBLE);
         }
+    }
+
+    @Subscribe
+    public void imMsgVibrator(String tag) {
+        if (tag.equals(IM_MSG_VIBRATOR)){
+
+            // 新消息震动提示
+            long[] patter = {0, 350, 0, 350};
+            VibratorUtil.vibrate(mActivity,patter,-1);
+
+        }
+
     }
 }

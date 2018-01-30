@@ -30,6 +30,7 @@ public class NotifyDialog extends DialogFragment {
             show(fm, tag);
         }catch (Exception e){
             Log.e(tag, "show notify dialog error, activity has been destroyed");
+            e.printStackTrace();
         }
 
     }
@@ -42,6 +43,7 @@ public class NotifyDialog extends DialogFragment {
             show(fm, tag);
         }catch (Exception e){
             Log.e(tag, "show notify dialog error, activity has been destroyed");
+            e.printStackTrace();
         }
     }
 

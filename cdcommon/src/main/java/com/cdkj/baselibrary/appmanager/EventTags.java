@@ -37,9 +37,12 @@ public class EventTags {
     // 最新行情价格
     public final static String COIN_PRICE_CHANGE= "coin_price_change";
 
+    // 消息加载
+    public final static String IM_MSG_LOAD= "im_msg_load";
     // 消息提醒
-    public final static String IM_MSG_UPDATE= "im_msg_uodate";
-    public final static String IM_MSG_UPDATE_ORDER= "im_msg_uodate_order";
+    public final static String IM_MSG_VIBRATOR= "im_msg_vibrator";
+    public final static String IM_MSG_UPDATE= "im_msg_update";
+    public final static String IM_MSG_UPDATE_ORDER= "im_msg_update_order";
     // 消息提醒
     public final static String IM_MSG_TIP_NEW= "im_msg_tip_new";
     // 消息提醒

@@ -38,6 +38,14 @@ public class AccountUtil {
         }
     }
 
+    public static String doubleFormatNumber(double d){
+        java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
+        nf.setGroupingUsed(false);
+
+
+        return nf.format(d);
+    }
+
     public static String formatDouble(double money){
         DecimalFormat df = new DecimalFormat("#######0.000");
         String showMoney = df.format(money);

@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -30,6 +29,8 @@ import java.util.Map;
 
 import retrofit2.Call;
 
+import static com.cdkj.bcoin.util.AccountUtil.formatDouble;
+
 /**
  * Created by lei on 2017/11/25.
  */
@@ -38,14 +39,14 @@ public class DealChatActivity extends AbsBaseActivity {
 
     private ActivityDealChatBinding mBinding;
 
-    private String chatOrderCde;
+    private OrderDetailModel model;
     private ImUserInfo imUserInfo;
 
-    public static void open(Context context, String chatOrderCde, ImUserInfo imUserInfo){
+    public static void open(Context context, OrderDetailModel model, ImUserInfo imUserInfo){
         if (context == null) {
             return;
         }
-        context.startActivity(new Intent(context, DealChatActivity.class).putExtra("chatOrderCde", chatOrderCde).putExtra("imUserInfo",imUserInfo));
+        context.startActivity(new Intent(context, DealChatActivity.class).putExtra("model", model).putExtra("imUserInfo",imUserInfo));
     }
 
     @Override
@@ -71,16 +72,10 @@ public class DealChatActivity extends AbsBaseActivity {
         if (getIntent() == null)
             return;
 
-        chatOrderCde = getIntent().getStringExtra("chatOrderCde");
+        model = (OrderDetailModel) getIntent().getSerializableExtra("model");
         imUserInfo = getIntent().getParcelableExtra("imUserInfo");
 
-        Log.e("getRightImg",imUserInfo.getRightImg());
-        Log.e("getRightName",imUserInfo.getRightName());
-        Log.e("getLeftImg",imUserInfo.getLeftImg());
-        Log.e("getLeftName",imUserInfo.getLeftName());
-        Log.e("getIdentify",imUserInfo.getIdentify());
-
-        getOrder();
+        getDeal();
         initChatFragment();
     }
 
@@ -99,37 +94,10 @@ public class DealChatActivity extends AbsBaseActivity {
         transaction.commit();
     }
 
-    protected void getOrder() {
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("code", chatOrderCde);
-
-        Call call = RetrofitUtils.createApi(MyApi.class).getOrderDetail("625251", StringUtils.getJsonToString(map));
-
-        addCall(call);
-
-        showLoadingDialog();
-
-        call.enqueue(new BaseResponseModelCallBack<OrderDetailModel>(this) {
-
-            @Override
-            protected void onSuccess(OrderDetailModel data, String SucMessage) {
-                if (data == null)
-                    return;
-                getDeal(data.getAdsCode());
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
-
-    }
-
-    private void getDeal(String code) {
+    private void getDeal() {
         Map<String, String> map = new HashMap<>();
-        map.put("adsCode", code);
+        map.put("adsCode", model.getAdsCode());
         map.put("userId", SPUtilHelper.getUserId());
 
         Call call = RetrofitUtils.createApi(MyApi.class).getDealDetail("625226", StringUtils.getJsonToString(map));
@@ -158,7 +126,7 @@ public class DealChatActivity extends AbsBaseActivity {
 
     private void setView(DealDetailModel data) {
         mBinding.tvPrice.setText(getStrRes(R.string.quoted)+ AccountUtil.formatDouble(data.getTruePrice())+"CNY");
-        mBinding.tvLimit.setText(getStrRes(R.string.limit)+data.getMinTrade()+"-"+data.getMaxTrade()+"CNY");
+        mBinding.tvLimit.setText(getStrRes(R.string.limit)+data.getMinTrade()+"-"+formatDouble(data.getMaxTrade())+"CNY");
 
         if (data.getTradeType().equals("1")){ // 1是卖币，UI展示买币
             setTopTitle(getStrRes(R.string.buy_order)+"("+data.getUser().getNickname()+")");

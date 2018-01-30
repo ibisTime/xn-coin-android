@@ -133,7 +133,6 @@ public abstract class BasePopupWindow implements BasePopup {
         try {
             tryToShowPopup(0, null);
         } catch (Exception e) {
-            Log.e(TAG, "show error");
             e.printStackTrace();
         }
     }
@@ -143,7 +142,6 @@ public abstract class BasePopupWindow implements BasePopup {
         try {
             tryToShowPopup(res, null);
         } catch (Exception e) {
-            Log.e(TAG, "show error");
             e.printStackTrace();
         }
     }
@@ -152,7 +150,6 @@ public abstract class BasePopupWindow implements BasePopup {
         try {
             tryToShowPopup(0, v);
         } catch (Exception e) {
-            Log.e(TAG, "show error");
             e.printStackTrace();
         }
     }
@@ -166,7 +163,6 @@ public abstract class BasePopupWindow implements BasePopup {
                 tryToShowPopup(0, view);
             }
         } catch (Exception e) {
-            Log.e(TAG, "show error");
             e.printStackTrace();
         }
     }
@@ -177,7 +173,6 @@ public abstract class BasePopupWindow implements BasePopup {
                 mPopupWindow.showAtLocation(mContext.findViewById(res), Gravity.NO_GRAVITY, x, y - mPopupView.getLayoutParams().height);
             }
         } catch (Exception e) {
-            Log.e(TAG, "show error");
             e.printStackTrace();
         }
     }

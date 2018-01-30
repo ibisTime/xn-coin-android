@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +36,7 @@ import com.cdkj.bcoin.model.CoinModel;
 import com.cdkj.bcoin.model.DealDetailModel;
 import com.cdkj.bcoin.model.DealHistoryModel;
 import com.cdkj.bcoin.model.DealResultModel;
+import com.cdkj.bcoin.model.OrderDetailModel;
 import com.cdkj.bcoin.model.SystemParameterModel;
 import com.cdkj.bcoin.user.UserPersonActivity;
 import com.cdkj.bcoin.util.AccountUtil;
@@ -53,6 +53,7 @@ import java.util.Map;
 import retrofit2.Call;
 
 import static com.cdkj.baseim.activity.TxImLogingActivity.DEAL;
+import static com.cdkj.bcoin.util.AccountUtil.formatDouble;
 import static com.cdkj.bcoin.util.DealUtil.setDealPayType;
 
 /**
@@ -68,9 +69,6 @@ public class DealActivity extends AbsBaseActivity {
     private String tradeString = StringUtil.getString(R.string.sale);
 
     private String inputType = "";
-
-    // 未支付订单
-    private String chatOrderCde;
 
     public static void open(Context context, String code){
         if (context == null) {
@@ -186,8 +184,8 @@ public class DealActivity extends AbsBaseActivity {
         mBinding.tvAdv.setText(bean.getLeaveMessage());
         mBinding.tvPrice.setText(AccountUtil.formatDouble(bean.getTruePrice())+"CNY");
         mBinding.tvLeft.setText(getStrRes(R.string.left_count) + AccountUtil.weiToEth(new BigDecimal(bean.getLeftCountString())));
-        mBinding.tvLimit.setText(getStrRes(R.string.limit) + bean.getMinTrade()+"-"+bean.getMaxTrade()+"CNY");
-        mBinding.edtCny.setHint(bean.getMinTrade()+"-"+bean.getMaxTrade()+"CNY");
+        mBinding.tvLimit.setText(getStrRes(R.string.limit) + bean.getMinTrade()+"-"+formatDouble(bean.getMaxTrade())+"CNY");
+        mBinding.edtCny.setHint(bean.getMinTrade()+"-"+formatDouble(bean.getMaxTrade())+"CNY");
 
         if (bean.getUser() == null)
             return;
@@ -232,7 +230,7 @@ public class DealActivity extends AbsBaseActivity {
                     popupType(view);
                 }
             }else {
-                showToast(getStrRes(R.string.trade_limit)+bean.getMinTrade()+"-"+bean.getMaxTrade()+"CNY");
+                showToast(getStrRes(R.string.trade_limit)+bean.getMinTrade()+"-"+formatDouble(bean.getMaxTrade())+"CNY");
             }
 
         });
@@ -319,12 +317,10 @@ public class DealActivity extends AbsBaseActivity {
         });
 
         mBinding.edtCny.setOnFocusChangeListener((view, b) -> {
-            Log.e("edtCny",b+"");
             inputType = "edtCny";
         });
 
         mBinding.edtCoin.setOnFocusChangeListener((view, b) -> {
-            Log.e("edtCoin",b+"");
             inputType = "edtCoin";
         });
     }
@@ -640,8 +636,6 @@ public class DealActivity extends AbsBaseActivity {
 
                 info.setIdentify(model.getCode());
 
-                chatOrderCde = model.getCode();
-
                 TxImLogingActivity.open(DealActivity.this, info,false,true, DEAL);
             }
 
@@ -656,7 +650,12 @@ public class DealActivity extends AbsBaseActivity {
     public void openDealChatActivity(ImUserInfo imUserInfo){
 
         if (imUserInfo.getEventTag().equals(DEAL)){
-            DealChatActivity.open(this, chatOrderCde, imUserInfo);
+
+            // 构建一个订单详情类
+            OrderDetailModel orderDetailModel = new OrderDetailModel();
+            orderDetailModel.setAdsCode(code);
+
+            DealChatActivity.open(this, orderDetailModel, imUserInfo);
         }
     }
 

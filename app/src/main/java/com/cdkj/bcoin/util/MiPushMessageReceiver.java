@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMOfflinePushToken;
 import com.xiaomi.mipush.sdk.ErrorCode;
@@ -61,8 +62,16 @@ public class MiPushMessageReceiver extends PushMessageReceiver {
         }
 //        MiPushClient.clearNotification(context);
 
+
+        Log.e(TAG,message.getExtra().get("ext"));
         Log.e(TAG, "regId: " + mRegId + " | topic: " + mTopic + " | alias: " + mAlias
                 + " | account: " + mAccount + " | starttime: " + mStartTime + " | endtime: " + mEndTime);
+
+        String ext = message.getExtra().get("ext");
+        if (ext!=null){
+            SPUtilHelper.savePushOrder(ext);
+        }
+
         Intent i = new Intent();
         i.setClassName("com.cdkj.ethereum", "com.cdkj.bcoin.user.login.StartActivity");
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

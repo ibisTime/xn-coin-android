@@ -9,7 +9,6 @@ import android.content.pm.ResolveInfo;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.cdkj.baselibrary.R;
@@ -62,15 +61,7 @@ public class AuthenticateActivity extends AbsBaseActivity {
         super.onNewIntent(intent);
         Uri uri = intent.getData();
         if (uri != null) {
-            Log.e("BKY", "scheme: " + uri.getScheme());
-            Log.e("BKY", "host: " + uri.getHost());
-            Log.e("BKY", "port: " + uri.getPort());
-            Log.e("BKY", "path: " + uri.getPath());
-            Log.e("BKY", "queryString: " + uri.getQuery());
-            Log.e("BKY", "queryParameter: " + uri.getQueryParameter("biz_content"));
-
             check();
-
         }
     }
 

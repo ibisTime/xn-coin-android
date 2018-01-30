@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.Date;
 import java.util.List;
 
+import static com.cdkj.bcoin.util.AccountUtil.formatDouble;
 import static com.cdkj.bcoin.util.DealUtil.setDealPayType;
 import static com.cdkj.bcoin.util.DealUtil.setTradeType;
 
@@ -33,7 +34,7 @@ public class DealAdapter extends BaseQuickAdapter<DealDetailModel, BaseViewHolde
     protected void convert(BaseViewHolder helper, DealDetailModel item) {
 
         helper.setText(R.id.tv_price, AccountUtil.formatDouble(item.getTruePrice())+"CNY");
-        helper.setText(R.id.tv_max, StringUtil.getString(R.string.limit) + item.getMinTrade()+"-"+item.getMaxTrade()+"CNY");
+        helper.setText(R.id.tv_max, StringUtil.getString(R.string.limit) + item.getMinTrade()+"-"+formatDouble(item.getMaxTrade())+"CNY");
         helper.setText(R.id.btn_confirm, setTradeType(item));
         TextView tv = helper.getView(R.id.tv_type);
         setDealPayType(mContext, item, tv);

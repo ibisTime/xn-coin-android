@@ -1,17 +1,18 @@
 package com.cdkj.bcoin.user.login;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.cdkj.baseim.api.MyApiServer;
 import com.cdkj.baseim.event.GroupEvent;
 import com.cdkj.baseim.event.MessageEvent;
 import com.cdkj.baseim.event.RefreshEvent;
 import com.cdkj.baseim.interfaces.TxImLoginInterface;
 import com.cdkj.baseim.interfaces.TxImLoginPresenter;
+import com.cdkj.baseim.maneger.TXImManager;
 import com.cdkj.baseim.ui.NotifyDialog;
 import com.cdkj.baseim.util.PushUtil;
 import com.cdkj.baselibrary.appmanager.EventTags;
@@ -33,7 +34,6 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -41,10 +41,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 @Route(path = "/user/start")
 public class StartActivity extends BaseActivity implements TxImLoginInterface {
@@ -61,7 +58,7 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.e("getAPPBuildType()", SPUtilHelper.getAPPBuildType());
+        clearNotification();
 
         // 用于第一次安装APP，进入到除这个启动activity的其他activity，点击home键，再点击桌面启动图标时，
         // 系统会重启此activty，而不是直接打开之前已经打开过的activity，因此需要关闭此activity
@@ -89,12 +86,7 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {//延迟两秒进行跳转
-                    if (!SPUtilHelper.isLoginNoStart()) {
-                        MainActivity.open(this);
-                        finish();
-                    }else {
-                        groupEvent();
-                    }
+                    initTencent();
 
                 }, Throwable::printStackTrace));
     }
@@ -134,19 +126,15 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
     /**
      * 设置腾讯云监听,登录腾讯云
      */
-    public void groupEvent(){
+    public void initTencent(){
         //登录之前要初始化群和好友关系链缓存
         TIMUserConfig userConfig = new TIMUserConfig()
                 .setUserStatusListener(new TIMUserStatusListener() {
                     @Override
                     public void onForceOffline() {
                         //被其他终端踢下线
-                        showToast("该账号在其他设备登录，请重新登录");
-                        SPUtilHelper.logOutClear();
-                        EventBus.getDefault().post(EventTags.AllFINISH);
+                        KickActivity.open(StartActivity.this);
 
-                        SignInActivity.open(StartActivity.this,true);
-                        finish();
                     }
 
                     @Override
@@ -167,38 +155,29 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
         userConfig = MessageEvent.getInstance().init(userConfig);
         TIMManager.getInstance().setUserConfig(userConfig);
 
-        initTencent();
+
+        if (!SPUtilHelper.isLoginNoStart()) {
+            MainActivity.open(this);
+            finish();
+        }else { //如果已经登录，判断腾讯云是否登录
+            if (TXImManager.getInstance().isLogin()) { //如果腾讯云已经登录 直接打开主页
+                MainActivity.open(this);
+                finish();
+            }else {
+                loginTencent();
+            }
+        }
+
     }
+
 
     /**
      * 登录腾讯云
      */
-    private void initTencent() {
+    private void loginTencent() {
         // 登录腾讯云
         txImLoginPresenter = new TxImLoginPresenter(this);
-        txImLoginPresenter.login();
-    }
-
-    @Override
-    public void onError(int i, String s) {
-        Log.e("StartActivity", "login error : code " + i + " " + s);
-        switch (i) {
-            case 6208:
-                //离线状态下被其他终端踢下线
-                NotifyDialog dialog = new NotifyDialog();
-                dialog.show(getString(R.string.kick_logout), getSupportFragmentManager(), (dialog1, which) -> groupEvent());
-                break;
-            case 6200:
-                showToast(getString(R.string.login_error_timeout));
-                SignInActivity.open(this,true);
-                finish();
-                break;
-            default:
-                showToast(getString(R.string.login_error));
-                SignInActivity.open(this,true);
-                finish();
-                break;
-        }
+        txImLoginPresenter.login(this);
     }
 
     @Override
@@ -217,31 +196,56 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
             //注册小米推送服务
             MiPushClient.registerPush(this, "2882303761517705483", "5941770524483");
         }else if(vendor.toLowerCase(Locale.ENGLISH).contains("huawei")) {
-
             //请求华为推送设备token
             PushManager.requestToken(this);
         }
     }
 
-    /**
-     * 获取登录验证码
-     */
-    private void getLoginCode() {
+    @Override
+    public void onError(int i, String s) {
+        switch (i) {
+            case 6208:
+                //离线状态下被其他终端踢下线
+                NotifyDialog dialog = new NotifyDialog();
+                dialog.show(getString(R.string.kick_logout), getSupportFragmentManager(), (dialog1, which) -> initTencent());
+                break;
 
-        Call<ResponseBody> call = RetrofitUtils.createApi(MyApiServer.class).rhLoginCode(new Date().getTime() + "");
+            case 6200:
+                showToast(getString(R.string.login_error_timeout));
+                SignInActivity.open(this,true);
+                StartActivity.this.finish();
+                break;
 
-        showLoadingDialog();
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.e("onResponse","onResponse");
-            }
+            case 6000:
+                // 获取腾讯云签名失败，去到主页，打开聊天时再登录腾讯云
+                MainActivity.open(this);
+                finish();
+                break;
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("onFailure","onFailure");
-            }
-        });
+            default:
+                // 腾讯云登录失败，提醒用户重新登录
+                showToast(getString(R.string.login_error));
+                SignInActivity.open(this,true);
+                StartActivity.this.finish();
 
+
+                break;
+        }
     }
+
+    @Override
+    public void onFinish() {
+        Log.e("StartActivity_Tencent","onFinish");
+    }
+
+    /**
+     * 清楚所有通知栏通知
+     */
+    private void clearNotification(){
+        NotificationManager notificationManager = (NotificationManager) this
+                .getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+        MiPushClient.clearNotification(getApplicationContext());
+    }
+
 }

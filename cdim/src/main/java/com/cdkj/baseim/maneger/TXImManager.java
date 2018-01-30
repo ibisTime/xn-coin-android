@@ -122,10 +122,10 @@ public class TXImManager {
     /**
      * 设置昵称
      *
-     * @param name               要修改的姓名
+     * @param name 要修改的姓名
      * @param changeInfoBallBack
      */
-    public void setUserNickName(String name, final changeInfoBallBack changeInfoBallBack) {
+    public void setUserNickName(String name, final ChangeInfoBallBack changeInfoBallBack) {
         if (!isLogin()) {
             if (changeInfoBallBack != null) {
                 changeInfoBallBack.onError(0, "");
@@ -138,7 +138,7 @@ public class TXImManager {
         TIMFriendshipManager.getInstance().modifyProfile(param, new TIMCallBack() {
             @Override
             public void onError(int code, String desc) {
-                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code和错误描述desc，可用于定位请求失败原因 https://cloud.tencent.com/document/product/269/1671
                 //错误码code列表请参见错误码表
                 LogUtil.E("modifyProfile failed: " + code + " desc" + desc);
                 if (changeInfoBallBack != null) {
@@ -162,7 +162,7 @@ public class TXImManager {
      *
      * @param changeInfoBallBack
      */
-    public void setUserLogo(String url, final changeInfoBallBack changeInfoBallBack) {
+    public void setUserLogo(String url, final ChangeInfoBallBack changeInfoBallBack) {
         if (!isLogin()) {
             if (changeInfoBallBack != null) {
                 changeInfoBallBack.onError(0, "");
@@ -198,42 +198,24 @@ public class TXImManager {
     /**
      * 登出imsdk
      *
-     * @param callBack 登出后回调
-     */
-    public void logout(TIMCallBack callBack) {
-        if (!isLogin()) {
-            callBack.onSuccess();
-            return;
-        }
-        try {
-            TIMManager.getInstance().logout(callBack);
-        } catch (Exception e) {
-
-        }
-
-    }
-
-    /**
-     * 登出imsdk
-     *
      * @param
      */
-    public void logout() {
+    public void logout(final LogoutBallBack logoutBallBack) {
         if (!isLogin()) return;
         try {
             TIMManager.getInstance().logout(new TIMCallBack() {
                 @Override
                 public void onError(int i, String s) {
-
+                    logoutBallBack.onError(i,s);
                 }
 
                 @Override
                 public void onSuccess() {
-
+                    logoutBallBack.onSuccess();
                 }
             });
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -245,7 +227,14 @@ public class TXImManager {
         void onSuccess();
     }
 
-    public interface changeInfoBallBack {
+    public interface LogoutBallBack {
+
+        void onError(int i, String s);
+
+        void onSuccess();
+    }
+
+    public interface ChangeInfoBallBack {
 
         void onError(int i, String s);
 

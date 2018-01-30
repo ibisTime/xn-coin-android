@@ -168,12 +168,8 @@ public abstract class BaseResponseListCallBack<T> implements Callback<BaseRespon
      * @param errorMessage
      */
     protected void onReqFailure(int errorCode, String errorMessage) {
-//        if (errorMessage.equals("服务器响应超时java.net.SocketTimeoutException: SSL handshake timed out")){
-//            Log.e("okhttp",errorMessage);
-//        }else {
-            LogUtil.E("List请求失败  错误："+errorMessage);
-            ToastUtil.show(context, errorMessage);
-//        }
+        LogUtil.E("List请求失败  错误：code="+errorCode+",msg="+errorMessage);
+        ToastUtil.show(context, errorMessage);
     }
 
     /**

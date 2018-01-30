@@ -7,7 +7,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -48,6 +47,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 
+import static com.cdkj.bcoin.util.AccountUtil.formatDouble;
 import static com.cdkj.bcoin.util.DealUtil.CAOGAO;
 import static com.cdkj.bcoin.util.DealUtil.DAIFABU;
 import static com.cdkj.bcoin.util.DealUtil.YIFABU;
@@ -403,11 +403,11 @@ public class SaleActivity extends AbsBaseActivity {
         });
 
         // 限制EditText的小数点前后输入位数
-        mBinding.edtPremium.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtPremium,10,2));
-        mBinding.edtProtectPrice.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtProtectPrice,10,2));
+        mBinding.edtPremium.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtPremium,8,2));
+        mBinding.edtProtectPrice.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtProtectPrice,8,2));
         mBinding.edtMax.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtMax,8,2));
         mBinding.edtMin.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtMin,8 ,2));
-        mBinding.edtAmount.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtAmount,10,8));
+        mBinding.edtAmount.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtAmount,8,8));
 
     }
 
@@ -429,9 +429,6 @@ public class SaleActivity extends AbsBaseActivity {
 
             startHour = startHours[popupWindow.getNumberPickerValue(R.id.np_start_hour)];
             endHour = endHours[popupWindow.getNumberPickerValue(R.id.np_end_hour)];
-
-            Log.e("endHour",endHour);
-            Log.e("startHour",startHour);
 
             if(startHour.equals(getStrRes(R.string.deal_open_time_close)) && !endHour.equals(getStrRes(R.string.deal_open_time_close)) ){
                 showToast(getStrRes(R.string.deal_publish_hint_end));
@@ -560,7 +557,7 @@ public class SaleActivity extends AbsBaseActivity {
     private void setView() {
         mBinding.edtPremium.setText(AccountUtil.formatDouble(bean.getPremiumRate() * 100)+"");
         mBinding.edtMin.setText(bean.getMinTrade()+"");
-        mBinding.edtMax.setText(bean.getMaxTrade()+"");
+        mBinding.edtMax.setText(formatDouble(bean.getMaxTrade()));
         mBinding.edtProtectPrice.setText(bean.getProtectPrice()+"");
         mBinding.edtAmount.setText(AccountUtil.weiToEth(new BigDecimal(bean.getLeftCountString())));
         mBinding.tvWay.setText(types[Integer.parseInt(bean.getPayType())]);

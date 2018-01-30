@@ -66,15 +66,9 @@ public class SendPhoneCodePresenter {
                 }
             }
 
-
             @Override
             protected void onBuinessFailure(String code, String error) {
                 mListener.CodeFailed(code, error);
-            }
-
-            @Override
-            protected void onNoNet(String msg) {
-                ToastUtil.show(mContext,mContext.getString(R.string.smscode_send_success));
             }
 
             @Override

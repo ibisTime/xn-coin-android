@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.cdkj.baseim.event.GroupEvent;
@@ -36,7 +35,6 @@ import com.cdkj.bcoin.main.MainActivity;
 import com.huawei.android.pushagent.PushManager;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMUserConfig;
-import com.tencent.imsdk.TIMUserStatusListener;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 import org.greenrobot.eventbus.EventBus;
@@ -267,12 +265,11 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
     private void initTencent() {
         // 登录腾讯云
         txImLoginPresenter = new TxImLoginPresenter(this);
-        txImLoginPresenter.login();
+        txImLoginPresenter.login(this);
     }
 
     @Override
     public void onError(int i, String s) {
-        Log.e("StartActivity", "login error : code " + i + " " + s);
         switch (i) {
             case 6208:
                 //离线状态下被其他终端踢下线
@@ -280,12 +277,12 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
                 dialog.show(getString(R.string.kick_logout), getSupportFragmentManager(), (dialog1, which) -> groupEvent());
                 break;
             case 6200:
-                showToast(getString(R.string.login_error_timeout));
+                showToast(getString(R.string.login_error_timeout_auto));
                 SignInActivity.open(this,true);
                 finish();
                 break;
             default:
-                showToast(getString(R.string.login_error));
+                showToast(getString(R.string.login_error_auto));
                 SignInActivity.open(this,true);
                 finish();
                 break;
@@ -295,6 +292,11 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
     @Override
     public void onSuccess() {
         toMianPage();
+    }
+
+    @Override
+    public void onFinish() {
+        disMissLoading();
     }
 
     private void toMianPage(){
@@ -324,30 +326,7 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
      */
     public void groupEvent(){
         //登录之前要初始化群和好友关系链缓存
-        TIMUserConfig userConfig = new TIMUserConfig()
-                .setUserStatusListener(new TIMUserStatusListener() {
-                    @Override
-                    public void onForceOffline() {
-                        //被其他终端踢下线
-                        showToast("该账号在其他设备登录，请重新登录");
-                        SPUtilHelper.logOutClear();
-                        EventBus.getDefault().post(EventTags.AllFINISH);
-
-                        SignInActivity.open(SignUpActivity.this,true);
-                        finish();
-                    }
-
-                    @Override
-                    public void onUserSigExpired() {
-                        //用户签名过期了，需要刷新userSig重新登录SDK
-                        showToast(getString(R.string.tls_expire));
-                        SPUtilHelper.logOutClear();
-                        EventBus.getDefault().post(EventTags.AllFINISH);
-
-                        SignInActivity.open(SignUpActivity.this,true);
-                        finish();
-                    }
-                });
+        TIMUserConfig userConfig = new TIMUserConfig();
 
         //设置刷新监听
         RefreshEvent.getInstance().init(userConfig);

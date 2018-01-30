@@ -60,6 +60,11 @@ public class LoginPresenter {
                 }
             }
 
+            @Override
+            protected void onBuinessFailure(String code, String error) {
+                super.onBuinessFailure(code, error);
+                mListener.LoginFailed(code, error);
+            }
 
             @Override
             protected void onFinish() {

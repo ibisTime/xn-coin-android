@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -21,7 +20,6 @@ import com.cdkj.baseim.interfaces.TxImLoginPresenter;
 import com.cdkj.baseim.ui.NotifyDialog;
 import com.cdkj.baseim.util.PushUtil;
 import com.cdkj.baselibrary.activitys.FindPwdActivity;
-import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.AbsBaseActivity;
 import com.cdkj.baselibrary.interfaces.LoginInterface;
@@ -32,15 +30,11 @@ import com.cdkj.bcoin.databinding.ActivitySignInBinding;
 import com.cdkj.bcoin.main.MainActivity;
 import com.huawei.android.pushagent.PushManager;
 import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMOfflinePushSettings;
 import com.tencent.imsdk.TIMUserConfig;
-import com.tencent.imsdk.TIMUserStatusListener;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.Locale;
-
-import static com.cdkj.bcoin.util.ZenDeskUtil.initZenDeskIdentity;
 
 @Route(path = "/user/login")
 public class SignInActivity extends AbsBaseActivity implements LoginInterface,TxImLoginInterface {
@@ -192,21 +186,17 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
     @Override
     public void LoginSuccess(UserLoginModel user, String msg) {
 
-        Log.e("user.getToken()",user.getToken());
-
-//        SPUtilHelper.saveUserName(user.getN);
         SPUtilHelper.saveUserId(user.getUserId());
         SPUtilHelper.saveUserToken(user.getToken());
         SPUtilHelper.saveUserPhoneNum(mBinding.edtUsername.getText().toString().trim());
 
-        initZenDeskIdentity(SPUtilHelper.getUserName(), SPUtilHelper.getUserEmail());
         initTencent();
-
 
     }
 
     @Override
     public void LoginFailed(String code, String msg) {
+        disMissLoading();
         showToast(msg);
     }
 
@@ -217,7 +207,8 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
 
     @Override
     public void EndLogin() {
-        disMissLoading();
+        // 不隐藏Dialog，避免出现 腾讯云登录Dialog隐藏再二次打开的效果，腾讯云登录回调隐藏
+//        disMissLoading();
     }
 
     /**
@@ -226,12 +217,11 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
     private void initTencent() {
         // 登录腾讯云
         txImLoginPresenter = new TxImLoginPresenter(this);
-        txImLoginPresenter.login();
+        txImLoginPresenter.login(this);
     }
 
     @Override
     public void onError(int i, String s) {
-        Log.e("StartActivity", "login error : code " + i + " " + s);
         switch (i) {
             case 6208:
                 //离线状态下被其他终端踢下线
@@ -240,12 +230,10 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
                 break;
             case 6200:
                 showToast(getString(R.string.login_error_timeout));
-                SignInActivity.open(this,true);
                 finish();
                 break;
             default:
                 showToast(getString(R.string.login_error));
-                SignInActivity.open(this,true);
                 finish();
                 break;
         }
@@ -261,6 +249,9 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
         //初始化消息监听
         MessageEvent.getInstance();
         String vendor = android.os.Build.MANUFACTURER;
+
+
+
         //注册小米和华为推送
         if(vendor.toLowerCase(Locale.ENGLISH).contains("xiaomi")) {
             //注册小米推送服务
@@ -269,6 +260,16 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
             //请求华为推送设备token
             PushManager.requestToken(this);
         }
+
+        //全局推送开启离线推送
+        TIMOfflinePushSettings settings = new TIMOfflinePushSettings();
+        settings.setEnabled(true);
+        TIMManager.getInstance().setOfflinePushSettings(settings);
+    }
+
+    @Override
+    public void onFinish() {
+        disMissLoading();
     }
 
     /**
@@ -276,30 +277,7 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
      */
     public void groupEvent(){
         //登录之前要初始化群和好友关系链缓存
-        TIMUserConfig userConfig = new TIMUserConfig()
-                .setUserStatusListener(new TIMUserStatusListener() {
-                    @Override
-                    public void onForceOffline() {
-                        //被其他终端踢下线
-                        showToast("该账号在其他设备登录，请重新登录");
-                        SPUtilHelper.logOutClear();
-                        EventBus.getDefault().post(EventTags.AllFINISH);
-
-                        SignInActivity.open(SignInActivity.this,true);
-                        finish();
-                    }
-
-                    @Override
-                    public void onUserSigExpired() {
-                        //用户签名过期了，需要刷新userSig重新登录SDK
-                        showToast(getString(R.string.tls_expire));
-                        SPUtilHelper.logOutClear();
-                        EventBus.getDefault().post(EventTags.AllFINISH);
-
-                        SignInActivity.open(SignInActivity.this,true);
-                        finish();
-                    }
-                });
+        TIMUserConfig userConfig = new TIMUserConfig();
 
         //设置刷新监听
         RefreshEvent.getInstance().init(userConfig);

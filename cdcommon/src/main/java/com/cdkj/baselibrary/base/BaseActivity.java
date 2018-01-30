@@ -343,7 +343,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
-        Log.e("conf.locale",conf.locale.toString()+"");
         res.updateConfiguration(conf, dm);
 
     }

@@ -66,11 +66,13 @@
     <string name="change_group_error">修改分組失敗</string>
     <string name="people">人</string>
     <string name="login_error">登錄失敗，請稍後重試</string>
+    <string name="login_error_auto">自動登錄失敗，請手動登錄</string>
     <string name="login_error_timeout">登錄失敗，當前無網絡</string>
+    <string name="login_error_timeout_auto">自動登錄失敗，當前無網絡</string>
     <string name="login_succ">登錄成功</string>
     <string name="kick_logout">您的賬號已在其他終端登錄,重新登錄</string>
     <string name="operate_fail">操作失敗</string>
-    <string name="need_permission">您需要開啓權限,並重啓應用</string>
+    <string name="need_permission">您需要開啟權限,並重啟應用</string>
     <string name="save_succ">保存成功</string>
     <string name="download_fail">下載失敗</string>
     <string name="downloading">正在下載，請稍候</string>

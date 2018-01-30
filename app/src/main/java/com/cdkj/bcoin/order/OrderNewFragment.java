@@ -2,7 +2,6 @@ package com.cdkj.bcoin.order;
 
 import android.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.cdkj.baseim.activity.TxImLogingActivity;
 import com.cdkj.baseim.model.ImUserInfo;
@@ -186,7 +185,7 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
     public void openOrderActivity(ImUserInfo imUserInfo){
         if (imUserInfo.getEventTag().equals(ORDER_NEW)){
 
-            OrderActivity.open(mActivity, bean.getCode(), imUserInfo);
+            OrderActivity.open(mActivity, bean, imUserInfo);
         }
 
     }
@@ -194,14 +193,8 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
     @Subscribe
     public void openDealChatActivity(ImUserInfo imUserInfo){
         if (imUserInfo.getEventTag().equals(ORDER_DNS_NEW)){
-            Log.e("getRightImg",imUserInfo.getRightImg());
-            Log.e("getRightName",imUserInfo.getRightName());
-            Log.e("getLeftImg",imUserInfo.getLeftImg());
-            Log.e("getLeftName",imUserInfo.getLeftName());
-            Log.e("getIdentify",imUserInfo.getIdentify());
-            Log.e("--------------","--------------");
 
-            DealChatActivity.open(mActivity, bean.getCode(), imUserInfo);
+            DealChatActivity.open(mActivity, bean, imUserInfo);
 
         }
     }

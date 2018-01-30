@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -97,8 +96,6 @@ public class UserLanguageActivity extends AbsBaseActivity {
 
     private void setView(String language, String country){
         initView();
-        Log.e("language",language);
-        Log.e("country",country);
         switch (language){
 
             case "zh":

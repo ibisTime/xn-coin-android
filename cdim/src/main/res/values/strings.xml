@@ -66,7 +66,9 @@
     <string name="change_group_error">修改分组失败</string>
     <string name="people">人</string>
     <string name="login_error">登录失败，请稍后重试</string>
+    <string name="login_error_auto">自动登录失败，请手动登录</string>
     <string name="login_error_timeout">登录失败，当前无网络</string>
+    <string name="login_error_timeout_auto">自动登录失败，当前无网络</string>
     <string name="login_succ">登录成功</string>
     <string name="kick_logout">您的账号已在其他终端登录,重新登录</string>
     <string name="operate_fail">操作失败</string>

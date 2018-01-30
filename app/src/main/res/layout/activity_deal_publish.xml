@@ -116,7 +116,7 @@
                     android:text="@string/deal_publish_price"
                     android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content" />
 
                 <TextView
@@ -598,6 +598,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:backgroundTint="@null"
+                android:maxLength="100"
+                android:maxLines="5"
                 android:textColorHint="@color/gray_999999"
                 android:hint="@string/deal_publish_remark_hint"
                 android:textColor="@color/black"

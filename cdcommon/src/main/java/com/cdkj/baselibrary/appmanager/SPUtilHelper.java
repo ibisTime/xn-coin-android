@@ -87,7 +87,7 @@ public class SPUtilHelper {
 	 * @param
 	 */
 	public static String getAPPBuildType() {
-		return  SPUtils.getString(BaseApplication.getContext(),BUILD_TYPE_KEY, BUILD_TYPE_DEBUG );
+		return  SPUtils.getString(BaseApplication.getContext(),BUILD_TYPE_KEY, BUILD_TYPE_TEST );
 	}
 
 	/**
@@ -315,19 +315,20 @@ public class SPUtilHelper {
 	}
 
 	/**
+	 * 设置需要打开的订单
 	 *
+	 * @param orderId
 	 */
-	public static String getMarketCoinLastTime(String coin, String lastPrice, String now) {
-		String temp = SPUtils.getString(BaseApplication.getContext(), "coin_temp_"+coin,"");
-		String date = SPUtils.getString(BaseApplication.getContext(), "coin_date_"+coin,"");
-
-//		if (now - date == 2){
-//			SPUtils.put(BaseApplication.getContext(), "coin_date_"+coin, temp);
-//			SPUtils.put(BaseApplication.getContext(), "coin_temp_"+coin, lastPrice+"_"+now);
-//		}
-
-		return SPUtils.getString(BaseApplication.getContext(), "coin_date_"+coin,"");
+	public static void savePushOrder(String orderId) {
+		SPUtils.put(BaseApplication.getContext(), "push_order", orderId);
 	}
 
+	public static String getPushOrder() {
+		return SPUtils.getString(BaseApplication.getContext(), "push_order", "");
+	}
+
+	public static void clearPushOrder() {
+		SPUtils.put(BaseApplication.getContext(), "push_order", "");
+	}
 
 }
