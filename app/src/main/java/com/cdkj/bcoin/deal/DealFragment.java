@@ -22,7 +22,6 @@ import com.cdkj.bcoin.loader.BannerImageLoader;
 import com.cdkj.bcoin.model.BannerModel;
 import com.cdkj.bcoin.model.DealDetailModel;
 import com.cdkj.bcoin.model.DealModel;
-import com.cdkj.bcoin.model.MarketCoinModel;
 import com.cdkj.bcoin.util.StringUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youth.banner.BannerConfig;
@@ -38,7 +37,7 @@ import java.util.Map;
 import retrofit2.Call;
 
 import static com.cdkj.baselibrary.appmanager.EventTags.DEAL_PAGE_CHANGE;
-import static com.cdkj.bcoin.util.DealUtil.YIFABU;
+import static com.cdkj.baselibrary.appmanager.MyConfig.COIN_TYPE;
 
 
 /**
@@ -56,9 +55,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
     private List<BannerModel> bannerData = new ArrayList<>();
 
     // 币种
-    private String coinType = "ETH";
-    private String[] coinTypes = {"ETH"};
-//    private String[] coinTypes = {"ETH","BTC"};
+    private String coinType;
 
     /**
      * 获得fragment实例
@@ -85,56 +82,42 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
             DealDetailModel model = (DealDetailModel) mAdapter.getItem(position);
 
             // 是否是自己发布的
-            if (model.getUser().getUserId().equals(SPUtilHelper.getUserId())){
-
-//                // 先获取行情价格
-//                getCoin(model);
-
-                if (model.getTradeType().equals("1")){ // 卖币广告
-
-                    SaleActivity.open(mActivity, YIFABU, model);
-
-                }else { // 卖币广告
-
-                    PublishBuyActivity.open(mActivity, YIFABU, model);
-
-                }
-
-            }else {
+//            if (model.getUser().getUserId().equals(SPUtilHelper.getUserId())){
+//
+//                if (model.getTradeType().equals("1")){ // 卖币广告
+//
+//                    SaleActivity.open(mActivity, YIFABU, model);
+//
+//                }else { // 卖币广告
+//
+//                    PublishBuyActivity.open(mActivity, YIFABU, model);
+//
+//                }
+//
+//            }else {
 
                 if (!SPUtilHelper.isLogin(mActivity, false)) {
                     return;
                 }
 
                 DealActivity.open(mActivity, model.getCode());
-            }
+
+//            }
 
         });
 
+        inits();
         initTitleBar();
-        initListener();
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        // 刷新轮播图
-        getBanner();
-
-        getListData(1,10,true);
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mBinding.banner.stopAutoPlay();
+    private void inits() {
+        // 初始化默认币种
+        coinType = COIN_TYPE[0];
     }
 
     private void initTitleBar() {
-        setTitleBar("ETH", StringUtil.getString(R.string.deal_buy),StringUtil.getString(R.string.deal_sale));
+        setTitleBar(coinType, StringUtil.getString(R.string.deal_buy),StringUtil.getString(R.string.deal_sale));
         setTopTitleLine(true);
 
         setTitleBarCoinClick(this::initPopup);
@@ -154,13 +137,25 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         });
 
         setTitleBarRightClick(v -> {
-            DealSearchActivity.open(mActivity);
+            DealSearchActivity.open(mActivity, coinType);
         });
     }
 
-    private void initListener() {
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getListData(1,10,true);
     }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mBinding.banner.stopAutoPlay();
+    }
+
 
     @Override
     protected void getListData(int pageIndex, int limit, boolean canShowDialog) {
@@ -191,6 +186,9 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
                 disMissLoading();
             }
         });
+
+        // 刷新轮播图
+        getBanner();
     }
 
     @Override
@@ -284,14 +282,14 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
 
     private void initPopup(View view) {
         MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(mActivity, R.layout.popup_picker);
-        popupWindow.setNumberPicker(R.id.np_type, coinTypes);
+        popupWindow.setNumberPicker(R.id.np_type, COIN_TYPE);
 
         popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
             popupWindow.dismiss();
         });
 
         popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
-            coinType = popupWindow.getNumberPicker(R.id.np_type, coinTypes);
+            coinType = popupWindow.getNumberPicker(R.id.np_type, COIN_TYPE);
 
             setTitleBarCoin(coinType);
             onMRefresh(1,10,true);
@@ -300,45 +298,6 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         });
 
         popupWindow.show(view);
-    }
-
-    private void getCoin(DealDetailModel model) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("coin", "ETH");
-        map.put("systemCode", MyConfig.SYSTEMCODE);
-        map.put("companyCode", MyConfig.COMPANYCODE);
-
-        Call call = RetrofitUtils.createApi(MyApi.class).getTruePrice("625292", StringUtils.getJsonToString(map));
-
-        showLoadingDialog();
-
-        call.enqueue(new BaseResponseModelCallBack<MarketCoinModel>(mActivity) {
-
-            @Override
-            protected void onSuccess(MarketCoinModel data, String SucMessage) {
-                if (data == null)
-                    return;
-
-                SPUtilHelper.saveMarketCoin("ETH",data.getMid());
-
-
-                if (model.getTradeType().equals("1")){ // 卖币广告
-
-                    SaleActivity.open(mActivity, YIFABU, model);
-
-                }else { // 卖币广告
-
-                    PublishBuyActivity.open(mActivity, YIFABU, model);
-
-                }
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
-
     }
 
     @Subscribe
@@ -350,6 +309,11 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         if (TextUtils.equals(eventBusModel.getTag(), DEAL_PAGE_CHANGE)) {
             setTitleBarBtnViewChange(eventBusModel.getEvInt());
             tradeType = eventBusModel.getEvInt()+"";
+
+            // 设置要显示的币种
+            coinType = eventBusModel.getEvInfo();
+            setTitleBarCoin(coinType);
+
             onMRefresh(1,10, true);
         }
     }

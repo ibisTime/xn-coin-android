@@ -29,6 +29,7 @@ dependencies {
     compile project(':cdcommon')
     compile fileTree(include: ['*.jar'], dir: 'libs')
 //    testCompile 'junit:junit:4.12'
+    compile files('libs/imsdk.jar')
     compile files('libs/imsdk_group_ext.jar')
     compile files('libs/imsdk_msg_ext.jar')
     compile files('libs/imsdk_sns_ext.jar')

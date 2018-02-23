@@ -145,7 +145,7 @@ public class OrderActivity extends AbsBaseActivity {
                 finish();
                 EventBusModel eventBusModel = new EventBusModel();
                 eventBusModel.setEvInt(MainActivity.WALLET); //显示认证界面
-                eventBusModel.setTag(EventTags.MAINCHANGESHOWINDEX);
+                eventBusModel.setTag(EventTags.MAIN_CHANGE_SHOW_INDEX);
                 EventBus.getDefault().post(eventBusModel);
             }
         });
@@ -400,9 +400,9 @@ public class OrderActivity extends AbsBaseActivity {
         mBinding.tvOrderId.setText(model.getCode().substring(model.getCode().length()-8, model.getCode().length()));
         mBinding.tvStatus.setText(getOrderStatus(model.getStatus()));
 
-        mBinding.tvPrice.setText(model.getTradePrice()+"CNY");
-        mBinding.tvAmount.setText(model.getTradeAmount()+"CNY");
-        mBinding.tvQuantity.setText(AccountUtil.weiToEth(new BigDecimal(model.getCountString()))+"ETH");
+        mBinding.tvPrice.setText(AccountUtil.formatDouble(model.getTradePrice())+MyConfig.CURRENCY);
+        mBinding.tvAmount.setText(AccountUtil.formatDouble(model.getTradeAmount())+MyConfig.CURRENCY);
+        mBinding.tvQuantity.setText(AccountUtil.amountFormatUnit(new BigDecimal(model.getCountString()), model.getTradeCoin(), 8)+model.getTradeCoin());
 
         mBinding.tvBuyer.setText(model.getBuyUserInfo().getNickname());
         mBinding.tvSeller.setText(model.getSellUserInfo().getNickname());
@@ -411,7 +411,8 @@ public class OrderActivity extends AbsBaseActivity {
 
         // 设置右边Title按钮隐藏，之后根据条件显示
         setSubRightTitHide();
-        String tip="";
+
+        String tip;
 //        int limit =  DateUtil.getDateDValue(model.getInvalidDatetime(),model.getCreateDatetime());
 
         if (model.getStatus().equals("0")) { //待支付

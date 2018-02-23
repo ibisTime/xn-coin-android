@@ -19,7 +19,6 @@ public class OnOkFailure {
         ARouter.getInstance().build("/user/login")
                 .withBoolean("canOpenMain",false)
                 .navigation();
-
     }
 
 }

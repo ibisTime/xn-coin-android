@@ -109,7 +109,8 @@ public class UserAddAddressActivity extends AbsBaseActivity implements SendCodeI
         });
 
         mBinding.btnSend.setOnClickListener(view -> {
-            mPresenter.sendCodeRequest(SPUtilHelper.getUserPhoneNum(),"625203","C",this);
+
+            mPresenter.sendCodeRequest(SPUtilHelper.getUserPhoneNum(),"802170","C",this);
         });
 
         mBinding.sbTransfer.setOnCheckedChangeListener((compoundButton, b) -> {
@@ -369,6 +370,7 @@ public class UserAddAddressActivity extends AbsBaseActivity implements SendCodeI
     private void add(String tradePwd) {
         Map<String, String> map = new HashMap<>();
 
+        map.put("currency", addressType);
         map.put("token", SPUtilHelper.getUserToken());
         map.put("userId", SPUtilHelper.getUserId());
         map.put("systemCode", MyConfig.SYSTEMCODE);
@@ -383,7 +385,8 @@ public class UserAddAddressActivity extends AbsBaseActivity implements SendCodeI
         map.put("label", mBinding.edtTag.getText().toString().trim());
         map.put("tradePwd", tradePwd);
 
-        Call call = RetrofitUtils.getBaseAPiService().successRequest("625203", StringUtils.getJsonToString(map));
+
+        Call call = RetrofitUtils.getBaseAPiService().successRequest("802170", StringUtils.getJsonToString(map));
 
         addCall(call);
 

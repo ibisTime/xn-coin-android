@@ -92,7 +92,7 @@ public class UserFragment extends BaseLazyFragment {
         });
 
         mBinding.llAddress.setOnClickListener(view -> {
-            UserAddressActivity.open(mActivity, "add");
+            UserAddressActivity.open(mActivity, null,null);
         });
 
         mBinding.llTrust.setOnClickListener(view -> {

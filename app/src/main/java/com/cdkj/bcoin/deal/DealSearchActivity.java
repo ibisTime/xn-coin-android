@@ -13,6 +13,8 @@ import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.databinding.ActivityDealSearchBinding;
 
+import static com.cdkj.baselibrary.appmanager.MyConfig.COIN_TYPE;
+
 /**
  * Created by lei on 2017/10/30.
  */
@@ -22,6 +24,9 @@ public class DealSearchActivity extends AbsBaseActivity {
     private ActivityDealSearchBinding mBinding;
 
     private String searchType = "adv";
+
+    // 币种
+    private String coinType;
 
     // 广告类型
     private String type = "1";
@@ -33,11 +38,11 @@ public class DealSearchActivity extends AbsBaseActivity {
     private String[] payTypes;
     private String[] payTypeValue = {"0", "1", "2"};
 
-    public static void open(Context context){
+    public static void open(Context context, String coinType){
         if (context == null) {
             return;
         }
-        context.startActivity(new Intent(context, DealSearchActivity.class));
+        context.startActivity(new Intent(context, DealSearchActivity.class).putExtra("coinType",coinType));
     }
 
     @Override
@@ -57,6 +62,13 @@ public class DealSearchActivity extends AbsBaseActivity {
     }
 
     private void init() {
+        if (getIntent() == null)
+            return;
+
+        coinType = getIntent().getStringExtra("coinType");
+        // 设置选择币
+        mBinding.tvCoinSelect.setText(coinType);
+
         types = new String[]{getStrRes(R.string.deal_buy), getStrRes(R.string.deal_sale)};
         payTypes = new String[]{getStrRes(R.string.zhifubao), getStrRes(R.string.weixin), getStrRes(R.string.card)};
     }
@@ -89,6 +101,10 @@ public class DealSearchActivity extends AbsBaseActivity {
             mBinding.btnConfirm.setText(getStrRes(R.string.deal_search_user));
         });
 
+        mBinding.llCoinSelect.setOnClickListener(view -> {
+            initPopup(view);
+        });
+
         mBinding.llType.setOnClickListener(this::initTypePopup);
 
         mBinding.llPayType.setOnClickListener(this::initPayTypePopup);
@@ -102,7 +118,8 @@ public class DealSearchActivity extends AbsBaseActivity {
                             mBinding.edtMin.getText().toString().trim(),
                             mBinding.edtMax.getText().toString().trim(),
                             type ,
-                            payType);
+                            payType,
+                            coinType);
 
                 }
 
@@ -119,6 +136,31 @@ public class DealSearchActivity extends AbsBaseActivity {
         mBinding.vUser.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
 
     }
+
+    /**
+     * 选择币种
+     * @param view
+     */
+    private void initPopup(View view) {
+        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
+        popupWindow.setNumberPicker(R.id.np_type, COIN_TYPE);
+
+        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
+            popupWindow.dismiss();
+        });
+
+        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+            coinType = popupWindow.getNumberPicker(R.id.np_type, COIN_TYPE);
+
+            // 设置选择币
+            mBinding.tvCoinSelect.setText(coinType);
+
+            popupWindow.dismiss();
+        });
+
+        popupWindow.show(view);
+    }
+
 
     /**
      * 选择广告类型

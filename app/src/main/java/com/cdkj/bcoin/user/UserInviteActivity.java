@@ -33,6 +33,7 @@ import com.youth.banner.Transformer;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,9 +103,8 @@ public class UserInviteActivity extends AbsBaseActivity {
         });
     }
 
+
     private void popupInvite(View view) {
-
-
         // 一个自定义的布局，作为显示的内容
         View mView = LayoutInflater.from(this).inflate(R.layout.popup_web_sharet, null);
 
@@ -164,10 +164,18 @@ public class UserInviteActivity extends AbsBaseActivity {
                     return;
 
                 mBinding.tvCount.setText(data.getInviteCount()+"");
-                if (data.getInviteProfit().equals("0")){
-                    mBinding.tvProfit.setText(data.getInviteProfit());
-                }else {
-                    mBinding.tvProfit.setText(AccountUtil.weiToEth(new BigDecimal(data.getInviteProfit())));
+
+                // 允许配置的Coin
+                List<String> coinTypeList = Arrays.asList(MyConfig.COIN_TYPE);
+
+                if (coinTypeList.contains("ETH")){
+                    mBinding.tvProfitEth.setVisibility(View.VISIBLE);
+                    mBinding.tvProfitEth.setText(AccountUtil.amountFormatUnit(new BigDecimal(data.getInviteProfitEth()), "ETH", 8)+"ETH");
+                }
+
+                if (coinTypeList.contains("SC")){
+                    mBinding.tvProfitSc.setVisibility(View.VISIBLE);
+                    mBinding.tvProfitSc.setText(AccountUtil.amountFormatUnit(new BigDecimal(data.getInviteProfitSc()), "SC", 8)+"SC");
                 }
 
             }
@@ -186,11 +194,11 @@ public class UserInviteActivity extends AbsBaseActivity {
      */
     private void getRegUrl() {
         Map<String, String> map = new HashMap<>();
-        map.put("key", "reg_url");
+        map.put("ckey", "reg_url");
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);
 
-        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameter("625917", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameter("660917", StringUtils.getJsonToString(map));
 
         addCall(call);
 
@@ -213,7 +221,6 @@ public class UserInviteActivity extends AbsBaseActivity {
         });
 
     }
-
 
     /**
      * 获取banner
@@ -297,11 +304,11 @@ public class UserInviteActivity extends AbsBaseActivity {
      */
     private void getActivityRule() {
         Map<String, String> map = new HashMap<>();
-        map.put("key", "activity_rule");
+        map.put("ckey", "activity_rule");
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);
 
-        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameter("625917", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameter("660917", StringUtils.getJsonToString(map));
 
         addCall(call);
 

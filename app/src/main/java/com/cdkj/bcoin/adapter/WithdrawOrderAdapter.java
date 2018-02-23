@@ -26,8 +26,8 @@ public class WithdrawOrderAdapter extends BaseQuickAdapter<WithdrawOrderModel.Li
     @Override
     protected void convert(BaseViewHolder helper, WithdrawOrderModel.ListBean item) {
 
-        helper.setText(R.id.tv_price, AccountUtil.weiToEth(new BigDecimal(item.getAmountString()))+" "+item.getChannelType());
-        helper.setText(R.id.tv_fee,AccountUtil.weiToEth(new BigDecimal(item.getFeeString()))+" "+item.getChannelType());
+        helper.setText(R.id.tv_price, AccountUtil.amountFormatUnit(new BigDecimal(item.getAmountString()), item.getChannelType(), 8)+" "+item.getChannelType());
+        helper.setText(R.id.tv_fee,AccountUtil.amountFormatUnit(new BigDecimal(item.getFeeString()), item.getChannelType(), 8)+" "+item.getChannelType());
         helper.setText(R.id.tv_status, getStatus(item.getStatus()));
         helper.setText(R.id.tv_date, DateUtil.formatStringData(item.getApplyDatetime(), DateUtil.DEFAULT_DATE_FMT));
     }

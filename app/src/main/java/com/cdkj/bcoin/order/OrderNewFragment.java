@@ -21,6 +21,7 @@ import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.deal.DealChatActivity;
 import com.cdkj.bcoin.model.OrderDetailModel;
 import com.cdkj.bcoin.model.OrderModel;
+import com.cdkj.bcoin.util.ResponseUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
@@ -102,13 +103,14 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
             return true;
         });
 
-        getListData(pageIndex,limit,true);
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        if (mBinding == null)
+            return;
 
         onMRefresh(1,10,true);
     }
@@ -135,6 +137,7 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
         map.put("payType", "");
         map.put("statusList", statusList);
         map.put("tradeCoin", "");
+//        map.put("tradeCoin", coinType);
         map.put("tradeCurrency", "");
         map.put("type", "");
         map.put("start", pageIndex+"");
@@ -154,7 +157,13 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
                 if (data.getList() == null)
                     return;
 
-                setData(data.getList());
+                if (ResponseUtil.screeningDataWithConfig(data) == null)
+                    return;
+
+                List<OrderDetailModel> list = (List<OrderDetailModel>) ResponseUtil.screeningDataWithConfig(data);
+
+
+                setData(list);
                 getConversation();
             }
 
@@ -236,6 +245,21 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
         }
 
     }
+
+//    /**
+//     * 根据选择的币种刷新订单列表
+//     * @param model
+//     */
+//    @Subscribe
+//    public void refreshOrderList(EventBusModel model) {
+//        if (model.getTag().equals(ORDER_COIN_TYPE)){
+//            onMRefresh(1,10,true);
+//
+//
+//            Log.e("OrderNewFragment","refreshOrderList()");
+//        }
+//
+//    }
 
     private void deleteConfirm(String code) {
 

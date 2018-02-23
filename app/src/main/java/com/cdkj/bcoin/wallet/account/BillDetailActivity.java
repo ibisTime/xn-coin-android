@@ -63,13 +63,13 @@ public class BillDetailActivity extends AbsBaseActivity {
 
         int i=tas.compareTo(BigDecimal.ZERO);
         if (i==1){
-            mBinding.tvAmount.setText("+"+ AccountUtil.weiToEth(tas)+bean.getCurrency());
+            mBinding.tvAmount.setText("+"+ AccountUtil.amountFormatUnit(tas,bean.getCurrency(), 8)+bean.getCurrency());
         }else {
-            mBinding.tvAmount.setText(AccountUtil.weiToEth(tas)+bean.getCurrency());
+            mBinding.tvAmount.setText(AccountUtil.amountFormatUnit(tas,bean.getCurrency(), 8)+bean.getCurrency());
         }
 
-        mBinding.tvBefore.setText(AccountUtil.weiToEth(new BigDecimal(bean.getPreAmountString())));
-        mBinding.tvAfter.setText(AccountUtil.weiToEth(new BigDecimal(bean.getPostAmountString())));
+        mBinding.tvBefore.setText(AccountUtil.amountFormatUnit(new BigDecimal(bean.getPreAmountString()), bean.getCurrency(), 8));
+        mBinding.tvAfter.setText(AccountUtil.amountFormatUnit(new BigDecimal(bean.getPostAmountString()), bean.getCurrency(), 8));
         mBinding.tvDate.setText(DateUtil.formatStringData(bean.getCreateDatetime(),DEFAULT_DATE_FMT));
         mBinding.tvType.setText(AccountUtil.formatBizType(bean.getBizType()));
         mBinding.tvStatus.setText(AccountUtil.formatBillStatus(bean.getStatus()));

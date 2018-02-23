@@ -76,7 +76,6 @@
 
                 <TextView
                     android:id="@+id/tv_coin"
-                    android:text="@string/wallet_charge_my_address"
                     android:textSize="12sp"
                     android:textColor="@color/black"
                     android:layout_width="match_parent"
@@ -117,8 +116,10 @@
 
             <TextView
                 android:id="@+id/txt_address"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
                 android:gravity="center"
-                android:textSize="@dimen/sp_12"
+                android:textSize="10sp"
                 android:textColor="@color/gray_5e5e5f"
                 android:layout_weight="1"
                 android:layout_width="0dp"

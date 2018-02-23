@@ -90,6 +90,7 @@ public class AddressModel {
 
         private String code;
         private String type;
+        private String currency;
         private String address;
         private String password;
         private String userId;
@@ -99,6 +100,14 @@ public class AddressModel {
         private String updateDatetime;
         private UserBean user;
         private String label;
+
+        public String getCurrency() {
+            return currency;
+        }
+
+        public void setCurrency(String currency) {
+            this.currency = currency;
+        }
 
         public String getCode() {
             return code;

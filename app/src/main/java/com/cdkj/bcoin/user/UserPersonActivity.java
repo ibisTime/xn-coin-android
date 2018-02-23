@@ -139,6 +139,7 @@ public class UserPersonActivity extends AbsBaseActivity {
 
         mBinding.tvDeal.setText(data.getJiaoYiCount()+"");
         mBinding.tvTrust.setText(data.getBeiXinRenCount()+"");
+
         if(data.getBeiPingJiaCount() == 0){
             mBinding.tvGood.setText("0%");
         }else {
@@ -146,7 +147,7 @@ public class UserPersonActivity extends AbsBaseActivity {
             mBinding.tvGood.setText(AccountUtil.formatInt(hpRate * 100)+"%");
         }
 
-        double dh = Double.parseDouble(AccountUtil.weiToEth(new BigDecimal(data.getTotalTradeCount())));
+        double dh = Double.parseDouble(AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCountEth()), "ETH", 8));
         if(dh == 0){
             mBinding.tvHistory.setText("0 ETH");
         } else if (dh < 0.5){
@@ -154,7 +155,7 @@ public class UserPersonActivity extends AbsBaseActivity {
         }else if(0.5 <= dh && dh <= 1){
             mBinding.tvHistory.setText("0.5-1 ETH");
         }else {
-            mBinding.tvHistory.setText(AccountUtil.weiToEth(new BigDecimal(data.getTotalTradeCount())).split("\\.")[0]+"+ ETH");
+            mBinding.tvHistory.setText(AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCountEth()), "ETH", 8).split("\\.")[0]+"+ ETH");
         }
 
         if(data.getIsTrust().equals("0")){ // 未信任

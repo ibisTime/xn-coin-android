@@ -12,7 +12,6 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/ll_coin_select"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
@@ -32,20 +31,16 @@
                 <TextView
                     android:id="@+id/tv_coin_select"
                     android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
                     android:background="@null"
+                    android:clickable="false"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="14sp"
                     android:hint="@string/deal_publish_coin_hint"
-                    android:inputType="numberDecimal"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray_999999"
-                    android:textSize="14sp" />
-
-                <View
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
                 <LinearLayout
                     android:gravity="center"
@@ -61,7 +56,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_coin"
-                    android:tag="payType"
+                    android:tag="tradeCoin"
                     android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
@@ -121,6 +116,7 @@
 
                 <TextView
                     android:id="@+id/tv_price"
+                    android:text="1000"
                     android:gravity="center_vertical"
                     android:background="@null"
                     android:layout_marginLeft="20dp"
@@ -466,7 +462,6 @@
                 android:layout_height="1dp"/>
 
             <LinearLayout
-
                 android:id="@+id/ll_select"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
@@ -486,16 +481,16 @@
                 <TextView
                     android:id="@+id/tv_way"
                     android:gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
                     android:background="@null"
+                    android:clickable="false"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="14sp"
                     android:hint="@string/deal_publish_pay_type_hint"
-                    android:inputType="numberDecimal"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray_999999"
-                    android:textSize="14sp" />
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
 
 
                 <LinearLayout

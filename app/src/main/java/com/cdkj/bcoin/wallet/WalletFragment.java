@@ -23,9 +23,12 @@ import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.FragmentWalletBinding;
 import com.cdkj.bcoin.model.CoinModel;
 import com.cdkj.bcoin.model.RateModel;
+import com.cdkj.bcoin.util.ResponseUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,12 +108,30 @@ public class WalletFragment extends BaseLazyFragment {
                             return;
 
                         setView(data);
-                        refreshHelper.setData(data.getAccountList(), getStrRes(R.string.wallet_none), R.mipmap.order_none);
+
+                        // 筛选配置允许的Coin账户
+                        List<CoinModel.AccountListBean> coinList = new ArrayList<>();
+                        // 允许配置的Coin
+                        List<String> list= Arrays.asList(MyConfig.COIN_TYPE);
+                        for (CoinModel.AccountListBean bean : data.getAccountList()){
+                            if (list.contains(bean.getCurrency())){
+                                coinList.add(bean);
+                            }
+                        }
+
+                        if (ResponseUtil.screeningDataWithConfig(data) == null)
+                            return;
+
+                        List<CoinModel.AccountListBean>  coinList1 = (List<CoinModel.AccountListBean>) ResponseUtil.screeningDataWithConfig(data);
+
+
+                        refreshHelper.setData(coinList1 , getStrRes(R.string.wallet_none), R.mipmap.order_none);
                     }
 
                     @Override
                     protected void onFinish() {
                         disMissLoading();
+                        mBinding.refreshLayout.finishRefresh();
                     }
                 });
 
@@ -131,8 +152,8 @@ public class WalletFragment extends BaseLazyFragment {
     private void init() {
 
         refreshHelper.init(10);
-//        // 刷新
-//        refreshHelper.onDefaluteMRefresh(true);
+        // 刷新
+        refreshHelper.onDefaluteMRefresh(true);
     }
 
     private void initListener() {

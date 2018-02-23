@@ -29,6 +29,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 
+import static com.cdkj.baselibrary.appmanager.MyConfig.CURRENCY;
 import static com.cdkj.bcoin.util.AccountUtil.formatDouble;
 
 /**
@@ -80,10 +81,8 @@ public class DealChatActivity extends AbsBaseActivity {
     }
 
     private void initListener() {
-        mBinding.llDealHide.setOnClickListener(view -> {
-            // 重写点击Activity布局隐藏键盘
-            hideKeyboard(view);
-        });
+        // 重写点击Activity布局隐藏键盘
+        mBinding.llDealHide.setOnClickListener(this::hideKeyboard);
     }
 
     private void initChatFragment() {
@@ -125,8 +124,8 @@ public class DealChatActivity extends AbsBaseActivity {
     }
 
     private void setView(DealDetailModel data) {
-        mBinding.tvPrice.setText(getStrRes(R.string.quoted)+ AccountUtil.formatDouble(data.getTruePrice())+"CNY");
-        mBinding.tvLimit.setText(getStrRes(R.string.limit)+data.getMinTrade()+"-"+formatDouble(data.getMaxTrade())+"CNY");
+        mBinding.tvPrice.setText(getStrRes(R.string.quoted)+ AccountUtil.formatDouble(data.getTruePrice())+CURRENCY);
+        mBinding.tvLimit.setText(getStrRes(R.string.limit)+data.getMinTrade()+"-"+formatDouble(data.getMaxTrade())+CURRENCY);
 
         if (data.getTradeType().equals("1")){ // 1是卖币，UI展示买币
             setTopTitle(getStrRes(R.string.buy_order)+"("+data.getUser().getNickname()+")");

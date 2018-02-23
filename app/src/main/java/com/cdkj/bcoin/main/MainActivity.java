@@ -51,7 +51,7 @@ import retrofit2.Call;
 
 import static com.cdkj.baselibrary.appmanager.EventTags.IM_MSG_TIP_DONE;
 import static com.cdkj.baselibrary.appmanager.EventTags.IM_MSG_TIP_NEW;
-import static com.cdkj.baselibrary.appmanager.EventTags.MAINCHANGESHOWINDEX;
+import static com.cdkj.baselibrary.appmanager.EventTags.MAIN_CHANGE_SHOW_INDEX;
 import static com.cdkj.bcoin.util.UpdateUtil.startWeb;
 import static com.cdkj.bcoin.util.ZenDeskUtil.initZenDeskIdentity;
 
@@ -391,7 +391,7 @@ public class MainActivity extends AbsBaseActivity {
             return;
         }
 
-        if (TextUtils.equals(eventBusModel.getTag(), MAINCHANGESHOWINDEX)) {
+        if (TextUtils.equals(eventBusModel.getTag(), MAIN_CHANGE_SHOW_INDEX)) {
             setShowIndex(eventBusModel.getEvInt());
         }
     }
@@ -406,7 +406,7 @@ public class MainActivity extends AbsBaseActivity {
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);
 
-        Call call = RetrofitUtils.createApi(MyApi.class).getVersion("625918", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApi.class).getVersion("660918", StringUtils.getJsonToString(map));
 
         addCall(call);
 

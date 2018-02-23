@@ -32,6 +32,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 
+import static com.cdkj.baselibrary.appmanager.MyConfig.COIN_TYPE;
 import static com.cdkj.bcoin.util.DealUtil.CAOGAO;
 
 /**
@@ -42,9 +43,7 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
 
     private ActivityUserPublishedBinding mBinding;
 
-    private String type = "ETH";
-    private String[] types = {"ETH"};
-//    private String[] types = {"ETH","BTC"};
+    private String type;
 
     private List<String> statusList = new ArrayList<>();
 
@@ -59,14 +58,15 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
     protected void onInit(Bundle savedInstanceState, int pageIndex, int limit) {
         mBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_user_published, null, false);
 
-        setTopTitle(getStrRes(R.string.user_title_published));
-//        setTopTitle(getStrRes(R.string.user_title_published)+"("+type+")");
-//        setTopImgEnable(true);
+        type = COIN_TYPE[0];
+
+        setTopTitle(getStrRes(R.string.user_title_published)+"("+type+")");
+        setTopImgEnable(true);
         setTopLineState(true);
         setSubLeftImgState(true);
 
         setTopTitleClickListener(v -> {
-//            initPopup(v);
+            initPopup(v);
         });
 
         mAdapter.setHeaderAndEmpty(true);
@@ -96,14 +96,14 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
 
     private void initPopup(View view) {
         MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
-        popupWindow.setNumberPicker(R.id.np_type, types);
+        popupWindow.setNumberPicker(R.id.np_type, COIN_TYPE);
 
         popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
             popupWindow.dismiss();
         });
 
         popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
-            type = popupWindow.getNumberPicker(R.id.np_type, types);
+            type = popupWindow.getNumberPicker(R.id.np_type, COIN_TYPE);
 
             setTopTitle(getStrRes(R.string.user_title_published)+"("+type+")");
             onMRefresh(1,10);

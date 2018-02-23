@@ -83,6 +83,64 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/ll_coin_select"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+
+                    <TextView
+                        android:layout_marginLeft="20dp"
+                        android:text="@string/deal_publish_coin"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/tv_coin_select"
+                        android:gravity="center_vertical"
+                        android:background="@null"
+                        android:clickable="false"
+                        android:layout_marginLeft="20dp"
+                        android:textSize="14sp"
+                        android:hint="@string/deal_publish_coin_hint"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray_999999"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+
+                    <View
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"/>
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:background="@mipmap/more"
+                            android:layout_marginRight="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:background="@color/gray_eeeeee"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <LinearLayout
                     android:id="@+id/ll_type"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -100,23 +158,17 @@
 
                     <TextView
                         android:id="@+id/tv_type"
-                        android:clickable="false"
-                        android:focusable="false"
                         android:gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
                         android:background="@null"
+                        android:clickable="false"
+                        android:layout_marginLeft="20dp"
+                        android:textSize="14sp"
                         android:hint="@string/deal_search_adv_type_hint"
-                        android:inputType="numberDecimal"
                         android:textColor="@color/black"
                         android:textColorHint="@color/gray_999999"
-                        android:textSize="14sp" />
-
-                    <View
                         android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp"/>
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
 
                     <LinearLayout
                         android:gravity="center"
@@ -231,23 +283,18 @@
 
                     <TextView
                         android:id="@+id/tv_way"
-                        android:clickable="false"
-                        android:focusable="false"
                         android:gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
                         android:background="@null"
+                        android:clickable="false"
+                        android:layout_marginLeft="20dp"
+                        android:textSize="14sp"
                         android:hint="@string/deal_publish_pay_type_hint"
-                        android:inputType="numberDecimal"
                         android:textColor="@color/black"
                         android:textColorHint="@color/gray_999999"
-                        android:textSize="14sp" />
-
-                    <View
                         android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="10dp"/>
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent" />
+
 
                     <LinearLayout
                         android:gravity="center"

@@ -74,8 +74,7 @@ public class EditTextJudgeNumberWatcher implements TextWatcher {
             edt.delete(index-1, index);//删除光标前的字符
             return;
         }
-        if (temp.length() - posDot - 1 > after)//如果包含小数点
-        {
+        if (temp.length() - posDot - 1 > after){ //如果包含小数点
             edt.delete(index-1, index);//删除光标前的字符
             return;
         }

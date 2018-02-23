@@ -32,8 +32,8 @@
     <string name="deal_buy_cny_hint">请输入数字</string>
     <string name="deal_buy_coin_hint">请输入数值</string>
     <string name="deal_account_balance">账户可用余额: </string>
-    <string name="buy_success">购买成功</string>
-    <string name="sale_success">出售成功</string>
+    <string name="buy_success">下单成功</string>
+    <string name="sale_success">下单成功</string>
     <string name="attention">注意</string>
     <string name="tip">提示</string>
     <string name="out_confirm">您确定要下架此广告吗?</string>
@@ -97,6 +97,7 @@
     <string name="deal_publish_sale">发布卖出</string>
     <string name="deal_publish_save">保存草稿</string>
     <string name="deal_publish_edit">编辑</string>
+    <string name="deal_publish_hint_price">请重新获取价格</string>
     <string name="deal_publish_hint_premium">请输入溢价</string>
     <string name="deal_publish_hint_premium_scope_start">溢价应在</string>
     <string name="deal_publish_hint_premium_scope_end">之间</string>
@@ -142,7 +143,8 @@
     <string name="dialog_deal_price">出售价格</string>
     <string name="dialog_deal_amount">出售金额</string>
     <string name="dialog_deal_quantity">出售数量</string>
-    <string name="dialog_deal_tip">提醒:请确认价格再下单，下单后此交易的ETH将托管锁定,请放心下单</string>
+    <string name="dialog_deal_tip1">提醒:请确认价格再下单，下单后此交易的</string>
+    <string name="dialog_deal_tip2">将托管锁定,请放心下单</string>
     <string name="dialog_deal_cancel">放弃出售</string>
     <string name="dialog_deal_confirm">确认出售</string>
     <string name="dialog_deal_custom">自定义</string>
@@ -215,6 +217,7 @@
     // 钱包
     <string name="property_eth">以太币资产(ETH)</string>
     <string name="property_btc">比特币资产(BTC)</string>
+    <string name="property_sc">云储币资产(SC)</string>
     <string name="freeze">冻结</string>
 
     <string name="wallet_exchange_explain">计算规则:采用银行柜台汇率过去14天的平均值作为汇率参考值,在每一个交割结算日,若该平均值与系统当前汇率偏差超过0.2,则会采用新的14天平均是做为系统汇率。</string>
@@ -268,6 +271,7 @@
     <string name="wallet_charge_recode">记录</string>
     <string name="wallet_charge_address_eth">我的以太币收款地址</string>
     <string name="wallet_charge_address_btc">我的比特币收款地址</string>
+    <string name="wallet_charge_address_sc">我的云储币收款地址</string>
     <string name="wallet_charge_address_copy_success">地址已复制</string>
 
     <string name="wallet_title_withdraw">提币</string>
@@ -298,7 +302,7 @@
     <string name="user_title_address">地址管理</string>
     <string name="user_address_none">暂无地址</string>
     <string name="user_address_delete_confirm">您确定要删除该地址吗？</string>
-    <string name="user_address_delete_success">删除成功？</string>
+    <string name="user_address_delete_success">删除成功</string>
 
     <string name="user_title_language">语言设置</string>
     <string name="user_language_english">英文</string>
@@ -349,7 +353,7 @@
     <string name="user_person_times">次</string>
 
     <string name="user_invite_people">成功邀请(人)</string>
-    <string name="user_invite_profit">提成收益(ETH)</string>
+    <string name="user_invite_profit">提成收益</string>
     <string name="user_invite_confirm">我要推荐</string>
     <string name="user_invite_activity">活动规则</string>
     <string name="user_invite_share_title">分享到</string>
@@ -446,8 +450,8 @@
     // Util
     <string name="coin_eth">以太币</string>
     <string name="coin_btc">比特币</string>
-    <string name="biz_type_charge">ETH充值</string>
-    <string name="biz_type_withdraw">ETH取现</string>
+    <string name="biz_type_charge">充值</string>
+    <string name="biz_type_withdraw">取现</string>
     <string name="biz_type_buy">交易买入</string>
     <string name="biz_type_sell">交易卖出</string>
     <string name="biz_type_tradefrozen">交易冻结</string>

@@ -206,7 +206,7 @@
                 android:layout_height="match_parent" />
 
             <TextView
-                android:text="ETH"
+                android:id="@+id/tv_fee"
                 android:textSize="14sp"
                 android:layout_marginRight="15dp"
                 android:textColor="@color/black"

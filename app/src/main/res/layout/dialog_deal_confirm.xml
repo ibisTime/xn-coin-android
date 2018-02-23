@@ -120,8 +120,8 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/tv_pop_tip"
                     android:layout_marginLeft="7dp"
-                    android:text="@string/dialog_deal_tip"
                     android:textSize="11sp"
                     android:textColor="@color/colorPrimary"
                     android:layout_width="match_parent"

@@ -359,7 +359,7 @@
                             android:layout_height="wrap_content">
 
                             <TextView
-                                android:text="ETH"
+                                android:id="@+id/tv_coin"
                                 android:textSize="15sp"
                                 android:layout_marginLeft="20dp"
                                 android:textColor="@color/black"
@@ -446,6 +446,7 @@
 
         <LinearLayout
             android:id="@+id/ll_bottom"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="50dp">
 

@@ -71,7 +71,7 @@ public class TxImPushActivity extends AbsBaseActivity {
 
             EventBusModel model;
             model = new EventBusModel();
-            model.setTag(EventTags.MAINCHANGESHOWINDEX);
+            model.setTag(EventTags.MAIN_CHANGE_SHOW_INDEX);
             model.setEvInt(1);
             EventBus.getDefault().post(model);
 

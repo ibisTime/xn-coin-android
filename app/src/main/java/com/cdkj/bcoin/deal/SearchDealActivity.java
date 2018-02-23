@@ -31,16 +31,18 @@ import static com.cdkj.bcoin.util.DealUtil.YIFABU;
 public class SearchDealActivity extends BaseRefreshActivity<DealDetailModel> {
 
 
+    private String coin;
     private String minPrice;
     private String maxPrice;
     private String payType;
     private String tradeType;
 
-    public static void open(Context context, String minPrice, String maxPrice, String tradeType, String payType){
+    public static void open(Context context, String minPrice, String maxPrice, String tradeType, String payType, String coin){
         if (context == null) {
             return;
         }
         context.startActivity(new Intent(context, SearchDealActivity.class)
+                .putExtra("coin",coin)
                 .putExtra("minPrice",minPrice)
                 .putExtra("maxPrice",maxPrice)
                 .putExtra("tradeType",tradeType)
@@ -92,6 +94,7 @@ public class SearchDealActivity extends BaseRefreshActivity<DealDetailModel> {
         if (getIntent() == null)
             return;
 
+        coin = getIntent().getStringExtra("coin");
         minPrice = getIntent().getStringExtra("minPrice");
         maxPrice = getIntent().getStringExtra("maxPrice");
         tradeType = getIntent().getStringExtra("tradeType");
@@ -104,6 +107,7 @@ public class SearchDealActivity extends BaseRefreshActivity<DealDetailModel> {
     @Override
     protected void getListData(int pageIndex, int limit, boolean canShowDialog) {
         Map<String, String> map = new HashMap<>();
+        map.put("coin", coin);
         map.put("minPrice", minPrice);
         map.put("maxPrice", maxPrice);
         map.put("payType", payType);

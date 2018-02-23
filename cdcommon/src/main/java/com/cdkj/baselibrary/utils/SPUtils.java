@@ -28,33 +28,25 @@ public class SPUtils
      */
     public static void put(Context context, String key, Object object)
     {
-        if(context==null || object==null)
-        {
+        if(context==null || object==null) {
             return;
         }
-
 
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
-        if (object instanceof String)
-        {
+        if (object instanceof String) {
             editor.putString(key, (String) object);
-        } else if (object instanceof Integer)
-        {
+        } else if (object instanceof Integer) {
             editor.putInt(key, (Integer) object);
-        } else if (object instanceof Boolean)
-        {
+        } else if (object instanceof Boolean) {
             editor.putBoolean(key, (Boolean) object);
-        } else if (object instanceof Float)
-        {
+        } else if (object instanceof Float) {
             editor.putFloat(key, (Float) object);
-        } else if (object instanceof Long)
-        {
+        } else if (object instanceof Long) {
             editor.putLong(key, (Long) object);
-        } else
-        {
+        } else {
             editor.putString(key, object.toString());
         }
 
@@ -63,8 +55,7 @@ public class SPUtils
 
     public static Integer getInt(Context context, String key, Integer defaultObject){
 
-        if(context==null)
-        {
+        if(context==null) {
             return defaultObject;
         }
 

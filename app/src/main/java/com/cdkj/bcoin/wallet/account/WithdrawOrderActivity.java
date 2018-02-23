@@ -28,11 +28,13 @@ import retrofit2.Call;
 
 public class WithdrawOrderActivity extends BaseRefreshActivity<WithdrawOrderModel.ListBean> {
 
-    public static void open(Context context){
+    private String currency;
+
+    public static void open(Context context, String currency){
         if (context == null) {
             return;
         }
-        context.startActivity(new Intent(context, WithdrawOrderActivity.class));
+        context.startActivity(new Intent(context, WithdrawOrderActivity.class).putExtra("currency", currency));
     }
 
 
@@ -42,6 +44,11 @@ public class WithdrawOrderActivity extends BaseRefreshActivity<WithdrawOrderMode
         setTopLineState(true);
         setSubLeftImgState(true);
 
+        if (getIntent() == null)
+            return;
+
+        currency = getIntent().getStringExtra("currency");
+
         getListData(pageIndex, limit, true);
     }
 
@@ -50,6 +57,7 @@ public class WithdrawOrderActivity extends BaseRefreshActivity<WithdrawOrderMode
         Map<String, String> map = new HashMap<>();
         map.put("companyCode", MyConfig.COMPANYCODE);
         map.put("systemCode", MyConfig.SYSTEMCODE);
+        map.put("currency", currency);
         map.put("applyUser", SPUtilHelper.getUserId());
         map.put("limit", limit+"");
         map.put("start", pageIndex+"");

@@ -47,7 +47,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 
-import static com.cdkj.bcoin.util.AccountUtil.formatDouble;
+import static com.cdkj.baselibrary.appmanager.MyConfig.COIN_TYPE;
 import static com.cdkj.bcoin.util.DealUtil.CAOGAO;
 import static com.cdkj.bcoin.util.DealUtil.DAIFABU;
 import static com.cdkj.bcoin.util.DealUtil.YIFABU;
@@ -60,6 +60,10 @@ import static com.cdkj.bcoin.util.DealUtil.getPayType;
 public class SaleActivity extends AbsBaseActivity {
 
     private ActivityDealPublishSaleBinding mBinding;
+
+    // 币种
+    private String coinType;
+    private double marketPrice;
 
     // 开始时间TextViewList
     private List<TextView> startTimeList;
@@ -117,56 +121,23 @@ public class SaleActivity extends AbsBaseActivity {
         setTopLineState(true);
         setSubLeftImgState(true);
 
-        getCoin();
+        init();
+        initHour();
+        initListener();
 
-    }
-
-    private void getCoin() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("coin", "ETH");
-        map.put("systemCode", MyConfig.SYSTEMCODE);
-        map.put("companyCode", MyConfig.COMPANYCODE);
-
-        Call call = RetrofitUtils.createApi(MyApi.class).getTruePrice("625292", StringUtils.getJsonToString(map));
-
-        showLoadingDialog();
-
-        call.enqueue(new BaseResponseModelCallBack<MarketCoinModel>(this) {
-
-            @Override
-            protected void onSuccess(MarketCoinModel data, String SucMessage) {
-                if (data == null)
-                    return;
-
-                SPUtilHelper.saveMarketCoin("ETH",data.getMid());
-
-                initHour();
-                initListener();
-                init();
-
-                getLimit();
-                getAccount();
-                getListData();
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
+        getLimit();
+        getListData();
 
     }
 
     private void init() {
-        types = new String[]{StringUtil.getString(R.string.zhifubao), StringUtil.getString(R.string.weixin), StringUtil.getString(R.string.card)};
-
-        mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
-        mBinding.tvMarketPrice.setText(StringUtil.getString(R.string.deal_market_price)+SPUtilHelper.getMarketCoin("ETH"));
+        types = new String[]{getStrRes(R.string.zhifubao), getStrRes(R.string.weixin), getStrRes(R.string.card)};
 
         if (getIntent() != null){
             status = getIntent().getStringExtra("status");
             bean = (DealDetailModel) getIntent().getSerializableExtra("bean");
         }
+
 
         switch (status){ // "1", "直接发布" "2", "草稿发布" "3", "编辑发布，原广告下
 
@@ -190,9 +161,84 @@ public class SaleActivity extends AbsBaseActivity {
                 break;
         }
 
+        //
         if (bean != null){
-            getDeal();
+            // 初始化默认币种
+            coinType = bean.getTradeCoin();
+            // 设置币种
+            setCoinCurrency();
+            // 获取币种行情价格
+            getMarketPrice(true);
+        }else {
+            // 初始化默认币种
+            coinType = COIN_TYPE[0];
+            // 设置币种
+            setCoinCurrency();
+            // 获取币种行情价格
+            getMarketPrice(false);
         }
+    }
+
+    private void getMarketPrice(boolean isSetView) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("coin", coinType);
+        map.put("systemCode", MyConfig.SYSTEMCODE);
+        map.put("companyCode", MyConfig.COMPANYCODE);
+
+        Call call = RetrofitUtils.createApi(MyApi.class).getTruePrice("625292", StringUtils.getJsonToString(map));
+
+        showLoadingDialog();
+
+        call.enqueue(new BaseResponseModelCallBack<MarketCoinModel>(this) {
+
+            @Override
+            protected void onSuccess(MarketCoinModel data, String SucMessage) {
+                if (data == null)
+                    return;
+
+                // 保存行情价格
+                marketPrice = data.getMid();
+                // 设置行情价格
+                mBinding.tvMarketPrice.setText(getStrRes(R.string.deal_market_price)+AccountUtil.formatDouble(marketPrice));
+
+                // 根据已输入的溢价行情计算价格
+                if (mBinding.edtPremium.getText().toString().equals("")){
+                    mBinding.tvPrice.setText(AccountUtil.formatDouble(marketPrice));
+                } else if (mBinding.edtPremium.getText().toString().equals("-") || mBinding.edtPremium.getText().toString().equals(".")){
+                    return;
+                } else {
+                    Double price = Double.parseDouble(AccountUtil.formatDouble(marketPrice)+"");
+                    Double premiumRate = Double.parseDouble(mBinding.edtPremium.getText().toString());
+
+                    try {
+                        mBinding.tvPrice.setText(AccountUtil.formatDouble(price + (price * premiumRate /100)));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+
+                // 获取账户余额
+                getAccount();
+
+                if (isSetView)
+                    setView();
+
+            }
+
+            @Override
+            protected void onFinish() {
+                disMissLoading();
+            }
+        });
+
+    }
+
+    private void setCoinCurrency() {
+        // 设置选择币
+        mBinding.tvCoinSelect.setText(coinType);
+        mBinding.tvAmountCoin.setText(coinType);
+
     }
 
     private void initHour() {
@@ -239,6 +285,13 @@ public class SaleActivity extends AbsBaseActivity {
     }
 
     private void initListener() {
+
+        mBinding.llCoinSelect.setOnClickListener(view -> {
+            // 新发布广告时可以更改币种
+            if (bean == null){
+                initPopup(view);
+            }
+        });
 
         mBinding.llAnytime.setOnClickListener(view -> {
             openTimeFlag = false;
@@ -343,12 +396,12 @@ public class SaleActivity extends AbsBaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().equals("")){
-                    mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
+                    mBinding.tvPrice.setText(AccountUtil.formatDouble(marketPrice));
                     showToast("请输入溢价");
                 } else if (editable.toString().equals("-") || editable.toString().equals(".")){
                     return;
                 } else {
-                    Double price = Double.parseDouble(SPUtilHelper.getMarketCoin("ETH"));
+                    Double price = Double.parseDouble(AccountUtil.formatDouble(marketPrice));
                     Double premiumRate = Double.parseDouble(editable.toString());
 
                     try {
@@ -362,6 +415,10 @@ public class SaleActivity extends AbsBaseActivity {
         });
 
         // 说明
+        mBinding.llCoin.setOnClickListener(view -> {
+            getFieldExplain(view.getTag().toString());
+        });
+
         mBinding.llPrice.setOnClickListener(view -> {
             getFieldExplain(view.getTag().toString());
         });
@@ -485,6 +542,35 @@ public class SaleActivity extends AbsBaseActivity {
     }
 
     /**
+     * 选择币种
+     * @param view
+     */
+    private void initPopup(View view) {
+        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
+        popupWindow.setNumberPicker(R.id.np_type, COIN_TYPE);
+
+        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
+            popupWindow.dismiss();
+        });
+
+        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+            coinType = popupWindow.getNumberPicker(R.id.np_type, COIN_TYPE);
+
+            // 重置价格
+            mBinding.tvPrice.setText("");
+            mBinding.tvMarketPrice.setText(getStrRes(R.string.deal_market_price)+"");
+            // 设置币种
+            setCoinCurrency();
+            // 获取所选币种行情价格
+            getMarketPrice(false);
+
+            popupWindow.dismiss();
+        });
+
+        popupWindow.show(view);
+    }
+
+    /**
      * 选择支付方式
      * @param view
      */
@@ -556,10 +642,10 @@ public class SaleActivity extends AbsBaseActivity {
 
     private void setView() {
         mBinding.edtPremium.setText(AccountUtil.formatDouble(bean.getPremiumRate() * 100)+"");
-        mBinding.edtMin.setText(bean.getMinTrade()+"");
-        mBinding.edtMax.setText(formatDouble(bean.getMaxTrade()));
-        mBinding.edtProtectPrice.setText(bean.getProtectPrice()+"");
-        mBinding.edtAmount.setText(AccountUtil.weiToEth(new BigDecimal(bean.getLeftCountString())));
+        mBinding.edtMin.setText(AccountUtil.formatDouble(bean.getMinTrade()));
+        mBinding.edtMax.setText(AccountUtil.formatDouble(bean.getMaxTrade()));
+        mBinding.edtProtectPrice.setText(AccountUtil.formatDouble(bean.getProtectPrice()));
+        mBinding.edtAmount.setText(AccountUtil.amountFormatUnit(new BigDecimal(bean.getLeftCountString()), bean.getTradeCoin(), 8));
         mBinding.tvWay.setText(types[Integer.parseInt(bean.getPayType())]);
         mBinding.tvLimit.setText(bean.getPayLimit()+"");
         mBinding.edtRemark.setText(bean.getLeaveMessage());
@@ -641,7 +727,7 @@ public class SaleActivity extends AbsBaseActivity {
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);
 
-        Call call = RetrofitUtils.createApi(MyApi.class).getSystemInformation("625907", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApi.class).getSystemInformation("660906", StringUtils.getJsonToString(map));
 
         addCall(call);
 
@@ -702,6 +788,11 @@ public class SaleActivity extends AbsBaseActivity {
 
 
     private Boolean check(){
+        if (mBinding.tvPrice.getText().toString().equals("")){
+            showToast(getStrRes(R.string.deal_publish_hint_price));
+            return false;
+        }
+
         if (mBinding.edtPremium.getText().toString().equals("")){
             showToast(StringUtil.getString(R.string.deal_publish_hint_premium));
             return false;
@@ -835,8 +926,7 @@ public class SaleActivity extends AbsBaseActivity {
             }
             object.put("token", SPUtilHelper.getUserToken());
             object.put("userId", SPUtilHelper.getUserId());
-            if (openTimeFlag)
-                object.put("displayTime", getOpenTime());
+            object.put("displayTime", getOpenTime());
             object.put("leaveMessage", mBinding.edtRemark.getText().toString().trim());
             object.put("maxTrade", mBinding.edtMax.getText().toString().trim());
             object.put("minTrade", mBinding.edtMin.getText().toString().trim());
@@ -844,10 +934,14 @@ public class SaleActivity extends AbsBaseActivity {
             object.put("payLimit", mBinding.tvLimit.getText().toString());
             object.put("payType", getPayType(mBinding.tvWay.getText().toString()));
             object.put("premiumRate", (Double.parseDouble(mBinding.edtPremium.getText().toString()) / 100)+"");
-            object.put("totalCount", bigDecimal.multiply(AccountUtil.UNIT).toString().split("\\.")[0]);
+            if (coinType.equals("ETH")){
+                object.put("totalCount", bigDecimal.multiply(AccountUtil.UNIT_ETH).toString().split("\\.")[0]);
+            }else {
+                object.put("totalCount", bigDecimal.multiply(AccountUtil.UNIT_SC).toString().split("\\.")[0]);
+            }
             object.put("protectPrice", mBinding.edtProtectPrice.getText().toString().trim());
             object.put("publishType", publishType);
-            object.put("tradeCoin", "ETH");
+            object.put("tradeCoin", coinType);
             object.put("tradeCurrency", "CNY");
             object.put("tradeType", "1");
         } catch (JSONException e) {
@@ -873,6 +967,8 @@ public class SaleActivity extends AbsBaseActivity {
                     }else {
                         EventBusModel model = new EventBusModel();
                         model.setTag(EventTags.DEAL_PAGE_CHANGE);
+                        // 交易界面显示的币种
+                        model.setEvInfo(coinType);
                         model.setEvInt(1);
                         EventBus.getDefault().post(model);
 
@@ -891,7 +987,7 @@ public class SaleActivity extends AbsBaseActivity {
 
     private void getAccount(){
         Map<String, Object> map = new HashMap<>();
-        map.put("currency", "ETH");
+        map.put("currency", coinType);
         map.put("userId", SPUtilHelper.getUserId());
         map.put("token", SPUtilHelper.getUserToken());
 
@@ -910,10 +1006,15 @@ public class SaleActivity extends AbsBaseActivity {
                     return;
 
                 for (CoinModel.AccountListBean model : data.getAccountList()){
-                    if (model.getCurrency().equals("ETH")){
-                        mBinding.tvBalance.setText(StringUtil.getString(R.string.deal_account_balance)+
-                                AccountUtil.sub(Double.parseDouble(model.getAmountString()),
-                                Double.parseDouble(model.getFrozenAmountString())));
+                    if (model.getCurrency().equals(coinType)){
+//                        mBinding.tvBalance.setText(StringUtil.getString(R.string.deal_account_balance)+
+//                                AccountUtil.sub(Double.parseDouble(model.getAmountString()),
+//                                Double.parseDouble(model.getFrozenAmountString()), coinType));
+
+                        BigDecimal amount = new BigDecimal(model.getAmountString());
+                        BigDecimal frozenAmount = new BigDecimal(model.getFrozenAmountString());
+                        mBinding.tvBalance.setText(getStrRes(R.string.deal_account_balance) +
+                                AccountUtil.amountFormatUnit(amount.subtract(frozenAmount), model.getCurrency(), 8));
                     }
                 }
 
@@ -934,7 +1035,7 @@ public class SaleActivity extends AbsBaseActivity {
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);
 
-        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameterList("625915", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameterList("660915", StringUtils.getJsonToString(map));
 
         addCall(call);
 

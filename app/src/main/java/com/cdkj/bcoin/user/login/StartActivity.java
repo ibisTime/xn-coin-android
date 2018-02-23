@@ -13,7 +13,6 @@ import com.cdkj.baseim.event.RefreshEvent;
 import com.cdkj.baseim.interfaces.TxImLoginInterface;
 import com.cdkj.baseim.interfaces.TxImLoginPresenter;
 import com.cdkj.baseim.maneger.TXImManager;
-import com.cdkj.baseim.ui.NotifyDialog;
 import com.cdkj.baseim.util.PushUtil;
 import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyConfig;
@@ -206,8 +205,11 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
         switch (i) {
             case 6208:
                 //离线状态下被其他终端踢下线
-                NotifyDialog dialog = new NotifyDialog();
-                dialog.show(getString(R.string.kick_logout), getSupportFragmentManager(), (dialog1, which) -> initTencent());
+//                NotifyDialog dialog = new NotifyDialog();
+//                dialog.show(getString(R.string.kick_logout), getSupportFragmentManager(), (dialog1, which) -> initTencent());
+
+                // 重新登录
+                loginTencent();
                 break;
 
             case 6200:

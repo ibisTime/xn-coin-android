@@ -38,6 +38,7 @@ import java.util.Map;
 import retrofit2.Call;
 
 import static com.cdkj.baselibrary.appmanager.EventTags.ADDRESS_SELECT;
+import static com.cdkj.baselibrary.appmanager.MyConfig.COIN_TYPE;
 
 /**
  * Created by lei on 2017/11/1.
@@ -47,6 +48,7 @@ public class UserAddressActivity extends AbsBaseActivity {
 
     public static String TYPE_WITHDRAW = "withdraw";
     private String openType = "";
+    private String coin = "";
 
     private FootUserAddressBinding footBinding;
 
@@ -56,19 +58,27 @@ public class UserAddressActivity extends AbsBaseActivity {
 
     private AddressAdapter adapter;
 
-    private String type = "ETH";
-    private String[] types = {"ETH"};
-//    private String[] types = {"ETH","BTC"};
+    private String type;
 
-    public static void open(Context context, String openType){
+    /**
+     *
+     * @param context
+     * @param openType 打开的类型：提现打开页面功能为选择地址
+     * @param coin 币种
+     */
+    public static void open(Context context, String openType, String coin){
         if (context == null) {
             return;
         }
-        context.startActivity(new Intent(context, UserAddressActivity.class).putExtra("openType", openType));
+        context.startActivity(new Intent(context, UserAddressActivity.class)
+                .putExtra("coin", coin)
+                .putExtra("openType", openType));
     }
 
     @Override
     public View addMainView() {
+        type = COIN_TYPE[0];
+
         footBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.foot_user_address, null, false);
 
         back = new BaseRefreshCallBack() {
@@ -97,13 +107,15 @@ public class UserAddressActivity extends AbsBaseActivity {
                 statusList.add("1");
 
                 Map<String, Object> map = new HashMap<>();
+                map.put("currency", type);
                 map.put("statusList", statusList);
                 map.put("type", "Y");
                 map.put("userId", SPUtilHelper.getUserId());
+                map.put("token", SPUtilHelper.getUserToken());
                 map.put("start", pageIndex+"");
                 map.put("limit", limit+"");
 
-                Call call = RetrofitUtils.createApi(MyApi.class).getAddress("625205", StringUtils.getJsonToString(map));
+                Call call = RetrofitUtils.createApi(MyApi.class).getAddress("802175", StringUtils.getJsonToString(map));
 
                 addCall(call);
 
@@ -115,6 +127,9 @@ public class UserAddressActivity extends AbsBaseActivity {
                     protected void onSuccess(AddressModel data, String SucMessage) {
 
                         if (data == null)
+                            return;
+
+                        if (data.getList() == null)
                             return;
 
                         refreshHelper.setData(data.getList(),getStrRes(R.string.user_address_none), R.mipmap.order_none);
@@ -137,14 +152,50 @@ public class UserAddressActivity extends AbsBaseActivity {
 
     @Override
     public void afterCreate(Bundle savedInstanceState) {
-        setTopTitle(getStrRes(R.string.user_title_address));
-//        setTopTitle(getStrRes(R.string.user_title_address)+"("+type+")");
-//        setTopImgEnable(true);
+        setTopTitle(getStrRes(R.string.user_title_address)+"("+type+")");
+        setTopImgEnable(true);
         setTopLineState(true);
         setSubLeftImgState(true);
 
-//        setTopTitleClickListener(this::initPopup);
+        setTopTitleClickListener(v -> {
+            // 页面功能为 提现选择地址
+            if (openType != null && openType.equals(TYPE_WITHDRAW)){
 
+            }else {
+                initPopup(v);
+            }
+
+
+        });
+
+        init();
+        initListener();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshHelper.onMRefresh(1,10,true);
+    }
+
+    private void init() {
+        if (getIntent() == null)
+            return;
+
+        openType = getIntent().getStringExtra("openType");
+
+        // 页面功能为 提现选择地址
+        if (openType != null && openType.equals(TYPE_WITHDRAW)){
+            // 所需要选择的地址币种
+            type = getIntent().getStringExtra("coin");
+            setTopTitle(getStrRes(R.string.user_title_address)+"("+type+")");
+        }
+
+        initHttp();
+    }
+
+    private void initHttp() {
         refreshHelper.init(10);
         // 刷新
         refreshHelper.onDefaluteMRefresh(true);
@@ -165,38 +216,20 @@ public class UserAddressActivity extends AbsBaseActivity {
             }
 
         });
-
-
-        init();
-        initListener();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        refreshHelper.onMRefresh(1,10,true);
-    }
-
-    private void init() {
-        if (getIntent() == null)
-            return;
-
-        openType = getIntent().getStringExtra("openType");
     }
 
     private void initPopup(View view) {
         MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
-        popupWindow.setNumberPicker(R.id.np_type, types);
+        popupWindow.setNumberPicker(R.id.np_type, COIN_TYPE);
 
         popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
             popupWindow.dismiss();
         });
 
         popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
-            type = popupWindow.getNumberPicker(R.id.np_type, types);
+            type = popupWindow.getNumberPicker(R.id.np_type, COIN_TYPE);
 
-            setTopTitle(getStrRes(R.string.user_title_published)+"("+type+")");
+            setTopTitle(getStrRes(R.string.user_title_address)+"("+type+")");
             refreshHelper.onMRefresh(1,10,true);
             popupWindow.dismiss();
         });
@@ -256,7 +289,8 @@ public class UserAddressActivity extends AbsBaseActivity {
         Map<String, Object> map = new HashMap<>();
         map.put("code", code);
 
-        Call call = RetrofitUtils.getBaseAPiService().successRequest("625202", StringUtils.getJsonToString(map));
+
+        Call call = RetrofitUtils.getBaseAPiService().successRequest("802171", StringUtils.getJsonToString(map));
 
         addCall(call);
 
@@ -274,7 +308,6 @@ public class UserAddressActivity extends AbsBaseActivity {
                     showToast(getStrRes(R.string.user_address_delete_success));
                     refreshHelper.onMRefresh(1,10,true);
                 }
-
 
             }
 

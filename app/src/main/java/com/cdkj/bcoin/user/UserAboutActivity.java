@@ -86,7 +86,7 @@ public class UserAboutActivity extends AbsBaseActivity {
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);
 
-        Call call = RetrofitUtils.createApi(MyApi.class).getVersion("625918", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApi.class).getVersion("660918", StringUtils.getJsonToString(map));
 
         addCall(call);
 

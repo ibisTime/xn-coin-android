@@ -372,8 +372,8 @@ public class UserRefereeModel {
              */
 
             private int jiaoYiCount;
-            private int beiPingJiaCount;
-            private int beiHaoPingCount;
+            private double beiPingJiaCount;
+            private double beiHaoPingCount;
             private int beiXinRenCount;
 
             public int getJiaoYiCount() {
@@ -384,19 +384,19 @@ public class UserRefereeModel {
                 this.jiaoYiCount = jiaoYiCount;
             }
 
-            public int getBeiPingJiaCount() {
+            public double getBeiPingJiaCount() {
                 return beiPingJiaCount;
             }
 
-            public void setBeiPingJiaCount(int beiPingJiaCount) {
+            public void setBeiPingJiaCount(double beiPingJiaCount) {
                 this.beiPingJiaCount = beiPingJiaCount;
             }
 
-            public int getBeiHaoPingCount() {
+            public double getBeiHaoPingCount() {
                 return beiHaoPingCount;
             }
 
-            public void setBeiHaoPingCount(int beiHaoPingCount) {
+            public void setBeiHaoPingCount(double beiHaoPingCount) {
                 this.beiHaoPingCount = beiHaoPingCount;
             }
 

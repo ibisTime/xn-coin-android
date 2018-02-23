@@ -18,6 +18,7 @@ import com.cdkj.baselibrary.appmanager.EventTags;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMGroupReceiveMessageOpt;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.ext.message.TIMMessageExt;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -51,6 +52,7 @@ public class PushUtil implements Observer {
     private void PushNotify(TIMMessage msg) {
 
         String peer;
+
 
         Log.e("msg == null",(msg == null)+"");
         Log.e("isForeground()",(Foreground.get().isForeground())+"");
@@ -94,20 +96,33 @@ public class PushUtil implements Observer {
 
             // 来自当前会话的消息
             if (ChatForeground.get().getIdentify().equals(peer)){
+
+                // 如果是系统消息徐亚盘更新订单界面
+                Message message = MessageFactory.getMessage(msg);
+                if (message.getSender().equals("admin")) { // 系统消息，需解码
+                    // 更新订单详情数据
+                    EventBus.getDefault().post(EventTags.IM_MSG_UPDATE_ORDER);
+                }
+
                 // 震动提醒
                 EventBus.getDefault().post(EventTags.IM_MSG_VIBRATOR);
                 return;
             }else {
-                notifi(msg);
+                notify(msg);
             }
 
         }else {
-            notifi(msg);
+            notify(msg);
         }
 
     }
 
-    public void notifi(TIMMessage msg){
+    public void notify(TIMMessage msg){
+
+        //
+        TIMMessageExt msgExt = new TIMMessageExt(msg);
+        Log.e("isRead", msgExt.isRead()+"");
+        Log.e("isPeerReaded", msgExt.isPeerReaded()+"");
 
         String senderStr, contentStr, senderNick;
 

@@ -6,25 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.NumberPicker;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.cdkj.baseim.util.VibratorUtil;
 import com.cdkj.baselibrary.adapters.ViewPagerAdapter;
-import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
 import com.cdkj.baselibrary.model.EventBusModel;
-import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.databinding.FragmentOrderBinding;
 import com.tencent.imsdk.TIMConversation;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -45,9 +38,7 @@ public class OrderFragment extends BaseLazyFragment {
     private List<Fragment> fragments;
 
     // 币种
-    private String type = "ETH";
-
-    private String[] types = {"ETH"};
+//    protected static String coinType;
 
     public static List<TIMConversation> conversationList;
 
@@ -68,17 +59,27 @@ public class OrderFragment extends BaseLazyFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_order, null, false);
 
+        init();
         initListener();
         initViewPager();
 
         return mBinding.getRoot();
     }
 
+    private void init() {
+        // 订单列表不分币种，隐藏币种选择
+        mBinding.llCoin.setVisibility(View.GONE);
+        // 初始化查询币种
+//        coinType = COIN_TYPE[0];
+//        mBinding.tvCoin.setText(coinType);
+    }
+
+
     private void initListener() {
 
-        mBinding.llCoin.setOnClickListener(view -> {
-            popupType(view);
-        });
+//        mBinding.llCoin.setOnClickListener(view -> {
+//            initPopup(view);
+//        });
 
         mBinding.rlBtn1.setOnClickListener(view -> {
             setTitleBarBtnViewChange(0);
@@ -144,8 +145,7 @@ public class OrderFragment extends BaseLazyFragment {
 
     @Override
     protected void lazyLoad() {
-        // 更新订单列表消息状态
-        EventBus.getDefault().post(EventTags.IM_MSG_UPDATE);
+
     }
 
     @Override
@@ -153,75 +153,35 @@ public class OrderFragment extends BaseLazyFragment {
 
     }
 
-    private void popupType(View view) {
+//    /**
+//     *
+//     * @param view
+//     */
+//    private void initPopup(View view) {
+//        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(mActivity, R.layout.popup_picker);
+//        popupWindow.setNumberPicker(R.id.np_type, COIN_TYPE);
+//
+//        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
+//            popupWindow.dismiss();
+//        });
+//
+//        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+//            coinType = popupWindow.getNumberPicker(R.id.np_type, COIN_TYPE);
+//            mBinding.tvCoin.setText(coinType);
+//
+//            doRefreshList();
+//            popupWindow.dismiss();
+//        });
+//
+//        popupWindow.show(view);
+//    }
 
-        // 一个自定义的布局，作为显示的内容
-        View mView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_wallet_type, null);
-
-        TextView tvCancel = mView.findViewById(R.id.tv_cancel);
-        TextView tvConfirm = mView.findViewById(R.id.tv_confirm);
-        NumberPicker npType = mView.findViewById(R.id.np_type);
-        npType.setDisplayedValues(types);
-        npType.setMinValue(0);
-        npType.setMaxValue(types.length - 1);
-        npType.setOnValueChangedListener(ChangedListener);
-        // 禁止输入
-        npType.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-
-
-        final PopupWindow popupWindow = new PopupWindow(mView,
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-
-        popupWindow.setTouchable(true);
-        popupWindow.setAnimationStyle(R.style.PopupAnimation);
-
-        popupWindow.setTouchInterceptor((v, event) -> {
-
-            // 这里如果返回true的话，touch事件将被拦截
-            // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-            return false;
-        });
-
-        tvCancel.setOnClickListener(v -> {
-            popupWindow.dismiss();
-        });
-
-        tvConfirm.setOnClickListener(v -> {
-            popupWindow.dismiss();
-
-        });
-
-        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_popup));
-        // 设置好参数之后再show
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
-
-    }
-
-    private NumberPicker.OnValueChangeListener ChangedListener = (arg0, arg1, arg2) -> type = types[arg2];
-
-    /**
-     *
-     * @param view
-     */
-    private void initPopup(View view) {
-        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(mActivity, R.layout.popup_picker);
-        popupWindow.setNumberPicker(R.id.np_type, types);
-
-        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
-            popupWindow.dismiss();
-        });
-
-        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
-//            coinType = popupWindow.getNumberPicker(R.id.np_type, types);
-
-//            onMRefresh(1,10,true);
-
-            popupWindow.dismiss();
-        });
-
-        popupWindow.show(view);
-    }
+//    private void doRefreshList(){
+//        EventBusModel model = new EventBusModel();
+//        model.setTag(EventTags.ORDER_COIN_TYPE);
+//        EventBus.getDefault().post(model);
+//
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -257,4 +217,25 @@ public class OrderFragment extends BaseLazyFragment {
         }
 
     }
+
+//    /**
+//     * 根据交易的广告的coin查询对应的订单列表
+//     * @param eventBusModel
+//     */
+//    @Subscribe
+//    public void changeOrderCoin(EventBusModel eventBusModel) {
+//        if (eventBusModel == null) {
+//            return;
+//        }
+//
+//        if (TextUtils.equals(eventBusModel.getTag(), MAIN_CHANGE_SHOW_INDEX)) {
+//           if (eventBusModel.getEvInfo() != null && !eventBusModel.getEvInfo().equals("")){
+//               coinType = eventBusModel.getEvInfo();
+//               mBinding.tvCoin.setText(coinType);
+//
+//               doRefreshList();
+//           }
+//        }
+//    }
+
 }

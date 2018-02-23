@@ -34,7 +34,6 @@ import com.cdkj.bcoin.databinding.DialogDealConfirmBinding;
 import com.cdkj.bcoin.main.MainActivity;
 import com.cdkj.bcoin.model.CoinModel;
 import com.cdkj.bcoin.model.DealDetailModel;
-import com.cdkj.bcoin.model.DealHistoryModel;
 import com.cdkj.bcoin.model.DealResultModel;
 import com.cdkj.bcoin.model.OrderDetailModel;
 import com.cdkj.bcoin.model.SystemParameterModel;
@@ -53,7 +52,9 @@ import java.util.Map;
 import retrofit2.Call;
 
 import static com.cdkj.baseim.activity.TxImLogingActivity.DEAL;
+import static com.cdkj.baselibrary.appmanager.MyConfig.CURRENCY;
 import static com.cdkj.bcoin.util.AccountUtil.formatDouble;
+import static com.cdkj.bcoin.util.DealUtil.YIFABU;
 import static com.cdkj.bcoin.util.DealUtil.setDealPayType;
 
 /**
@@ -94,13 +95,20 @@ public class DealActivity extends AbsBaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (code != null){
+            getDeal();
+        }
+    }
+
     private void init() {
         if (getIntent() == null)
             return;
 
         code = getIntent().getStringExtra("code");
-
-        getDeal();
 
     }
 
@@ -126,7 +134,7 @@ public class DealActivity extends AbsBaseActivity {
 
                 setView();
                 getAccount();
-                getHistory();
+//                getHistory();
             }
 
             @Override
@@ -137,18 +145,8 @@ public class DealActivity extends AbsBaseActivity {
     }
 
     private void setView(){
-
-        if (bean.getUser().getUserId().equals(SPUtilHelper.getUserId())){
-            mBinding.btnTrust.setVisibility(View.GONE);
-            mBinding.llBottom.setVisibility(View.GONE);
-
-            if (!bean.getStatus().equals("2")){ // 已下架
-                setSubRightTitleAndClick(getStrRes(R.string.out),v -> {
-                    tip();
-                });
-            }
-
-        }
+        // 初始化交易币种
+        mBinding.tvCoin.setText(bean.getTradeCoin());
 
         if (bean.getTradeType().equals("1")){ // 1是卖币，UI展示买币
             tradeString = getStrRes(R.string.buy);
@@ -158,11 +156,13 @@ public class DealActivity extends AbsBaseActivity {
             mBinding.tvLeft.setVisibility(View.GONE);
             mBinding.tvBalance.setVisibility(View.VISIBLE);
         }
-        //
+
+        // 设置标题和按钮内容
         setTopTitle(tradeString);
         mBinding.tvConfirm.setText(tradeString);
         mBinding.tvHowMany.setText(getStrRes(R.string.you_want)+tradeString+getStrRes(R.string.how_many));
 
+        // 是否信任
         if (bean.getIsTrust() == 0){
             mBinding.btnTrust.setText(getStrRes(R.string.get_trust));
         }else {
@@ -170,7 +170,6 @@ public class DealActivity extends AbsBaseActivity {
         }
 
         // 填充数据
-
         mBinding.tvDeal.setText(bean.getUserStatistics().getJiaoYiCount()+"");
         mBinding.tvTrust.setText(bean.getUserStatistics().getBeiXinRenCount()+"");
         if(bean.getUserStatistics().getBeiPingJiaCount() == 0){
@@ -182,16 +181,60 @@ public class DealActivity extends AbsBaseActivity {
 
         setDealPayType(this, bean, mBinding.tvType);
         mBinding.tvAdv.setText(bean.getLeaveMessage());
-        mBinding.tvPrice.setText(AccountUtil.formatDouble(bean.getTruePrice())+"CNY");
-        mBinding.tvLeft.setText(getStrRes(R.string.left_count) + AccountUtil.weiToEth(new BigDecimal(bean.getLeftCountString())));
-        mBinding.tvLimit.setText(getStrRes(R.string.limit) + bean.getMinTrade()+"-"+formatDouble(bean.getMaxTrade())+"CNY");
-        mBinding.edtCny.setHint(bean.getMinTrade()+"-"+formatDouble(bean.getMaxTrade())+"CNY");
+        mBinding.tvPrice.setText(AccountUtil.formatDouble(bean.getTruePrice())+ CURRENCY);
+        mBinding.tvLeft.setText(getStrRes(R.string.left_count) + AccountUtil.amountFormatUnit(new BigDecimal(bean.getLeftCountString()), bean.getTradeCoin(), 8));
+        mBinding.tvLimit.setText(getStrRes(R.string.limit) + bean.getMinTrade()+"-"+formatDouble(bean.getMaxTrade())+CURRENCY);
+        mBinding.edtCny.setHint(bean.getMinTrade()+"-"+formatDouble(bean.getMaxTrade())+CURRENCY);
 
+        // 是否是自己的广告
+        if (bean.getUser().getUserId().equals(SPUtilHelper.getUserId())){
+            // 隐藏信任按钮
+            mBinding.btnTrust.setVisibility(View.INVISIBLE);
+            // 隐藏聊天按钮，设置操作按钮内容为编辑
+            mBinding.llChat.setVisibility(View.INVISIBLE);
+            mBinding.tvConfirm.setText("编辑");
+
+            if (bean.getStatus().equals("2")){ // 已下架
+                // 已下架时隐藏底部按钮
+                mBinding.llBottom.setVisibility(View.GONE);
+
+            }else {
+                setSubRightTitleAndClick(getStrRes(R.string.out),v -> {
+                    tip();
+                });
+            }
+
+        }
+
+        // 设置头像昵称
         if (bean.getUser() == null)
             return;
         mBinding.tvName.setText(bean.getUser().getNickname());
         ImgUtils.loadAvatar(this, bean.getUser().getPhoto(),
                 bean.getUser().getNickname(), mBinding.ivAvatar, mBinding.tvAvatar);
+
+
+        // 设置统计信息
+        if (bean.getUserStatistics() == null)
+            return;
+        String amount;
+        if (bean.getTradeCoin().equals("ETH")){
+            amount = AccountUtil.amountFormatUnit(new BigDecimal(bean.getUserStatistics().getTotalTradeCountEth()),bean.getTradeCoin(), 8);
+        }else {
+            amount = AccountUtil.amountFormatUnit(new BigDecimal(bean.getUserStatistics().getTotalTradeCountSc()),bean.getTradeCoin(), 8);
+        }
+
+        double dh = Double.parseDouble(amount);
+
+        if(dh == 0){
+            mBinding.tvHistory.setText("0 "+bean.getTradeCoin());
+        } else if (dh < 0.5){
+            mBinding.tvHistory.setText("0-0.5 "+bean.getTradeCoin());
+        }else if(0.5 <= dh && dh <= 1){
+            mBinding.tvHistory.setText("0.5-1 "+bean.getTradeCoin());
+        }else {
+            mBinding.tvHistory.setText(amount.split("\\.")[0]+"+ "+bean.getTradeCoin());
+        }
 
     }
 
@@ -207,32 +250,41 @@ public class DealActivity extends AbsBaseActivity {
                 return;
             }
 
-            if (mBinding.edtCny.getText().toString().equals("")){
-               showToast(getStrRes(R.string.deal_buy_cny_hint));
-               return;
-            }
-            if (mBinding.edtCoin.getText().toString().equals("")){
-                showToast(getStrRes(R.string.deal_buy_coin_hint));
-                return;
-            }
+            if (mBinding.tvConfirm.getText().equals("编辑")){
 
-            Double cny = Double.parseDouble(mBinding.edtCny.getText().toString());
-            if (bean.getMinTrade() <= cny && cny <= bean.getMaxTrade()){
+                if (bean.getTradeType().equals("1")){ // 卖币广告
 
-                // 购买数字货币之前需实名认证
-                if (tradeString.equals(getStrRes(R.string.buy))){
-                    if (TextUtils.isEmpty(SPUtilHelper.getRealName())){
-                        AuthenticateActivity.open(this);
-                    }else {
-                        popupType(view);
-                    }
-                }else {
-                    popupType(view);
+                    SaleActivity.open(this, YIFABU, bean);
+
+                }else { // 买币广告
+
+                    PublishBuyActivity.open(this, YIFABU, bean);
+
                 }
-            }else {
-                showToast(getStrRes(R.string.trade_limit)+bean.getMinTrade()+"-"+formatDouble(bean.getMaxTrade())+"CNY");
-            }
 
+            }else { // 购买或者出售
+
+                if (check()){
+
+                    Double cny = Double.parseDouble(mBinding.edtCny.getText().toString());
+                    if (bean.getMinTrade() <= cny && cny <= bean.getMaxTrade()){
+
+                        // 购买数字货币之前需实名认证
+                        if (tradeString.equals(getStrRes(R.string.buy))){
+                            if (TextUtils.isEmpty(SPUtilHelper.getRealName())){
+                                AuthenticateActivity.open(this);
+                            }else {
+                                popupType(view);
+                            }
+                        }else {
+                            popupType(view);
+                        }
+                    }else {
+                        showToast(getStrRes(R.string.trade_limit)+bean.getMinTrade()+"-"+formatDouble(bean.getMaxTrade())+CURRENCY);
+                    }
+
+                }
+            }
         });
 
         mBinding.llChat.setOnClickListener(view -> {
@@ -305,8 +357,6 @@ public class DealActivity extends AbsBaseActivity {
                     if (editable.toString().equals("")){
                         mBinding.edtCny.setText("");
                     }else {
-//                        BigDecimal coin = new BigDecimal(editable.toString());
-//                        BigDecimal price = new BigDecimal(bean.getTruePrice());
                         Double coin = Double.parseDouble(editable.toString());
 
                         mBinding.edtCny.setText(AccountUtil.formatDouble(coin * bean.getTruePrice()));
@@ -323,6 +373,20 @@ public class DealActivity extends AbsBaseActivity {
         mBinding.edtCoin.setOnFocusChangeListener((view, b) -> {
             inputType = "edtCoin";
         });
+    }
+
+    private boolean check(){
+
+        if (mBinding.edtCny.getText().toString().equals("")){
+            showToast(getStrRes(R.string.deal_buy_cny_hint));
+            return false;
+        }
+        if (mBinding.edtCoin.getText().toString().equals("")){
+            showToast(getStrRes(R.string.deal_buy_coin_hint));
+            return false;
+        }
+
+        return true;
     }
 
     private void trust() {
@@ -383,14 +447,16 @@ public class DealActivity extends AbsBaseActivity {
             return false;
         });
 
+        popupBinding.tvPopTip.setText(getStrRes(R.string.dialog_deal_tip1)+bean.getTradeCoin()+getStrRes(R.string.dialog_deal_tip2));
+
         popupBinding.tvPriceTitle.setText(tradeString+getStrRes(R.string.price));
         popupBinding.tvAmountTitle.setText(tradeString+getStrRes(R.string.amount));
         popupBinding.tvQuantityTitle.setText(tradeString+getStrRes(R.string.quantity));
         popupBinding.tvCancel.setText(getStrRes(R.string.cancel)+tradeString);
         popupBinding.tvConfirm.setText(getStrRes(R.string.confirm)+tradeString);
 
-        popupBinding.tvPrice.setText(AccountUtil.formatDouble(bean.getTruePrice())+"CNY");
-        popupBinding.tvAmount.setText(mBinding.edtCny.getText().toString().trim()+"CNY");
+        popupBinding.tvPrice.setText(AccountUtil.formatDouble(bean.getTruePrice())+CURRENCY);
+        popupBinding.tvAmount.setText(mBinding.edtCny.getText().toString().trim()+CURRENCY);
         popupBinding.tvQuantity.setText(mBinding.edtCoin.getText().toString().trim()+bean.getTradeCoin());
 
         popupBinding.tvCancel.setOnClickListener(v -> {
@@ -433,9 +499,10 @@ public class DealActivity extends AbsBaseActivity {
 
                 for (CoinModel.AccountListBean model : data.getAccountList()){
                     if (model.getCurrency().equals(bean.getTradeCoin())){
+                        BigDecimal amount = new BigDecimal(model.getAmountString());
+                        BigDecimal frozenAmount = new BigDecimal(model.getFrozenAmountString());
                         mBinding.tvBalance.setText(getStrRes(R.string.deal_account_balance) +
-                                AccountUtil.sub(Double.parseDouble(model.getAmountString()),
-                                        Double.parseDouble(model.getFrozenAmountString())));
+                                AccountUtil.amountFormatUnit(amount.subtract(frozenAmount), model.getCurrency(), 8));
                     }
                 }
 
@@ -448,43 +515,44 @@ public class DealActivity extends AbsBaseActivity {
         });
     }
 
-        private void getHistory(){
-        Map<String, Object> map = new HashMap<>();
-        map.put("userId", bean.getUser().getUserId());
-        map.put("token", SPUtilHelper.getUserToken());
-
-        Call call = RetrofitUtils.createApi(MyApi.class).getDealHistory("625255", StringUtils.getJsonToString(map));
-
-        addCall(call);
-
-        call.enqueue(new BaseResponseModelCallBack<DealHistoryModel>(this) {
-
-            @Override
-            protected void onSuccess(DealHistoryModel data, String SucMessage) {
-
-                if (data == null)
-                    return;
-
-                double dh = Double.parseDouble(AccountUtil.weiToEth(new BigDecimal(data.getTotalTradeCount())));
-
-                if(dh == 0){
-                    mBinding.tvHistory.setText("0 ETH");
-                } else if (dh < 0.5){
-                    mBinding.tvHistory.setText("0-0.5 ETH");
-                }else if(0.5 <= dh && dh <= 1){
-                    mBinding.tvHistory.setText("0.5-1 ETH");
-                }else {
-                    mBinding.tvHistory.setText(AccountUtil.weiToEth(new BigDecimal(data.getTotalTradeCount())).split("\\.")[0]+"+ ETH");
-                }
-
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
-    }
+//    private void getHistory(){
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("currency", bean.getTradeCoin());
+//        map.put("userId", bean.getUser().getUserId());
+//        map.put("token", SPUtilHelper.getUserToken());
+//
+//        Call call = RetrofitUtils.createApi(MyApi.class).getDealHistory("625255", StringUtils.getJsonToString(map));
+//
+//        addCall(call);
+//
+//        call.enqueue(new BaseResponseModelCallBack<DealHistoryModel>(this) {
+//
+//            @Override
+//            protected void onSuccess(DealHistoryModel data, String SucMessage) {
+//
+//                if (data == null)
+//                    return;
+//
+//                double dh = Double.parseDouble(AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCount()),bean.getTradeCoin(), 8));
+//
+//                if(dh == 0){
+//                    mBinding.tvHistory.setText("0 "+bean.getTradeCoin());
+//                } else if (dh < 0.5){
+//                    mBinding.tvHistory.setText("0-0.5 "+bean.getTradeCoin());
+//                }else if(0.5 <= dh && dh <= 1){
+//                    mBinding.tvHistory.setText("0.5-1 "+bean.getTradeCoin());
+//                }else {
+//                    mBinding.tvHistory.setText(AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCount()),bean.getTradeCoin(), 8).split("\\.")[0]+"+ "+bean.getTradeCoin());
+//                }
+//
+//            }
+//
+//            @Override
+//            protected void onFinish() {
+//                disMissLoading();
+//            }
+//        });
+//    }
 
     private void buy(){
         BigDecimal bigDecimal = new BigDecimal(mBinding.edtCoin.getText().toString().trim());
@@ -493,7 +561,11 @@ public class DealActivity extends AbsBaseActivity {
         map.put("adsCode", bean.getCode());
         map.put("buyUser", SPUtilHelper.getUserId());
         map.put("token", SPUtilHelper.getUserToken());
-        map.put("count", bigDecimal.multiply(AccountUtil.UNIT).toString().split("\\.")[0]);
+        if (bean.getTradeCoin().equals("ETH")){
+            map.put("count", bigDecimal.multiply(AccountUtil.UNIT_ETH).toString().split("\\.")[0]);
+        }else {
+            map.put("count", bigDecimal.multiply(AccountUtil.UNIT_SC).toString().split("\\.")[0]);
+        }
         map.put("tradeAmount", mBinding.edtCny.getText().toString().trim());
         map.put("tradePrice", bean.getTruePrice());
 
@@ -513,7 +585,8 @@ public class DealActivity extends AbsBaseActivity {
                 // 购买成功后跳到订单
                 EventBusModel eventBusModel = new EventBusModel();
                 eventBusModel.setEvInt(MainActivity.ORDER);
-                eventBusModel.setTag(EventTags.MAINCHANGESHOWINDEX);
+                eventBusModel.setEvInfo(bean.getTradeCoin());
+                eventBusModel.setTag(EventTags.MAIN_CHANGE_SHOW_INDEX);
                 EventBus.getDefault().post(eventBusModel);
             }
 
@@ -531,7 +604,11 @@ public class DealActivity extends AbsBaseActivity {
         map.put("adsCode", bean.getCode());
         map.put("sellUser", SPUtilHelper.getUserId());
         map.put("token", SPUtilHelper.getUserToken());
-        map.put("count", bigDecimal.multiply(AccountUtil.UNIT).toString().split("\\.")[0]);
+        if (bean.getTradeCoin().equals("ETH")){
+            map.put("count", bigDecimal.multiply(AccountUtil.UNIT_ETH).toString().split("\\.")[0]);
+        }else {
+            map.put("count", bigDecimal.multiply(AccountUtil.UNIT_SC).toString().split("\\.")[0]);
+        }
         map.put("tradeAmount", mBinding.edtCny.getText().toString().trim());
         map.put("tradePrice", bean.getTruePrice());
 
@@ -551,7 +628,8 @@ public class DealActivity extends AbsBaseActivity {
                     // 出售成功后跳到订单
                     EventBusModel eventBusModel = new EventBusModel();
                     eventBusModel.setEvInt(MainActivity.ORDER);
-                    eventBusModel.setTag(EventTags.MAINCHANGESHOWINDEX);
+                    eventBusModel.setEvInfo(bean.getTradeCoin());
+                    eventBusModel.setTag(EventTags.MAIN_CHANGE_SHOW_INDEX);
                     EventBus.getDefault().post(eventBusModel);
                 }
 
@@ -665,11 +743,11 @@ public class DealActivity extends AbsBaseActivity {
      */
     private void getTradeRemind() {
         Map<String, String> map = new HashMap<>();
-        map.put("key", "trade_remind");
+        map.put("ckey", "trade_remind");
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);
 
-        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameter("625917", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameter("660917", StringUtils.getJsonToString(map));
 
         addCall(call);
 

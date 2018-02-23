@@ -19,13 +19,30 @@ public class DealUserDataModel {
      */
 
     private int jiaoYiCount;
-    private int beiPingJiaCount;
-    private int beiHaoPingCount;
     private int beiXinRenCount;
-    private String totalTradeCount;
+    private double beiPingJiaCount;
+    private double beiHaoPingCount;
+    private String totalTradeCountEth;
+    private String totalTradeCountSc;
     private String isTrust;
     private String isAddBlackList;
     private String betweenTradeTimes;
+
+    public String getTotalTradeCountEth() {
+        return totalTradeCountEth;
+    }
+
+    public void setTotalTradeCountEth(String totalTradeCountEth) {
+        this.totalTradeCountEth = totalTradeCountEth;
+    }
+
+    public String getTotalTradeCountSc() {
+        return totalTradeCountSc;
+    }
+
+    public void setTotalTradeCountSc(String totalTradeCountSc) {
+        this.totalTradeCountSc = totalTradeCountSc;
+    }
 
     public int getJiaoYiCount() {
         return jiaoYiCount;
@@ -35,19 +52,19 @@ public class DealUserDataModel {
         this.jiaoYiCount = jiaoYiCount;
     }
 
-    public int getBeiPingJiaCount() {
+    public double getBeiPingJiaCount() {
         return beiPingJiaCount;
     }
 
-    public void setBeiPingJiaCount(int beiPingJiaCount) {
+    public void setBeiPingJiaCount(double beiPingJiaCount) {
         this.beiPingJiaCount = beiPingJiaCount;
     }
 
-    public int getBeiHaoPingCount() {
+    public double getBeiHaoPingCount() {
         return beiHaoPingCount;
     }
 
-    public void setBeiHaoPingCount(int beiHaoPingCount) {
+    public void setBeiHaoPingCount(double beiHaoPingCount) {
         this.beiHaoPingCount = beiHaoPingCount;
     }
 
@@ -57,14 +74,6 @@ public class DealUserDataModel {
 
     public void setBeiXinRenCount(int beiXinRenCount) {
         this.beiXinRenCount = beiXinRenCount;
-    }
-
-    public String getTotalTradeCount() {
-        return totalTradeCount;
-    }
-
-    public void setTotalTradeCount(String totalTradeCount) {
-        this.totalTradeCount = totalTradeCount;
     }
 
     public String getIsTrust() {

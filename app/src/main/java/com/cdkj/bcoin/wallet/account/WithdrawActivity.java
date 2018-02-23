@@ -93,7 +93,7 @@ public class WithdrawActivity extends AbsBaseActivity {
         setTopLineState(true);
         setSubLeftImgState(true);
         setSubRightTitleAndClick(getStrRes(R.string.wallet_charge_recode),v -> {
-            WithdrawOrderActivity.open(this);
+            WithdrawOrderActivity.open(this, model.getCurrency());
 //            BillActivity.open(this,model.getAccountNumber(),BillActivity.TYPE_WITHDRAW);
         });
 
@@ -110,7 +110,9 @@ public class WithdrawActivity extends AbsBaseActivity {
         if (getIntent() != null){
             model = (CoinModel.AccountListBean) getIntent().getSerializableExtra("model");
             if (model != null){
-                mBinding.tvBalance.setText(AccountUtil.sub(Double.parseDouble(model.getAmountString()), Double.parseDouble(model.getFrozenAmountString())));
+                mBinding.tvBalance.setText(AccountUtil.sub(Double.parseDouble(model.getAmountString()),
+                        Double.parseDouble(model.getFrozenAmountString()), model.getCurrency()));
+                mBinding.tvFee.setText(model.getCurrency());
                 mBinding.tvCurrency.setText(model.getCurrency());
             }
 
@@ -253,11 +255,16 @@ public class WithdrawActivity extends AbsBaseActivity {
     private void getWithdrawFee() {
         Map<String, String> map = new HashMap<>();
 
-        map.put("key", "withdraw_fee");
+        if (model.getCurrency().equals("ETH")){
+            map.put("ckey", "withdraw_fee_eth");
+        }else {
+            map.put("ckey", "withdraw_fee_sc");
+        }
+
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);
 
-        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameter("625917", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameter("660917", StringUtils.getJsonToString(map));
 
         addCall(call);
 
@@ -294,7 +301,13 @@ public class WithdrawActivity extends AbsBaseActivity {
         map.put("applyUser", SPUtilHelper.getUserId());
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("accountNumber", model.getAccountNumber());
-        map.put("amount", bigDecimal.multiply(AccountUtil.UNIT).toString().split("\\.")[0]);
+
+        if (model.getCurrency().equals("ETH")){
+            map.put("amount", bigDecimal.multiply(AccountUtil.UNIT_ETH).toString().split("\\.")[0]);
+        }else {
+            map.put("amount", bigDecimal.multiply(AccountUtil.UNIT_SC).toString().split("\\.")[0]);
+        }
+
         map.put("payCardNo", mBinding.tvAddress.getText().toString().trim());
         map.put("payCardInfo", model.getCurrency());
         map.put("applyNote", "C端提现");
@@ -333,7 +346,7 @@ public class WithdrawActivity extends AbsBaseActivity {
         map.put("token", SPUtilHelper.getUserToken());
         map.put("fromUserId", SPUtilHelper.getUserId());
         map.put("systemCode", MyConfig.SYSTEMCODE);
-        map.put("amount", bigDecimal.multiply(AccountUtil.UNIT)+"");
+        map.put("amount", bigDecimal.multiply(AccountUtil.UNIT_ETH)+"");
         map.put("toAddress", mBinding.tvAddress.getText().toString().trim());
         map.put("tradePwd", tradePwd);
 
@@ -358,70 +371,6 @@ public class WithdrawActivity extends AbsBaseActivity {
         });
     }
 
-
-//    private void popupType(View view) {
-//
-//
-//        // 一个自定义的布局，作为显示的内容
-//        View mView = LayoutInflater.from(this).inflate(R.layout.dialog_wallet_type, null);
-//
-//        TextView tvCancel = mView.findViewById(R.id.tv_cancel);
-//        TextView tvConfirm = mView.findViewById(R.id.tv_confirm);
-//        NumberPicker npType = mView.findViewById(R.id.np_type);
-//        npType.setDisplayedValues(types);
-//        npType.setMinValue(0);
-//        npType.setMaxValue(types.length - 1);
-//        npType.setOnValueChangedListener(ChangedListener);
-//        // 禁止输入
-//        npType.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-//
-//
-//        final PopupWindow popupWindow = new PopupWindow(mView,
-//                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-//
-//        popupWindow.setTouchable(true);
-//        popupWindow.setAnimationStyle(R.style.PopupAnimation);
-//
-//        popupWindow.setTouchInterceptor((v, event) -> {
-//
-//            // 这里如果返回true的话，touch事件将被拦截
-//            // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-//            return false;
-//        });
-//
-//        tvCancel.setOnClickListener(v -> {
-//            popupWindow.dismiss();
-//        });
-//
-//        tvConfirm.setOnClickListener(v -> {
-//            popupWindow.dismiss();
-//
-//            if (type.equals(getStrRes(R.string.popup_select))){
-//                UserAddressActivity.open(this, TYPE_WITHDRAW);
-//            } else if (type.equals(getStrRes(R.string.popup_scan))){
-//                // 是否需要交易密码和谷歌验证 认证账户不需要交易密码和谷歌验证
-//                isCerti = true;
-//                scan();
-//            } else if (type.equals(getStrRes(R.string.popup_paste))){
-//                // 是否需要交易密码和谷歌验证 认证账户不需要交易密码和谷歌验证
-//                isCerti = true;
-//
-//                mBinding.tvAddress.setText(paste(this));
-//            }
-//
-//            // 初始化type（没有滚动的情况）
-//            type = getStrRes(R.string.popup_select);
-//        });
-//
-//        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
-//        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.corner_popup));
-//        // 设置好参数之后再show
-//        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
-//
-//    }
-//
-//    private NumberPicker.OnValueChangeListener ChangedListener = (arg0, arg1, arg2) -> type = types[arg2];
-
     /**
      *
      * @param view
@@ -438,7 +387,7 @@ public class WithdrawActivity extends AbsBaseActivity {
             type = popupWindow.getNumberPicker(R.id.np_type, types);
 
             if (type.equals(getStrRes(R.string.popup_select))){
-                UserAddressActivity.open(this, TYPE_WITHDRAW);
+                UserAddressActivity.open(this, TYPE_WITHDRAW, model.getCurrency());
             } else if (type.equals(getStrRes(R.string.popup_scan))){
                 // 是否需要交易密码和谷歌验证 认证账户不需要交易密码和谷歌验证
                 isCerti = true;

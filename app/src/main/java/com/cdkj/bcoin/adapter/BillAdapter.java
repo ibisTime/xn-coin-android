@@ -67,9 +67,9 @@ public class BillAdapter extends BaseQuickAdapter<BillModel.ListBean,BaseViewHol
         BigDecimal tas = new BigDecimal(item.getTransAmountString());
         int i=tas.compareTo(BigDecimal.ZERO);
         if (i==1){
-            helper.setText(R.id.tv_amount, "+" + AccountUtil.weiToEth(tas));
+            helper.setText(R.id.tv_amount, "+" + AccountUtil.amountFormatUnit(tas, item.getCurrency(), 8));
         }else {
-            helper.setText(R.id.tv_amount, AccountUtil.weiToEth(tas));
+            helper.setText(R.id.tv_amount, AccountUtil.amountFormatUnit(tas, item.getCurrency(), 8));
         }
 
         if (item.getKind().equals("0")){ // 非冻结流水
@@ -77,7 +77,9 @@ public class BillAdapter extends BaseQuickAdapter<BillModel.ListBean,BaseViewHol
                 case "charge": // 充值
                     if (item.getCurrency().equals("ETH")){
                         helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_charge);
-                    }else {
+                    } else if (item.getCurrency().equals("SC")) {
+                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_charge);
+                    } else {
                         helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_charge);
                     }
                     break;
@@ -85,7 +87,9 @@ public class BillAdapter extends BaseQuickAdapter<BillModel.ListBean,BaseViewHol
                 case "withdraw": // 取现
                     if (item.getCurrency().equals("ETH")){
                         helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_withdraw);
-                    }else {
+                    } else if (item.getCurrency().equals("SC")) {
+                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_withdraw);
+                    } else {
                         helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_withdraw);
                     }
 
@@ -94,7 +98,9 @@ public class BillAdapter extends BaseQuickAdapter<BillModel.ListBean,BaseViewHol
                 case "buy": // 买入
                     if (item.getCurrency().equals("ETH")){
                         helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_into);
-                    }else {
+                    } else if (item.getCurrency().equals("SC")) {
+                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_into);
+                    } else {
                         helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_into);
                     }
                     break;
@@ -102,7 +108,9 @@ public class BillAdapter extends BaseQuickAdapter<BillModel.ListBean,BaseViewHol
                 case "sell": // 卖出
                     if (item.getCurrency().equals("ETH")){
                         helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_out);
-                    }else {
+                    } else if (item.getCurrency().equals("SC")) {
+                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_out);
+                    } else {
                         helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_out);
                     }
                     break;
@@ -111,7 +119,9 @@ public class BillAdapter extends BaseQuickAdapter<BillModel.ListBean,BaseViewHol
                 case "withdrawfee": // 手续费
                     if (item.getCurrency().equals("ETH")){
                         helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_fee);
-                    }else {
+                    } else if (item.getCurrency().equals("SC")) {
+                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_fee);
+                    } else {
                         helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_fee);
                     }
                     break;
@@ -119,7 +129,9 @@ public class BillAdapter extends BaseQuickAdapter<BillModel.ListBean,BaseViewHol
                 default:
                     if (item.getCurrency().equals("ETH")){
                         helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_award);
-                    }else {
+                    } else if (item.getCurrency().equals("SC")) {
+                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_award);
+                    } else {
                         helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_award);
                     }
                     break;
@@ -130,13 +142,19 @@ public class BillAdapter extends BaseQuickAdapter<BillModel.ListBean,BaseViewHol
             if (item.getCurrency().equals("ETH")){
                 if (item.getTransAmountString().contains("-")){ // 金额是负数
                     helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_withdraw);
-                }else {
+                } else {
                     helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_charge);
                 }
-            }else {
+            } else if (item.getCurrency().equals("SC")) {
+                if (item.getTransAmountString().contains("-")){ // 金额是负数
+                    helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_withdraw);
+                } else {
+                    helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_charge);
+                }
+            } else {
                 if (item.getTransAmountString().contains("-")){ // 金额是负数
                     helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_withdraw);
-                }else {
+                } else {
                     helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_charge);
                 }
             }

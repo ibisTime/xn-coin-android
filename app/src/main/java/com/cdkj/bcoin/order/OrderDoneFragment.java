@@ -1,7 +1,6 @@
 package com.cdkj.bcoin.order;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.cdkj.baseim.activity.TxImLogingActivity;
 import com.cdkj.baseim.model.ImUserInfo;
@@ -87,14 +86,16 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
             }
         });
 
-        getListData(pageIndex,limit,false);
-
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        if (mBinding == null)
+            return;
+
         onMRefresh(1,10,true);
     }
 
@@ -120,6 +121,7 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
         map.put("payType", "");
         map.put("statusList", statusList);
         map.put("tradeCoin", "");
+//        map.put("tradeCoin", coinType);
         map.put("tradeCurrency", "");
         map.put("type", "");
         map.put("start", pageIndex+"");
@@ -222,5 +224,17 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
         }
 
     }
+
+//    /**
+//     * 根据选择的币种刷新订单列表
+//     * @param model
+//     */
+//    @Subscribe
+//    public void refreshOrderList(EventBusModel model) {
+//        if (model.getTag().equals(ORDER_COIN_TYPE)){
+//            onMRefresh(1,10,true);
+//        }
+//
+//    }
 
 }

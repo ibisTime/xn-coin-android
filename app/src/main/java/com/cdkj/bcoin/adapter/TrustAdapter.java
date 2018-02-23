@@ -39,6 +39,7 @@ public class TrustAdapter extends BaseQuickAdapter<TrustModel.ListBean, BaseView
             return;
         helper.setText(R.id.tv_deal, StringUtil.getString(R.string.deal)+item.getToUserInfo().getUserStatistics().getJiaoYiCount());
         helper.setText(R.id.tv_trust, StringUtil.getString(R.string.trust)+item.getToUserInfo().getUserStatistics().getBeiXinRenCount());
+
         if(item.getToUserInfo().getUserStatistics().getBeiPingJiaCount() == 0){
             helper.setText(R.id.tv_good, StringUtil.getString(R.string.good) +"0%");
         }else {

@@ -361,6 +361,24 @@ public class DealDetailModel implements Serializable {
         private int beiXinRenCount;
         private double beiPingJiaCount;
         private double beiHaoPingCount;
+        private double totalTradeCountEth;
+        private double totalTradeCountSc;
+
+        public double getTotalTradeCountSc() {
+            return totalTradeCountSc;
+        }
+
+        public void setTotalTradeCountSc(double totalTradeCountSc) {
+            this.totalTradeCountSc = totalTradeCountSc;
+        }
+
+        public double getTotalTradeCountEth() {
+            return totalTradeCountEth;
+        }
+
+        public void setTotalTradeCountEth(double totalTradeCountEth) {
+            this.totalTradeCountEth = totalTradeCountEth;
+        }
 
         public int getJiaoYiCount() {
             return jiaoYiCount;
@@ -395,7 +413,7 @@ public class DealDetailModel implements Serializable {
         }
     }
 
-    public static class DisplayTimeBean {
+    public static class DisplayTimeBean implements Serializable {
         /**
          * id : 12
          * adsCode : ADS201711292040116641521

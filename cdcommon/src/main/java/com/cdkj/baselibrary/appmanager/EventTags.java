@@ -16,7 +16,7 @@ public class EventTags {
     //结束所有界面
     public final static String AllFINISH = "3";
     //改变MainActivity显示界面
-    public final static String MAINCHANGESHOWINDEX = "4";
+    public final static String MAIN_CHANGE_SHOW_INDEX = "4";
     //结束MAINACTIVITY
     public final static String MAINFINISH= "5";
     //登录成功刷新
@@ -26,7 +26,10 @@ public class EventTags {
     // 刷新语言
     public final static String EVENT_REFRESH_LANGUAGE= "8";
 
-    //改变交易显示界面
+    // 订单币种
+    public final static String ORDER_COIN_TYPE = "order_coin_type";
+
+    // 改变交易显示界面
     public final static String DEAL_PAGE_CHANGE = "deal_page_change";
 
     public final static String CHANGE_CODE_BTN= "change_code_btn";

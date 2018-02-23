@@ -24,6 +24,7 @@ public class AddressAdapter extends BaseQuickAdapter<AddressModel.ListBean, Base
     protected void convert(BaseViewHolder helper, AddressModel.ListBean item) {
 
         helper.setText(R.id.tv_name,item.getLabel());
+        helper.setText(R.id.tv_coin,item.getCurrency());
         helper.setText(R.id.tv_address,item.getAddress());
 
         switch (item.getStatus()){

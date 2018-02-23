@@ -11,6 +11,67 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <LinearLayout
+                android:id="@+id/ll_coin_select"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/deal_publish_coin"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_coin_select"
+                    android:gravity="center_vertical"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="14sp"
+                    android:hint="@string/deal_publish_coin_hint"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_999999"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:background="@mipmap/more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_coin"
+                    android:tag="tradeCoin"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:background="@mipmap/deal_what"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
             <View
                 android:background="@color/gray_eeeeee"
                 android:layout_width="match_parent"
@@ -363,7 +424,7 @@
                     android:layout_height="match_parent" />
 
                 <TextView
-                    android:id="@+id/tv_coin"
+                    android:id="@+id/tv_amount_coin"
                     android:text="ETH"
                     android:textSize="14sp"
                     android:gravity="center"
@@ -430,18 +491,17 @@
 
                 <TextView
                     android:id="@+id/tv_way"
-                    android:clickable="false"
                     android:gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
                     android:background="@null"
+                    android:clickable="false"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="14sp"
                     android:hint="@string/deal_publish_pay_type_hint"
-                    android:inputType="numberDecimal"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray_999999"
-                    android:textSize="14sp" />
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
 
                 <LinearLayout
                     android:gravity="center"

@@ -14,22 +14,48 @@ import static java.math.BigDecimal.ROUND_HALF_DOWN;
 public class AccountUtil {
 
     public static BigDecimal UNIT_MIN = new BigDecimal("10");
-    public static BigDecimal UNIT = UNIT_MIN.pow(18);
+    public static BigDecimal UNIT_ETH = UNIT_MIN.pow(18);
+    public static BigDecimal UNIT_SC = UNIT_MIN.pow(24);
 
-    public static String weiToEth(BigDecimal wei){
 
-        if(wei.equals(new BigDecimal(0))){
+    /**
+     * 货币单位转换
+     * @param amount
+     * @param coin
+     * @return
+     */
+    public static String amountFormatUnit(BigDecimal amount,String coin, int scale){
+
+        if(amount.equals(new BigDecimal(0))){
             return "0.00";
         }
 
-        return scale(wei.divide(UNIT).toPlainString());
+        switch (coin){
+            case "ETH":
+
+                return scale(amount.divide(UNIT_ETH).toPlainString(), scale);
+
+            case "SC":
+
+                return scale(amount.divide(UNIT_SC).toPlainString(), scale);
+
+            default:
+
+                return "";
+        }
+
     }
 
-    private static String scale(String s){
+    /**
+     * 格式化输出的金额格式，最多8位小数
+     * @param s
+     * @return
+     */
+    public static String scale(String s, int scale){
         String amount[] = s.split("\\.");
         if (amount.length > 1){
-            if (amount[1].length() > 8){
-                return amount[0]+"."+amount[1].substring(0,8);
+            if (amount[1].length() > scale){
+                return amount[0]+"."+amount[1].substring(0,scale);
             }else {
                 return amount[0]+"."+amount[1];
             }
@@ -38,13 +64,6 @@ public class AccountUtil {
         }
     }
 
-    public static String doubleFormatNumber(double d){
-        java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
-        nf.setGroupingUsed(false);
-
-
-        return nf.format(d);
-    }
 
     public static String formatDouble(double money){
         DecimalFormat df = new DecimalFormat("#######0.000");
@@ -167,10 +186,10 @@ public class AccountUtil {
      * @param value2 减数
      * @return 两个参数的差
      */
-    public static String sub(double value1,double value2){
+    public static String sub(double value1,double value2, String coin){
         BigDecimal b1 = new BigDecimal(Double.valueOf(value1));
         BigDecimal b2 = new BigDecimal(Double.valueOf(value2));
-        return weiToEth(b1.subtract(b2));
+        return amountFormatUnit(b1.subtract(b2), coin, 8);
     }
 
     /**

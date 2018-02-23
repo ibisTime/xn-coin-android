@@ -1,6 +1,7 @@
 package com.cdkj.bcoin.adapter;
 
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import com.tencent.imsdk.ext.message.TIMManagerExt;
 
 import java.util.List;
 
+import static com.cdkj.baselibrary.appmanager.MyConfig.CURRENCY;
 import static com.cdkj.bcoin.util.OrderUtil.getOrderStatus;
 
 /**
@@ -36,14 +38,21 @@ public class OrderDoneAdapter extends BaseQuickAdapter<OrderDetailModel, BaseVie
     protected void convert(BaseViewHolder helper, OrderDetailModel item) {
 
         if (TextUtils.equals(item.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
-            helper.setText(R.id.tv_type, StringUtil.getString(R.string.buy));
+            TextView tv = helper.getView(R.id.tv_type);
+            tv.setBackgroundResource(R.drawable.corner_deal_btn_blue);
+            tv.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
+            tv.setText(StringUtil.getString(R.string.buy)+" "+item.getTradeCoin());
+
 
             helper.setText(R.id.tv_name, item.getSellUserInfo().getNickname());
             TextView tvAvatar = helper.getView(R.id.tv_avatar);
             ImageView ivAvatar = helper.getView(R.id.iv_avatar);
             ImgUtils.loadAvatar(mContext, item.getSellUserInfo().getPhoto(), item.getSellUserInfo().getNickname(), ivAvatar, tvAvatar);
         } else {
-            helper.setText(R.id.tv_type, StringUtil.getString(R.string.sale));
+            TextView tv = helper.getView(R.id.tv_type);
+            tv.setBackgroundResource(R.drawable.corner_deal_btn_red);
+            tv.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+            tv.setText(StringUtil.getString(R.string.sale)+" "+item.getTradeCoin());
 
             helper.setText(R.id.tv_name, item.getBuyUserInfo().getNickname());
             TextView tvAvatar = helper.getView(R.id.tv_avatar);
@@ -57,7 +66,7 @@ public class OrderDoneAdapter extends BaseQuickAdapter<OrderDetailModel, BaseVie
             helper.setText(R.id.tv_amount, "");
             helper.setText(R.id.tv_code, "");
         }else {
-            helper.setText(R.id.tv_amount, StringUtil.getString(R.string.trade_amount) + item.getTradeAmount() + "CNY");
+            helper.setText(R.id.tv_amount, StringUtil.getString(R.string.trade_amount) + item.getTradeAmount() + CURRENCY);
             helper.setText(R.id.tv_code, StringUtil.getString(R.string.order_code) + item.getCode().substring(item.getCode().length() - 8, item.getCode().length()));
         }
 
