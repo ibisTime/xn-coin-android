@@ -58,7 +58,7 @@ public class SearchUserActivity extends BaseRefreshActivity<DealDetailModel> {
 
                 if (model.getTradeType().equals("1")){ // 卖币广告
 
-                    SaleActivity.open(this, YIFABU, model);
+                    PublishSaleActivity.open(this, YIFABU, model);
 
                 }else { // 卖币广告
 

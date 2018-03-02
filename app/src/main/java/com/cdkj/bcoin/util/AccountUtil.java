@@ -14,9 +14,9 @@ import static java.math.BigDecimal.ROUND_HALF_DOWN;
 public class AccountUtil {
 
     public static BigDecimal UNIT_MIN = new BigDecimal("10");
+    public static BigDecimal UNIT_BTC = UNIT_MIN.pow(8);
     public static BigDecimal UNIT_ETH = UNIT_MIN.pow(18);
     public static BigDecimal UNIT_SC = UNIT_MIN.pow(24);
-
 
     /**
      * 货币单位转换
@@ -30,19 +30,7 @@ public class AccountUtil {
             return "0.00";
         }
 
-        switch (coin){
-            case "ETH":
-
-                return scale(amount.divide(UNIT_ETH).toPlainString(), scale);
-
-            case "SC":
-
-                return scale(amount.divide(UNIT_SC).toPlainString(), scale);
-
-            default:
-
-                return "";
-        }
+        return scale(amount.divide(getUnit(coin)).toPlainString(), scale);
 
     }
 
@@ -62,6 +50,29 @@ public class AccountUtil {
         }else {
             return amount[0];
         }
+    }
+
+    /**
+     * 根据货币获取最小单位
+     * @param coin
+     * @return
+     */
+    public static BigDecimal getUnit(String coin){
+
+        switch (coin){
+            case "ETH":
+                return UNIT_ETH;
+
+            case "SC":
+                return UNIT_SC;
+
+            case "BTC":
+                return UNIT_BTC;
+
+            default:
+                return new BigDecimal(0);
+        }
+
     }
 
 
@@ -91,6 +102,9 @@ public class AccountUtil {
         switch (currency){
             case "ETH":
                 return StringUtil.getString(R.string.coin_eth);
+
+            case "SC":
+                return StringUtil.getString(R.string.coin_sc);
 
             case "BTC":
                 return StringUtil.getString(R.string.coin_btc);

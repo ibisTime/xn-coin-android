@@ -29,12 +29,12 @@ public class DealSearchActivity extends AbsBaseActivity {
     private String coinType;
 
     // 广告类型
-    private String type = "1";
+    private String type = "";
     private String[] types;
     private String[] typeValue = {"1", "0"};
 
     // 付款方式
-    private String payType = "0";
+    private String payType = "";
     private String[] payTypes;
     private String[] payTypeValue = {"0", "1", "2"};
 
@@ -222,10 +222,10 @@ public class DealSearchActivity extends AbsBaseActivity {
                 return false;
             }
 
-            if (payType.equals("")){
-                showToast(getStrRes(R.string.deal_search_hint_pay));
-                return false;
-            }
+//            if (payType.equals("")){
+//                showToast(getStrRes(R.string.deal_search_hint_pay));
+//                return false;
+//            }
 
         }else {
 

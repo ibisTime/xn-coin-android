@@ -25,20 +25,11 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.cdkj.baselibrary.activitys.AuthenticateActivity;
-import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.dialog.LoadingDialog;
-import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
-import com.cdkj.baselibrary.nets.RetrofitUtils;
-import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.bcoin.R;
-import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.deal.PublishBuyActivity;
-import com.cdkj.bcoin.deal.SaleActivity;
-import com.cdkj.bcoin.model.MarketCoinModel;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.cdkj.bcoin.deal.PublishSaleActivity;
 
 import retrofit2.Call;
 
@@ -264,7 +255,7 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
                     return;
                 }
 
-                SaleActivity.open(mContext, DAIFABU, null);
+                PublishSaleActivity.open(mContext, DAIFABU, null);
                 dismiss();
                 break;
 
@@ -273,35 +264,6 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
         }
     }
 
-    private void getCoin(int id) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("coin", "ETH");
-        map.put("systemCode", MyConfig.SYSTEMCODE);
-        map.put("companyCode", MyConfig.COMPANYCODE);
-
-        call = RetrofitUtils.createApi(MyApi.class).getTruePrice("625292", StringUtils.getJsonToString(map));
-
-        showLoadingDialog();
-
-        call.enqueue(new BaseResponseModelCallBack<MarketCoinModel>(mContext) {
-
-            @Override
-            protected void onSuccess(MarketCoinModel data, String SucMessage) {
-                if (data == null)
-                    return;
-
-                SPUtilHelper.saveMarketCoin("ETH",data.getMid());
-
-                doToPublish(id);
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
-
-    }
 
     private void doToPublish(int id){
         switch (id) {
@@ -331,7 +293,7 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
                     return;
                 }
 
-                SaleActivity.open(mContext, DAIFABU, null);
+                PublishSaleActivity.open(mContext, DAIFABU, null);
                 dismiss();
 
                 if (call != null){

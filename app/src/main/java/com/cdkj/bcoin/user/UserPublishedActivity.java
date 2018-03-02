@@ -20,7 +20,7 @@ import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.ActivityUserPublishedBinding;
 import com.cdkj.bcoin.deal.DealActivity;
 import com.cdkj.bcoin.deal.PublishBuyActivity;
-import com.cdkj.bcoin.deal.SaleActivity;
+import com.cdkj.bcoin.deal.PublishSaleActivity;
 import com.cdkj.bcoin.model.DealDetailModel;
 import com.cdkj.bcoin.model.DealModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -79,7 +79,7 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
                 if (model.getTradeType().equals("0")){ // 买币
                     PublishBuyActivity.open(this, CAOGAO, model);
                 }else {
-                    SaleActivity.open(this, CAOGAO, model);
+                    PublishSaleActivity.open(this, CAOGAO, model);
                 }
             }else {
                 DealActivity.open(this, model.getCode());

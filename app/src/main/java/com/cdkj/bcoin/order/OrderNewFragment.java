@@ -157,6 +157,7 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
                 if (data.getList() == null)
                     return;
 
+                // 根据配置筛选
                 if (ResponseUtil.screeningDataWithConfig(data) == null)
                     return;
 

@@ -47,6 +47,7 @@ import java.util.Map;
 import retrofit2.Call;
 
 import static com.cdkj.baselibrary.appmanager.MyConfig.COIN_TYPE;
+import static com.cdkj.bcoin.util.AccountUtil.getUnit;
 import static com.cdkj.bcoin.util.DealUtil.CAOGAO;
 import static com.cdkj.bcoin.util.DealUtil.DAIFABU;
 import static com.cdkj.bcoin.util.DealUtil.YIFABU;
@@ -617,9 +618,6 @@ public class PublishBuyActivity extends AbsBaseActivity {
 
                 bean = data;
 
-                // 已有的广告（编辑）时，行情价格取marketPrice去计算
-//                SPUtilHelper.saveMarketCoin("ETH",data.getMarketPrice());
-
                 try{
                     setView();
                 }catch (Exception e){
@@ -965,12 +963,7 @@ public class PublishBuyActivity extends AbsBaseActivity {
             object.put("payLimit", mBinding.tvLimit.getText().toString());
             object.put("payType", DealUtil.getPayType(mBinding.tvWay.getText().toString()));
             object.put("premiumRate", (Double.parseDouble(mBinding.edtPremium.getText().toString()) / 100)+"");
-            if (coinType.equals("ETH")){
-                object.put("totalCount", bigDecimal.multiply(AccountUtil.UNIT_ETH).toString().split("\\.")[0]);
-            }else {
-                object.put("totalCount", bigDecimal.multiply(AccountUtil.UNIT_SC).toString().split("\\.")[0]);
-            }
-
+            object.put("totalCount", bigDecimal.multiply(getUnit(coinType)).toString().split("\\.")[0]);
             object.put("protectPrice", mBinding.edtProtectPrice.getText().toString().trim());
             object.put("publishType", publishType);
             object.put("tradeCoin", coinType);
@@ -1018,30 +1011,5 @@ public class PublishBuyActivity extends AbsBaseActivity {
             }
         });
     }
-
-
-
-//    /**
-//     *  根据行情轮询获取最新的行情数据
-//     * @param model
-//     */
-//    @Subscribe
-//    public void getNowCoinPrice(EventBusModel model){
-//        if (model.getTag().equals(EventTags.COIN_PRICE_CHANGE)){
-//            if (mBinding.edtPremium.getText().toString().equals("")){
-//                mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
-//            }else {
-//                Double price = Double.parseDouble(SPUtilHelper.getMarketCoin("ETH"));
-//                Double premiumRate = Double.parseDouble(mBinding.edtPremium.getText().toString());
-//
-//                try {
-//                    mBinding.tvPrice.setText(AccountUtil.formatDouble(price + (price * premiumRate /100)));
-//                }catch (Exception e){
-//                    mBinding.tvPrice.setText(SPUtilHelper.getMarketCoin("ETH")+"");
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
 
 }

@@ -47,14 +47,13 @@ import retrofit2.Call;
 
 import static com.cdkj.baselibrary.utils.SystemUtils.paste;
 import static com.cdkj.bcoin.user.UserAddressActivity.TYPE_WITHDRAW;
+import static com.cdkj.bcoin.util.AccountUtil.getUnit;
 
 /**
  * Created by lei on 2017/10/18.
  */
 
 public class WithdrawActivity extends AbsBaseActivity {
-
-    private boolean isTransfer = false;
 
     private CoinModel.AccountListBean model;
     private PermissionHelper permissionHelper;
@@ -133,11 +132,7 @@ public class WithdrawActivity extends AbsBaseActivity {
                 if (isCerti){
                     showInputDialog();
                 }else {
-                    if (isTransfer){ // 内部转账
-                        transfer("");
-                    }else {
-                        withdrawal("");
-                    }
+                    withdrawal("");
                 }
 
             }
@@ -206,13 +201,7 @@ public class WithdrawActivity extends AbsBaseActivity {
                         if (inputDialog.getContentView().getText().toString().trim().equals("")) {
                             showToast(getStrRes(R.string.trade_code_hint));
                         } else {
-                            if (isTransfer){ // 内部转账
-                                transfer(inputDialog.getContentView().getText().toString().trim());
-                            }else {
-                                withdrawal(inputDialog.getContentView().getText().toString().trim());
-                            }
-
-
+                            withdrawal(inputDialog.getContentView().getText().toString().trim());
                             inputDialog.dismiss();
                         }
 
@@ -255,12 +244,7 @@ public class WithdrawActivity extends AbsBaseActivity {
     private void getWithdrawFee() {
         Map<String, String> map = new HashMap<>();
 
-        if (model.getCurrency().equals("ETH")){
-            map.put("ckey", "withdraw_fee_eth");
-        }else {
-            map.put("ckey", "withdraw_fee_sc");
-        }
-
+        map.put("ckey", "withdraw_fee_"+model.getCurrency().toLowerCase());
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);
 
@@ -301,16 +285,10 @@ public class WithdrawActivity extends AbsBaseActivity {
         map.put("applyUser", SPUtilHelper.getUserId());
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("accountNumber", model.getAccountNumber());
-
-        if (model.getCurrency().equals("ETH")){
-            map.put("amount", bigDecimal.multiply(AccountUtil.UNIT_ETH).toString().split("\\.")[0]);
-        }else {
-            map.put("amount", bigDecimal.multiply(AccountUtil.UNIT_SC).toString().split("\\.")[0]);
-        }
-
+        map.put("amount", bigDecimal.multiply(getUnit(model.getCurrency())).toString().split("\\.")[0]);
         map.put("payCardNo", mBinding.tvAddress.getText().toString().trim());
         map.put("payCardInfo", model.getCurrency());
-        map.put("applyNote", "C端提现");
+        map.put("applyNote", model.getCurrency()+"提现");
         map.put("tradePwd", tradePwd);
 
         Call call = RetrofitUtils.getBaseAPiService().successRequest("802750", StringUtils.getJsonToString(map));
@@ -334,42 +312,6 @@ public class WithdrawActivity extends AbsBaseActivity {
         });
     }
 
-    /**
-     * 内部转账
-     * @param tradePwd
-     */
-    private void transfer(String tradePwd) {
-        BigDecimal bigDecimal = new BigDecimal(mBinding.edtAmount.getText().toString().trim());
-
-        Map<String, String> map = new HashMap<>();
-
-        map.put("token", SPUtilHelper.getUserToken());
-        map.put("fromUserId", SPUtilHelper.getUserId());
-        map.put("systemCode", MyConfig.SYSTEMCODE);
-        map.put("amount", bigDecimal.multiply(AccountUtil.UNIT_ETH)+"");
-        map.put("toAddress", mBinding.tvAddress.getText().toString().trim());
-        map.put("tradePwd", tradePwd);
-
-        Call call = RetrofitUtils.getBaseAPiService().successRequest("625851", StringUtils.getJsonToString(map));
-
-        addCall(call);
-
-        showLoadingDialog();
-
-        call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
-
-            @Override
-            protected void onSuccess(IsSuccessModes data, String SucMessage) {
-                showToast(getStrRes(R.string.wallet_transfer_success));
-                finish();
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
-    }
 
     /**
      *

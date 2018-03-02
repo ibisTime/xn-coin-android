@@ -178,6 +178,11 @@ public class UserInviteActivity extends AbsBaseActivity {
                     mBinding.tvProfitSc.setText(AccountUtil.amountFormatUnit(new BigDecimal(data.getInviteProfitSc()), "SC", 8)+"SC");
                 }
 
+                if (coinTypeList.contains("BTC")){
+                    mBinding.tvProfitBtc.setVisibility(View.VISIBLE);
+                    mBinding.tvProfitBtc.setText(AccountUtil.amountFormatUnit(new BigDecimal(data.getInviteProfitBtc()), "BTC", 8)+"BTC");
+                }
+
             }
 
             @Override

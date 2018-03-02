@@ -24,9 +24,18 @@ public class DealUserDataModel {
     private double beiHaoPingCount;
     private String totalTradeCountEth;
     private String totalTradeCountSc;
+    private String totalTradeCountBtc;
     private String isTrust;
     private String isAddBlackList;
     private String betweenTradeTimes;
+
+    public String getTotalTradeCountBtc() {
+        return totalTradeCountBtc;
+    }
+
+    public void setTotalTradeCountBtc(String totalTradeCountBtc) {
+        this.totalTradeCountBtc = totalTradeCountBtc;
+    }
 
     public String getTotalTradeCountEth() {
         return totalTradeCountEth;

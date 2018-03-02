@@ -13,7 +13,6 @@ import com.cdkj.baseim.event.MessageEvent;
 import com.cdkj.baseim.event.RefreshEvent;
 import com.cdkj.baseim.interfaces.TxImLoginInterface;
 import com.cdkj.baseim.interfaces.TxImLoginPresenter;
-import com.cdkj.baseim.ui.NotifyDialog;
 import com.cdkj.baseim.util.PushUtil;
 import com.cdkj.baselibrary.activitys.AppBuildTypeActivity;
 import com.cdkj.baselibrary.activitys.WebViewActivity;
@@ -273,8 +272,10 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
         switch (i) {
             case 6208:
                 //离线状态下被其他终端踢下线
-                NotifyDialog dialog = new NotifyDialog();
-                dialog.show(getString(R.string.kick_logout), getSupportFragmentManager(), (dialog1, which) -> groupEvent());
+//                NotifyDialog dialog = new NotifyDialog();
+//                dialog.show(getString(R.string.kick_logout), getSupportFragmentManager(), (dialog1, which) -> groupEvent());
+
+                initTencent();
                 break;
             case 6200:
                 showToast(getString(R.string.login_error_timeout_auto));

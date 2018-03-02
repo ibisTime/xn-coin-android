@@ -29,28 +29,31 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"/>
+                    android:layout_height="150dp"/>
 
                 <LinearLayout
+                    android:orientation="vertical"
                     android:background="@color/yellow"
                     android:layout_margin="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp">
+                    android:layout_height="150dp">
 
                     <LinearLayout
                         android:id="@+id/ll_invite"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent">
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_marginTop="25dp"
                             android:textSize="12sp"
                             android:text="@string/user_invite_people"
                             android:textColor="@color/colorPrimary"
-                            android:layout_width="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content" />
 
                         <TextView
@@ -60,20 +63,20 @@
                             android:text="0"
                             android:textColor="@color/black"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent" />
+                            android:layout_height="wrap_content" />
 
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
                         android:orientation="vertical"
-                        android:gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:layout_marginTop="25dp"
                             android:textSize="12sp"
                             android:text="@string/user_invite_profit"
                             android:textColor="@color/colorPrimary"
@@ -81,32 +84,51 @@
                             android:layout_height="wrap_content" />
 
                         <LinearLayout
+                            android:layout_marginTop="15dp"
                             android:gravity="center"
-                            android:orientation="vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent">
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
                             <TextView
                                 android:id="@+id/tv_profit_eth"
-                                android:textSize="13sp"
-                                android:text="00000"
                                 android:visibility="gone"
+                                android:textSize="15sp"
+                                android:layout_weight="1"
                                 android:textColor="@color/black"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content" />
 
                             <TextView
-                                android:id="@+id/tv_profit_sc"
+                                android:id="@+id/tv_profit_btc"
                                 android:visibility="gone"
-                                android:layout_marginTop="@dimen/dp_4"
-                                android:textSize="13sp"
+                                android:textSize="15sp"
+                                android:gravity="right"
+                                android:layout_weight="1"
                                 android:textColor="@color/black"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content" />
 
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_marginTop="15dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
+                            <TextView
+                                android:id="@+id/tv_profit_sc"
+                                android:visibility="gone"
+                                android:textSize="15sp"
+                                android:layout_weight="1"
+                                android:textColor="@color/black"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content" />
+
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -121,7 +143,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <Button
                     android:id="@+id/btn_url"

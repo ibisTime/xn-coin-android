@@ -3,13 +3,9 @@ package com.cdkj.bcoin.market;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 
-import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyConfig;
-import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.BaseRefreshFragment;
-import com.cdkj.baselibrary.model.EventBusModel;
 import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
-import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.bcoin.R;
@@ -17,20 +13,14 @@ import com.cdkj.bcoin.adapter.MarketAdapter;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.FootMarketBinding;
 import com.cdkj.bcoin.databinding.HeadMarketBinding;
-import com.cdkj.bcoin.model.MarketCoinModel;
 import com.cdkj.bcoin.model.MarketModel;
 import com.cdkj.bcoin.util.StringUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Call;
 
 
@@ -79,7 +69,6 @@ public class MarketFragment extends BaseRefreshFragment<MarketModel> {
     protected void lazyLoad() {
         super.lazyLoad();
 
-//        getCoin();
         getListData(1, 10, true);
     }
 
@@ -124,56 +113,6 @@ public class MarketFragment extends BaseRefreshFragment<MarketModel> {
     @Override
     public int getEmptyImg() {
         return R.mipmap.order_none;
-    }
-
-
-    private void timer(){
-
-        mSubscription.clear();
-        mSubscription.add(Observable.timer(25, TimeUnit.SECONDS)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aLong -> {//延迟10秒进行跳转
-
-                    getCoin();
-
-                }, Throwable::printStackTrace));
-
-    }
-
-    private void getCoin() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("coin", "ETH");
-        map.put("systemCode", MyConfig.SYSTEMCODE);
-        map.put("companyCode", MyConfig.COMPANYCODE);
-
-        Call call = RetrofitUtils.createApi(MyApi.class).getTruePrice("625292", StringUtils.getJsonToString(map));
-
-        addCall(call);
-
-        call.enqueue(new BaseResponseModelCallBack<MarketCoinModel>(mActivity) {
-
-            @Override
-            protected void onSuccess(MarketCoinModel data, String SucMessage) {
-                if (data == null)
-                    return;
-
-                SPUtilHelper.saveMarketCoin("ETH",data.getMid());
-
-                // 轮询，10s一次
-                timer();
-                // 提醒发布页更新最新价格
-                EventBusModel model = new EventBusModel();
-                model.setTag(EventTags.COIN_PRICE_CHANGE);
-                EventBus.getDefault().post(model);
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
-
     }
 
 }

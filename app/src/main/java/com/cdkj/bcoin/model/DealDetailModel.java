@@ -364,6 +364,16 @@ public class DealDetailModel implements Serializable {
         private double totalTradeCountEth;
         private double totalTradeCountSc;
 
+        public double getTotalTradeCountBtc() {
+            return totalTradeCountBtc;
+        }
+
+        public void setTotalTradeCountBtc(double totalTradeCountBtc) {
+            this.totalTradeCountBtc = totalTradeCountBtc;
+        }
+
+        private double totalTradeCountBtc;
+
         public double getTotalTradeCountSc() {
             return totalTradeCountSc;
         }

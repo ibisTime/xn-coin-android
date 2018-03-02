@@ -98,11 +98,13 @@ public class OrderDoneAdapter extends BaseQuickAdapter<OrderDetailModel, BaseVie
             if (TextUtils.equals(item.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
                 UserPersonActivity.open(mContext, item.getSellUserInfo().getUserId()
                         ,item.getSellUserInfo().getNickname()
-                        ,item.getSellUserInfo().getPhoto());
+                        ,item.getSellUserInfo().getPhoto()
+                        ,item.getTradeCoin());
             } else {
                 UserPersonActivity.open(mContext, item.getBuyUserInfo().getUserId()
                         ,item.getBuyUserInfo().getNickname()
-                        ,item.getBuyUserInfo().getPhoto());
+                        ,item.getBuyUserInfo().getPhoto()
+                        ,item.getTradeCoin());
             }
 
         });

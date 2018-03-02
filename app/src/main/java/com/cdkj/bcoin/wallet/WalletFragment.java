@@ -27,8 +27,6 @@ import com.cdkj.bcoin.util.ResponseUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,23 +107,24 @@ public class WalletFragment extends BaseLazyFragment {
 
                         setView(data);
 
-                        // 筛选配置允许的Coin账户
-                        List<CoinModel.AccountListBean> coinList = new ArrayList<>();
-                        // 允许配置的Coin
-                        List<String> list= Arrays.asList(MyConfig.COIN_TYPE);
-                        for (CoinModel.AccountListBean bean : data.getAccountList()){
-                            if (list.contains(bean.getCurrency())){
-                                coinList.add(bean);
-                            }
-                        }
+//                        // 筛选配置允许的Coin账户
+//                        List<CoinModel.AccountListBean> coinList = new ArrayList<>();
+//                        // 允许配置的Coin
+//                        List<String> list= Arrays.asList(MyConfig.COIN_TYPE);
+//
+//                        for (CoinModel.AccountListBean bean : data.getAccountList()){
+//
+//                            if (list.contains(bean.getCurrency())){
+//                                coinList.add(bean);
+//                            }
+//                        }
 
                         if (ResponseUtil.screeningDataWithConfig(data) == null)
                             return;
 
-                        List<CoinModel.AccountListBean>  coinList1 = (List<CoinModel.AccountListBean>) ResponseUtil.screeningDataWithConfig(data);
+                        List<CoinModel.AccountListBean> coinList = (List<CoinModel.AccountListBean>) ResponseUtil.screeningDataWithConfig(data);
 
-
-                        refreshHelper.setData(coinList1 , getStrRes(R.string.wallet_none), R.mipmap.order_none);
+                        refreshHelper.setData(coinList , getStrRes(R.string.wallet_none), R.mipmap.order_none);
                     }
 
                     @Override

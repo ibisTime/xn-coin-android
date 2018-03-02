@@ -23,7 +23,7 @@ import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.FragmentUserBinding;
 import com.cdkj.bcoin.deal.PublishBuyActivity;
-import com.cdkj.bcoin.deal.SaleActivity;
+import com.cdkj.bcoin.deal.PublishSaleActivity;
 import com.cdkj.bcoin.util.AccountUtil;
 import com.qiniu.android.http.ResponseInfo;
 import com.zendesk.sdk.support.SupportActivity;
@@ -84,7 +84,7 @@ public class UserFragment extends BaseLazyFragment {
         });
 
         mBinding.llSale.setOnClickListener(view -> {
-            SaleActivity.open(mActivity,DAIFABU,null);
+            PublishSaleActivity.open(mActivity,DAIFABU,null);
         });
 
         mBinding.llAdv.setOnClickListener(view -> {

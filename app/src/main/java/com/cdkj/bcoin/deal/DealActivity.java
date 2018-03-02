@@ -54,6 +54,7 @@ import retrofit2.Call;
 import static com.cdkj.baseim.activity.TxImLogingActivity.DEAL;
 import static com.cdkj.baselibrary.appmanager.MyConfig.CURRENCY;
 import static com.cdkj.bcoin.util.AccountUtil.formatDouble;
+import static com.cdkj.bcoin.util.AccountUtil.getUnit;
 import static com.cdkj.bcoin.util.DealUtil.YIFABU;
 import static com.cdkj.bcoin.util.DealUtil.setDealPayType;
 
@@ -220,8 +221,10 @@ public class DealActivity extends AbsBaseActivity {
         String amount;
         if (bean.getTradeCoin().equals("ETH")){
             amount = AccountUtil.amountFormatUnit(new BigDecimal(bean.getUserStatistics().getTotalTradeCountEth()),bean.getTradeCoin(), 8);
-        }else {
+        }else if (bean.getTradeCoin().equals("SC")) {
             amount = AccountUtil.amountFormatUnit(new BigDecimal(bean.getUserStatistics().getTotalTradeCountSc()),bean.getTradeCoin(), 8);
+        }else {
+            amount = AccountUtil.amountFormatUnit(new BigDecimal(bean.getUserStatistics().getTotalTradeCountBtc()),bean.getTradeCoin(), 8);
         }
 
         double dh = Double.parseDouble(amount);
@@ -240,7 +243,7 @@ public class DealActivity extends AbsBaseActivity {
 
     private void initListener() {
         mBinding.rlIcon.setOnClickListener(view -> {
-            UserPersonActivity.open(this, bean.getUserId(),bean.getUser().getNickname(),bean.getUser().getPhoto());
+            UserPersonActivity.open(this, bean.getUserId(),bean.getUser().getNickname(),bean.getUser().getPhoto(),bean.getTradeCoin());
         });
 
         mBinding.btnTrust.setOnClickListener(view -> trust());
@@ -254,7 +257,7 @@ public class DealActivity extends AbsBaseActivity {
 
                 if (bean.getTradeType().equals("1")){ // 卖币广告
 
-                    SaleActivity.open(this, YIFABU, bean);
+                    PublishSaleActivity.open(this, YIFABU, bean);
 
                 }else { // 买币广告
 
@@ -561,11 +564,7 @@ public class DealActivity extends AbsBaseActivity {
         map.put("adsCode", bean.getCode());
         map.put("buyUser", SPUtilHelper.getUserId());
         map.put("token", SPUtilHelper.getUserToken());
-        if (bean.getTradeCoin().equals("ETH")){
-            map.put("count", bigDecimal.multiply(AccountUtil.UNIT_ETH).toString().split("\\.")[0]);
-        }else {
-            map.put("count", bigDecimal.multiply(AccountUtil.UNIT_SC).toString().split("\\.")[0]);
-        }
+        map.put("count", bigDecimal.multiply(getUnit(bean.getTradeCoin())).toString().split("\\.")[0]);
         map.put("tradeAmount", mBinding.edtCny.getText().toString().trim());
         map.put("tradePrice", bean.getTruePrice());
 
@@ -604,11 +603,7 @@ public class DealActivity extends AbsBaseActivity {
         map.put("adsCode", bean.getCode());
         map.put("sellUser", SPUtilHelper.getUserId());
         map.put("token", SPUtilHelper.getUserToken());
-        if (bean.getTradeCoin().equals("ETH")){
-            map.put("count", bigDecimal.multiply(AccountUtil.UNIT_ETH).toString().split("\\.")[0]);
-        }else {
-            map.put("count", bigDecimal.multiply(AccountUtil.UNIT_SC).toString().split("\\.")[0]);
-        }
+        map.put("count", bigDecimal.multiply(getUnit(bean.getTradeCoin())).toString().split("\\.")[0]);
         map.put("tradeAmount", mBinding.edtCny.getText().toString().trim());
         map.put("tradePrice", bean.getTruePrice());
 

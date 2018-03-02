@@ -2,14 +2,12 @@ package com.cdkj.baselibrary.utils;
 
 import android.util.Log;
 
-import com.cdkj.baselibrary.appmanager.MyConfig;
-
 
 /**
  * log工具类
  */
 public class LogUtil {
-    public static Boolean isLog = MyConfig.IS_DEBUG;
+    public static Boolean isLog = true;
 
     private static final String TAG = "LOG_YITU";
 

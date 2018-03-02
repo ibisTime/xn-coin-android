@@ -36,11 +36,12 @@ public class UserPersonActivity extends AbsBaseActivity {
 
     private ActivityUserPersonBinding mBinding;
 
+    private String photo;
     private String userId;
     private String nickName;
-    private String photo;
+    private String tradeCoin;
 
-    public static void open(Context context, String userId, String nickName, String photo){
+    public static void open(Context context, String userId, String nickName, String photo, String tradeCoin){
         if (context == null) {
             return;
         }
@@ -50,6 +51,7 @@ public class UserPersonActivity extends AbsBaseActivity {
             context.startActivity(new Intent(context, UserPersonActivity.class)
                     .putExtra("userId", userId)
                     .putExtra("photo", photo)
+                    .putExtra("tradeCoin", tradeCoin)
                     .putExtra("nickName", nickName));
         }
 
@@ -68,9 +70,10 @@ public class UserPersonActivity extends AbsBaseActivity {
         if (getIntent() == null)
             return;
 
-        userId = getIntent().getStringExtra("userId");
         photo = getIntent().getStringExtra("photo");
+        userId = getIntent().getStringExtra("userId");
         nickName = getIntent().getStringExtra("nickName");
+        tradeCoin = getIntent().getStringExtra("tradeCoin");
 
         getUserData();
     }
@@ -147,17 +150,6 @@ public class UserPersonActivity extends AbsBaseActivity {
             mBinding.tvGood.setText(AccountUtil.formatInt(hpRate * 100)+"%");
         }
 
-        double dh = Double.parseDouble(AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCountEth()), "ETH", 8));
-        if(dh == 0){
-            mBinding.tvHistory.setText("0 ETH");
-        } else if (dh < 0.5){
-            mBinding.tvHistory.setText("0-0.5 ETH");
-        }else if(0.5 <= dh && dh <= 1){
-            mBinding.tvHistory.setText("0.5-1 ETH");
-        }else {
-            mBinding.tvHistory.setText(AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCountEth()), "ETH", 8).split("\\.")[0]+"+ ETH");
-        }
-
         if(data.getIsTrust().equals("0")){ // 未信任
             mBinding.btnTrust.setText(StringUtil.getString(R.string.get_trust));
         }else { // 已信任
@@ -168,6 +160,32 @@ public class UserPersonActivity extends AbsBaseActivity {
             mBinding.btnBlackList.setText(StringUtil.getString(R.string.add_black_list));
         }else { // 已被加入黑名单
             mBinding.btnBlackList.setText(StringUtil.getString(R.string.remove_black_list));
+        }
+
+
+        if (tradeCoin != null && !tradeCoin.equals("")){
+
+            String amount;
+            if (tradeCoin.equals("ETH")){
+                amount = AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCountEth()),tradeCoin, 8);
+            }else if (tradeCoin.equals("SC")) {
+                amount = AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCountSc()),tradeCoin, 8);
+            }else {
+                amount = AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCountBtc()),tradeCoin, 8);
+            }
+
+            double dh = Double.parseDouble(amount);
+
+            if(dh == 0){
+                mBinding.tvHistory.setText("0 "+tradeCoin);
+            } else if (dh < 0.5){
+                mBinding.tvHistory.setText("0-0.5 "+tradeCoin);
+            }else if(0.5 <= dh && dh <= 1){
+                mBinding.tvHistory.setText("0.5-1 "+tradeCoin);
+            }else {
+                mBinding.tvHistory.setText(amount.split("\\.")[0]+"+ "+tradeCoin);
+            }
+
         }
 
     }

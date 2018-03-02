@@ -450,6 +450,7 @@
     // Util
     <string name="coin_eth">以太幣</string>
     <string name="coin_btc">比特幣</string>
+    <string name="coin_sc">雲儲幣</string>
     <string name="biz_type_charge">充值</string>
     <string name="biz_type_withdraw">取現</string>
     <string name="biz_type_buy">交易買入</string>

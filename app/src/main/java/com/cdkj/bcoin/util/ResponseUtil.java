@@ -16,7 +16,7 @@ import java.util.List;
 public class ResponseUtil {
 
     /**
-     *
+     * 根据币种配置筛选结果
      * @param object
      * @return
      */

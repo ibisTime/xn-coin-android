@@ -86,7 +86,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
 //
 //                if (model.getTradeType().equals("1")){ // 卖币广告
 //
-//                    SaleActivity.open(mActivity, YIFABU, model);
+//                    PublishSaleActivity.open(mActivity, YIFABU, model);
 //
 //                }else { // 卖币广告
 //

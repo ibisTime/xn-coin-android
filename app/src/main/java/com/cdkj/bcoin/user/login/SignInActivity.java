@@ -17,7 +17,6 @@ import com.cdkj.baseim.event.MessageEvent;
 import com.cdkj.baseim.event.RefreshEvent;
 import com.cdkj.baseim.interfaces.TxImLoginInterface;
 import com.cdkj.baseim.interfaces.TxImLoginPresenter;
-import com.cdkj.baseim.ui.NotifyDialog;
 import com.cdkj.baseim.util.PushUtil;
 import com.cdkj.baselibrary.activitys.FindPwdActivity;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
@@ -190,7 +189,7 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
         SPUtilHelper.saveUserToken(user.getToken());
         SPUtilHelper.saveUserPhoneNum(mBinding.edtUsername.getText().toString().trim());
 
-        initTencent();
+        loginTencent();
 
     }
 
@@ -214,7 +213,7 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
     /**
      * 登录腾讯云
      */
-    private void initTencent() {
+    private void loginTencent() {
         // 登录腾讯云
         txImLoginPresenter = new TxImLoginPresenter(this);
         txImLoginPresenter.login(this);
@@ -224,9 +223,12 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
     public void onError(int i, String s) {
         switch (i) {
             case 6208:
-                //离线状态下被其他终端踢下线
-                NotifyDialog dialog = new NotifyDialog();
-                dialog.show(getString(R.string.kick_logout), getSupportFragmentManager(), (dialog1, which) -> groupEvent());
+//                //离线状态下被其他终端踢下线
+//                NotifyDialog dialog = new NotifyDialog();
+//                dialog.show(getString(R.string.kick_logout), getSupportFragmentManager(), (dialog1, which) -> groupEvent());
+
+                // 重新登录
+                loginTencent();
                 break;
             case 6200:
                 showToast(getString(R.string.login_error_timeout));
@@ -285,7 +287,7 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
         userConfig = MessageEvent.getInstance().init(userConfig);
         TIMManager.getInstance().setUserConfig(userConfig);
 
-        initTencent();
+        loginTencent();
     }
 
     @Override

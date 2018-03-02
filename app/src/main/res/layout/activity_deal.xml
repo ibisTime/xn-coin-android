@@ -7,15 +7,15 @@
         android:layout_height="match_parent">
 
         <ScrollView
+            android:background="@color/gray_f7f7f7"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="0dp">
 
             <LinearLayout
-                android:background="@color/gray_f7f7f7"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
                     android:background="@color/white"
@@ -264,7 +264,7 @@
                     android:layout_height="wrap_content" />
 
                 <LinearLayout
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical"
                     android:background="@color/white"
                     android:layout_width="match_parent"

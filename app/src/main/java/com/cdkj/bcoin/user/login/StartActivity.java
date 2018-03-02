@@ -68,15 +68,12 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
                 return;
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
+
         setContentView(R.layout.activity_start);
 
-//        getLoginCode();
-        open();
-
-//        getQiniu();
-
+        getQiniu();
     }
 
     private void open(){
@@ -99,7 +96,7 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
         map.put("systemCode", MyConfig.SYSTEMCODE);
         map.put("companyCode", MyConfig.COMPANYCODE);
 
-        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameter("805917", StringUtils.getJsonToString(map));
+        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameter("660917", StringUtils.getJsonToString(map));
 
         addCall(call);
 
@@ -110,7 +107,9 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
                 if (data == null)
                     return;
 
-                MyConfig.IMGURL = data.getDkey();
+                MyConfig.IMGURL = "http://"+data.getCvalue()+"/";
+
+                open();
 
             }
 
@@ -168,7 +167,6 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
         }
 
     }
-
 
     /**
      * 登录腾讯云

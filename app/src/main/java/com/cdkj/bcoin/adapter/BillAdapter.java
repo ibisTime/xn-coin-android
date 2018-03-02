@@ -73,93 +73,74 @@ public class BillAdapter extends BaseQuickAdapter<BillModel.ListBean,BaseViewHol
         }
 
         if (item.getKind().equals("0")){ // 非冻结流水
+            int resId = 0;
             switch (item.getBizType()){
                 case "charge": // 充值
-                    if (item.getCurrency().equals("ETH")){
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_charge);
-                    } else if (item.getCurrency().equals("SC")) {
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_charge);
-                    } else {
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_charge);
-                    }
+
+                    resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_charge", "mipmap" , mContext.getPackageName());
+                    if (resId != 0)
+                        helper.setImageResource(R.id.iv_type, resId);
+
                     break;
 
                 case "withdraw": // 取现
-                    if (item.getCurrency().equals("ETH")){
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_withdraw);
-                    } else if (item.getCurrency().equals("SC")) {
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_withdraw);
-                    } else {
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_withdraw);
-                    }
+
+                    resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_withdraw", "mipmap" , mContext.getPackageName());
+                    if (resId != 0)
+                        helper.setImageResource(R.id.iv_type, resId);
 
                     break;
 
                 case "buy": // 买入
-                    if (item.getCurrency().equals("ETH")){
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_into);
-                    } else if (item.getCurrency().equals("SC")) {
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_into);
-                    } else {
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_into);
-                    }
+
+                    resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_into", "mipmap" , mContext.getPackageName());
+                    if (resId != 0)
+                        helper.setImageResource(R.id.iv_type, resId);
+
                     break;
 
                 case "sell": // 卖出
-                    if (item.getCurrency().equals("ETH")){
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_out);
-                    } else if (item.getCurrency().equals("SC")) {
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_out);
-                    } else {
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_out);
-                    }
+
+                    resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_out", "mipmap" , mContext.getPackageName());
+                    if (resId != 0)
+                        helper.setImageResource(R.id.iv_type, resId);
+
                     break;
 
                 case "tradefee": // 手续费
                 case "withdrawfee": // 手续费
-                    if (item.getCurrency().equals("ETH")){
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_fee);
-                    } else if (item.getCurrency().equals("SC")) {
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_fee);
-                    } else {
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_fee);
-                    }
+
+                    resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_fee", "mipmap" , mContext.getPackageName());
+                    if (resId != 0)
+                        helper.setImageResource(R.id.iv_type, resId);
+
                     break;
 
                 default:
-                    if (item.getCurrency().equals("ETH")){
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_award);
-                    } else if (item.getCurrency().equals("SC")) {
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_award);
-                    } else {
-                        helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_award);
-                    }
+
+                    resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_award", "mipmap" , mContext.getPackageName());
+                    if (resId != 0)
+                        helper.setImageResource(R.id.iv_type, resId);
+
                     break;
 
             }
         }else { // 冻结流水
 
-            if (item.getCurrency().equals("ETH")){
-                if (item.getTransAmountString().contains("-")){ // 金额是负数
-                    helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_withdraw);
-                } else {
-                    helper.setImageResource(R.id.iv_type, R.mipmap.bill_eth_charge);
-                }
-            } else if (item.getCurrency().equals("SC")) {
-                if (item.getTransAmountString().contains("-")){ // 金额是负数
-                    helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_withdraw);
-                } else {
-                    helper.setImageResource(R.id.iv_type, R.mipmap.bill_sc_charge);
-                }
+            int resId;
+
+            if (item.getTransAmountString().contains("-")){ // 金额是负数
+
+                resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_withdraw", "mipmap" , mContext.getPackageName());
+                if (resId != 0)
+                    helper.setImageResource(R.id.iv_type, resId);
+
             } else {
-                if (item.getTransAmountString().contains("-")){ // 金额是负数
-                    helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_withdraw);
-                } else {
-                    helper.setImageResource(R.id.iv_type, R.mipmap.bill_btc_charge);
-                }
+
+                resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_charge", "mipmap" , mContext.getPackageName());
+                if (resId != 0)
+                    helper.setImageResource(R.id.iv_type, resId);
             }
-
-
 
         }
     }

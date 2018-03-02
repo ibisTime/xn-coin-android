@@ -10,8 +10,6 @@ import android.widget.EditText;
 
 /**
  * @Description:EditText内容输入限制最大：小数点前五位，小数点后2位
- * @author: jiawen.gu
- * @CreateDate: 2017/11/6
  */
 
 public class EditTextJudgeNumberWatcher implements TextWatcher {

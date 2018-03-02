@@ -7,8 +7,17 @@ package com.cdkj.bcoin.model;
 public class InviteModel {
 
     private int inviteCount;
-    private String inviteProfitEth;
     private String inviteProfitSc;
+    private String inviteProfitEth;
+    private String inviteProfitBtc;
+
+    public String getInviteProfitBtc() {
+        return inviteProfitBtc;
+    }
+
+    public void setInviteProfitBtc(String inviteProfitBtc) {
+        this.inviteProfitBtc = inviteProfitBtc;
+    }
 
     public int getInviteCount() {
         return inviteCount;

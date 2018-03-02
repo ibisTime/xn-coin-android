@@ -45,7 +45,8 @@ public class UserInviteHistoryActivity extends BaseRefreshActivity<UserRefereeMo
             UserRefereeModel.ListBean bean = (UserRefereeModel.ListBean) mAdapter.getItem(position);
 
             assert bean != null;
-            UserPersonActivity.open(this, bean.getUserId(), bean.getNickname(), bean.getPhoto());
+            // 默认显示ETH的历史交易
+            UserPersonActivity.open(this, bean.getUserId(), bean.getNickname(), bean.getPhoto(), MyConfig.COIN_TYPE[0]);
         });
 
         getListData(pageIndex,limit,true);
