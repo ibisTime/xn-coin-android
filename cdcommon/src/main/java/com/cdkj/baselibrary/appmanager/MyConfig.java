@@ -6,6 +6,9 @@ package com.cdkj.baselibrary.appmanager;
 
 public class MyConfig {
 
+    // 微信应用ID
+    public static final String WX_APPID ="wx8cb7c18fa507f630";
+
     // 法币币种
     public final static String CURRENCY = "CNY";
     // 支持币种
@@ -18,7 +21,7 @@ public class MyConfig {
 
     public static String IMGURL = "http://ozfszueqz.bkt.clouddn.com/";
 
-    public static boolean IS_DEBUG = false;
+    public static boolean IS_DEBUG = true;
 
     // 拍照文件保存路径
     public static final String CACHDIR = "beikeying";

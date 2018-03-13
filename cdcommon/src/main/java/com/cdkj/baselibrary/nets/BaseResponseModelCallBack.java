@@ -112,6 +112,7 @@ public abstract class BaseResponseModelCallBack<T> implements Callback<BaseRespo
             errorCode = NETERRORCODE4;
         }
 
+        //
         if (LogUtil.isLog) {
             errorString += t.toString();
         }

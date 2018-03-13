@@ -163,6 +163,11 @@ public class MainActivity extends AbsBaseActivity {
 
         });
 
+        mBinding.layoutMainBottom.llDeal.setOnClickListener(v -> {
+            setShowIndex(DEAL);
+
+        });
+
         mBinding.layoutMainBottom.llOrder.setOnClickListener(v -> {
             if (!SPUtilHelper.isLogin(this, false)) {
                 return;
@@ -172,10 +177,6 @@ public class MainActivity extends AbsBaseActivity {
 
         });
 
-        mBinding.layoutMainBottom.llDeal.setOnClickListener(v -> {
-            setShowIndex(DEAL);
-
-        });
 
         mBinding.layoutMainBottom.llWallet.setOnClickListener(v -> {
             if (!SPUtilHelper.isLogin(this, false)) {
@@ -217,21 +218,25 @@ public class MainActivity extends AbsBaseActivity {
                 mBinding.layoutMainBottom.ivMarket.setImageResource(R.mipmap.main_market_light);
                 mBinding.layoutMainBottom.tvMarket.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
                 break;
-            case ORDER:
-                mBinding.ivPublish.setVisibility(View.GONE);
-                mBinding.layoutMainBottom.ivOrder.setImageResource(R.mipmap.main_order_light);
-                mBinding.layoutMainBottom.tvOrder.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
-                break;
+
             case DEAL:
                 mBinding.ivPublish.setVisibility(View.VISIBLE);
                 mBinding.layoutMainBottom.ivDeal.setImageResource(R.mipmap.main_deal_light);
                 mBinding.layoutMainBottom.tvDeal.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
                 break;
+
+            case ORDER:
+                mBinding.ivPublish.setVisibility(View.GONE);
+                mBinding.layoutMainBottom.ivOrder.setImageResource(R.mipmap.main_order_light);
+                mBinding.layoutMainBottom.tvOrder.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+                break;
+
             case WALLET:
                 mBinding.ivPublish.setVisibility(View.GONE);
                 mBinding.layoutMainBottom.ivWallet.setImageResource(R.mipmap.main_wallet_light);
                 mBinding.layoutMainBottom.tvWallet.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
                 break;
+
             case MY:
                 mBinding.ivPublish.setVisibility(View.GONE);
                 mBinding.layoutMainBottom.ivMy.setImageResource(R.mipmap.main_my_light);
@@ -245,11 +250,11 @@ public class MainActivity extends AbsBaseActivity {
         mBinding.layoutMainBottom.ivMarket.setImageResource(R.mipmap.main_market_dark);
         mBinding.layoutMainBottom.tvMarket.setTextColor(ContextCompat.getColor(this, R.color.gray_666666));
 
-        mBinding.layoutMainBottom.ivOrder.setImageResource(R.mipmap.main_order_dark);
-        mBinding.layoutMainBottom.tvOrder.setTextColor(ContextCompat.getColor(this, R.color.gray_666666));
-
         mBinding.layoutMainBottom.ivDeal.setImageResource(R.mipmap.main_deal_dark);
         mBinding.layoutMainBottom.tvDeal.setTextColor(ContextCompat.getColor(this, R.color.gray_666666));
+
+        mBinding.layoutMainBottom.ivOrder.setImageResource(R.mipmap.main_order_dark);
+        mBinding.layoutMainBottom.tvOrder.setTextColor(ContextCompat.getColor(this, R.color.gray_666666));
 
         mBinding.layoutMainBottom.ivWallet.setImageResource(R.mipmap.main_wallet_dark);
         mBinding.layoutMainBottom.tvWallet.setTextColor(ContextCompat.getColor(this, R.color.gray_666666));

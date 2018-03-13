@@ -73,7 +73,8 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
 
         setContentView(R.layout.activity_start);
 
-        getQiniu();
+//        getQiniu();
+        open();
     }
 
     private void open(){
@@ -227,8 +228,6 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
                 showToast(getString(R.string.login_error));
                 SignInActivity.open(this,true);
                 StartActivity.this.finish();
-
-
                 break;
         }
     }

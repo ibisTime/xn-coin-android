@@ -87,7 +87,7 @@ public class SPUtilHelper {
 	 * @param
 	 */
 	public static String getAPPBuildType() {
-		return SPUtils.getString(BaseApplication.getContext(),BUILD_TYPE_KEY, BUILD_TYPE_DEBUG);
+		return SPUtils.getString(BaseApplication.getContext(),BUILD_TYPE_KEY, BUILD_TYPE_TEST);
 	}
 
 	/**

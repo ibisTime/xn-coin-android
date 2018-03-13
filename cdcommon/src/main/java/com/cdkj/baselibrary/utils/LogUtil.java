@@ -7,6 +7,8 @@ import android.util.Log;
  * log工具类
  */
 public class LogUtil {
+
+    // 上线时需关闭Log
     public static Boolean isLog = true;
 
     private static final String TAG = "LOG_YITU";

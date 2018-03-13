@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">倍可盈</string>
+    <string name="app_name">BCoin</string>
     <string name="title_activity_sign_in">SignInActivity</string>
 
     <string name="money_sing">￥</string>
@@ -516,7 +516,8 @@
     <string name="build_type">环境切换</string>
 
     <string name="main_tag_market">行情</string>
-    <string name="main_tab_order">订单</string>·
+    <string name="main_tab_order">订单</string>
+    <string name="main_tab_push">PUSH</string>
     <string name="main_tab_deal">交易</string>
     <string name="main_tab_wallet">钱包</string>
     <string name="main_tab_my">我的</string>

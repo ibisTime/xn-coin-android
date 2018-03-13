@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.cdkj.baselibrary.utils.WxUtil;
+import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.util.StringUtil;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
@@ -34,7 +34,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     private void initWx() {
         // 通过WXAPIFactory工厂，获取IWXAPI的实例
-        api = WXAPIFactory.createWXAPI(this, WxUtil.APPID, false);
+        api = WXAPIFactory.createWXAPI(this, MyConfig.WX_APPID, false);
 		api.handleIntent(getIntent(), this);
     }
 

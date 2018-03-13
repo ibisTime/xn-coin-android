@@ -19,6 +19,8 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 
+import static com.cdkj.baselibrary.appmanager.MyConfig.WX_APPID;
+
 /**
  * Created by LeiQ on 2017/1/10.
  */
@@ -27,11 +29,9 @@ public class WxUtil {
 
     private static IWXAPI api;
 
-    public static final String APPID="wx8cb7c18fa507f630";
-
     public static IWXAPI registToWx(Context context){
-        api = WXAPIFactory.createWXAPI(context,APPID, false);
-        api.registerApp(APPID);
+        api = WXAPIFactory.createWXAPI(context, WX_APPID, false);
+        api.registerApp(WX_APPID);
         return api;
     }
 
