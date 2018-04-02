@@ -63,14 +63,9 @@ public class MarketFragment extends BaseRefreshFragment<MarketModel> {
         // 取消上啦加载
         setEnableLoadmore(false);
 
-    }
-
-    @Override
-    protected void lazyLoad() {
-        super.lazyLoad();
-
         getListData(1, 10, true);
     }
+
 
     @Override
     protected void getListData(int pageIndex, int limit, boolean canShowDialog) {

@@ -82,4 +82,6 @@ dependencies {
     compile group: 'com.zopim.android', name: 'sdk', version: '1.3.5.1'
     compile group: 'com.zendesk', name: 'sdk', version: '1.11.0.1'
 
+    // LitePal数据库框架
+    compile 'org.litepal.android:core:1.5.0'
 }

@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <Button
-                android:id="@+id/btn_withdraw"
+                android:id="@+id/btn_add"
                 android:background="@drawable/corner_btn"
                 android:text="@string/user_address_add"
                 android:layout_marginLeft="15dp"

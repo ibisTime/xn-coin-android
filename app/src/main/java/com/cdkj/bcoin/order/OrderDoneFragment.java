@@ -35,6 +35,9 @@ import retrofit2.Call;
 import static com.cdkj.baseim.activity.TxImLogingActivity.ORDER_DNS_DONE;
 import static com.cdkj.baseim.activity.TxImLogingActivity.ORDER_DONE;
 import static com.cdkj.baselibrary.appmanager.EventTags.IM_MSG_UPDATE;
+import static com.cdkj.baselibrary.appmanager.EventTags.ORDER_COIN_TIP;
+import static com.cdkj.baselibrary.appmanager.EventTags.ORDER_COIN_TYPE;
+import static com.cdkj.bcoin.order.OrderFragment.coinType;
 
 /**
  * Created by lei on 2017/11/29.
@@ -112,6 +115,9 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
     @Override
     protected void getListData(int pageIndex, int limit, boolean canShowDialog) {
 
+        // 通知OrderActivity刷新数据
+        EventBus.getDefault().post(ORDER_COIN_TIP);
+
         Map<String, Object> map = new HashMap<>();
         map.put("adsCode", "");
         map.put("buyUser", "");
@@ -121,7 +127,7 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
         map.put("payType", "");
         map.put("statusList", statusList);
         map.put("tradeCoin", "");
-//        map.put("tradeCoin", coinType);
+        map.put("tradeCoin", coinType);
         map.put("tradeCurrency", "");
         map.put("type", "");
         map.put("start", pageIndex+"");
@@ -143,6 +149,7 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
 
                 setData(data.getList());
                 getConversation();
+
             }
 
             @Override
@@ -172,7 +179,7 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
     public void openOrderActivity(ImUserInfo imUserInfo){
         if (imUserInfo.getEventTag().equals(ORDER_DONE)){
 
-            OrderActivity.open(mActivity, bean, imUserInfo);
+            OrderDetailActivity.open(mActivity, bean, imUserInfo);
         }
 
     }
@@ -225,16 +232,18 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
 
     }
 
-//    /**
-//     * 根据选择的币种刷新订单列表
-//     * @param model
-//     */
-//    @Subscribe
-//    public void refreshOrderList(EventBusModel model) {
-//        if (model.getTag().equals(ORDER_COIN_TYPE)){
-//            onMRefresh(1,10,true);
-//        }
-//
-//    }
+    /**
+     * 根据选择的币种刷新订单列表
+     * @param model
+     */
+    @Subscribe
+    public void refreshOrderList(EventBusModel model) {
+        if (model.getTag().equals(ORDER_COIN_TYPE)){
+            if (getUserVisibleHint()){
+                onMRefresh(1,10,true);
+            }
+        }
+
+    }
 
 }

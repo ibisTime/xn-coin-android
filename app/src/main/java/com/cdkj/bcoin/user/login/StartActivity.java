@@ -4,7 +4,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.cdkj.baseim.event.GroupEvent;
@@ -18,9 +17,12 @@ import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.BaseActivity;
+import com.cdkj.baselibrary.model.BaseCoinModel;
+import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
+import com.cdkj.baselibrary.utils.ToastUtil;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.main.MainActivity;
@@ -32,8 +34,10 @@ import com.tencent.imsdk.TIMUserStatusListener;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 import org.greenrobot.eventbus.EventBus;
+import org.litepal.crud.DataSupport;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -61,7 +65,6 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
 
         // 用于第一次安装APP，进入到除这个启动activity的其他activity，点击home键，再点击桌面启动图标时，
         // 系统会重启此activty，而不是直接打开之前已经打开过的activity，因此需要关闭此activity
-
         try {
             if (getIntent() != null && (getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
                 finish();
@@ -74,12 +77,13 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
         setContentView(R.layout.activity_start);
 
 //        getQiniu();
-        open();
+
+        getCoinList();
     }
 
     private void open(){
 
-        mSubscription.add(Observable.timer(2, TimeUnit.SECONDS)
+        mSubscription.add(Observable.timer(0, TimeUnit.SECONDS)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {//延迟两秒进行跳转
@@ -121,6 +125,56 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
         });
     }
 
+    private void getCoinList(){
+        Map<String, String> map = new HashMap<>();
+        map.put("type", "");
+        map.put("ename", "");
+        map.put("cname", "");
+        map.put("symbol", "");
+        map.put("status", "0"); // 0已发布，1已撤下
+        map.put("contractAddress", "");
+
+        Call call = RetrofitUtils.createApi(MyApi.class).getCoinList("802267", StringUtils.getJsonToString(map));
+
+        addCall(call);
+
+        call.enqueue(new BaseResponseListCallBack<BaseCoinModel>(this) {
+
+            @Override
+            protected void onSuccess(List<BaseCoinModel> data, String SucMessage) {
+                if (data == null)
+                    return;
+
+                // 如果数据库已有数据，清空重新加载
+                if(DataSupport.isExist(BaseCoinModel.class))
+                    DataSupport.deleteAll(BaseCoinModel.class);
+
+                // 初始化交易界面默认所选择的币
+                data.get(0).setChoose(true);
+                DataSupport.saveAll(data);
+
+                open();
+            }
+
+            @Override
+            protected void onReqFailure(int errorCode, String errorMessage) {
+                super.onReqFailure(errorCode, errorMessage);
+
+                // 如果数据库已有数据，直接加载数据库
+                if(DataSupport.isExist(BaseCoinModel.class)){
+                    open();
+                }else {
+                    ToastUtil.show(StartActivity.this,"无法连接服务器，请检查网络");
+                }
+
+            }
+
+            @Override
+            protected void onFinish() {
+            }
+        });
+    }
+
 
     /**
      * 设置腾讯云监听,登录腾讯云
@@ -133,7 +187,6 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
                     public void onForceOffline() {
                         //被其他终端踢下线
                         KickActivity.open(StartActivity.this);
-
                     }
 
                     @Override
@@ -220,12 +273,11 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
             case 6000:
                 // 获取腾讯云签名失败，去到主页，打开聊天时再登录腾讯云
                 MainActivity.open(this);
-                finish();
+                StartActivity.this.finish();
                 break;
 
             default:
                 // 腾讯云登录失败，提醒用户重新登录
-                showToast(getString(R.string.login_error));
                 SignInActivity.open(this,true);
                 StartActivity.this.finish();
                 break;
@@ -234,7 +286,6 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
 
     @Override
     public void onFinish() {
-        Log.e("StartActivity_Tencent","onFinish");
     }
 
     /**

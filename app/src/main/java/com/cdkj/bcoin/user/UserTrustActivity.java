@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.BaseRefreshActivity;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
@@ -14,6 +13,7 @@ import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.adapter.TrustAdapter;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.model.TrustModel;
+import com.cdkj.bcoin.util.CoinUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.HashMap;
@@ -44,8 +44,9 @@ public class UserTrustActivity extends BaseRefreshActivity<TrustModel.ListBean> 
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
 
             TrustModel.ListBean bean = (TrustModel.ListBean) mAdapter.getItem(position);
-            // 默认显示ETH的历史交易
-            UserPersonActivity.open(this, bean.getToUser(), bean.getToUserInfo().getNickname(), bean.getToUserInfo().getPhoto(), MyConfig.COIN_TYPE[0]);
+            // 默认显示BTC的历史交易
+            if (CoinUtil.getAllCoinArray().length > 0)
+                UserPersonActivity.open(this, bean.getToUser(), bean.getToUserInfo().getNickname(), bean.getToUserInfo().getPhoto(), CoinUtil.getAllCoinArray()[0]);
         });
 
         getListData(pageIndex,limit,true);

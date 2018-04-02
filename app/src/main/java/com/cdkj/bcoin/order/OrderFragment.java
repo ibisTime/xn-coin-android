@@ -6,26 +6,31 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cdkj.baseim.util.VibratorUtil;
 import com.cdkj.baselibrary.adapters.ViewPagerAdapter;
+import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
+import com.cdkj.baselibrary.model.BaseCoinModel;
 import com.cdkj.baselibrary.model.EventBusModel;
 import com.cdkj.bcoin.R;
+import com.cdkj.bcoin.adapter.CoinRecyclerAdapter;
 import com.cdkj.bcoin.databinding.FragmentOrderBinding;
 import com.tencent.imsdk.TIMConversation;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.cdkj.baselibrary.appmanager.EventTags.IM_MSG_TIP_DONE;
-import static com.cdkj.baselibrary.appmanager.EventTags.IM_MSG_TIP_NEW;
-import static com.cdkj.baselibrary.appmanager.EventTags.IM_MSG_VIBRATOR;
+import static com.cdkj.baselibrary.appmanager.EventTags.ORDER_COIN_DONE_TIP;
+import static com.cdkj.baselibrary.appmanager.EventTags.ORDER_COIN_NOW_TIP;
+import static com.cdkj.bcoin.util.CoinUtil.getAllCoinList;
 
 /**
  * Created by lei on 2017/11/29.
@@ -35,10 +40,16 @@ public class OrderFragment extends BaseLazyFragment {
 
     private FragmentOrderBinding mBinding;
 
+    private List<BaseCoinModel> list = new ArrayList<>();
+    private CoinRecyclerAdapter coinRecyclerAdapter;
+
+    List<String> nowUnreadCoinList = new ArrayList<>();
+    List<String> doneUnreadCoinList = new ArrayList<>();
+
     private List<Fragment> fragments;
 
     // 币种
-//    protected static String coinType;
+    protected static String coinType;
 
     public static List<TIMConversation> conversationList;
 
@@ -62,37 +73,52 @@ public class OrderFragment extends BaseLazyFragment {
         init();
         initListener();
         initViewPager();
+        initRecyclerView();
 
         return mBinding.getRoot();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        Log.e("onDestroy()","onDestroy()");
+    }
+
     private void init() {
-        // 订单列表不分币种，隐藏币种选择
-        mBinding.llCoin.setVisibility(View.GONE);
-        // 初始化查询币种
-//        coinType = COIN_TYPE[0];
-//        mBinding.tvCoin.setText(coinType);
+        list.clear();
+        list.addAll(getAllCoinList());
+
+        for (BaseCoinModel model : list){
+            Log.e("isChoose",model.isChoose()+"");
+        }
+
+        if (list.size()>0)
+            coinType = list.get(0).getSymbol();
     }
 
 
     private void initListener() {
 
-//        mBinding.llCoin.setOnClickListener(view -> {
-//            initPopup(view);
-//        });
-
-        mBinding.rlBtn1.setOnClickListener(view -> {
-            setTitleBarBtnViewChange(0);
-            setShowIndex(0);
-
-            ORDER_PAGE_INDEX = 0;
+        mBinding.flBack.setOnClickListener(view -> {
+            // 更新订单列表消息状态
+            EventBus.getDefault().post(EventTags.ORDER_CLOSE);
         });
 
-        mBinding.rlBtn2.setOnClickListener(view -> {
-            setTitleBarBtnViewChange(1);
-            setShowIndex(1);
+        mBinding.llNow.setOnClickListener(view -> {
+            ORDER_PAGE_INDEX = 0;
 
+            setShowIndex(ORDER_PAGE_INDEX);
+            setTitleBarBtnViewChange(ORDER_PAGE_INDEX);
+            recyclerTip(ORDER_PAGE_INDEX);
+        });
+
+        mBinding.llDone.setOnClickListener(view -> {
             ORDER_PAGE_INDEX = 1;
+
+            setShowIndex(ORDER_PAGE_INDEX);
+            setTitleBarBtnViewChange(ORDER_PAGE_INDEX);
+            recyclerTip(ORDER_PAGE_INDEX);
         });
     }
 
@@ -113,6 +139,31 @@ public class OrderFragment extends BaseLazyFragment {
         mBinding.pagerMain.setOffscreenPageLimit(fragments.size());
     }
 
+
+    private void initRecyclerView() {
+        //设置布局管理器
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mBinding.rvCoin.setLayoutManager(linearLayoutManager);
+        //设置适配器
+        coinRecyclerAdapter = new CoinRecyclerAdapter(list);
+        mBinding.rvCoin.setAdapter(coinRecyclerAdapter);
+
+        coinRecyclerAdapter.setOnItemClickListener((adapter, view, position) -> {
+            // 改变UI
+            for (BaseCoinModel model : list) {
+                model.setChoose(false);
+            }
+            list.get(position).setChoose(true);
+            coinRecyclerAdapter.notifyDataSetChanged();
+
+            // 储存选择的币种
+            coinType = list.get(position).getSymbol();
+            // 通知子Fragment刷新列表
+            doRefreshList();
+        });
+    }
+
     /**
      * 设置要显示的界面
      *
@@ -128,18 +179,28 @@ public class OrderFragment extends BaseLazyFragment {
     public void setTitleBarBtnViewChange(int location){
 
         // 初始化
-        mBinding.tvBtn1.setTextColor(ContextCompat.getColor(mActivity, com.cdkj.baselibrary.R.color.black));
-        mBinding.vBtn1.setBackgroundColor(ContextCompat.getColor(mActivity, com.cdkj.baselibrary.R.color.white));
-        mBinding.tvBtn2.setTextColor(ContextCompat.getColor(mActivity, com.cdkj.baselibrary.R.color.black));
-        mBinding.vBtn2.setBackgroundColor(ContextCompat.getColor(mActivity, com.cdkj.baselibrary.R.color.white));
+        mBinding.tvDone.setTextColor(ContextCompat.getColor(mActivity, R.color.colorAccent));
+        mBinding.tvDoneTipNum.setTextColor(ContextCompat.getColor(mActivity, R.color.colorAccent));
+        mBinding.ivMsgDoneTip.setBackground(getResources().getDrawable(R.drawable.corner_im_msg_tip));
+        mBinding.llDone.setBackground(getResources().getDrawable(R.drawable.corner_order_title_bar_right_white));
+
+        mBinding.tvNow.setTextColor(ContextCompat.getColor(mActivity, R.color.colorAccent));
+        mBinding.tvNowTipNum.setTextColor(ContextCompat.getColor(mActivity, R.color.colorAccent));
+        mBinding.ivMsgNowTip.setBackground(getResources().getDrawable(R.drawable.corner_im_msg_tip));
+        mBinding.llNow.setBackground(getResources().getDrawable(R.drawable.corner_order_title_bar_left_white));
 
         if (location == 0){
-            mBinding.tvBtn1.setTextColor(ContextCompat.getColor(mActivity, com.cdkj.baselibrary.R.color.colorPrimary));
-            mBinding.vBtn1.setBackgroundColor(ContextCompat.getColor(mActivity, com.cdkj.baselibrary.R.color.colorPrimary));
+            mBinding.tvNow.setTextColor(ContextCompat.getColor(mActivity, R.color.white));
+            mBinding.tvNowTipNum.setTextColor(ContextCompat.getColor(mActivity, R.color.white));
+            mBinding.llNow.setBackground(getResources().getDrawable(R.drawable.corner_order_title_bar_left));
+            mBinding.ivMsgNowTip.setBackground(getResources().getDrawable(R.drawable.corner_im_msg_tip_white));
         }else {
-            mBinding.tvBtn2.setTextColor(ContextCompat.getColor(mActivity, com.cdkj.baselibrary.R.color.colorPrimary));
-            mBinding.vBtn2.setBackgroundColor(ContextCompat.getColor(mActivity, com.cdkj.baselibrary.R.color.colorPrimary));
+            mBinding.tvDone.setTextColor(ContextCompat.getColor(mActivity, R.color.white));
+            mBinding.tvDoneTipNum.setTextColor(ContextCompat.getColor(mActivity, R.color.white));
+            mBinding.llDone.setBackground(getResources().getDrawable(R.drawable.corner_order_title_bar_right));
+            mBinding.ivMsgDoneTip.setBackground(getResources().getDrawable(R.drawable.corner_im_msg_tip_white));
         }
+
 
     }
 
@@ -176,12 +237,12 @@ public class OrderFragment extends BaseLazyFragment {
 //        popupWindow.show(view);
 //    }
 
-//    private void doRefreshList(){
-//        EventBusModel model = new EventBusModel();
-//        model.setTag(EventTags.ORDER_COIN_TYPE);
-//        EventBus.getDefault().post(model);
-//
-//    }
+    private void doRefreshList(){
+        EventBusModel model = new EventBusModel();
+        model.setTag(EventTags.ORDER_COIN_TYPE);
+        EventBus.getDefault().post(model);
+
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -197,26 +258,67 @@ public class OrderFragment extends BaseLazyFragment {
         if (model == null)
             return;
 
-        if (model.getTag().equals(IM_MSG_TIP_NEW)){
-            mBinding.ivMsgNewTip.setVisibility(model.getEvInt() == 0 ? View.GONE:View.VISIBLE);
-        }
-
-        if (model.getTag().equals(IM_MSG_TIP_DONE)){
-            mBinding.ivMsgDoneTip.setVisibility(model.getEvInt() == 0 ? View.GONE:View.VISIBLE);
-        }
+//        if (model.getTag().equals(IM_MSG_TIP_NEW)){
+//            mBinding.ivMsgNowTip.setVisibility(model.getEvInt() == 0 ? View.GONE:View.VISIBLE);
+//            mBinding.tvNowTipNum.setText(model.getEvInt() == 0 ? "" :"("+model.getEvInt()+")");
+//        }
+//
+//        if (model.getTag().equals(IM_MSG_TIP_DONE)){
+//            mBinding.ivMsgDoneTip.setVisibility(model.getEvInt() == 0 ? View.GONE:View.VISIBLE);
+//            mBinding.tvDoneTipNum.setText(model.getEvInt() == 0 ? "" :"("+model.getEvInt()+")");
+//        }
     }
 
     @Subscribe
-    public void imMsgVibrator(String tag) {
-        if (tag.equals(IM_MSG_VIBRATOR)){
+    public void nowTxImMsgUpdate(EventBusModel model) {
+        if (model == null)
+            return;
 
-            // 新消息震动提示
-            long[] patter = {0, 350, 0, 350};
-            VibratorUtil.vibrate(mActivity,patter,-1);
+        if (model.getTag().equals(ORDER_COIN_NOW_TIP)){
+
+            nowUnreadCoinList.clear();
+            nowUnreadCoinList.addAll(model.getList());
+            mBinding.ivMsgNowTip.setVisibility(model.getList().size() == 0 ? View.GONE:View.VISIBLE);
+
+        }else if(model.getTag().equals(ORDER_COIN_DONE_TIP)) {
+
+            doneUnreadCoinList.clear();
+            doneUnreadCoinList.addAll(model.getList());
+            mBinding.ivMsgDoneTip.setVisibility(model.getList().size() == 0 ? View.GONE:View.VISIBLE);
 
         }
 
+        recyclerTip(ORDER_PAGE_INDEX);
+
     }
+
+    public void recyclerTip(int fragmentPageIndex){
+
+        List<String> list;
+
+        if (fragmentPageIndex == 0){
+            list = nowUnreadCoinList;
+        }else {
+            list = doneUnreadCoinList;
+        }
+
+        for (BaseCoinModel coinModel : this.list){
+            coinModel.setShowTip(false);
+        }
+
+        for (BaseCoinModel coinModel : this.list){
+            for (String coin : list){
+                if (coin.equals(coinModel.getSymbol())){
+                    coinModel.setShowTip(true);
+                }
+            }
+        }
+
+        // 刷新RecyclerView
+        coinRecyclerAdapter.notifyDataSetChanged();
+    }
+
+
 
 //    /**
 //     * 根据交易的广告的coin查询对应的订单列表

@@ -28,8 +28,11 @@ import com.cdkj.baselibrary.activitys.AuthenticateActivity;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.dialog.LoadingDialog;
 import com.cdkj.bcoin.R;
-import com.cdkj.bcoin.deal.PublishBuyActivity;
-import com.cdkj.bcoin.deal.PublishSaleActivity;
+import com.cdkj.bcoin.deal.DealPublishBuyActivity;
+import com.cdkj.bcoin.deal.DealPublishSaleActivity;
+import com.cdkj.bcoin.main.MainActivity;
+import com.cdkj.bcoin.push.PushPublishBuyActivity;
+import com.cdkj.bcoin.push.PushPublishSaleActivity;
 
 import retrofit2.Call;
 
@@ -241,7 +244,15 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
                 if (TextUtils.isEmpty(SPUtilHelper.getRealName())){
                     AuthenticateActivity.open(mContext);
                 }else {
-                    PublishBuyActivity.open(mContext, DAIFABU, null);
+                    // 通过主页当前的tabIndex判断发布的广告是否是Token币
+                    if (MainActivity.NOW_INDEX == 2){
+                        // NOW_INDEX = 2 时在PUSH界面，发布Token币
+                        PushPublishBuyActivity.open(mContext, DAIFABU, null);
+                    }else {
+                        DealPublishBuyActivity.open(mContext, DAIFABU, null);
+                    }
+
+
                 }
                 dismiss();
 
@@ -254,8 +265,15 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
                     dismiss();
                     return;
                 }
+                // 通过主页当前的tabIndex判断发布的广告是否是Token币
+                if (MainActivity.NOW_INDEX == 2){
+                    // NOW_INDEX = 2 时在PUSH界面，发布Token币
+                    PushPublishSaleActivity.open(mContext, DAIFABU, null);
+                }else {
+                    DealPublishSaleActivity.open(mContext, DAIFABU, null);
+                }
 
-                PublishSaleActivity.open(mContext, DAIFABU, null);
+
                 dismiss();
                 break;
 
@@ -276,7 +294,7 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
                 if (TextUtils.isEmpty(SPUtilHelper.getRealName())){
                     AuthenticateActivity.open(mContext);
                 }else {
-                    PublishBuyActivity.open(mContext, DAIFABU, null);
+                    DealPublishBuyActivity.open(mContext, DAIFABU, null);
                 }
                 dismiss();
 
@@ -293,7 +311,7 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
                     return;
                 }
 
-                PublishSaleActivity.open(mContext, DAIFABU, null);
+                DealPublishSaleActivity.open(mContext, DAIFABU, null);
                 dismiss();
 
                 if (call != null){

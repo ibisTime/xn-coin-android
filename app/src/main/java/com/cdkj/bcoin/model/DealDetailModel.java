@@ -361,8 +361,18 @@ public class DealDetailModel implements Serializable {
         private int beiXinRenCount;
         private double beiPingJiaCount;
         private double beiHaoPingCount;
-        private double totalTradeCountEth;
+        private double totalTradeCount;
         private double totalTradeCountSc;
+        private double totalTradeCountEth;
+        private double totalTradeCountBtc;
+
+        public double getTotalTradeCount() {
+            return totalTradeCount;
+        }
+
+        public void setTotalTradeCount(double totalTradeCount) {
+            this.totalTradeCount = totalTradeCount;
+        }
 
         public double getTotalTradeCountBtc() {
             return totalTradeCountBtc;
@@ -371,8 +381,6 @@ public class DealDetailModel implements Serializable {
         public void setTotalTradeCountBtc(double totalTradeCountBtc) {
             this.totalTradeCountBtc = totalTradeCountBtc;
         }
-
-        private double totalTradeCountBtc;
 
         public double getTotalTradeCountSc() {
             return totalTradeCountSc;

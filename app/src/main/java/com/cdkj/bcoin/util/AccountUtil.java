@@ -1,6 +1,9 @@
 package com.cdkj.bcoin.util;
 
+import com.cdkj.baselibrary.model.BaseCoinModel;
 import com.cdkj.bcoin.R;
+
+import org.litepal.crud.DataSupport;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -14,9 +17,6 @@ import static java.math.BigDecimal.ROUND_HALF_DOWN;
 public class AccountUtil {
 
     public static BigDecimal UNIT_MIN = new BigDecimal("10");
-    public static BigDecimal UNIT_BTC = UNIT_MIN.pow(8);
-    public static BigDecimal UNIT_ETH = UNIT_MIN.pow(18);
-    public static BigDecimal UNIT_SC = UNIT_MIN.pow(24);
 
     /**
      * 货币单位转换
@@ -59,20 +59,34 @@ public class AccountUtil {
      */
     public static BigDecimal getUnit(String coin){
 
-        switch (coin){
-            case "ETH":
-                return UNIT_ETH;
+        for (BaseCoinModel model : DataSupport.findAll(BaseCoinModel.class)){
 
-            case "SC":
-                return UNIT_SC;
+            if (model.getSymbol().equals(coin)){
+                return UNIT_MIN.pow(model.getUnit());
+            }
 
-            case "BTC":
-                return UNIT_BTC;
-
-            default:
-                return new BigDecimal(0);
         }
 
+        return new BigDecimal(1);
+    }
+
+    /**
+     * 根据货币获取提现手续费
+     * @param coin
+     * @return
+     */
+    public static String getWithdrawFee(String coin){
+
+        for (BaseCoinModel model : DataSupport.findAll(BaseCoinModel.class)){
+
+            if (model.getSymbol().equals(coin)){
+
+                return amountFormatUnit(new BigDecimal(model.getWithdrawFeeString()), coin, 8);
+            }
+
+        }
+
+        return "";
     }
 
 
@@ -96,23 +110,6 @@ public class AccountUtil {
         String showMoney = df.format((Double.parseDouble(money)/scale));
 
         return showMoney.substring(0,showMoney.length()-1);
-    }
-
-    public static String getCurrency(String currency){
-        switch (currency){
-            case "ETH":
-                return StringUtil.getString(R.string.coin_eth);
-
-            case "SC":
-                return StringUtil.getString(R.string.coin_sc);
-
-            case "BTC":
-                return StringUtil.getString(R.string.coin_btc);
-
-            default:
-                return "";
-
-        }
     }
 
     public static String formatBizType(String bizType){

@@ -1,5 +1,7 @@
 package com.cdkj.baselibrary.model;
 
+import java.util.List;
+
 /**
  * Created by 李先俊 on 2017/6/16.
  */
@@ -7,12 +9,19 @@ package com.cdkj.baselibrary.model;
 public class EventBusModel {
 
     private String tag;
-
     private int evInt;
-
     private String evInfo;
-
     private boolean evBoolean;
+
+    private List<String> list;
+
+    public List<String> getList() {
+        return list;
+    }
+
+    public void setList(List<String> list) {
+        this.list = list;
+    }
 
     public String getTag() {
         return tag;

@@ -124,8 +124,8 @@ public class DealChatActivity extends AbsBaseActivity {
     }
 
     private void setView(DealDetailModel data) {
-        mBinding.tvPrice.setText(getStrRes(R.string.quoted)+ AccountUtil.formatDouble(data.getTruePrice())+CURRENCY);
-        mBinding.tvLimit.setText(getStrRes(R.string.limit)+data.getMinTrade()+"-"+formatDouble(data.getMaxTrade())+CURRENCY);
+        mBinding.tvPrice.setText(getStrRes(R.string.quoted) + AccountUtil.formatDouble(data.getTruePrice())+CURRENCY);
+        mBinding.tvLimit.setText(getStrRes(R.string.limit)+data.getMinTrade() + "-"+formatDouble(data.getMaxTrade())+CURRENCY);
 
         if (data.getTradeType().equals("1")){ // 1是卖币，UI展示买币
             setTopTitle(getStrRes(R.string.buy_order)+"("+data.getUser().getNickname()+")");

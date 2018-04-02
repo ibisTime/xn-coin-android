@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.cdkj.baselibrary.activitys.ImageSelectActivity;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
+import com.cdkj.baselibrary.model.EventBusModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.model.UserInfoModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
@@ -22,8 +23,9 @@ import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.FragmentUserBinding;
-import com.cdkj.bcoin.deal.PublishBuyActivity;
-import com.cdkj.bcoin.deal.PublishSaleActivity;
+import com.cdkj.bcoin.deal.DealPublishBuyActivity;
+import com.cdkj.bcoin.deal.DealPublishSaleActivity;
+import com.cdkj.bcoin.order.OrderActivity;
 import com.cdkj.bcoin.util.AccountUtil;
 import com.qiniu.android.http.ResponseInfo;
 import com.zendesk.sdk.support.SupportActivity;
@@ -31,6 +33,7 @@ import com.zopim.android.sdk.api.ZopimChat;
 import com.zopim.android.sdk.model.VisitorInfo;
 import com.zopim.android.sdk.prechat.ZopimChatActivity;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -38,6 +41,8 @@ import java.util.Map;
 
 import retrofit2.Call;
 
+import static com.cdkj.baselibrary.appmanager.EventTags.IM_MSG_TIP_DONE;
+import static com.cdkj.baselibrary.appmanager.EventTags.IM_MSG_TIP_NEW;
 import static com.cdkj.bcoin.util.DealUtil.DAIFABU;
 
 
@@ -80,15 +85,19 @@ public class UserFragment extends BaseLazyFragment {
         });
 
         mBinding.llBuy.setOnClickListener(view -> {
-            PublishBuyActivity.open(mActivity,DAIFABU,null);
+            DealPublishBuyActivity.open(mActivity,DAIFABU,null);
         });
 
         mBinding.llSale.setOnClickListener(view -> {
-            PublishSaleActivity.open(mActivity,DAIFABU,null);
+            DealPublishSaleActivity.open(mActivity,DAIFABU,null);
         });
 
         mBinding.llAdv.setOnClickListener(view -> {
-            UserPublishedActivity.open(mActivity);
+            UserPublishedActivity.open(mActivity, "");
+        });
+
+        mBinding.llOrder.setOnClickListener(view -> {
+            OrderActivity.open(mActivity);
         });
 
         mBinding.llAddress.setOnClickListener(view -> {
@@ -272,5 +281,31 @@ public class UserFragment extends BaseLazyFragment {
         }
     }
 
+    int newUnreadMsg = 0;
+    int doneUnreadMsg = 0;
+
+    @Subscribe
+    public void txImMsgUpdate(EventBusModel model) {
+        if (model == null)
+            return;
+
+        if (model.getTag().equals(IM_MSG_TIP_NEW)){
+            newUnreadMsg = model.getEvInt();
+            setMsgUnread();
+        }
+
+        if (model.getTag().equals(IM_MSG_TIP_DONE)){
+            doneUnreadMsg = model.getEvInt();
+            setMsgUnread();
+        }
+    }
+
+    /**
+     * 设置未读tab显示
+     */
+    public void setMsgUnread(){
+
+        mBinding.ivMsgTip.setVisibility(newUnreadMsg+doneUnreadMsg == 0 ? View.GONE:View.VISIBLE);
+    }
 
 }

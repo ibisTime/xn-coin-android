@@ -27,10 +27,8 @@ import com.cdkj.baselibrary.utils.SystemUtils;
 import com.cdkj.baselibrary.utils.ToastUtil;
 import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
-import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.ActivityWithdrawBinding;
 import com.cdkj.bcoin.model.CoinModel;
-import com.cdkj.bcoin.model.SystemParameterModel;
 import com.cdkj.bcoin.user.UserAddressActivity;
 import com.cdkj.bcoin.util.AccountUtil;
 import com.cdkj.bcoin.util.EditTextJudgeNumberWatcher;
@@ -99,7 +97,6 @@ public class WithdrawActivity extends AbsBaseActivity {
         init();
 
         initListener();
-        getWithdrawFee();
     }
 
     private void init() {
@@ -115,6 +112,8 @@ public class WithdrawActivity extends AbsBaseActivity {
                 mBinding.tvCurrency.setText(model.getCurrency());
             }
 
+            // 设置提现手续费
+            mBinding.edtCommission.setText(AccountUtil.getWithdrawFee(model.getCurrency()));
         }
     }
 
@@ -239,36 +238,6 @@ public class WithdrawActivity extends AbsBaseActivity {
                 }
             }
         }
-    }
-
-    private void getWithdrawFee() {
-        Map<String, String> map = new HashMap<>();
-
-        map.put("ckey", "withdraw_fee_"+model.getCurrency().toLowerCase());
-        map.put("systemCode", MyConfig.SYSTEMCODE);
-        map.put("companyCode", MyConfig.COMPANYCODE);
-
-        Call call = RetrofitUtils.createApi(MyApi.class).getSystemParameter("660917", StringUtils.getJsonToString(map));
-
-        addCall(call);
-
-        showLoadingDialog();
-
-        call.enqueue(new BaseResponseModelCallBack<SystemParameterModel>(this) {
-
-            @Override
-            protected void onSuccess(SystemParameterModel data, String SucMessage) {
-                if (data == null)
-                    return;
-
-                mBinding.edtCommission.setText(data.getCvalue());
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
     }
 
     /**

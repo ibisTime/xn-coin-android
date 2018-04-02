@@ -33,8 +33,11 @@ import com.cdkj.bcoin.deal.DealFragment;
 import com.cdkj.bcoin.deal.view.PublishWindow;
 import com.cdkj.bcoin.market.MarketFragment;
 import com.cdkj.bcoin.model.VersionModel;
-import com.cdkj.bcoin.order.OrderFragment;
+import com.cdkj.bcoin.push.PushFragment;
+import com.cdkj.bcoin.service.CoinListService;
+import com.cdkj.bcoin.service.OrderTipService;
 import com.cdkj.bcoin.user.UserFragment;
+import com.cdkj.bcoin.util.CoinUtil;
 import com.cdkj.bcoin.util.PushOrder;
 import com.cdkj.bcoin.util.StringUtil;
 import com.cdkj.bcoin.wallet.WalletFragment;
@@ -65,9 +68,10 @@ public class MainActivity extends AbsBaseActivity {
 
     private PushOrder pushOrder;
 
+    public static int NOW_INDEX = 0;
     public static final int MARKET = 0;
-    public static final int ORDER = 1;
-    public static final int DEAL = 2;
+    public static final int DEAL = 1;
+    public static final int PUSH = 2;
     public static final int WALLET = 3;
     public static final int MY = 4;
     private List<Fragment> fragments;
@@ -145,7 +149,10 @@ public class MainActivity extends AbsBaseActivity {
         mContext = this;
         pushOrder = new PushOrder();
 
-        setShowIndex(DEAL);
+        OrderTipService.open(this);
+        CoinListService.open(this);
+
+        setShowIndex(PUSH);
     }
 
     @Override
@@ -168,12 +175,9 @@ public class MainActivity extends AbsBaseActivity {
 
         });
 
-        mBinding.layoutMainBottom.llOrder.setOnClickListener(v -> {
-            if (!SPUtilHelper.isLogin(this, false)) {
-                return;
-            }
+        mBinding.layoutMainBottom.llPush.setOnClickListener(v -> {
 
-            setShowIndex(ORDER);
+            setShowIndex(PUSH);
 
         });
 
@@ -203,6 +207,18 @@ public class MainActivity extends AbsBaseActivity {
 
     private void showMoreWindow(View view) {
         if (null == mPublishWindow) {
+
+            // 通过主页当前的tabIndex判断发布的广告是否是Token币,NOW_INDEX = 2 时在PUSH界面，发布Token币
+            // 配置Coin列表为空时，不可发布
+            if (MainActivity.NOW_INDEX == 2){
+                if (CoinUtil.getTokenCoinArray().length == 0){
+                    return;
+                }
+            }else {
+                if (CoinUtil.getNotTokenCoinArray().length == 0){
+                    return;
+                }
+            }
             mPublishWindow = new PublishWindow(this);
             mPublishWindow.init();
         }
@@ -225,10 +241,10 @@ public class MainActivity extends AbsBaseActivity {
                 mBinding.layoutMainBottom.tvDeal.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
                 break;
 
-            case ORDER:
-                mBinding.ivPublish.setVisibility(View.GONE);
-                mBinding.layoutMainBottom.ivOrder.setImageResource(R.mipmap.main_order_light);
-                mBinding.layoutMainBottom.tvOrder.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+            case PUSH:
+                mBinding.ivPublish.setVisibility(View.VISIBLE);
+                mBinding.layoutMainBottom.ivPush.setImageResource(R.mipmap.main_push_light);
+                mBinding.layoutMainBottom.tvPush.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
                 break;
 
             case WALLET:
@@ -253,8 +269,8 @@ public class MainActivity extends AbsBaseActivity {
         mBinding.layoutMainBottom.ivDeal.setImageResource(R.mipmap.main_deal_dark);
         mBinding.layoutMainBottom.tvDeal.setTextColor(ContextCompat.getColor(this, R.color.gray_666666));
 
-        mBinding.layoutMainBottom.ivOrder.setImageResource(R.mipmap.main_order_dark);
-        mBinding.layoutMainBottom.tvOrder.setTextColor(ContextCompat.getColor(this, R.color.gray_666666));
+        mBinding.layoutMainBottom.ivPush.setImageResource(R.mipmap.main_push_dark);
+        mBinding.layoutMainBottom.tvPush.setTextColor(ContextCompat.getColor(this, R.color.gray_666666));
 
         mBinding.layoutMainBottom.ivWallet.setImageResource(R.mipmap.main_wallet_dark);
         mBinding.layoutMainBottom.tvWallet.setTextColor(ContextCompat.getColor(this, R.color.gray_666666));
@@ -273,8 +289,8 @@ public class MainActivity extends AbsBaseActivity {
         fragments = new ArrayList<>();
 
         fragments.add(MarketFragment.getInstance());
-        fragments.add(OrderFragment.getInstance());
         fragments.add(DealFragment.getInstance());
+        fragments.add(PushFragment.getInstance());
         fragments.add(WalletFragment.getInstance());
         fragments.add(UserFragment.getInstance());
 
@@ -289,6 +305,8 @@ public class MainActivity extends AbsBaseActivity {
      * @param index
      */
     private void setShowIndex(int index) {
+        NOW_INDEX = index;
+
         if (index < 0 && index >= fragments.size()) {
             return;
         }
@@ -388,6 +406,14 @@ public class MainActivity extends AbsBaseActivity {
             EventBus.getDefault().post(EventTags.AllFINISH);
             finish();
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        OrderTipService.close(this);
+        CoinListService.close(this);
     }
 
     @Subscribe

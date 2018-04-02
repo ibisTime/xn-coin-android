@@ -2,12 +2,12 @@ package com.cdkj.bcoin.api;
 
 import com.cdkj.baselibrary.api.BaseResponseListModel;
 import com.cdkj.baselibrary.api.BaseResponseModel;
+import com.cdkj.baselibrary.model.BaseCoinModel;
 import com.cdkj.baselibrary.model.UserInfoModel;
 import com.cdkj.baselibrary.model.UserLoginModel;
 import com.cdkj.bcoin.model.AddressModel;
 import com.cdkj.bcoin.model.BannerModel;
 import com.cdkj.bcoin.model.BillModel;
-import com.cdkj.bcoin.model.CoinModel;
 import com.cdkj.bcoin.model.ConsultingModel;
 import com.cdkj.bcoin.model.DealDetailModel;
 import com.cdkj.bcoin.model.DealHistoryModel;
@@ -16,6 +16,7 @@ import com.cdkj.bcoin.model.DealResultModel;
 import com.cdkj.bcoin.model.DealUserDataModel;
 import com.cdkj.bcoin.model.ExchangeModel;
 import com.cdkj.bcoin.model.InviteModel;
+import com.cdkj.bcoin.model.LastestPriceModel;
 import com.cdkj.bcoin.model.MarketCoinModel;
 import com.cdkj.bcoin.model.MarketModel;
 import com.cdkj.bcoin.model.OrderDetailModel;
@@ -25,6 +26,7 @@ import com.cdkj.bcoin.model.SystemMessageModel;
 import com.cdkj.bcoin.model.SystemParameterListModel;
 import com.cdkj.bcoin.model.SystemParameterModel;
 import com.cdkj.bcoin.model.TrustModel;
+import com.cdkj.bcoin.model.UserInviteProfitModel;
 import com.cdkj.bcoin.model.UserRefereeModel;
 import com.cdkj.bcoin.model.UserSettingModel;
 import com.cdkj.bcoin.model.VersionModel;
@@ -59,7 +61,7 @@ public interface MyApi {
      */
     @FormUrlEncoded
     @POST("api")
-    Call<BaseResponseModel<CoinModel>> getAccount(@Field("code") String code, @Field("json") String json);
+    Call<BaseResponseModel<com.cdkj.bcoin.model.CoinModel>> getAccount(@Field("code") String code, @Field("json") String json);
 
     /**
      * 获取用户账户
@@ -361,5 +363,36 @@ public interface MyApi {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<VersionModel>> getVersion(@Field("code") String code, @Field("json") String json);
+
+
+    /**
+     * 获取支持的币种
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseListModel<BaseCoinModel>> getCoinList(@Field("code") String code, @Field("json") String json);
+
+    /**
+     * 获取收益列表
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseListModel<UserInviteProfitModel>> getInviteProfitList(@Field("code") String code, @Field("json") String json);
+
+    /**
+     * 获取收益列表
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<LastestPriceModel>> getLastOrderAmount(@Field("code") String code, @Field("json") String json);
 
 }

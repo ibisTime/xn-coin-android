@@ -1,20 +1,20 @@
 package com.cdkj.bcoin.deal;
 
 import android.databinding.DataBindingUtil;
-import android.text.TextUtils;
-import android.view.View;
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.cdkj.baselibrary.activitys.WebViewActivity;
 import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.BaseRefreshFragment;
+import com.cdkj.baselibrary.model.BaseCoinModel;
 import com.cdkj.baselibrary.model.EventBusModel;
 import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
-import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
+import com.cdkj.bcoin.adapter.CoinRecyclerAdapter;
 import com.cdkj.bcoin.adapter.DealAdapter;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.FragmentDealBinding;
@@ -22,11 +22,13 @@ import com.cdkj.bcoin.loader.BannerImageLoader;
 import com.cdkj.bcoin.model.BannerModel;
 import com.cdkj.bcoin.model.DealDetailModel;
 import com.cdkj.bcoin.model.DealModel;
+import com.cdkj.bcoin.util.CoinUtil;
 import com.cdkj.bcoin.util.StringUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -36,8 +38,10 @@ import java.util.Map;
 
 import retrofit2.Call;
 
+import static com.cdkj.baselibrary.appmanager.EventTags.BASE_COIN_LIST;
+import static com.cdkj.baselibrary.appmanager.EventTags.BASE_COIN_LIST_NOTIFY_ALL;
+import static com.cdkj.baselibrary.appmanager.EventTags.BASE_COIN_LIST_NOTIFY_SINGEL;
 import static com.cdkj.baselibrary.appmanager.EventTags.DEAL_PAGE_CHANGE;
-import static com.cdkj.baselibrary.appmanager.MyConfig.COIN_TYPE;
 
 
 /**
@@ -48,6 +52,8 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
 
     private FragmentDealBinding mBinding;
 
+    private CoinRecyclerAdapter coinRecyclerAdapter;
+
     // 广告交易类型，买币页面应该取"卖币类型广告"，卖币反之
     private String tradeType = "1"; // 0：买币，1：卖币
 
@@ -56,6 +62,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
 
     // 币种
     private String coinType;
+    private List<BaseCoinModel> list = new ArrayList<>();
 
     /**
      * 获得fragment实例
@@ -86,11 +93,11 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
 //
 //                if (model.getTradeType().equals("1")){ // 卖币广告
 //
-//                    PublishSaleActivity.open(mActivity, YIFABU, model);
+//                    DealPublishSaleActivity.open(mActivity, YIFABU, model);
 //
 //                }else { // 卖币广告
 //
-//                    PublishBuyActivity.open(mActivity, YIFABU, model);
+//                    DealPublishBuyActivity.open(mActivity, YIFABU, model);
 //
 //                }
 //
@@ -108,19 +115,24 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
 
         inits();
         initTitleBar();
-
+        initRecyclerView();
     }
 
     private void inits() {
-        // 初始化默认币种
-        coinType = COIN_TYPE[0];
+        // 初始化默认查询币种
+        list.clear();
+        list.addAll(CoinUtil.getNotTokenCoinList());
+
+        if (list.size() > 0){
+            coinType = list.get(0).getSymbol();
+        }else {
+            coinType = "";
+        }
     }
 
     private void initTitleBar() {
-        setTitleBar(coinType, StringUtil.getString(R.string.deal_buy),StringUtil.getString(R.string.deal_sale));
+        setTitleBarNoLeft(StringUtil.getString(R.string.deal_buy),StringUtil.getString(R.string.deal_sale));
         setTopTitleLine(true);
-
-        setTitleBarCoinClick(this::initPopup);
 
         setTitleBarBtn1Click(v -> {
             setTitleBarBtnViewChange(1);
@@ -141,12 +153,36 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         });
     }
 
+    private void initRecyclerView() {
+
+
+        //设置布局管理器
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mBinding.rvCoin.setLayoutManager(linearLayoutManager);
+        //设置适配器
+        coinRecyclerAdapter = new CoinRecyclerAdapter(list);
+        mBinding.rvCoin.setAdapter(coinRecyclerAdapter);
+
+        coinRecyclerAdapter.setOnItemClickListener((adapter, view, position) -> {
+            // 改变UI
+            for (BaseCoinModel model : list) {
+                model.setChoose(false);
+            }
+            list.get(position).setChoose(true);
+            coinRecyclerAdapter.notifyDataSetChanged();
+
+            // 储存选择的币种
+            coinType = list.get(position).getSymbol();
+            onMRefresh(1,10,true);
+        });
+    }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        getListData(1,10,true);
+        onMRefresh(1,10,true);
     }
 
 
@@ -156,6 +192,16 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         mBinding.banner.stopAutoPlay();
     }
 
+    @Override
+    protected void onMRefresh(int pageIndex, int limit) {
+        EventBusModel model = new EventBusModel();
+        model.setTag(BASE_COIN_LIST);
+        // 是否需要通知所有需要的地方刷新CoinList配置
+        model.setEvBoolean(false);
+        // 不是的话需要告知其需要更新的位置
+        model.setEvInfo("deal");
+        EventBus.getDefault().post(model);
+    }
 
     @Override
     protected void getListData(int pageIndex, int limit, boolean canShowDialog) {
@@ -280,42 +326,42 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
 //        mBinding.banner.setOnPageChangeListener(new MyPageChangeListener());
     }
 
-    private void initPopup(View view) {
-        MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(mActivity, R.layout.popup_picker);
-        popupWindow.setNumberPicker(R.id.np_type, COIN_TYPE);
-
-        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
-            popupWindow.dismiss();
-        });
-
-        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
-            coinType = popupWindow.getNumberPicker(R.id.np_type, COIN_TYPE);
-
-            setTitleBarCoin(coinType);
-            onMRefresh(1,10,true);
-
-            popupWindow.dismiss();
-        });
-
-        popupWindow.show(view);
-    }
 
     @Subscribe
-    public void DealEventBus(EventBusModel eventBusModel) {
+    public void eventBusModel(EventBusModel eventBusModel) {
         if (eventBusModel == null) {
             return;
         }
 
-        if (TextUtils.equals(eventBusModel.getTag(), DEAL_PAGE_CHANGE)) {
-            setTitleBarBtnViewChange(eventBusModel.getEvInt());
-            tradeType = eventBusModel.getEvInt()+"";
+        switch (eventBusModel.getTag()){
+            case DEAL_PAGE_CHANGE:
 
-            // 设置要显示的币种
-            coinType = eventBusModel.getEvInfo();
-            setTitleBarCoin(coinType);
+                setTitleBarBtnViewChange(eventBusModel.getEvInt());
+                tradeType = eventBusModel.getEvInt()+"";
 
-            onMRefresh(1,10, true);
+                // 设置要显示的币种
+                coinType = eventBusModel.getEvInfo();
+                setTitleBarCoin(coinType);
+
+                onMRefresh(1,10, true);
+
+                break;
+
+            // CoinList配置更新通知，单一通知需要验证是否是自己
+            case BASE_COIN_LIST_NOTIFY_SINGEL:
+                if (!eventBusModel.getEvInfo().equals("deal"))
+                    return;
+
+            case BASE_COIN_LIST_NOTIFY_ALL:
+                inits();
+                coinRecyclerAdapter.notifyDataSetChanged();
+
+                onMRefresh(1,10,true);
+
+                break;
+
         }
+
     }
 
 }

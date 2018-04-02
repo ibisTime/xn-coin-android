@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="47dp">
+
+    <RelativeLayout
+        android:id="@+id/ll_coin"
+        android:background="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_coin"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:text="BTCC"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp" />
+
+        <TextView
+            android:id="@+id/line_coin"
+            android:layout_below="@+id/tv_coin"
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+        <ImageView
+            android:id="@+id/iv_msg_tip"
+            android:visibility="gone"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="-2dp"
+            android:layout_toRightOf="@+id/tv_coin"
+            android:layout_alignTop="@+id/tv_coin"
+            android:background="@drawable/corner_im_msg_tip"
+            android:layout_width="6dp"
+            android:layout_height="6dp" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

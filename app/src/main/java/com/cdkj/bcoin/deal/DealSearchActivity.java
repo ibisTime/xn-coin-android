@@ -12,8 +12,8 @@ import com.cdkj.baselibrary.base.AbsBaseActivity;
 import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.databinding.ActivityDealSearchBinding;
+import com.cdkj.bcoin.util.CoinUtil;
 
-import static com.cdkj.baselibrary.appmanager.MyConfig.COIN_TYPE;
 
 /**
  * Created by lei on 2017/10/30.
@@ -143,14 +143,14 @@ public class DealSearchActivity extends AbsBaseActivity {
      */
     private void initPopup(View view) {
         MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
-        popupWindow.setNumberPicker(R.id.np_type, COIN_TYPE);
+        popupWindow.setNumberPicker(R.id.np_type, CoinUtil.getNotTokenCoinArray());
 
         popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
             popupWindow.dismiss();
         });
 
         popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
-            coinType = popupWindow.getNumberPicker(R.id.np_type, COIN_TYPE);
+            coinType = popupWindow.getNumberPicker(R.id.np_type, CoinUtil.getNotTokenCoinArray());
 
             // 设置选择币
             mBinding.tvCoinSelect.setText(coinType);

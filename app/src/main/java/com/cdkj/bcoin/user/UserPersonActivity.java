@@ -111,6 +111,7 @@ public class UserPersonActivity extends AbsBaseActivity {
     private void getUserData(){
         Map<String, Object> map = new HashMap<>();
         map.put("master", userId);
+        map.put("currency",tradeCoin);
         map.put("visitor", SPUtilHelper.getUserId());
 
         Call call = RetrofitUtils.createApi(MyApi.class).getDealUserData("625256", StringUtils.getJsonToString(map));
@@ -166,14 +167,7 @@ public class UserPersonActivity extends AbsBaseActivity {
         if (tradeCoin != null && !tradeCoin.equals("")){
 
             String amount;
-            if (tradeCoin.equals("ETH")){
-                amount = AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCountEth()),tradeCoin, 8);
-            }else if (tradeCoin.equals("SC")) {
-                amount = AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCountSc()),tradeCoin, 8);
-            }else {
-                amount = AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCountBtc()),tradeCoin, 8);
-            }
-
+            amount = AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCount()),tradeCoin, 8);
             double dh = Double.parseDouble(amount);
 
             if(dh == 0){

@@ -2,10 +2,12 @@ package com.cdkj.bcoin.adapter;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.widget.ImageView;
 
 import com.cdkj.baselibrary.activitys.AuthenticateActivity;
 import com.cdkj.baselibrary.activitys.PayPwdModifyActivity;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
+import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.model.CoinModel;
 import com.cdkj.bcoin.util.AccountUtil;
@@ -19,6 +21,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static com.cdkj.bcoin.util.CoinUtil.getCoinNameWithCurrency;
+import static com.cdkj.bcoin.util.CoinUtil.getCoinWatermarkWithCurrency;
 import static com.cdkj.bcoin.wallet.account.BillActivity.TYPE_ALL;
 import static com.cdkj.bcoin.wallet.account.BillActivity.TYPE_FROZEN;
 
@@ -37,41 +41,15 @@ public class CoinAdapter extends BaseQuickAdapter<CoinModel.AccountListBean, Bas
         BigDecimal amount;
         BigDecimal frozenAmount;
 
-        switch (item.getCurrency()){
+        helper.setText(R.id.tv_name, getCoinNameWithCurrency(item.getCurrency())+"("+item.getCurrency()+")");
 
-            case "ETH":
-                helper.setText(R.id.tv_name, StringUtil.getString(R.string.property_eth));
+        amount = new BigDecimal(item.getAmountString());
+        frozenAmount = new BigDecimal(item.getFrozenAmountString());
+        helper.setText(R.id.tv_amount, AccountUtil.amountFormatUnit(amount.subtract(frozenAmount), item.getCurrency(), 8));
 
-                amount = new BigDecimal(item.getAmountString());
-                frozenAmount = new BigDecimal(item.getFrozenAmountString());
-                helper.setText(R.id.tv_amount, AccountUtil.amountFormatUnit(amount.subtract(frozenAmount), item.getCurrency(), 8));
-
-                helper.setText(R.id.tv_frozen, StringUtil.getString(R.string.freeze)+ AccountUtil.amountFormatUnit(new BigDecimal(item.getFrozenAmountString()),item.getCurrency(), 8));
-                helper.setBackgroundRes(R.id.iv_watermark, R.mipmap.wallet_coin_eth);
-                break;
-
-            case "SC":
-                helper.setText(R.id.tv_name, StringUtil.getString(R.string.property_sc));
-
-                amount = new BigDecimal(item.getAmountString());
-                frozenAmount = new BigDecimal(item.getFrozenAmountString());
-                helper.setText(R.id.tv_amount, AccountUtil.amountFormatUnit(amount.subtract(frozenAmount), item.getCurrency(), 8));
-
-                helper.setText(R.id.tv_frozen, StringUtil.getString(R.string.freeze)+ AccountUtil.amountFormatUnit(new BigDecimal(item.getFrozenAmountString()), item.getCurrency(), 8));
-                helper.setBackgroundRes(R.id.iv_watermark, R.mipmap.wallet_coin_sc);
-                break;
-
-            case "BTC":
-                helper.setText(R.id.tv_name, StringUtil.getString(R.string.property_btc));
-
-                amount = new BigDecimal(item.getAmountString());
-                frozenAmount = new BigDecimal(item.getFrozenAmountString());
-                helper.setText(R.id.tv_amount, AccountUtil.amountFormatUnit(amount.subtract(frozenAmount), item.getCurrency(), 8));
-
-                helper.setText(R.id.tv_frozen, StringUtil.getString(R.string.freeze)+ AccountUtil.amountFormatUnit(new BigDecimal(item.getFrozenAmountString()), item.getCurrency(), 8));
-                helper.setBackgroundRes(R.id.iv_watermark, R.mipmap.wallet_coin_btc);
-                break;
-        }
+        helper.setText(R.id.tv_frozen, StringUtil.getString(R.string.freeze)+ AccountUtil.amountFormatUnit(new BigDecimal(item.getFrozenAmountString()),item.getCurrency(), 8));
+        ImageView ivCoin = helper.getView(R.id.iv_watermark);
+        ImgUtils.loadImage(mContext, getCoinWatermarkWithCurrency(item.getCurrency(),1), ivCoin);
 
         helper.getView(R.id.ll_recharge).setOnClickListener(v -> {
             RechargeActivity.open(mContext, item);

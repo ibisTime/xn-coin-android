@@ -2,8 +2,10 @@ package com.cdkj.bcoin.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.ImageView;
 
 import com.cdkj.baselibrary.utils.DateUtil;
+import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.model.BillModel;
 import com.cdkj.bcoin.util.AccountUtil;
@@ -17,6 +19,7 @@ import static com.cdkj.baselibrary.utils.DateUtil.DATE_DAY;
 import static com.cdkj.baselibrary.utils.DateUtil.DATE_HM;
 import static com.cdkj.baselibrary.utils.DateUtil.DATE_M;
 import static com.cdkj.baselibrary.utils.DateUtil.DATE_YM;
+import static com.cdkj.bcoin.util.CoinUtil.getCoinWatermarkWithCurrency;
 
 /**
  * Created by lei on 2017/8/22.
@@ -72,74 +75,34 @@ public class BillAdapter extends BaseQuickAdapter<BillModel.ListBean,BaseViewHol
             helper.setText(R.id.tv_amount, AccountUtil.amountFormatUnit(tas, item.getCurrency(), 8));
         }
 
+        ImageView ivType = helper.getView(R.id.iv_type);
+
         if (item.getKind().equals("0")){ // 非冻结流水
-            int resId = 0;
+
             switch (item.getBizType()){
                 case "charge": // 充值
+                case "buy": // 买入
+                case "invite": // 推荐好友分成
 
-                    resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_charge", "mipmap" , mContext.getPackageName());
-                    if (resId != 0)
-                        helper.setImageResource(R.id.iv_type, resId);
+                    ImgUtils.loadImage(mContext, getCoinWatermarkWithCurrency(item.getCurrency(),2), ivType);
 
                     break;
 
                 case "withdraw": // 取现
-
-                    resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_withdraw", "mipmap" , mContext.getPackageName());
-                    if (resId != 0)
-                        helper.setImageResource(R.id.iv_type, resId);
-
-                    break;
-
-                case "buy": // 买入
-
-                    resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_into", "mipmap" , mContext.getPackageName());
-                    if (resId != 0)
-                        helper.setImageResource(R.id.iv_type, resId);
-
-                    break;
-
                 case "sell": // 卖出
-
-                    resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_out", "mipmap" , mContext.getPackageName());
-                    if (resId != 0)
-                        helper.setImageResource(R.id.iv_type, resId);
-
-                    break;
-
                 case "tradefee": // 手续费
                 case "withdrawfee": // 手续费
 
-                    resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_fee", "mipmap" , mContext.getPackageName());
-                    if (resId != 0)
-                        helper.setImageResource(R.id.iv_type, resId);
+                    ImgUtils.loadImage(mContext, getCoinWatermarkWithCurrency(item.getCurrency(),3), ivType);
 
                     break;
-
-                default:
-
-                    resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_award", "mipmap" , mContext.getPackageName());
-                    if (resId != 0)
-                        helper.setImageResource(R.id.iv_type, resId);
-
-                    break;
-
             }
         }else { // 冻结流水
 
-            int resId;
-
             if (item.getTransAmountString().contains("-")){ // 金额是负数
-
-                resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_withdraw", "mipmap" , mContext.getPackageName());
-                if (resId != 0)
-                    helper.setImageResource(R.id.iv_type, resId);
-
+                ImgUtils.loadImage(mContext, getCoinWatermarkWithCurrency(item.getCurrency(),2), ivType);
             } else {
-
-                resId = mContext.getResources().getIdentifier("bill_"+item.getCurrency().toLowerCase()+"_charge", "mipmap" , mContext.getPackageName());
-                if (resId != 0)
-                    helper.setImageResource(R.id.iv_type, resId);
+                ImgUtils.loadImage(mContext, getCoinWatermarkWithCurrency(item.getCurrency(),3), ivType);
             }
 
         }

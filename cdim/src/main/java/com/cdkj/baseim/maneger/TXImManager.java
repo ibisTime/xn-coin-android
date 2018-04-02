@@ -21,7 +21,7 @@ public class TXImManager {
 
     private static TXImManager instance = null;
 
-    private static boolean isInit;//用于判断有没有初始化 防止多次初始化
+    private static boolean isInit = false;//用于判断有没有初始化 防止多次初始化
 
     private TXImManager() {
     }

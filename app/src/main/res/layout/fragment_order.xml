@@ -7,144 +7,118 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
-            android:orientation="horizontal"
             android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/title_height">
+            android:layout_height="45dp">
 
-            <LinearLayout
-                android:id="@+id/ll_coin"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/tv_coin"
-                    android:textSize="14sp"
-                    android:text="ETH"
-                    android:textColor="@color/black"
-                    android:layout_marginLeft="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+            <FrameLayout
+                android:id="@+id/fl_back"
+                android:layout_width="55dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:paddingLeft="15dp">
 
                 <ImageView
-                    android:background="@mipmap/deal_select"
-                    android:layout_marginLeft="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:id="@+id/img_back"
+                    android:layout_width="13dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/back_gray" />
 
-            </LinearLayout>
+            </FrameLayout>
 
             <LinearLayout
+                android:background="@drawable/corner_order_title_bar"
                 android:layout_centerInParent="true"
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="30dp">
 
                 <RelativeLayout
-                    android:id="@+id/rl_btn1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/tv_btn1"
-                        android:textSize="17sp"
-                        android:paddingLeft="4dp"
-                        android:paddingRight="4dp"
-                        android:text="@string/order_jingxingzhong"
-                        android:layout_centerInParent="true"
-                        android:textColor="@color/colorPrimary"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    <RelativeLayout
+                        android:id="@+id/ll_now"
+                        android:background="@drawable/corner_order_title_bar_left"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_width="82dp"
+                        android:layout_height="match_parent">
 
-                    <View
-                        android:id="@+id/v_btn1"
-                        android:layout_alignRight="@+id/tv_btn1"
-                        android:layout_alignLeft="@+id/tv_btn1"
-                        android:background="@color/colorPrimary"
-                        android:layout_marginTop="4dp"
-                        android:layout_below="@+id/tv_btn1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="2dp"/>
+                        <TextView
+                            android:id="@+id/tv_now"
+                            android:textSize="13sp"
+                            android:textColor="@color/white"
+                            android:text="@string/order_jingxingzhong"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
-                    <ImageView
-                        android:id="@+id/iv_msg_new_tip"
-                        android:visibility="gone"
-                        android:layout_marginTop="-4dp"
-                        android:layout_marginLeft="-4dp"
-                        android:layout_alignRight="@+id/tv_btn1"
-                        android:layout_alignTop="@+id/tv_btn1"
-                        android:background="@drawable/corner_im_msg_tip"
-                        android:layout_width="8dp"
-                        android:layout_height="8dp" />
+                        <TextView
+                            android:id="@+id/tv_now_tip_num"
+                            android:layout_toRightOf="@+id/tv_now"
+                            android:textSize="12sp"
+                            android:layout_marginBottom="1dp"
+                            android:textColor="@color/white"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:id="@+id/iv_msg_now_tip"
+                            android:visibility="gone"
+                            android:layout_marginTop="-2dp"
+                            android:layout_marginLeft="-3dp"
+                            android:layout_toRightOf="@+id/tv_now"
+                            android:layout_alignTop="@+id/tv_now"
+                            android:background="@drawable/corner_im_msg_tip_white"
+                            android:layout_width="6dp"
+                            android:layout_height="6dp" />
+
+                    </RelativeLayout>
+
+
 
                 </RelativeLayout>
 
+
+
                 <RelativeLayout
-                    android:id="@+id/rl_btn2"
-                    android:layout_marginLeft="40dp"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ll_done"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/corner_order_title_bar_right_white"
+                    android:layout_width="82dp"
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/tv_btn2"
-                        android:textSize="17sp"
-                        android:paddingLeft="4dp"
-                        android:paddingRight="4dp"
+                        android:id="@+id/tv_done"
+                        android:textSize="13sp"
+                        android:textColor="@color/colorAccent"
                         android:text="@string/order_yijieshu"
-                        android:layout_centerInParent="true"
-                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                    <View
-                        android:id="@+id/v_btn2"
-                        android:layout_alignRight="@+id/tv_btn2"
-                        android:layout_alignLeft="@+id/tv_btn2"
-                        android:background="@color/white"
-                        android:layout_marginTop="4dp"
-                        android:layout_below="@+id/tv_btn2"
+                    <TextView
+                        android:id="@+id/tv_done_tip_num"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="1dp"
+                        android:textColor="@color/colorAccent"
                         android:layout_width="wrap_content"
-                        android:layout_height="2dp"/>
+                        android:layout_height="wrap_content" />
 
                     <ImageView
                         android:id="@+id/iv_msg_done_tip"
                         android:visibility="gone"
-                        android:layout_marginTop="-4dp"
-                        android:layout_marginLeft="-4dp"
-                        android:layout_alignRight="@+id/tv_btn2"
-                        android:layout_alignTop="@+id/tv_btn2"
+                        android:layout_marginTop="-3dp"
+                        android:layout_marginLeft="-3dp"
+                        android:layout_toRightOf="@+id/tv_done"
+                        android:layout_alignTop="@+id/tv_done"
                         android:background="@drawable/corner_im_msg_tip"
-                        android:layout_width="8dp"
-                        android:layout_height="8dp" />
+                        android:layout_width="6dp"
+                        android:layout_height="6dp" />
 
                 </RelativeLayout>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_search"
-                android:visibility="gone"
-                android:gravity="center"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@mipmap/deal_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_alignParentBottom="true"
-                android:background="@color/gray_dedede"
-                android:layout_width="match_parent"
-                android:layout_height="1px"/>
 
         </RelativeLayout>
 
@@ -152,6 +126,22 @@
             android:background="@color/gray_dedede"
             android:layout_width="match_parent"
             android:layout_height="1px"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_coin"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_centerVertical="true"
+            android:scrollbars="none"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+
+        <View
+            android:background="@color/gray_f7f7f7"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
 
         <com.cdkj.baselibrary.views.mViewpager
             android:id="@+id/pager_main"

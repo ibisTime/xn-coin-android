@@ -2,6 +2,7 @@ package com.cdkj.bcoin.util;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
@@ -92,10 +93,36 @@ public class DealUtil {
             }
         }
 
-
-
-
         return tradeType;
+    }
+
+    public static void setPushTradeType(Context context, Button button, DealDetailModel item){
+
+        // 是否是自己发布的
+        if (item.getUser().getUserId().equals(SPUtilHelper.getUserId())){
+            button.setText(StringUtil.getString(R.string.deal_publish_edit));
+            switch (item.getTradeType()){
+                case "0":
+                    button.setBackground(context.getResources().getDrawable(R.drawable.corner_push_btn_red));
+                    break;
+
+                case "1":
+                    button.setBackground(context.getResources().getDrawable(R.drawable.corner_push_btn_green));
+                    break;
+            }
+        }else {
+            switch (item.getTradeType()){
+                case "0":
+                    button.setText(StringUtil.getString(R.string.sale));
+                    button.setBackground(context.getResources().getDrawable(R.drawable.corner_push_btn_red));
+                    break;
+
+                case "1":
+                    button.setText(StringUtil.getString(R.string.buy));
+                    button.setBackground(context.getResources().getDrawable(R.drawable.corner_push_btn_green));
+                    break;
+            }
+        }
     }
 
     public static String setStatus(DealDetailModel item){

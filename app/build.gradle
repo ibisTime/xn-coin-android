@@ -12,8 +12,8 @@ android {
         applicationId "com.cdkj.ethereum"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 11
-        versionName "2.2.0"
+        versionCode 12
+        versionName "2.3.0"
 
         multiDexEnabled true
 
@@ -85,4 +85,5 @@ dependencies {
 
     // multidex
     compile 'com.android.support:multidex:1.0.1'
+
 }

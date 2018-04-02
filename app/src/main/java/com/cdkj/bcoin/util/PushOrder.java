@@ -12,7 +12,7 @@ import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.deal.DealChatActivity;
 import com.cdkj.bcoin.model.OrderDetailModel;
-import com.cdkj.bcoin.order.OrderActivity;
+import com.cdkj.bcoin.order.OrderDetailActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +69,7 @@ public class PushOrder {
                 if (bean.getStatus().equals("-1")){ // 待下单订单
                     DealChatActivity.open(mContext, bean, info);
                 }else { // 已下单订单
-                    OrderActivity.open(mContext, bean, info);
+                    OrderDetailActivity.open(mContext, bean, info);
                 }
 
                 clear();

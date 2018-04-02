@@ -292,7 +292,7 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
 
     @Override
     public void onSuccess() {
-        toMianPage();
+        toMainPage();
     }
 
     @Override
@@ -300,7 +300,7 @@ public class SignUpActivity extends AbsBaseActivity implements SendCodeInterface
         disMissLoading();
     }
 
-    private void toMianPage(){
+    private void toMainPage(){
         //初始化程序后台后消息推送
         PushUtil.getInstance();
         //初始化消息监听
