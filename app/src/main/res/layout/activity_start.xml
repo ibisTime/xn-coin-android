@@ -1,13 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:src="@mipmap/loading"
         />
 
-</LinearLayout>
+    <RelativeLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_app_icon"
+            android:layout_marginTop="170dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/app_icon" />
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/iv_app_icon"
+            android:layout_marginTop="20dp"
+            android:text="Bcoin.im"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/start_text"
+            android:textSize="14sp"
+            android:textColor="#c1423b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</FrameLayout>

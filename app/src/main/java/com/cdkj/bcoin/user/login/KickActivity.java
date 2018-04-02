@@ -55,6 +55,7 @@ public class KickActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle(StringUtil.getString(R.string.attention))
                 .setMessage(StringUtil.getString(R.string.kick_logout))
                 .setPositiveButton(StringUtil.getString(R.string.confirm), (dialogInterface, i) -> {
+
                     SPUtilHelper.logOutClear();
                     EventBus.getDefault().post(EventTags.AllFINISH);
 

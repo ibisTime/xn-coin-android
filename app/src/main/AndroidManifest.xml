@@ -50,15 +50,15 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.cdkj.bcoin.deal.PublishSaleActivity"/>
+        <activity android:name="com.cdkj.bcoin.deal.DealPublishSaleActivity"/>
         <activity android:name="com.cdkj.bcoin.deal.SearchUserActivity"/>
         <activity android:name="com.cdkj.bcoin.deal.SearchDealActivity"/>
         <activity android:name="com.cdkj.bcoin.deal.DealSearchActivity"/>
         <activity android:name="com.cdkj.bcoin.deal.DealChatActivity"
             android:launchMode="singleTask" />
-        <activity android:name="com.cdkj.bcoin.deal.PublishBuyActivity"/>
+        <activity android:name="com.cdkj.bcoin.deal.DealPublishBuyActivity"/>
 
-        <activity android:name="com.cdkj.bcoin.order.OrderActivity"
+        <activity android:name="com.cdkj.bcoin.order.OrderDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
@@ -84,6 +84,14 @@
             android:launchMode="singleTask"/>
         <activity android:name="com.cdkj.bcoin.user.login.SignUpActivity"/>
         <activity android:name="com.cdkj.bcoin.user.login.KickActivity" android:theme="@style/ActivityTXLoginDialog" />
+
+        <activity android:name=".wallet.account.WithdrawOrderActivity" />
+        <activity android:name=".user.UserInviteProfitActivity" />
+        <activity android:name=".order.OrderActivity" />
+        <service android:name=".service.OrderTipService" >
+        </service>
+        <service android:name=".service.CoinListService" >
+        </service>
 
         //找回密码
         <activity
@@ -181,7 +189,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".wallet.account.WithdrawOrderActivity" />
+        <activity android:name=".push.PushPublishSaleActivity" />
+        <activity android:name=".push.PushPublishBuyActivity" />
 
 
         <!-- tencentIM -->
@@ -334,6 +343,7 @@
         <service
             android:name="com.huawei.android.pushagent.PushService"
             android:process=":HwPushService"/>
+
         <!-- hwpush -->
 
     </application>

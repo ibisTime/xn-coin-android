@@ -14,6 +14,7 @@ import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.adapter.UserInviteHistoryAdapter;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.model.UserRefereeModel;
+import com.cdkj.bcoin.util.CoinUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.HashMap;
@@ -45,8 +46,9 @@ public class UserInviteHistoryActivity extends BaseRefreshActivity<UserRefereeMo
             UserRefereeModel.ListBean bean = (UserRefereeModel.ListBean) mAdapter.getItem(position);
 
             assert bean != null;
-            // 默认显示ETH的历史交易
-            UserPersonActivity.open(this, bean.getUserId(), bean.getNickname(), bean.getPhoto(), MyConfig.COIN_TYPE[0]);
+            // 默认显示BTC的历史交易
+            if (CoinUtil.getAllCoinArray().length > 0)
+                UserPersonActivity.open(this, bean.getUserId(), bean.getNickname(), bean.getPhoto(), CoinUtil.getAllCoinArray()[0]);
         });
 
         getListData(pageIndex,limit,true);

@@ -101,6 +101,7 @@ public class WithdrawOrderModel implements Serializable {
         private String accountNumber;
         private String accountName;
         private String type;
+        private String currency;
         private String amountString;
         private String feeString;
         private String channelType;
@@ -116,6 +117,14 @@ public class WithdrawOrderModel implements Serializable {
         private String systemCode;
         private String companyCode;
         private UserBean user;
+
+        public String getCurrency() {
+            return currency;
+        }
+
+        public void setCurrency(String currency) {
+            this.currency = currency;
+        }
 
         public String getCode() {
             return code;

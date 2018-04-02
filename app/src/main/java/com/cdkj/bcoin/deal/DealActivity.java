@@ -17,11 +17,9 @@ import android.widget.PopupWindow;
 import com.cdkj.baseim.activity.TxImLogingActivity;
 import com.cdkj.baseim.model.ImUserInfo;
 import com.cdkj.baselibrary.activitys.AuthenticateActivity;
-import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.AbsBaseActivity;
-import com.cdkj.baselibrary.model.EventBusModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
@@ -31,21 +29,23 @@ import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.ActivityDealBinding;
 import com.cdkj.bcoin.databinding.DialogDealConfirmBinding;
-import com.cdkj.bcoin.main.MainActivity;
 import com.cdkj.bcoin.model.CoinModel;
 import com.cdkj.bcoin.model.DealDetailModel;
 import com.cdkj.bcoin.model.DealResultModel;
 import com.cdkj.bcoin.model.OrderDetailModel;
 import com.cdkj.bcoin.model.SystemParameterModel;
+import com.cdkj.bcoin.push.PushPublishBuyActivity;
+import com.cdkj.bcoin.push.PushPublishSaleActivity;
 import com.cdkj.bcoin.user.UserPersonActivity;
 import com.cdkj.bcoin.util.AccountUtil;
+import com.cdkj.bcoin.util.CoinUtil;
 import com.cdkj.bcoin.util.EditTextJudgeNumberWatcher;
 import com.cdkj.bcoin.util.StringUtil;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -135,7 +135,6 @@ public class DealActivity extends AbsBaseActivity {
 
                 setView();
                 getAccount();
-//                getHistory();
             }
 
             @Override
@@ -219,14 +218,7 @@ public class DealActivity extends AbsBaseActivity {
         if (bean.getUserStatistics() == null)
             return;
         String amount;
-        if (bean.getTradeCoin().equals("ETH")){
-            amount = AccountUtil.amountFormatUnit(new BigDecimal(bean.getUserStatistics().getTotalTradeCountEth()),bean.getTradeCoin(), 8);
-        }else if (bean.getTradeCoin().equals("SC")) {
-            amount = AccountUtil.amountFormatUnit(new BigDecimal(bean.getUserStatistics().getTotalTradeCountSc()),bean.getTradeCoin(), 8);
-        }else {
-            amount = AccountUtil.amountFormatUnit(new BigDecimal(bean.getUserStatistics().getTotalTradeCountBtc()),bean.getTradeCoin(), 8);
-        }
-
+        amount = AccountUtil.amountFormatUnit(new BigDecimal(bean.getUserStatistics().getTotalTradeCount()),bean.getTradeCoin(), 8);
         double dh = Double.parseDouble(amount);
 
         if(dh == 0){
@@ -255,14 +247,19 @@ public class DealActivity extends AbsBaseActivity {
 
             if (mBinding.tvConfirm.getText().equals("编辑")){
 
-                if (bean.getTradeType().equals("1")){ // 卖币广告
-
-                    PublishSaleActivity.open(this, YIFABU, bean);
-
-                }else { // 买币广告
-
-                    PublishBuyActivity.open(this, YIFABU, bean);
-
+                // 当前广告的币种是否是Token币种
+                if (Arrays.asList(CoinUtil.getTokenCoinArray()).contains(bean.getTradeCoin())){
+                    if (bean.getTradeType().equals("0")){ // 买币
+                        PushPublishBuyActivity.open(this, YIFABU, bean);
+                    }else {
+                        PushPublishSaleActivity.open(this, YIFABU, bean);
+                    }
+                }else {
+                    if (bean.getTradeType().equals("0")){ // 买币
+                        DealPublishBuyActivity.open(this, YIFABU, bean);
+                    }else {
+                        DealPublishSaleActivity.open(this, YIFABU, bean);
+                    }
                 }
 
             }else { // 购买或者出售
@@ -518,44 +515,6 @@ public class DealActivity extends AbsBaseActivity {
         });
     }
 
-//    private void getHistory(){
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("currency", bean.getTradeCoin());
-//        map.put("userId", bean.getUser().getUserId());
-//        map.put("token", SPUtilHelper.getUserToken());
-//
-//        Call call = RetrofitUtils.createApi(MyApi.class).getDealHistory("625255", StringUtils.getJsonToString(map));
-//
-//        addCall(call);
-//
-//        call.enqueue(new BaseResponseModelCallBack<DealHistoryModel>(this) {
-//
-//            @Override
-//            protected void onSuccess(DealHistoryModel data, String SucMessage) {
-//
-//                if (data == null)
-//                    return;
-//
-//                double dh = Double.parseDouble(AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCount()),bean.getTradeCoin(), 8));
-//
-//                if(dh == 0){
-//                    mBinding.tvHistory.setText("0 "+bean.getTradeCoin());
-//                } else if (dh < 0.5){
-//                    mBinding.tvHistory.setText("0-0.5 "+bean.getTradeCoin());
-//                }else if(0.5 <= dh && dh <= 1){
-//                    mBinding.tvHistory.setText("0.5-1 "+bean.getTradeCoin());
-//                }else {
-//                    mBinding.tvHistory.setText(AccountUtil.amountFormatUnit(new BigDecimal(data.getTotalTradeCount()),bean.getTradeCoin(), 8).split("\\.")[0]+"+ "+bean.getTradeCoin());
-//                }
-//
-//            }
-//
-//            @Override
-//            protected void onFinish() {
-//                disMissLoading();
-//            }
-//        });
-//    }
 
     private void buy(){
         BigDecimal bigDecimal = new BigDecimal(mBinding.edtCoin.getText().toString().trim());
@@ -582,11 +541,11 @@ public class DealActivity extends AbsBaseActivity {
                 finish();
 
                 // 购买成功后跳到订单
-                EventBusModel eventBusModel = new EventBusModel();
-                eventBusModel.setEvInt(MainActivity.ORDER);
-                eventBusModel.setEvInfo(bean.getTradeCoin());
-                eventBusModel.setTag(EventTags.MAIN_CHANGE_SHOW_INDEX);
-                EventBus.getDefault().post(eventBusModel);
+//                EventBusModel eventBusModel = new EventBusModel();
+//                eventBusModel.setEvInt(MainActivity.ORDER);
+//                eventBusModel.setEvInfo(bean.getTradeCoin());
+//                eventBusModel.setTag(EventTags.MAIN_CHANGE_SHOW_INDEX);
+//                EventBus.getDefault().post(eventBusModel);
             }
 
             @Override
@@ -621,11 +580,11 @@ public class DealActivity extends AbsBaseActivity {
                     finish();
 
                     // 出售成功后跳到订单
-                    EventBusModel eventBusModel = new EventBusModel();
-                    eventBusModel.setEvInt(MainActivity.ORDER);
-                    eventBusModel.setEvInfo(bean.getTradeCoin());
-                    eventBusModel.setTag(EventTags.MAIN_CHANGE_SHOW_INDEX);
-                    EventBus.getDefault().post(eventBusModel);
+//                    EventBusModel eventBusModel = new EventBusModel();
+//                    eventBusModel.setEvInt(MainActivity.ORDER);
+//                    eventBusModel.setEvInfo(bean.getTradeCoin());
+//                    eventBusModel.setTag(EventTags.MAIN_CHANGE_SHOW_INDEX);
+//                    EventBus.getDefault().post(eventBusModel);
                 }
 
             @Override

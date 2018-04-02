@@ -20,11 +20,12 @@
 
             <ImageButton
                 android:id="@+id/iv_publish"
-                android:background="@mipmap/deal_release"
-                android:layout_marginBottom="12sp"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="20dp"
+                android:background="@mipmap/main_release"
+                android:layout_gravity="bottom|right"
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
 
         </FrameLayout>
 

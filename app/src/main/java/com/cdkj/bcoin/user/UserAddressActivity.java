@@ -25,6 +25,7 @@ import com.cdkj.bcoin.adapter.AddressAdapter;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.FootUserAddressBinding;
 import com.cdkj.bcoin.model.AddressModel;
+import com.cdkj.bcoin.util.CoinUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -38,7 +39,6 @@ import java.util.Map;
 import retrofit2.Call;
 
 import static com.cdkj.baselibrary.appmanager.EventTags.ADDRESS_SELECT;
-import static com.cdkj.baselibrary.appmanager.MyConfig.COIN_TYPE;
 
 /**
  * Created by lei on 2017/11/1.
@@ -47,8 +47,8 @@ import static com.cdkj.baselibrary.appmanager.MyConfig.COIN_TYPE;
 public class UserAddressActivity extends AbsBaseActivity {
 
     public static String TYPE_WITHDRAW = "withdraw";
+
     private String openType = "";
-    private String coin = "";
 
     private FootUserAddressBinding footBinding;
 
@@ -59,6 +59,7 @@ public class UserAddressActivity extends AbsBaseActivity {
     private AddressAdapter adapter;
 
     private String type;
+    private String[] coin;
 
     /**
      *
@@ -77,7 +78,12 @@ public class UserAddressActivity extends AbsBaseActivity {
 
     @Override
     public View addMainView() {
-        type = COIN_TYPE[0];
+        coin = CoinUtil.getAllCoinArray();
+        if (coin.length > 0){
+            type = coin[0];
+        }else {
+            type = "BTC";
+        }
 
         footBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.foot_user_address, null, false);
 
@@ -162,7 +168,10 @@ public class UserAddressActivity extends AbsBaseActivity {
             if (openType != null && openType.equals(TYPE_WITHDRAW)){
 
             }else {
-                initPopup(v);
+                if (type.length() > 0){
+                    initPopup(v);
+                }
+
             }
 
 
@@ -220,14 +229,14 @@ public class UserAddressActivity extends AbsBaseActivity {
 
     private void initPopup(View view) {
         MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
-        popupWindow.setNumberPicker(R.id.np_type, COIN_TYPE);
+        popupWindow.setNumberPicker(R.id.np_type, CoinUtil.getAllCoinArray());
 
         popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
             popupWindow.dismiss();
         });
 
         popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
-            type = popupWindow.getNumberPicker(R.id.np_type, COIN_TYPE);
+            type = popupWindow.getNumberPicker(R.id.np_type, CoinUtil.getAllCoinArray());
 
             setTopTitle(getStrRes(R.string.user_title_address)+"("+type+")");
             refreshHelper.onMRefresh(1,10,true);
@@ -239,25 +248,8 @@ public class UserAddressActivity extends AbsBaseActivity {
 
     private void initListener() {
 
-//        mBinding.rlBtc.setOnClickListener(view -> {
-//            initView();
-//
-//            mBinding.tvBtc.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-//            mBinding.vBtc.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
-//
-//            getListData(0,0,true);
-//        });
-//
-//        mBinding.rlEth.setOnClickListener(view -> {
-//            initView();
-//
-//            mBinding.tvEth.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-//            mBinding.vEth.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
-//
-//            getListData(0,0,false);
-//        });
 
-        footBinding.btnWithdraw.setOnClickListener(view -> {
+        footBinding.btnAdd.setOnClickListener(view -> {
 
             if (SPUtilHelper.getTradePwdFlag()){
                 UserAddAddressActivity.open(this, type);
@@ -267,14 +259,6 @@ public class UserAddressActivity extends AbsBaseActivity {
         });
 
     }
-
-//    private void initView() {
-//        mBinding.tvBtc.setTextColor(ContextCompat.getColor(this, R.color.black));
-//        mBinding.vBtc.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
-//
-//        mBinding.tvEth.setTextColor(ContextCompat.getColor(this, R.color.black));
-//        mBinding.vEth.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
-//    }
 
     private void tip(String code) {
         new AlertDialog.Builder(this).setTitle(getStrRes(R.string.attention))

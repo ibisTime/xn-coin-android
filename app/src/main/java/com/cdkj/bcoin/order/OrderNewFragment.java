@@ -21,7 +21,6 @@ import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.deal.DealChatActivity;
 import com.cdkj.bcoin.model.OrderDetailModel;
 import com.cdkj.bcoin.model.OrderModel;
-import com.cdkj.bcoin.util.ResponseUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
@@ -40,6 +39,9 @@ import retrofit2.Call;
 import static com.cdkj.baseim.activity.TxImLogingActivity.ORDER_DNS_NEW;
 import static com.cdkj.baseim.activity.TxImLogingActivity.ORDER_NEW;
 import static com.cdkj.baselibrary.appmanager.EventTags.IM_MSG_UPDATE;
+import static com.cdkj.baselibrary.appmanager.EventTags.ORDER_COIN_TIP;
+import static com.cdkj.baselibrary.appmanager.EventTags.ORDER_COIN_TYPE;
+import static com.cdkj.bcoin.order.OrderFragment.coinType;
 
 /**
  * Created by lei on 2017/11/29.
@@ -128,6 +130,9 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
     @Override
     protected void getListData(int pageIndex, int limit, boolean canShowDialog) {
 
+        // 通知OrderActivity刷新数据
+        EventBus.getDefault().post(ORDER_COIN_TIP);
+
         Map<String, Object> map = new HashMap<>();
         map.put("adsCode", "");
         map.put("buyUser", "");
@@ -136,8 +141,7 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
         map.put("sellUser", "");
         map.put("payType", "");
         map.put("statusList", statusList);
-        map.put("tradeCoin", "");
-//        map.put("tradeCoin", coinType);
+        map.put("tradeCoin", coinType);
         map.put("tradeCurrency", "");
         map.put("type", "");
         map.put("start", pageIndex+"");
@@ -157,14 +161,7 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
                 if (data.getList() == null)
                     return;
 
-                // 根据配置筛选
-                if (ResponseUtil.screeningDataWithConfig(data) == null)
-                    return;
-
-                List<OrderDetailModel> list = (List<OrderDetailModel>) ResponseUtil.screeningDataWithConfig(data);
-
-
-                setData(list);
+                setData(data.getList());
                 getConversation();
             }
 
@@ -195,7 +192,7 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
     public void openOrderActivity(ImUserInfo imUserInfo){
         if (imUserInfo.getEventTag().equals(ORDER_NEW)){
 
-            OrderActivity.open(mActivity, bean, imUserInfo);
+            OrderDetailActivity.open(mActivity, bean, imUserInfo);
         }
 
     }
@@ -240,27 +237,25 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
     @Subscribe
     public void imMsgUpdate(String tag) {
         if (tag.equals(IM_MSG_UPDATE)){
-
             onMRefresh(1,10,false);
 
         }
 
     }
 
-//    /**
-//     * 根据选择的币种刷新订单列表
-//     * @param model
-//     */
-//    @Subscribe
-//    public void refreshOrderList(EventBusModel model) {
-//        if (model.getTag().equals(ORDER_COIN_TYPE)){
-//            onMRefresh(1,10,true);
-//
-//
-//            Log.e("OrderNewFragment","refreshOrderList()");
-//        }
-//
-//    }
+    /**
+     * 根据选择的币种刷新订单列表
+     * @param model
+     */
+    @Subscribe
+    public void refreshOrderList(EventBusModel model) {
+        if (model.getTag().equals(ORDER_COIN_TYPE)){
+            if (getUserVisibleHint()){
+                onMRefresh(1,10,true);
+            }
+        }
+
+    }
 
     private void deleteConfirm(String code) {
 

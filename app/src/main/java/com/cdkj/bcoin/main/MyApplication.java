@@ -17,6 +17,7 @@ import com.zendesk.sdk.network.impl.ZendeskConfig;
 import com.zopim.android.sdk.api.ZopimChat;
 
 import org.greenrobot.eventbus.EventBus;
+import org.litepal.LitePal;
 
 /**
  * Created by lei on 2017/10/20.
@@ -46,6 +47,7 @@ public class MyApplication extends Application {
         ARouter.init(application); // 尽可能早，推荐在Application中初始化
 
         initZXing();
+        initLitePal();
         initZenDesk();
 
         Foreground.init(this);
@@ -57,8 +59,12 @@ public class MyApplication extends Application {
             });
         }
 
-
     }
+
+    private void initLitePal() {
+        LitePal.initialize(this);
+    }
+
 
     public void initZenDesk(){
         ZendeskConfig.INSTANCE.init(this,

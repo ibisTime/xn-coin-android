@@ -9,7 +9,7 @@
             android:background="@color/white"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -33,7 +33,7 @@
                         android:layout_centerInParent="true"
                         android:layout_width="62dp"
                         android:layout_height="62dp">
-
+8
                         <TextView
                             android:id="@+id/tv_avatar"
                             android:gravity="center"
@@ -226,6 +226,63 @@
                     android:textSize="14sp"
                     android:textColor="@color/black"
                     android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:layout_marginRight="15dp"
+                    android:background="@mipmap/more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/gray_eeeeee"
+                android:layout_width="match_parent"
+                android:layout_height="1px"/>
+
+            <LinearLayout
+                android:id="@+id/ll_order"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <RelativeLayout
+                    android:paddingRight="5dp"
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/iv_order"
+                        android:background="@mipmap/user_order"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_msg_tip"
+                        android:visibility="gone"
+                        android:layout_marginRight="-5dp"
+                        android:layout_marginTop="-3dp"
+                        android:layout_alignRight="@+id/iv_order"
+                        android:layout_alignTop="@+id/iv_order"
+                        android:background="@drawable/corner_im_msg_tip"
+                        android:layout_width="7dp"
+                        android:layout_height="7dp" />
+
+                </RelativeLayout>
+
+
+
+                <TextView
+                    android:text="@string/user_order"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />

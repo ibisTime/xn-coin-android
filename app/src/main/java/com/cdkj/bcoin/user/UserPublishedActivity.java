@@ -19,20 +19,23 @@ import com.cdkj.bcoin.adapter.PublishedAdapter;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.ActivityUserPublishedBinding;
 import com.cdkj.bcoin.deal.DealActivity;
-import com.cdkj.bcoin.deal.PublishBuyActivity;
-import com.cdkj.bcoin.deal.PublishSaleActivity;
+import com.cdkj.bcoin.deal.DealPublishBuyActivity;
+import com.cdkj.bcoin.deal.DealPublishSaleActivity;
 import com.cdkj.bcoin.model.DealDetailModel;
 import com.cdkj.bcoin.model.DealModel;
+import com.cdkj.bcoin.push.PushPublishBuyActivity;
+import com.cdkj.bcoin.push.PushPublishSaleActivity;
+import com.cdkj.bcoin.util.CoinUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
 
-import static com.cdkj.baselibrary.appmanager.MyConfig.COIN_TYPE;
 import static com.cdkj.bcoin.util.DealUtil.CAOGAO;
 
 /**
@@ -47,46 +50,19 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
 
     private List<String> statusList = new ArrayList<>();
 
-    public static void open(Context context){
+    public static void open(Context context, String coinType){
         if (context == null) {
             return;
         }
-        context.startActivity(new Intent(context, UserPublishedActivity.class));
+        context.startActivity(new Intent(context, UserPublishedActivity.class).putExtra("coinType",coinType));
     }
     
     @Override
     protected void onInit(Bundle savedInstanceState, int pageIndex, int limit) {
         mBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_user_published, null, false);
 
-        type = COIN_TYPE[0];
-
-        setTopTitle(getStrRes(R.string.user_title_published)+"("+type+")");
-        setTopImgEnable(true);
-        setTopLineState(true);
-        setSubLeftImgState(true);
-
-        setTopTitleClickListener(v -> {
-            initPopup(v);
-        });
-
-        mAdapter.setHeaderAndEmpty(true);
-        mAdapter.addHeaderView(mBinding.getRoot());
-        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-
-            DealDetailModel model = (DealDetailModel) adapter.getItem(position);
-
-            if (model.getStatus().equals("0")){ //打开广告编辑
-                if (model.getTradeType().equals("0")){ // 买币
-                    PublishBuyActivity.open(this, CAOGAO, model);
-                }else {
-                    PublishSaleActivity.open(this, CAOGAO, model);
-                }
-            }else {
-                DealActivity.open(this, model.getCode());
-            }
-
-        });
-
+        inits();
+        initAdapter();
         initListener();
 
         // 初始化
@@ -94,16 +70,39 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
         getListData(pageIndex,limit,true);
     }
 
+
+    private void inits() {
+        if (getIntent() == null)
+            return;
+
+        if (!getIntent().getStringExtra("coinType").equals("")){
+            type = getIntent().getStringExtra("coinType");
+        }else {
+            String[] coin = CoinUtil.getAllCoinArray();
+            type = coin[0];
+
+            setTopTitleClickListener(v -> {
+                initPopup(v);
+            });
+        }
+
+        setTopTitle(getStrRes(R.string.user_title_published)+"("+type+")");
+        setTopImgEnable(true);
+        setTopLineState(true);
+        setSubLeftImgState(true);
+
+    }
+
     private void initPopup(View view) {
         MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
-        popupWindow.setNumberPicker(R.id.np_type, COIN_TYPE);
+        popupWindow.setNumberPicker(R.id.np_type, CoinUtil.getAllCoinArray());
 
         popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
             popupWindow.dismiss();
         });
 
         popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
-            type = popupWindow.getNumberPicker(R.id.np_type, COIN_TYPE);
+            type = popupWindow.getNumberPicker(R.id.np_type, CoinUtil.getAllCoinArray());
 
             setTopTitle(getStrRes(R.string.user_title_published)+"("+type+")");
             onMRefresh(1,10);
@@ -111,6 +110,38 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
         });
 
         popupWindow.show(view);
+    }
+
+    private void initAdapter() {
+        mAdapter.setHeaderAndEmpty(true);
+        mAdapter.addHeaderView(mBinding.getRoot());
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+
+            DealDetailModel model = (DealDetailModel) adapter.getItem(position);
+
+            if (model.getStatus().equals("0")){ //打开广告编辑
+
+                // 当前广告的币种是否是Token币种
+                if (Arrays.asList(CoinUtil.getTokenCoinArray()).contains(model.getTradeCoin())){
+                    if (model.getTradeType().equals("0")){ // 买币
+                        PushPublishBuyActivity.open(this, CAOGAO, model);
+                    }else {
+                        PushPublishSaleActivity.open(this, CAOGAO, model);
+                    }
+                }else {
+                    if (model.getTradeType().equals("0")){ // 买币
+                        DealPublishBuyActivity.open(this, CAOGAO, model);
+                    }else {
+                        DealPublishSaleActivity.open(this, CAOGAO, model);
+                    }
+                }
+
+
+            }else {
+                DealActivity.open(this, model.getCode());
+            }
+
+        });
     }
 
     private void initListener() {
@@ -134,7 +165,7 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
 
             statusList.clear();
             statusList.add("1");
-            statusList.add("2");
+//            statusList.add("2");
             statusList.add("3");
             getListData(1,10,false);
         });

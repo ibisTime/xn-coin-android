@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">倍可盈</string>
+    <string name="app_name">Bcoin</string>
     <string name="title_activity_sign_in">SignInActivity</string>
 
     <string name="money_sing">￥</string>
+
+    <string name="start_text">全球首家PUSH交易所</string>
 
     // 交易
     <string name="deal">交易</string>
@@ -319,6 +321,9 @@
     <string name="user_title_invite_history">推荐历史</string>
     <string name="invite_history_none">暂无推荐历史</string>
 
+    <string name="user_title_invite_profit">提成收益</string>
+    <string name="invite_profit_none">暂无提成收益</string>
+
     <string name="user_title_published">我的广告</string>
     <string name="user_published_none">暂无发布</string>
 
@@ -353,7 +358,7 @@
     <string name="user_person_times">次</string>
 
     <string name="user_invite_people">成功邀请(人)</string>
-    <string name="user_invite_profit">提成收益</string>
+    <string name="user_invite_profit">提成收益(BTC)</string>
     <string name="user_invite_confirm">我要推荐</string>
     <string name="user_invite_activity">活动规则</string>
     <string name="user_invite_share_title">分享到</string>
@@ -438,6 +443,7 @@
     <string name="user_buy">我要购买</string>
     <string name="user_sale">我要出售</string>
     <string name="user_adv">我的广告</string>
+    <string name="user_order">我的订单</string>
     <string name="user_address">我的地址</string>
     <string name="user_trust">受信任的</string>
     <string name="user_invite">邀请好友</string>
@@ -516,7 +522,8 @@
     <string name="build_type">环境切换</string>
 
     <string name="main_tag_market">行情</string>
-    <string name="main_tab_order">订单</string>·
+    <string name="main_tab_order">订单</string>
+    <string name="main_tab_push">PUSH</string>
     <string name="main_tab_deal">交易</string>
     <string name="main_tab_wallet">钱包</string>
     <string name="main_tab_my">我的</string>
@@ -535,6 +542,13 @@
     <string name="user_invite_url">分享链接</string>
     <string name="user_invite_pic">分享二维码</string>
 
+    // PUSH
+    <string name="push_none">暂无交易</string>
+    <string name="push_bar_buy">买入</string>
+    <string name="push_bar_sale">卖出</string>
+    <string name="push_bar_deal">交易单</string>
+    <string name="push_bar_order">订单</string>
 
+    <string name="push_publish_hint_price">请填写价格</string>
 
 </resources>

@@ -33,7 +33,6 @@ import com.youth.banner.Transformer;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +100,10 @@ public class UserInviteActivity extends AbsBaseActivity {
         mBinding.llInvite.setOnClickListener(view -> {
             UserInviteHistoryActivity.open(this);
         });
+
+        mBinding.llInviteMore.setOnClickListener(view -> {
+            UserInviteProfitActivity.open(this);
+        });
     }
 
 
@@ -165,23 +168,8 @@ public class UserInviteActivity extends AbsBaseActivity {
 
                 mBinding.tvCount.setText(data.getInviteCount()+"");
 
-                // 允许配置的Coin
-                List<String> coinTypeList = Arrays.asList(MyConfig.COIN_TYPE);
-
-                if (coinTypeList.contains("ETH")){
-                    mBinding.tvProfitEth.setVisibility(View.VISIBLE);
-                    mBinding.tvProfitEth.setText(AccountUtil.amountFormatUnit(new BigDecimal(data.getInviteProfitEth()), "ETH", 8)+"ETH");
-                }
-
-                if (coinTypeList.contains("SC")){
-                    mBinding.tvProfitSc.setVisibility(View.VISIBLE);
-                    mBinding.tvProfitSc.setText(AccountUtil.amountFormatUnit(new BigDecimal(data.getInviteProfitSc()), "SC", 8)+"SC");
-                }
-
-                if (coinTypeList.contains("BTC")){
-                    mBinding.tvProfitBtc.setVisibility(View.VISIBLE);
-                    mBinding.tvProfitBtc.setText(AccountUtil.amountFormatUnit(new BigDecimal(data.getInviteProfitBtc()), "BTC", 8)+"BTC");
-                }
+                mBinding.tvProfitBtc.setVisibility(View.VISIBLE);
+                mBinding.tvProfitBtc.setText(AccountUtil.amountFormatUnit(new BigDecimal(data.getInviteProfitBtc()), "BTC", 8)+"BTC");
 
             }
 

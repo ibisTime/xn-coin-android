@@ -326,6 +326,26 @@ public abstract class BaseRefreshFragment<T> extends BaseLazyFragment {
         tvBtn2.setText(btn2);
     }
 
+    public void setTitleBarNoLeft(String btn1, String btn2){
+        if (mTopTitleView == null) {
+            return;
+        }
+
+        FrameLayout framTitle = (FrameLayout) mTopTitleView.findViewById(R.id.fram_title);
+        framTitle.setVisibility(View.GONE);
+        RelativeLayout rlTitleBar = (RelativeLayout) mTopTitleView.findViewById(R.id.rl_titleBar);
+        rlTitleBar.setVisibility(View.VISIBLE);
+
+        LinearLayout llCoin = (LinearLayout) mTopTitleView.findViewById(R.id.ll_coin);
+        llCoin.setVisibility(View.GONE);
+
+        TextView tvBtn1 = (TextView) mTopTitleView.findViewById(R.id.tv_btn1);
+        tvBtn1.setText(btn1);
+
+        TextView tvBtn2 = (TextView) mTopTitleView.findViewById(R.id.tv_btn2);
+        tvBtn2.setText(btn2);
+    }
+
     public void setTitleBarCoin(String coin){
         TextView tvCoin = (TextView) mTopTitleView.findViewById(R.id.tv_coin);
 

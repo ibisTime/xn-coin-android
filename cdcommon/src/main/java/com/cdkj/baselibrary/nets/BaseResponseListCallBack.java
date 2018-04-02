@@ -69,6 +69,7 @@ public abstract class BaseResponseListCallBack<T> implements Callback<BaseRespon
                 BaseResponseListModel t = response.body();
                 checkState(t);      //根据返回错误的状态码实现相应的操作
             } catch (Exception e) {
+                e.printStackTrace();
                 if (LogUtil.isLog) {
                     onReqFailure(NETERRORCODE4, "未知错误" + e.toString());
                 }else{

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <RadioGroup
+            android:id="@+id/rg_menu"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:clickable="false"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <LinearLayout
+                android:id="@+id/ll_buy"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_buy"
+                    android:gravity="center"
+                    android:text="@string/push_bar_buy"
+                    android:textSize="15sp"
+                    android:textColor="@color/green"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp" />
+
+                <ImageView
+                    android:id="@+id/iv_buy"
+                    android:background="@color/green"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_sale"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_sale"
+                    android:gravity="center"
+                    android:text="@string/push_bar_sale"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorAccent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp" />
+
+                <ImageView
+                    android:id="@+id/iv_sale"
+                    android:visibility="gone"
+                    android:background="@color/colorAccent"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_deal"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_deal"
+                    android:gravity="center"
+                    android:text="@string/push_bar_deal"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_order"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_order"
+                    android:gravity="center"
+                    android:text="@string/push_bar_order"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp" />
+
+
+            </LinearLayout>
+
+        </RadioGroup>
+
+        <View
+            android:background="@color/gray_eeeeee"
+            android:layout_width="match_parent"
+            android:layout_height="1px"/>
+    </LinearLayout>
+</layout>

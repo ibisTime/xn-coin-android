@@ -19,5 +19,21 @@
             android:layout_width="match_parent"
             android:layout_height="1px"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_coin"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_centerVertical="true"
+            android:scrollbars="none"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+
+        <View
+            android:background="@color/gray_f7f7f7"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
     </LinearLayout>
 </layout>

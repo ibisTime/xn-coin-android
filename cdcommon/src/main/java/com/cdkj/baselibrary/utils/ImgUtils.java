@@ -145,7 +145,6 @@ public class ImgUtils {
                     .load(path.toString())
                     .into(iv);
         } else {
-
             Glide.with(context)
                     .load(MyConfig.IMGURL + path.toString())
                     .into(iv);
