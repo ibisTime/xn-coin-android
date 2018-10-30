@@ -50,11 +50,11 @@ public class WxUtil {
             Toast.makeText(context,"没有安装微信，不能分享到朋友圈", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(!api.isWXAppSupportAPI())
-        {
-            Toast.makeText(context,"您使用的微信版本不支持微信支付！", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//        if(!api.isWXAppSupportAPI())
+//        {
+//            Toast.makeText(context,"您使用的微信版本不支持微信支付！", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
         return isPaySupported;
     }
 

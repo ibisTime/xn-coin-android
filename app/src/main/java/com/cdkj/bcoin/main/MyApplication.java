@@ -29,8 +29,6 @@ public class MyApplication extends Application {
 
     public static Application application;
 
-
-
     @Override
     public void onCreate() {
         super.onCreate();

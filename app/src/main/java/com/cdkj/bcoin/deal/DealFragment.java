@@ -154,8 +154,6 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
     }
 
     private void initRecyclerView() {
-
-
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -359,9 +357,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
                 onMRefresh(1,10,true);
 
                 break;
-
         }
-
     }
 
 }

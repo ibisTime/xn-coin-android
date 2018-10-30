@@ -368,7 +368,7 @@
     <string name="user_invite_title_web">点击分享</string>
     <string name="user_invite_title_right">推荐历史</string>
 
-    <string name="user_sign_in_mobile_hint">请输入手机号</string>
+    <string name="user_sign_in_mobile_hint">请输入账号</string>
     <string name="user_sign_in_pwd_hint">请输入密码</string>
     <string name="user_sign_in_confirm">确认登录</string>
     <string name="user_sign_in_forget">忘记密码?</string>
@@ -550,5 +550,9 @@
     <string name="push_bar_order">订单</string>
 
     <string name="push_publish_hint_price">请填写价格</string>
+    <string name="user_qr">收款设置</string>
+    <string name="user_title_qr">收款账号</string>
+    <string name="deal_publish_pay_img">付款账号</string>
+    <string name="deal_publish_pay_qr">付款码</string>
 
 </resources>

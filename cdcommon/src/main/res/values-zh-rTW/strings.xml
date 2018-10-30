@@ -14,7 +14,7 @@
     <string name="activity_authenticate_download_confirm">好的</string>
     <string name="activity_authenticate_download_cancel">算了</string>
     <string name="activity_find_title">找回密碼</string>
-    <string name="activity_find_mobile_hint">請輸入手機號</string>
+    <string name="activity_find_mobile_hint">請輸入賬號</string>
     <string name="activity_find_code_hint">請輸入驗證碼</string>
     <string name="activity_find_google_hint">請輸入谷歌驗證碼</string>
     <string name="activity_find_password_hint">請輸入密碼</string>
@@ -46,7 +46,7 @@
     <string name="activity_paypwd_modify_sucess">修改成功</string>
     <string name="activity_paypwd_set_success">設置成功</string>
     <string name="activity_mobile_title">修改手機號</string>
-    <string name="activity_mobile_mobile_hint">請輸入手機號</string>
+    <string name="activity_mobile_mobile_hint">請輸入賬號</string>
     <string name="activity_mobile_code_hint">請輸入驗證碼</string>
     <string name="activity_mobile_modify_success">手機號修改成功</string>
     <string name="activity_base_tip">提示</string>
@@ -56,8 +56,8 @@
     <string name="activity_authenticate_id">身份證號</string>
     <string name="activity_authenticate_id_hint">請輸入身份證號</string>
     <string name="activity_nick_name">昵稱</string>
-    <string name="activity_find_mobile">手機號</string>
-    <string name="activity_find_code">手機驗證碼</string>
+    <string name="activity_find_mobile">賬\u3000\u3000號</string>
+    <string name="activity_find_code">驗證碼</string>
     <string name="activity_find_password">新密碼</string>
     <string name="activity_find_repassword">確認密碼</string>
     <string name="activity_find_google_paste">粘貼</string>

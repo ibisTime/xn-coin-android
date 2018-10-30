@@ -368,7 +368,7 @@
     <string name="user_invite_title_web">點擊分享</string>
     <string name="user_invite_title_right">推薦歷史</string>
 
-    <string name="user_sign_in_mobile_hint">請輸入手機號</string>
+    <string name="user_sign_in_mobile_hint">請輸入賬號</string>
     <string name="user_sign_in_pwd_hint">請輸入密碼</string>
     <string name="user_sign_in_confirm">確認登錄</string>
     <string name="user_sign_in_forget">忘記密碼?</string>
@@ -550,5 +550,9 @@
     <string name="push_bar_order">訂單</string>
 
     <string name="push_publish_hint_price">請填寫價格</string>
+    <string name="user_qr">收款设置</string>
+    <string name="user_title_qr">收款账号</string>
+    <string name="deal_publish_pay_img">付款账号</string>
+    <string name="deal_publish_pay_qr">付款码</string>
 
 </resources>

@@ -21,6 +21,7 @@ import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.AppUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
+import com.cdkj.baselibrary.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -96,10 +97,23 @@ public class PayPwdModifyActivity extends AbsBaseActivity implements SendCodeInt
 
                 String bizType = "";
                 if (mIsSetPwd) {
-                    bizType = "805067";//修改
+
+                    String name = mBinding.edtPhone.getText().toString();
+                    if (TextUtils.isEmpty(name)) {
+                        ToastUtil.show(PayPwdModifyActivity.this, getString(R.string.activity_mobile_mobile_hint));
+                        return;
+                    }
+                    if (name.contains("@")) {
+                        //发送邮箱验证码
+                        bizType = "805952";//修改
+                    } else {
+                        //发送  手机验证码
+                        bizType = "805067";//修改
+                    }
+
+
                 } else {
                     bizType = "805066";
-
                 }
 
                 mSendCoodePresenter.sendCodeRequest(mBinding.edtPhone.getText().toString(), bizType, MyConfig.USERTYPE, PayPwdModifyActivity.this);
@@ -117,8 +131,8 @@ public class PayPwdModifyActivity extends AbsBaseActivity implements SendCodeInt
                     showToast(getString(R.string.activity_paypwd_code_hint));
                     return;
                 }
-                if (SPUtilHelper.getGoogleAuthFlag()){
-                    if (TextUtils.isEmpty(mBinding.edtGoogle.getText().toString())){
+                if (SPUtilHelper.getGoogleAuthFlag()) {
+                    if (TextUtils.isEmpty(mBinding.edtGoogle.getText().toString())) {
                         showToast(getString(R.string.activity_paypwd_google_hint));
                         return;
                     }
@@ -176,7 +190,6 @@ public class PayPwdModifyActivity extends AbsBaseActivity implements SendCodeInt
                     showToast(getString(R.string.activity_paypwd_modify_sucess));
                 } else {
                     showToast(getString(R.string.activity_paypwd_set_success));
-
                     EventBusModel eventBusModel = new EventBusModel();
                     eventBusModel.setTag(EventTags.CHANGE_PAY_PWD_REFRESH);
                     EventBus.getDefault().post(eventBusModel);

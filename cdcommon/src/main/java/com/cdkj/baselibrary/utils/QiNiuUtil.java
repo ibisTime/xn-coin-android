@@ -110,10 +110,10 @@ public class QiNiuUtil {
         getQiniuToeknRequest().enqueue(new BaseResponseModelCallBack<QiniuGetTokenModel>(context) {
             @Override
             protected void onSuccess(QiniuGetTokenModel mo, String SucMessage) {
-                if(mo==null ||  TextUtils.isEmpty(mo.getUploadToken())){
+                if(mo==null ||  TextUtils.isEmpty(mo.getEncodedPolicy())){
                     return;
                 }
-                token=mo.getUploadToken();
+                token=mo.getEncodedPolicy();
 
                 try {
                     Compressor(callBack,data,token);

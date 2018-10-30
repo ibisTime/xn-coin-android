@@ -92,24 +92,23 @@ public class AuthenticateActivity extends AbsBaseActivity {
     private void authenticate() {
 
         Map<String, String> object = new HashMap<>();
-        object.put("returnUrl", "bcoin://certi.back");
         object.put("userId", SPUtilHelper.getUserId());
         object.put("realName", mBinding.edtName.getText().toString().trim());
-        object.put("localCheck", "0");
+        object.put("idKind", "1");
         object.put("idNo", mBinding.edtIdentity.getText().toString().trim());
 
-        Call call = RetrofitUtils.getBaseAPiService().successRequest("805195", StringUtils.getJsonToString(object));
+        Call call = RetrofitUtils.getBaseAPiService().successRequest("805191", StringUtils.getJsonToString(object));
         addCall(call);
         showLoadingDialog();
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
 
-                if(data.isSuccess()){
+                if (data.isSuccess()) {
                     SPUtilHelper.saveRealName(mBinding.edtName.getText().toString().trim());
                     showToast(getString(R.string.activity_authenticate_success));
                     finish();
-                }else{
+                } else {
                     bizNo = data.getBizNo();
                     doVerify(data.getUrl());
                 }
@@ -121,6 +120,36 @@ public class AuthenticateActivity extends AbsBaseActivity {
                 disMissLoading();
             }
         });
+// Map<String, String> object = new HashMap<>();
+//        object.put("returnUrl", "bcoin://certi.back");
+//        object.put("userId", SPUtilHelper.getUserId());
+//        object.put("realName", mBinding.edtName.getText().toString().trim());
+//        object.put("localCheck", "0");
+//        object.put("idNo", mBinding.edtIdentity.getText().toString().trim());
+//
+//        Call call = RetrofitUtils.getBaseAPiService().successRequest("805195", StringUtils.getJsonToString(object));
+//        addCall(call);
+//        showLoadingDialog();
+//        call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(this) {
+//            @Override
+//            protected void onSuccess(IsSuccessModes data, String SucMessage) {
+//
+//                if(data.isSuccess()){
+//                    SPUtilHelper.saveRealName(mBinding.edtName.getText().toString().trim());
+//                    showToast(getString(R.string.activity_authenticate_success));
+//                    finish();
+//                }else{
+//                    bizNo = data.getBizNo();
+//                    doVerify(data.getUrl());
+//                }
+//
+//            }
+//
+//            @Override
+//            protected void onFinish() {
+//                disMissLoading();
+//            }
+//        });
 
     }
 

@@ -29,7 +29,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import retrofit2.Call;
 
 import static com.cdkj.baseim.activity.TxImLogingActivity.ORDER_DNS_DONE;
@@ -48,6 +54,7 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
     private OrderDetailModel bean;
 
     private List<String> statusList = new ArrayList<>();
+    private Disposable subscribe;
 
     public static OrderDoneFragment getInstance() {
         OrderDoneFragment fragment = new OrderDoneFragment();
@@ -56,6 +63,20 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
 
     @Override
     protected void afterCreate(int pageIndex, int limit) {
+
+        subscribe = Observable.interval(10, 10, TimeUnit.MINUTES)//分钟
+                .compose(new ObservableTransformer<Long, Long>() {
+                    @Override
+                    public ObservableSource<Long> apply(Observable<Long> upstream) {
+                        return upstream;
+                    }
+                })
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long o) throws Exception {
+                        onMRefresh(1, 10, true);
+                    }
+                });
         // 初始化
         statusList.clear();
         statusList.add("2");
@@ -73,7 +94,7 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
                 info.setLeftImg(bean.getSellUserInfo().getPhoto());
                 info.setLeftName(bean.getSellUserInfo().getNickname());
 
-            }else { // 自己是卖家
+            } else { // 自己是卖家
                 info.setLeftImg(bean.getBuyUserInfo().getPhoto());
                 info.setLeftName(bean.getBuyUserInfo().getNickname());
 
@@ -82,10 +103,10 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
             info.setRightName(SPUtilHelper.getUserName());
             info.setIdentify(bean.getCode());
 
-            if (bean.getStatus().equals("-1")){ // 待下单订单
-                TxImLogingActivity.open(mActivity, info,false,true, ORDER_DNS_DONE);
-            }else { // 已下单订单
-                TxImLogingActivity.open(mActivity, info,false,true, ORDER_DONE);
+            if (bean.getStatus().equals("-1")) { // 待下单订单
+                TxImLogingActivity.open(mActivity, info, false, true, ORDER_DNS_DONE);
+            } else { // 已下单订单
+                TxImLogingActivity.open(mActivity, info, false, true, ORDER_DONE);
             }
         });
 
@@ -99,7 +120,7 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
         if (mBinding == null)
             return;
 
-        onMRefresh(1,10,true);
+        onMRefresh(1, 10, true);
     }
 
     @Override
@@ -108,7 +129,7 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
 
         if (mBinding == null)
             return;
-        onMRefresh(1,10,true);
+        onMRefresh(1, 10, true);
     }
 
 
@@ -130,8 +151,8 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
         map.put("tradeCoin", coinType);
         map.put("tradeCurrency", "");
         map.put("type", "");
-        map.put("start", pageIndex+"");
-        map.put("limit", limit+"");
+        map.put("start", pageIndex + "");
+        map.put("limit", limit + "");
 
         Call call = RetrofitUtils.createApi(MyApi.class).getOrder("625250", StringUtils.getJsonToString(map));
 
@@ -176,8 +197,8 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
     }
 
     @Subscribe
-    public void openOrderActivity(ImUserInfo imUserInfo){
-        if (imUserInfo.getEventTag().equals(ORDER_DONE)){
+    public void openOrderActivity(ImUserInfo imUserInfo) {
+        if (imUserInfo.getEventTag().equals(ORDER_DONE)) {
 
             OrderDetailActivity.open(mActivity, bean, imUserInfo);
         }
@@ -185,8 +206,8 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
     }
 
     @Subscribe
-    public void openDealChatActivity(ImUserInfo imUserInfo){
-        if (imUserInfo.getEventTag().equals(ORDER_DNS_DONE)){
+    public void openDealChatActivity(ImUserInfo imUserInfo) {
+        if (imUserInfo.getEventTag().equals(ORDER_DNS_DONE)) {
 
             DealChatActivity.open(mActivity, bean, imUserInfo);
 
@@ -199,9 +220,9 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
         OrderFragment.conversationList = TIMManagerExt.getInstance().getConversationList();
         List<OrderDetailModel> list = mAdapter.getData();
 
-        for (OrderDetailModel model : list){
+        for (OrderDetailModel model : list) {
 
-            for (TIMConversation conversation : TIMManagerExt.getInstance().getConversationList()){
+            for (TIMConversation conversation : TIMManagerExt.getInstance().getConversationList()) {
 
                 // 会话Id是否等于订单Id
                 if (model.getCode().equals(conversation.getPeer())) {
@@ -214,7 +235,7 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
             }
         }
 
-        if (num > -1){
+        if (num > -1) {
             EventBusModel model = new EventBusModel();
             model.setTag(EventTags.IM_MSG_TIP_DONE);
             model.setEvInt(num);
@@ -224,9 +245,9 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
 
     @Subscribe
     public void imMsgUpdate(String tag) {
-        if (tag.equals(IM_MSG_UPDATE)){
+        if (tag.equals(IM_MSG_UPDATE)) {
 
-            onMRefresh(1,10,false);
+            onMRefresh(1, 10, false);
 
         }
 
@@ -234,16 +255,24 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
 
     /**
      * 根据选择的币种刷新订单列表
+     *
      * @param model
      */
     @Subscribe
     public void refreshOrderList(EventBusModel model) {
-        if (model.getTag().equals(ORDER_COIN_TYPE)){
-            if (getUserVisibleHint()){
-                onMRefresh(1,10,true);
+        if (model.getTag().equals(ORDER_COIN_TYPE)) {
+            if (getUserVisibleHint()) {
+                onMRefresh(1, 10, true);
             }
         }
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (subscribe != null) {
+            subscribe.dispose();
+        }
+    }
 }

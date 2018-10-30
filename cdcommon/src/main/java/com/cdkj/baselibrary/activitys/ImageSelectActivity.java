@@ -59,8 +59,7 @@ public class ImageSelectActivity extends Activity implements View.OnClickListene
         if (activity == null) {
             return;
         }
-        activity.startActivityForResult(new Intent(activity, ImageSelectActivity.class)
-                , photoid);
+        activity.startActivityForResult(new Intent(activity, ImageSelectActivity.class),photoid);
     }
 
     public static void launch(Activity activity, boolean isSplit, int photoid) {

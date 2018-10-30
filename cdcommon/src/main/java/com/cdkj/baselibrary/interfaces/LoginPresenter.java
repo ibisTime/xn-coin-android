@@ -39,11 +39,27 @@ public class LoginPresenter {
             ToastUtil.show(context, "请输入密码");
             return;
         }
-        HashMap<String,String> hashMap=new HashMap<>();
+        phoneLogin(username, password);
+//        if (username.contains("@")) {
+//            //邮箱登录
+//            phoneEmail(username, password);
+//
+//        } else {
+//            //手机号登陆
+//            phoneLogin(username, password);
+//        }
 
-        hashMap.put("loginName",username);
-        hashMap.put("loginPwd",password);
-        hashMap.put("kind",MyConfig.USERTYPE);
+    }
+
+    private void phoneEmail(String username, String password) {
+
+    }
+
+    private void phoneLogin(String username, String password) {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("loginName", username);
+        hashMap.put("loginPwd", password);
+        hashMap.put("kind", MyConfig.USERTYPE);
         hashMap.put("systemCode", MyConfig.SYSTEMCODE);
 
         call = RetrofitUtils.getBaseAPiService().userLogin("805050", StringUtils.getJsonToString(hashMap));
@@ -75,7 +91,7 @@ public class LoginPresenter {
 
     //处理持有对象
     public void clear() {
-        if(this.call!=null){
+        if (this.call != null) {
             this.call.cancel();
             this.call = null;
         }

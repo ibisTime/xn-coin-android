@@ -14,7 +14,7 @@
     <string name="activity_authenticate_download_confirm">好的</string>
     <string name="activity_authenticate_download_cancel">算了</string>
     <string name="activity_find_title">找回密码</string>
-    <string name="activity_find_mobile_hint">请输入手机号</string>
+    <string name="activity_find_mobile_hint">请入输账号</string>
     <string name="activity_find_code_hint">请输入验证码</string>
     <string name="activity_find_google_hint">请输入谷歌验证码</string>
     <string name="activity_find_password_hint">请输入密码</string>
@@ -46,7 +46,7 @@
     <string name="activity_paypwd_modify_sucess">修改成功</string>
     <string name="activity_paypwd_set_success">设置成功</string>
     <string name="activity_mobile_title">修改手机号</string>
-    <string name="activity_mobile_mobile_hint">请输入手机号</string>
+    <string name="activity_mobile_mobile_hint">请输入账号</string>
     <string name="activity_mobile_code_hint">请输入验证码</string>
     <string name="activity_mobile_modify_success">手机号修改成功</string>
     <string name="activity_base_tip">提示</string>
@@ -56,8 +56,8 @@
     <string name="activity_authenticate_id">身份证号</string>
     <string name="activity_authenticate_id_hint">请输入身份证号</string>
     <string name="activity_nick_name">昵称</string>
-    <string name="activity_find_mobile">手机号</string>
-    <string name="activity_find_code">手机验证码</string>
+    <string name="activity_find_mobile">账\u3000\u3000号</string>
+    <string name="activity_find_code">验证码</string>
     <string name="activity_find_password">新密码</string>
     <string name="activity_find_repassword">确认密码</string>
     <string name="activity_find_google_paste">粘贴</string>

@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bky.iml" filepath="$PROJECT_DIR$/bky.iml" />
       <module fileurl="file://$PROJECT_DIR$/cdcommon/cdcommon.iml" filepath="$PROJECT_DIR$/cdcommon/cdcommon.iml" />
       <module fileurl="file://$PROJECT_DIR$/cdim/cdim.iml" filepath="$PROJECT_DIR$/cdim/cdim.iml" />
-      <module fileurl="file://$PROJECT_DIR$/xn-coin-android.iml" filepath="$PROJECT_DIR$/xn-coin-android.iml" />
     </modules>
   </component>
 </project>

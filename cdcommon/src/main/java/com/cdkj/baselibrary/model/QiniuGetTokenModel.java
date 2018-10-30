@@ -7,6 +7,24 @@ package com.cdkj.baselibrary.model;
 public class QiniuGetTokenModel {
 
     private String uploadToken;
+    private String token;
+    private String encodedPolicy;
+
+    public String getEncodedPolicy() {
+        return encodedPolicy;
+    }
+
+    public void setEncodedPolicy(String encodedPolicy) {
+        this.encodedPolicy = encodedPolicy;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getUploadToken() {
         return uploadToken;

@@ -123,7 +123,8 @@ public class PushPublishBuyActivity extends AbsBaseActivity {
     }
 
     private void init() {
-        types = new String[]{getStrRes(R.string.zhifubao), getStrRes(R.string.weixin), getStrRes(R.string.card)};
+//        types = new String[]{getStrRes(R.string.zhifubao), getStrRes(R.string.weixin), getStrRes(R.string.card)};
+        types = new String[]{getStrRes(R.string.zhifubao)};
 
         if (getIntent() != null){
             status = getIntent().getStringExtra("status");

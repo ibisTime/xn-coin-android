@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ public class UserSettingActivity extends AbsBaseActivity implements TxImLogoutIn
 
     private ActivityUserSettingBinding mBinding;
 
-    public static void open(Context context){
+    public static void open(Context context) {
         if (context == null) {
             return;
         }
@@ -68,31 +69,38 @@ public class UserSettingActivity extends AbsBaseActivity implements TxImLogoutIn
 
     private void init() {
         mBinding.tvMail.setText(SPUtilHelper.getUserEmail());
-        if (SPUtilHelper.getRealName() != null && SPUtilHelper.getRealName().length()>1){
+        if (SPUtilHelper.getRealName() != null && SPUtilHelper.getRealName().length() > 1) {
             String name = "";
-            for (int i = 1; i<SPUtilHelper.getRealName().length(); i++){
+            for (int i = 1; i < SPUtilHelper.getRealName().length(); i++) {
                 name += "*";
             }
-            mBinding.tvIdentity.setText(name+SPUtilHelper.getRealName().substring(SPUtilHelper.getRealName().length()-1,SPUtilHelper.getRealName().length()));
+            mBinding.tvIdentity.setText(name + SPUtilHelper.getRealName().substring(SPUtilHelper.getRealName().length() - 1, SPUtilHelper.getRealName().length()));
         }
-        mBinding.tvMobile.setText(SPUtilHelper.getUserPhoneNum().substring(0,3)+"****"+SPUtilHelper.getUserPhoneNum().substring(SPUtilHelper.getUserPhoneNum().length()-4, SPUtilHelper.getUserPhoneNum().length()));
+        mBinding.tvMobile.setText(SPUtilHelper.getUserPhoneNum().substring(0, 3) + "****" + SPUtilHelper.getUserPhoneNum().substring(SPUtilHelper.getUserPhoneNum().length() - 4, SPUtilHelper.getUserPhoneNum().length()));
 
         if (!SPUtilHelper.getGoogleAuthFlag()) { // 未打开谷歌验证
             mBinding.tvGoogle.setText(getStrRes(R.string.user_google_close));
-        }else {
+        } else {
             mBinding.tvGoogle.setText(getStrRes(R.string.user_google_open));
         }
     }
 
     private void initListener() {
+        //资金密码
         mBinding.llTradePwd.setOnClickListener(view -> {
-            PayPwdModifyActivity.open(this, SPUtilHelper.getTradePwdFlag(), SPUtilHelper.getUserPhoneNum());
+            String userPhoneNum = SPUtilHelper.getUserPhoneNum();
+            if (!TextUtils.isEmpty(userPhoneNum)) {
+                PayPwdModifyActivity.open(this, SPUtilHelper.getTradePwdFlag(), SPUtilHelper.getUserPhoneNum());
+            } else {
+                //如果手机号没有  就去取邮箱
+                PayPwdModifyActivity.open(this, SPUtilHelper.getTradePwdFlag(), SPUtilHelper.getUserEmail());
+            }
         });
 
         mBinding.llIdentity.setOnClickListener(view -> {
-            if (SPUtilHelper.getRealName() == null || SPUtilHelper.getRealName().equals("")){
+            if (SPUtilHelper.getRealName() == null || SPUtilHelper.getRealName().equals("")) {
                 AuthenticateActivity.open(this);
-            }else {
+            } else {
                 showToast(getStrRes(R.string.user_identity_success));
             }
         });
@@ -112,9 +120,14 @@ public class UserSettingActivity extends AbsBaseActivity implements TxImLogoutIn
         mBinding.llGoogle.setOnClickListener(view -> {
             if (!SPUtilHelper.getGoogleAuthFlag()) { // 未打开谷歌验证
                 UserGoogleActivity.open(this, "open");
-            }else {
+            } else {
                 popupType(view);
             }
+        });
+
+        //收款设置
+        mBinding.llQr.setOnClickListener(view -> {
+            UserQRSetting.open(this);
         });
 
         mBinding.llLanguage.setOnClickListener(view -> {
@@ -133,7 +146,7 @@ public class UserSettingActivity extends AbsBaseActivity implements TxImLogoutIn
         SPUtilHelper.logOutClear();
         EventBus.getDefault().post(EventTags.AllFINISH);
 
-        SignInActivity.open(UserSettingActivity.this,true);
+        SignInActivity.open(UserSettingActivity.this, true);
         finish();
     }
 
@@ -142,7 +155,7 @@ public class UserSettingActivity extends AbsBaseActivity implements TxImLogoutIn
         SPUtilHelper.logOutClear();
         EventBus.getDefault().post(EventTags.AllFINISH);
 
-        SignInActivity.open(UserSettingActivity.this,true);
+        SignInActivity.open(UserSettingActivity.this, true);
         finish();
     }
 
@@ -151,7 +164,7 @@ public class UserSettingActivity extends AbsBaseActivity implements TxImLogoutIn
         SPUtilHelper.logOutClear();
         EventBus.getDefault().post(EventTags.AllFINISH);
 
-        SignInActivity.open(UserSettingActivity.this,true);
+        SignInActivity.open(UserSettingActivity.this, true);
         finish();
     }
 

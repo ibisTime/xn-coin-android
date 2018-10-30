@@ -33,7 +33,7 @@
                         android:layout_centerInParent="true"
                         android:layout_width="62dp"
                         android:layout_height="62dp">
-8
+
                         <TextView
                             android:id="@+id/tv_avatar"
                             android:gravity="center"

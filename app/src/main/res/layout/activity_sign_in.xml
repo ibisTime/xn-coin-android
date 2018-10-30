@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="25dp"
-                android:inputType="phone"
+                android:inputType="text"
                 android:background="@null"
                 android:hint="@string/user_sign_in_mobile_hint"
                 android:textColorHint="@color/gray_999999"

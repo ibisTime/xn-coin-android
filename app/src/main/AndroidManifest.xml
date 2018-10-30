@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,87 +11,87 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <permission android:name="com.cdkj.ethereum.permission.MIPUSH_RECEIVE" android:protectionLevel="signature" />
-    <!--这里com.tencent.imsdk改成app的包名,不是项目目录名-->
+    <permission
+        android:name="com.cdkj.ethereum.permission.MIPUSH_RECEIVE"
+        android:protectionLevel="signature" />
+    <!-- 这里com.tencent.imsdk改成app的包名,不是项目目录名 -->
     <uses-permission android:name="com.cdkj.ethereum.permission.MIPUSH_RECEIVE" />
-    <!--这里com.tencent.imsdk改成app的包名,不是项目目录名-->
 
+    <!-- 这里com.tencent.imsdk改成app的包名,不是项目目录名 -->
     <application
-        android:name="com.cdkj.bcoin.main.MyApplication"
+        android:name=".main.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name="com.cdkj.bcoin.user.login.StartActivity">
+        <activity android:name=".user.login.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.cdkj.bcoin.main.MainActivity"
+        <activity
+            android:name=".main.MainActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity android:name="com.cdkj.bcoin.wallet.ExchangeActivity"/>
-        <activity android:name="com.cdkj.bcoin.wallet.ExchangePastActivity"/>
-        <activity android:name="com.cdkj.bcoin.wallet.account.BillActivity" />
-        <activity android:name="com.cdkj.bcoin.wallet.account.BillDetailActivity" />
-        <activity android:name="com.cdkj.bcoin.wallet.account.RechargeActivity"/>
-        <activity android:name="com.cdkj.bcoin.wallet.account.WithdrawActivity"/>
-
-        <activity android:name="com.cdkj.bcoin.deal.DealActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".wallet.ExchangeActivity" />
+        <activity android:name=".wallet.ExchangePastActivity" />
+        <activity android:name=".wallet.account.BillActivity" />
+        <activity android:name=".wallet.account.BillDetailActivity" />
+        <activity android:name=".wallet.account.RechargeActivity" />
+        <activity android:name=".wallet.account.WithdrawActivity" />
+        <activity
+            android:name=".deal.DealActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.cdkj.bcoin.deal.DealPublishSaleActivity"/>
-        <activity android:name="com.cdkj.bcoin.deal.SearchUserActivity"/>
-        <activity android:name="com.cdkj.bcoin.deal.SearchDealActivity"/>
-        <activity android:name="com.cdkj.bcoin.deal.DealSearchActivity"/>
-        <activity android:name="com.cdkj.bcoin.deal.DealChatActivity"
+        <activity android:name=".deal.DealPublishSaleActivity" />
+        <activity android:name=".deal.SearchUserActivity" />
+        <activity android:name=".deal.SearchDealActivity" />
+        <activity android:name=".deal.DealSearchActivity" />
+        <activity
+            android:name=".deal.DealChatActivity"
             android:launchMode="singleTask" />
-        <activity android:name="com.cdkj.bcoin.deal.DealPublishBuyActivity"/>
-
-        <activity android:name="com.cdkj.bcoin.order.OrderDetailActivity"
+        <activity android:name=".deal.DealPublishBuyActivity" />
+        <activity
+            android:name=".order.OrderDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
-        <activity android:name="com.cdkj.bcoin.market.MarketActivity"/>
-        <activity android:name="com.cdkj.bcoin.market.SystemMessageActivity"/>
-
-        <activity android:name="com.cdkj.bcoin.user.UserTrustActivity"/>
-        <activity android:name="com.cdkj.bcoin.user.UserInviteActivity"/>
-        <activity android:name="com.cdkj.bcoin.user.UserInviteHistoryActivity"/>
-        <activity android:name="com.cdkj.bcoin.user.UserAddressActivity"/>
-        <activity android:name="com.cdkj.bcoin.user.UserAddAddressActivity"/>
-        <activity android:name="com.cdkj.bcoin.user.UserSettingActivity"/>
-        <activity android:name="com.cdkj.bcoin.user.UserPersonActivity" />
-        <activity android:name="com.cdkj.bcoin.user.UserTipActivity"/>
-        <activity android:name="com.cdkj.bcoin.user.UserEmailActivity"/>
-        <activity android:name="com.cdkj.bcoin.user.UserGoogleActivity" />
-        <activity android:name="com.cdkj.bcoin.user.UserPublishedActivity"/>
-        <activity android:name="com.cdkj.bcoin.user.UserLanguageActivity" />
-        <activity android:name="com.cdkj.bcoin.user.UserPasswordActivity" />
-        <activity android:name="com.cdkj.bcoin.user.UserAboutActivity" />
-        <activity android:name="com.cdkj.bcoin.user.login.SignInActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name="com.cdkj.bcoin.user.login.SignUpActivity"/>
-        <activity android:name="com.cdkj.bcoin.user.login.KickActivity" android:theme="@style/ActivityTXLoginDialog" />
-
+        <activity android:name=".market.MarketActivity" />
+        <activity android:name=".market.SystemMessageActivity" />
+        <activity android:name=".user.UserTrustActivity" />
+        <activity android:name=".user.UserInviteActivity" />
+        <activity android:name=".user.UserInviteHistoryActivity" />
+        <activity android:name=".user.UserAddressActivity" />
+        <activity android:name=".user.UserAddAddressActivity" />
+        <activity android:name=".user.UserSettingActivity" />
+        <activity android:name=".user.UserPersonActivity" />
+        <activity android:name=".user.UserTipActivity" />
+        <activity android:name=".user.UserEmailActivity" />
+        <activity android:name=".user.UserGoogleActivity" />
+        <activity android:name=".user.UserPublishedActivity" />
+        <activity android:name=".user.UserLanguageActivity" />
+        <activity android:name=".user.UserPasswordActivity" />
+        <activity android:name=".user.UserAboutActivity" />
+        <activity
+            android:name=".user.login.SignInActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".user.login.SignUpActivity" />
+        <activity
+            android:name=".user.login.KickActivity"
+            android:theme="@style/ActivityTXLoginDialog" />
         <activity android:name=".wallet.account.WithdrawOrderActivity" />
         <activity android:name=".user.UserInviteProfitActivity" />
         <activity android:name=".order.OrderActivity" />
-        <service android:name=".service.OrderTipService" >
-        </service>
-        <service android:name=".service.CoinListService" >
-        </service>
 
+        <service android:name=".service.OrderTipService"></service>
+        <service android:name=".service.CoinListService"></service>
         //找回密码
         <activity
             android:name="com.cdkj.baselibrary.activitys.FindPwdActivity"
@@ -126,8 +125,7 @@
         <activity
             android:name="com.cdkj.baselibrary.activitys.AuthenticateActivity"
             android:launchMode="singleTask">
-
-             需要添加下面的intent-filter配置
+            需要添加下面的intent-filter配置
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -139,51 +137,46 @@
                     android:scheme="bcoin" />
             </intent-filter>
         </activity>
-
         //
         <activity
-            android:theme="@style/ActivityTXLoginDialog"
             android:name="com.cdkj.baseim.activity.TxImLogingActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/ActivityTXLoginDialog"
             android:windowSoftInputMode="adjustPan" />
-
         //
         <activity
             android:name="com.cdkj.baseim.activity.TxImPushActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
         //
         <activity
             android:name="com.cdkj.baseim.activity.ImImageViewActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
         //
         <activity
             android:name="com.cdkj.baseim.activity.ImImagePreviewActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
         //
         <activity
             android:name="com.cdkj.baseim.activity.ChatC2CActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
         // 设置支持和联系我们页面的主题（不过没用）
-        <activity android:name="com.zendesk.sdk.support.SupportActivity"
+        <activity
+            android:name="com.zendesk.sdk.support.SupportActivity"
             android:theme="@style/ZopimChatTheme" />
-
-        <activity android:name="com.zendesk.sdk.feedback.ui.ContactZendeskActivity"
+        <activity
+            android:name="com.zendesk.sdk.feedback.ui.ContactZendeskActivity"
             android:theme="@style/ZopimChatTheme" />
-
 
         <!-- 三方相关 -->
 
+
         <!-- 微信分享回调 -->
         <activity
-            android:name="com.cdkj.bcoin.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:launchMode="singleTask"
@@ -192,19 +185,16 @@
         <activity android:name=".push.PushPublishSaleActivity" />
         <activity android:name=".push.PushPublishBuyActivity" />
 
-
         <!-- tencentIM -->
         <!-- 【必须】消息收发service -->
         <service
             android:name="com.tencent.qalsdk.service.QalService"
             android:exported="true"
-            android:process=":QALSERVICE" >
-        </service>
+            android:process=":QALSERVICE"></service>
         <service
             android:name="com.tencent.qalsdk.service.QalAssistService"
             android:exported="false"
-            android:process=":QALSERVICE" >
-        </service>
+            android:process=":QALSERVICE"></service>
 
         <!-- 【必须】 离线消息广播接收器 -->
         <receiver
@@ -215,7 +205,8 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.tencent.qalsdk.core.NetConnInfoCenter" android:process=":QALSERVICE">
+            android:name="com.tencent.qalsdk.core.NetConnInfoCenter"
+            android:process=":QALSERVICE">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -234,7 +225,6 @@
                 <action android:name="com.tencent.qalsdk.service.TASK_REMOVED" />
             </intent-filter>
         </receiver>
-
 
         <!-- mipush -->
         <service
@@ -273,6 +263,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
@@ -286,7 +277,9 @@
         </receiver>
         <!-- mipush -->
 
+
         <!-- hwpush -->
+
 
         <!-- 第三方相关 :接收Push消息（注册、Push消息、Push连接状态、标签，LBS上报结果）广播 -->
         <receiver android:name=".util.HwPushMessageReceiver">
@@ -342,10 +335,11 @@
         <!-- PushSDK:Push服务 -->
         <service
             android:name="com.huawei.android.pushagent.PushService"
-            android:process=":HwPushService"/>
+            android:process=":HwPushService" />
 
         <!-- hwpush -->
 
+        <activity android:name=".user.UserQRSetting"></activity>
     </application>
 
 </manifest>

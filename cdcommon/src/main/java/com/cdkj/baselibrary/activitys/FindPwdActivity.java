@@ -19,6 +19,7 @@ import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.AppUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
+import com.cdkj.baselibrary.utils.ToastUtil;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -62,7 +63,7 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
     public void afterCreate(Bundle savedInstanceState) {
         setTopTitle(getString(R.string.activity_find_title));
         setSubLeftImgState(true);
-        mSendCOdePresenter=new SendPhoneCodePresenter(this);
+        mSendCOdePresenter = new SendPhoneCodePresenter(this);
         if (getIntent() != null) {
             mPhoneNumber = getIntent().getStringExtra("phonenumber");
         }
@@ -87,7 +88,18 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
         mBinding.btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSendCOdePresenter.sendCodeRequest(mBinding.edtPhone.getText().toString(),"805063",MyConfig.USERTYPE,FindPwdActivity.this);
+                String name = mBinding.edtPhone.getText().toString();
+                if (TextUtils.isEmpty(name)) {
+                    ToastUtil.show(FindPwdActivity.this, getStrRes(R.string.activity_mobile_mobile_hint));
+                    return;
+                }
+                if (name.contains("@")) {
+                    //邮箱验证码
+                    mSendCOdePresenter.sendCodeRequest(name, "805952", MyConfig.USERTYPE, FindPwdActivity.this);
+                } else {
+                    //手机验证码
+                    mSendCOdePresenter.sendCodeRequest(name, "805063", MyConfig.USERTYPE, FindPwdActivity.this);
+                }
             }
         });
 
@@ -106,8 +118,8 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
                     return;
                 }
 
-                if (SPUtilHelper.getGoogleAuthFlag()){
-                    if (TextUtils.isEmpty(mBinding.edtGoogle.getText().toString())){
+                if (SPUtilHelper.getGoogleAuthFlag()) {
+                    if (TextUtils.isEmpty(mBinding.edtGoogle.getText().toString())) {
                         showToast(getString(R.string.activity_find_google_hint));
                         return;
                     }
@@ -153,7 +165,7 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
         hashMap.put("systemCode", MyConfig.SYSTEMCODE);
         hashMap.put("companyCode", MyConfig.COMPANYCODE);
 
-        Call call=RetrofitUtils.getBaseAPiService().successRequest("805063", StringUtils.getJsonToString(hashMap));
+        Call call = RetrofitUtils.getBaseAPiService().successRequest("805063", StringUtils.getJsonToString(hashMap));
 
         addCall(call);
 
@@ -170,7 +182,7 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
 
             @Override
             protected void onFinish() {
-             disMissLoading();
+                disMissLoading();
             }
         });
 
@@ -202,9 +214,9 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
     protected void onDestroy() {
         super.onDestroy();
 
-        if(mSendCOdePresenter!=null){
+        if (mSendCOdePresenter != null) {
             mSendCOdePresenter.clear();
-            mSendCOdePresenter=null;
+            mSendCOdePresenter = null;
         }
     }
 }
