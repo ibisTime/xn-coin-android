@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.cdkj.baseim.event.GroupEvent;
 import com.cdkj.baseim.event.MessageEvent;
 import com.cdkj.baseim.event.RefreshEvent;
@@ -188,8 +189,8 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
         SPUtilHelper.saveUserId(user.getUserId());
         SPUtilHelper.saveUserToken(user.getToken());
         SPUtilHelper.saveUserPhoneNum(mBinding.edtUsername.getText().toString().trim());
-
-        loginTencent();
+        ARouter.getInstance().build("/main/page").navigation();
+//        loginTencent();
 
     }
 

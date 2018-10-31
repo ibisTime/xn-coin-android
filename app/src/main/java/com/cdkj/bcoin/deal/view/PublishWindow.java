@@ -33,6 +33,7 @@ import com.cdkj.bcoin.deal.DealPublishSaleActivity;
 import com.cdkj.bcoin.main.MainActivity;
 import com.cdkj.bcoin.push.PushPublishBuyActivity;
 import com.cdkj.bcoin.push.PushPublishSaleActivity;
+import com.cdkj.bcoin.user.UserQRSetting;
 
 import retrofit2.Call;
 
@@ -48,8 +49,8 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
     Activity mContext;
     private int mWidth;
     private int mHeight;
-    private int statusBarHeight ;
-    private Bitmap mBitmap= null;
+    private int statusBarHeight;
+    private Bitmap mBitmap = null;
     private Bitmap overlay = null;
 
     private Handler mHandler = new Handler();
@@ -91,9 +92,9 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
         float scaleFactor = 8;//Í¼Æ¬Ëõ·Å±ÈÀý£»
         float radius = 10;//Ä£ºý³Ì¶È
         int width = mBitmap.getWidth();
-        int height =  mBitmap.getHeight();
+        int height = mBitmap.getHeight();
 
-        overlay = Bitmap.createBitmap((int) (width / scaleFactor),(int) (height / scaleFactor),Bitmap.Config.ARGB_8888);
+        overlay = Bitmap.createBitmap((int) (width / scaleFactor), (int) (height / scaleFactor), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(overlay);
         canvas.scale(1 / scaleFactor, 1 / scaleFactor);
         Paint paint = new Paint();
@@ -101,11 +102,11 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
         canvas.drawBitmap(mBitmap, 0, 0, paint);
 
         overlay = FastBlur.doBlur(overlay, (int) radius, true);
-        Log.i(TAG, "blur time is:"+(System.currentTimeMillis() - startMs));
+        Log.i(TAG, "blur time is:" + (System.currentTimeMillis() - startMs));
         return overlay;
     }
 
-    private Animation showAnimation1(final View view, int fromY , int toY) {
+    private Animation showAnimation1(final View view, int fromY, int toY) {
         AnimationSet set = new AnimationSet(true);
         TranslateAnimation go = new TranslateAnimation(0, 0, fromY, toY);
         go.setDuration(300);
@@ -140,7 +141,7 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
         final RelativeLayout layout = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.deal_publish, null);
         setContentView(layout);
 
-        LinearLayout llClose= layout.findViewById(R.id.ll_close);
+        LinearLayout llClose = layout.findViewById(R.id.ll_close);
 
         llClose.setOnClickListener(v -> {
             if (isShowing()) {
@@ -155,10 +156,10 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
         showAtLocation(anchor, Gravity.BOTTOM, 0, statusBarHeight);
     }
 
-    private void showAnimation(ViewGroup layout){
-        for(int i=0;i<layout.getChildCount();i++){
+    private void showAnimation(ViewGroup layout) {
+        for (int i = 0; i < layout.getChildCount(); i++) {
             final View child = layout.getChildAt(i);
-            if(child.getId() == R.id.ll_close){
+            if (child.getId() == R.id.ll_close) {
                 continue;
             }
             child.setOnClickListener(this);
@@ -180,10 +181,10 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
 
     }
 
-    private void closeAnimation(ViewGroup layout){
-        for(int i=0;i<layout.getChildCount();i++){
+    private void closeAnimation(ViewGroup layout) {
+        for (int i = 0; i < layout.getChildCount(); i++) {
             final View child = layout.getChildAt(i);
-            if(child.getId() == R.id.ll_close){
+            if (child.getId() == R.id.ll_close) {
                 continue;
             }
             child.setOnClickListener(this);
@@ -221,10 +222,10 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
 
                     }
                 });
-            }, (layout.getChildCount()-i-1) * 30);
+            }, (layout.getChildCount() - i - 1) * 30);
 
-            if(child.getId() == R.id.ll_sale){
-                mHandler.postDelayed(() -> dismiss(), (layout.getChildCount()-i) * 30 + 80);
+            if (child.getId() == R.id.ll_sale) {
+                mHandler.postDelayed(() -> dismiss(), (layout.getChildCount() - i) * 30 + 80);
             }
         }
 
@@ -236,22 +237,27 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
             case R.id.ll_buy:
 //                getCoin(R.id.ll_buy);
 
+                //判断有没有设置收款账号和二维码
+                if (TextUtils.isEmpty(SPUtilHelper.getZfbAccount()) || TextUtils.isEmpty(SPUtilHelper.getZfbQr())) {
+                    UserQRSetting.open(mContext);
+                    return;
+                }
+
                 if (!SPUtilHelper.isLogin(mContext, false)) {
                     dismiss();
                     return;
                 }
                 // 发布买币广告之前需实名认证
-                if (TextUtils.isEmpty(SPUtilHelper.getRealName())){
+                if (TextUtils.isEmpty(SPUtilHelper.getRealName())) {
                     AuthenticateActivity.open(mContext);
-                }else {
+                } else {
                     // 通过主页当前的tabIndex判断发布的广告是否是Token币
-                    if (MainActivity.NOW_INDEX == 2){
+                    if (MainActivity.NOW_INDEX == 2) {
                         // NOW_INDEX = 2 时在PUSH界面，发布Token币
                         PushPublishBuyActivity.open(mContext, DAIFABU, null);
-                    }else {
+                    } else {
                         DealPublishBuyActivity.open(mContext, DAIFABU, null);
                     }
-
 
                 }
                 dismiss();
@@ -260,20 +266,22 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
 
             case R.id.ll_sale:
 //                getCoin(R.id.ll_sale);
-
-                if (!SPUtilHelper.isLogin(mContext,  false)) {
+                //判断有没有设置收款账号和二维码
+                if (TextUtils.isEmpty(SPUtilHelper.getZfbAccount()) || TextUtils.isEmpty(SPUtilHelper.getZfbQr())) {
+                    UserQRSetting.open(mContext);
+                    return;
+                }
+                if (!SPUtilHelper.isLogin(mContext, false)) {
                     dismiss();
                     return;
                 }
                 // 通过主页当前的tabIndex判断发布的广告是否是Token币
-                if (MainActivity.NOW_INDEX == 2){
+                if (MainActivity.NOW_INDEX == 2) {
                     // NOW_INDEX = 2 时在PUSH界面，发布Token币
                     PushPublishSaleActivity.open(mContext, DAIFABU, null);
-                }else {
+                } else {
                     DealPublishSaleActivity.open(mContext, DAIFABU, null);
                 }
-
-
                 dismiss();
                 break;
 
@@ -283,7 +291,7 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
     }
 
 
-    private void doToPublish(int id){
+    private void doToPublish(int id) {
         switch (id) {
             case R.id.ll_buy:
                 if (!SPUtilHelper.isLogin(mContext, false)) {
@@ -291,14 +299,14 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
                     return;
                 }
                 // 发布买币广告之前需实名认证
-                if (TextUtils.isEmpty(SPUtilHelper.getRealName())){
+                if (TextUtils.isEmpty(SPUtilHelper.getRealName())) {
                     AuthenticateActivity.open(mContext);
-                }else {
+                } else {
                     DealPublishBuyActivity.open(mContext, DAIFABU, null);
                 }
                 dismiss();
 
-                if (call != null){
+                if (call != null) {
                     call.cancel();
                 }
 
@@ -306,7 +314,7 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
                 break;
 
             case R.id.ll_sale:
-                if (!SPUtilHelper.isLogin(mContext,  false)) {
+                if (!SPUtilHelper.isLogin(mContext, false)) {
                     dismiss();
                     return;
                 }
@@ -314,7 +322,7 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
                 DealPublishSaleActivity.open(mContext, DAIFABU, null);
                 dismiss();
 
-                if (call != null){
+                if (call != null) {
                     call.cancel();
                 }
 
@@ -340,8 +348,8 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
      * 显示dialog
      */
     public void showLoadingDialog() {
-        if(loadingDialog==null){
-            loadingDialog=new LoadingDialog(mContext);
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(mContext);
         }
 
         if (loadingDialog != null && !loadingDialog.isShowing()) {
@@ -361,7 +369,7 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
             System.gc();
         }
 
-        if (call != null){
+        if (call != null) {
             call.cancel();
         }
 

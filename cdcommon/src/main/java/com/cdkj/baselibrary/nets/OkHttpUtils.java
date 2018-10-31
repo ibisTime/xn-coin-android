@@ -152,9 +152,7 @@ public class OkHttpUtils {
             TrustManagerFactory trustManagerFactory =
                     TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
 
-            trustManagerFactory.init(setCertificates(new Buffer()
-                    .writeUtf8(CER_BKY)
-                    .inputStream()));
+            trustManagerFactory.init(setCertificates(new Buffer().writeUtf8(CER_BKY).inputStream()));
 
             sc.init(null, trustManagerFactory.getTrustManagers(), new SecureRandom());
             sSLSocketFactory = sc.getSocketFactory();

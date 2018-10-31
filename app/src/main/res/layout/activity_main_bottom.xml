@@ -18,7 +18,7 @@
             android:layout_height="50dp"
             android:clickable="false"
             android:orientation="horizontal"
-            android:weightSum="5">
+            android:weightSum="4">
 
             <LinearLayout
                 android:id="@+id/ll_market"
@@ -71,6 +71,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ll_push"
                 android:gravity="center"
                 android:layout_weight="1"

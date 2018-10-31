@@ -9,6 +9,8 @@ import java.io.Serializable;
 public class UserInfoModel {
 
     private String userId;
+    private String zfbAccount;
+    private String zfbQr;
     private String secretUserId;
     private String loginName;
     private String mobile;
@@ -39,6 +41,22 @@ public class UserInfoModel {
     private int totalFansNum;
     private RefereeUserBean refereeUser;
     private UserStatisticsBean userStatistics;
+
+    public String getZfbAccount() {
+        return zfbAccount;
+    }
+
+    public void setZfbAccount(String zfbAccount) {
+        this.zfbAccount = zfbAccount;
+    }
+
+    public String getZfbQr() {
+        return zfbQr;
+    }
+
+    public void setZfbQr(String zfbQr) {
+        this.zfbQr = zfbQr;
+    }
 
     public String getSecretUserId() {
         return secretUserId;

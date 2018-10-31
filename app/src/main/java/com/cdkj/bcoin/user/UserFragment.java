@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.cdkj.baselibrary.activitys.ImageSelectActivity;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.BaseLazyFragment;
@@ -18,7 +19,6 @@ import com.cdkj.baselibrary.model.UserInfoModel;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.ImgUtils;
-import com.cdkj.baselibrary.utils.QiNiuUtil;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.api.MyApi;
@@ -27,14 +27,12 @@ import com.cdkj.bcoin.deal.DealPublishBuyActivity;
 import com.cdkj.bcoin.deal.DealPublishSaleActivity;
 import com.cdkj.bcoin.order.OrderActivity;
 import com.cdkj.bcoin.util.AccountUtil;
-import com.qiniu.android.http.ResponseInfo;
 import com.zendesk.sdk.support.SupportActivity;
 import com.zopim.android.sdk.api.ZopimChat;
 import com.zopim.android.sdk.model.VisitorInfo;
 import com.zopim.android.sdk.prechat.ZopimChatActivity;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,17 +77,18 @@ public class UserFragment extends BaseLazyFragment {
 
 
     private void initListener() {
+        ClientConfiguration conf = new ClientConfiguration();
 
         mBinding.rlPhoto.setOnClickListener(view -> {
             ImageSelectActivity.launch(mActivity, PHOTOFLAG);
         });
 
         mBinding.llBuy.setOnClickListener(view -> {
-            DealPublishBuyActivity.open(mActivity,DAIFABU,null);
+            DealPublishBuyActivity.open(mActivity, DAIFABU, null);
         });
 
         mBinding.llSale.setOnClickListener(view -> {
-            DealPublishSaleActivity.open(mActivity,DAIFABU,null);
+            DealPublishSaleActivity.open(mActivity, DAIFABU, null);
         });
 
         mBinding.llAdv.setOnClickListener(view -> {
@@ -101,7 +100,7 @@ public class UserFragment extends BaseLazyFragment {
         });
 
         mBinding.llAddress.setOnClickListener(view -> {
-            UserAddressActivity.open(mActivity, null,null);
+            UserAddressActivity.open(mActivity, null, null);
         });
 
         mBinding.llTrust.setOnClickListener(view -> {
@@ -155,7 +154,7 @@ public class UserFragment extends BaseLazyFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(!SPUtilHelper.getUserId().equals("")){
+        if (!SPUtilHelper.getUserId().equals("")) {
             // 已登陆时初始化登录用户的用户信息
             getUserInfoRequest();
         }
@@ -175,22 +174,27 @@ public class UserFragment extends BaseLazyFragment {
         }
         if (requestCode == PHOTOFLAG) {
             String path = data.getStringExtra(ImageSelectActivity.staticPath);
-            new QiNiuUtil(mActivity).getQiniuURL(new QiNiuUtil.QiNiuCallBack() {
-                @Override
-                public void onSuccess(String key, ResponseInfo info, JSONObject res) {
-                    updateUserPhoto(key);
-                }
 
-                @Override
-                public void onFal(String info) {
-                }
-            }, path);
+//            AliOssUtils.build(mActivity, path, null);
+
+
+//            new QiNiuUtil(mActivity).getQiniuURL(new QiNiuUtil.QiNiuCallBack() {
+//                @Override
+//                public void onSuccess(String key, ResponseInfo info, JSONObject res) {
+//                    updateUserPhoto(key);
+//                }
+//
+//                @Override
+//                public void onFal(String info) {
+//                }
+//            }, path);
 
         }
     }
 
     /**
      * 更新用户头像
+     *
      * @param key
      */
     private void updateUserPhoto(final String key) {
@@ -258,6 +262,11 @@ public class UserFragment extends BaseLazyFragment {
         SPUtilHelper.saveUserPhoneNum(data.getMobile());
         SPUtilHelper.saveTradePwdFlag(data.isTradepwdFlag());
         SPUtilHelper.saveGoogleAuthFlag(data.isGoogleAuthFlag());
+        SPUtilHelper.saveZfbAccount(data.getZfbAccount());
+        SPUtilHelper.saveZfbQr(data.getZfbQr());
+
+//        SPUtilHelper.saveZfbAccount("");
+//        SPUtilHelper.saveZfbQr("");
 
         if (data.getNickname() == null)
             return;
@@ -267,16 +276,16 @@ public class UserFragment extends BaseLazyFragment {
 
         if (data.getUserStatistics() == null)
             return;
-        mBinding.tvDeal.setText(getStrRes(R.string.deal)+data.getUserStatistics().getJiaoYiCount()+"");
-        mBinding.tvTrust.setText(getStrRes(R.string.trust)+data.getUserStatistics().getBeiXinRenCount()+"");
-        if(data.getUserStatistics().getBeiPingJiaCount() == 0){
-            mBinding.tvGood.setText(getStrRes(R.string.good)+"0%");
-        }else {
+        mBinding.tvDeal.setText(getStrRes(R.string.deal) + data.getUserStatistics().getJiaoYiCount() + "");
+        mBinding.tvTrust.setText(getStrRes(R.string.trust) + data.getUserStatistics().getBeiXinRenCount() + "");
+        if (data.getUserStatistics().getBeiPingJiaCount() == 0) {
+            mBinding.tvGood.setText(getStrRes(R.string.good) + "0%");
+        } else {
             double hpRate = data.getUserStatistics().getBeiHaoPingCount() / data.getUserStatistics().getBeiPingJiaCount();
-            mBinding.tvGood.setText(getStrRes(R.string.good)+AccountUtil.formatInt(hpRate * 100)+"%");
+            mBinding.tvGood.setText(getStrRes(R.string.good) + AccountUtil.formatInt(hpRate * 100) + "%");
         }
 
-        if (data.getLevel()!= null){
+        if (data.getLevel() != null) {
             mBinding.llAgent.setVisibility(data.getLevel().equals("2") ? View.VISIBLE : View.GONE);
         }
     }
@@ -289,12 +298,12 @@ public class UserFragment extends BaseLazyFragment {
         if (model == null)
             return;
 
-        if (model.getTag().equals(IM_MSG_TIP_NEW)){
+        if (model.getTag().equals(IM_MSG_TIP_NEW)) {
             newUnreadMsg = model.getEvInt();
             setMsgUnread();
         }
 
-        if (model.getTag().equals(IM_MSG_TIP_DONE)){
+        if (model.getTag().equals(IM_MSG_TIP_DONE)) {
             doneUnreadMsg = model.getEvInt();
             setMsgUnread();
         }
@@ -303,9 +312,9 @@ public class UserFragment extends BaseLazyFragment {
     /**
      * 设置未读tab显示
      */
-    public void setMsgUnread(){
+    public void setMsgUnread() {
 
-        mBinding.ivMsgTip.setVisibility(newUnreadMsg+doneUnreadMsg == 0 ? View.GONE:View.VISIBLE);
+        mBinding.ivMsgTip.setVisibility(newUnreadMsg + doneUnreadMsg == 0 ? View.GONE : View.VISIBLE);
     }
 
 }

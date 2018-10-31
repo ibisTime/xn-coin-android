@@ -152,7 +152,7 @@ public class MainActivity extends AbsBaseActivity {
         OrderTipService.open(this);
         CoinListService.open(this);
 
-        setShowIndex(PUSH);
+        setShowIndex(MARKET);
     }
 
     @Override
@@ -399,6 +399,7 @@ public class MainActivity extends AbsBaseActivity {
         fragment.onActivityResult(requestCode, resultCode, data);
 
     }
+
 
     @Override
     public void onBackPressed() {

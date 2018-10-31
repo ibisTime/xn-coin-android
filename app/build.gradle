@@ -12,8 +12,8 @@ android {
         applicationId "com.cdkj.ethereum"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 12
-        versionName "2.3.0"
+        versionCode 13
+        versionName "2.0.3"
 
         multiDexEnabled true
 
@@ -85,5 +85,7 @@ dependencies {
 
     // multidex
     compile 'com.android.support:multidex:1.0.1'
+//阿里oss  图片上传
+    compile 'com.aliyun.dpa:oss-android-sdk:+'
 
 }

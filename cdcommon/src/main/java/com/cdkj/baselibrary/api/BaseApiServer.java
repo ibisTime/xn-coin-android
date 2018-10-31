@@ -1,6 +1,7 @@
 package com.cdkj.baselibrary.api;
 
 
+import com.cdkj.baselibrary.model.AliTokenModel;
 import com.cdkj.baselibrary.model.CodeModel;
 import com.cdkj.baselibrary.model.IntroductionInfoModel;
 import com.cdkj.baselibrary.model.IsSuccessModes;
@@ -69,6 +70,15 @@ public interface BaseApiServer {
     @FormUrlEncoded
     @POST("api")
     Call<BaseResponseModel<QiniuGetTokenModel>> getQiniuTOken(@Field("code") String code, @Field("json") String  json);
+/**
+     * 七牛
+     * @param code
+     * @param json
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api")
+    Call<BaseResponseModel<AliTokenModel>> getAliTOken(@Field("code") String code, @Field("json") String  json);
 
 
     /**

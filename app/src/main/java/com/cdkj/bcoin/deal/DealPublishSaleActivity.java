@@ -20,6 +20,7 @@ import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
+import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
@@ -104,11 +105,11 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
 
     private SystemParameterListModel model;
 
-    public static void open(Context context, String status, DealDetailModel bean){
+    public static void open(Context context, String status, DealDetailModel bean) {
         if (context == null) {
             return;
         }
-        context.startActivity(new Intent(context, DealPublishSaleActivity.class).putExtra("status",status).putExtra("bean",bean));
+        context.startActivity(new Intent(context, DealPublishSaleActivity.class).putExtra("status", status).putExtra("bean", bean));
     }
 
     @Override
@@ -128,24 +129,32 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
 
         getLimit();
         getListData();
+        getZFQr();
+        mBinding.tvWay.setText(getStrRes(R.string.zhifubao));//默认支付宝不让选择
+    }
 
+    private void getZFQr() {
+
+        mBinding.tvPayName.setText(SPUtilHelper.getZfbAccount());
+        ImgUtils.loadImage(DealPublishSaleActivity.this, SPUtilHelper.getZfbQr(), mBinding.ivQr);
     }
 
     private void init() {
-        types = new String[]{getStrRes(R.string.zhifubao), getStrRes(R.string.weixin), getStrRes(R.string.card)};
+//        types = new String[]{getStrRes(R.string.zhifubao), getStrRes(R.string.weixin), getStrRes(R.string.card)};
+        types = new String[]{getStrRes(R.string.zhifubao)};
 
-        if (getIntent() != null){
+        if (getIntent() != null) {
             status = getIntent().getStringExtra("status");
             bean = (DealDetailModel) getIntent().getSerializableExtra("bean");
         }
 
 
-        switch (status){ // "1", "直接发布" "2", "草稿发布" "3", "编辑发布，原广告下
+        switch (status) { // "1", "直接发布" "2", "草稿发布" "3", "编辑发布，原广告下
 
             case DAIFABU:
                 setTopTitle(StringUtil.getString(R.string.deal_publish_sale));
                 setSubRightTitleAndClick(StringUtil.getString(R.string.deal_publish_save), v -> {
-                    if (check()){
+                    if (check()) {
                         sale("0");
                     }
                 });
@@ -163,14 +172,14 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
         }
 
         //
-        if (bean != null){
+        if (bean != null) {
             // 初始化默认币种
             coinType = bean.getTradeCoin();
             // 设置币种
             setCoinCurrency();
             // 获取币种行情价格
             getMarketPrice(true);
-        }else {
+        } else {
             // 初始化默认币种
             coinType = CoinUtil.getNotTokenCoinArray()[0];
             // 设置币种
@@ -200,20 +209,20 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
                 // 保存行情价格
                 marketPrice = data.getMid();
                 // 设置行情价格
-                mBinding.tvMarketPrice.setText(getStrRes(R.string.deal_market_price)+AccountUtil.formatDouble(marketPrice));
+                mBinding.tvMarketPrice.setText(getStrRes(R.string.deal_market_price) + AccountUtil.formatDouble(marketPrice));
 
                 // 根据已输入的溢价行情计算价格
-                if (mBinding.edtPremium.getText().toString().equals("")){
+                if (mBinding.edtPremium.getText().toString().equals("")) {
                     mBinding.tvPrice.setText(AccountUtil.formatDouble(marketPrice));
-                } else if (mBinding.edtPremium.getText().toString().equals("-") || mBinding.edtPremium.getText().toString().equals(".")){
+                } else if (mBinding.edtPremium.getText().toString().equals("-") || mBinding.edtPremium.getText().toString().equals(".")) {
                     return;
                 } else {
-                    Double price = Double.parseDouble(AccountUtil.formatDouble(marketPrice)+"");
+                    Double price = Double.parseDouble(AccountUtil.formatDouble(marketPrice) + "");
                     Double premiumRate = Double.parseDouble(mBinding.edtPremium.getText().toString());
 
                     try {
-                        mBinding.tvPrice.setText(AccountUtil.formatDouble(price + (price * premiumRate /100)));
-                    }catch (Exception e){
+                        mBinding.tvPrice.setText(AccountUtil.formatDouble(price + (price * premiumRate / 100)));
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -246,23 +255,23 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
 
         int i = 24;
         startHours = new String[25];
-        for (int j=0; j<i; j++){
-            if (j < 10){
-                startHours[j] = "0"+j+":00";
-            }else {
-                startHours[j] = j+":00";
+        for (int j = 0; j < i; j++) {
+            if (j < 10) {
+                startHours[j] = "0" + j + ":00";
+            } else {
+                startHours[j] = j + ":00";
             }
         }
-        startHours[startHours.length-1] = StringUtil.getString(R.string.deal_open_time_close);
+        startHours[startHours.length - 1] = StringUtil.getString(R.string.deal_open_time_close);
 
         endHours = new String[25];
         endHours[0] = "23:59";
         endHours[1] = StringUtil.getString(R.string.deal_open_time_close);
-        for (int j=2; j<=i; j++){
-            if (j < 10){
-                endHours[j] = "0"+(j-1)+":00";
-            }else {
-                endHours[j] = (j-1)+":00";
+        for (int j = 2; j <= i; j++) {
+            if (j < 10) {
+                endHours[j] = "0" + (j - 1) + ":00";
+            } else {
+                endHours[j] = (j - 1) + ":00";
             }
         }
 
@@ -289,7 +298,7 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
 
         mBinding.llCoinSelect.setOnClickListener(view -> {
             // 新发布广告时可以更改币种
-            if (bean == null){
+            if (bean == null) {
                 initPopup(view);
             }
         });
@@ -311,50 +320,50 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
         });
 
         mBinding.llOpenTime.llOt1.setOnClickListener(view -> {
-            initCustomPopup(view,1);
+            initCustomPopup(view, 1);
         });
 
         mBinding.llOpenTime.llOt2.setOnClickListener(view -> {
-            initCustomPopup(view,2);
+            initCustomPopup(view, 2);
         });
 
         mBinding.llOpenTime.llOt3.setOnClickListener(view -> {
-            initCustomPopup(view,3);
+            initCustomPopup(view, 3);
         });
 
         mBinding.llOpenTime.llOt4.setOnClickListener(view -> {
-            initCustomPopup(view,4);
+            initCustomPopup(view, 4);
         });
 
         mBinding.llOpenTime.llOt5.setOnClickListener(view -> {
-            initCustomPopup(view,5);
+            initCustomPopup(view, 5);
         });
 
         mBinding.llOpenTime.llOt6.setOnClickListener(view -> {
-            initCustomPopup(view,6);
+            initCustomPopup(view, 6);
         });
 
         mBinding.llOpenTime.llOt7.setOnClickListener(view -> {
-            initCustomPopup(view,7);
+            initCustomPopup(view, 7);
         });
 
-        mBinding.llSelect.setOnClickListener(this::initPayTypePopup);
+//        mBinding.llSelect.setOnClickListener(this::initPayTypePopup);
 
         mBinding.llLimit.setOnClickListener(this::initLimitPopup);
 
         mBinding.llTick.setOnClickListener(view -> {
-            if (onlyFans.equals("0")){
+            if (onlyFans.equals("0")) {
                 mBinding.ivTick.setBackgroundResource(R.mipmap.deal_tick);
                 onlyFans = "1";
-            }else {
+            } else {
                 mBinding.ivTick.setBackgroundResource(R.mipmap.deal_unchoose);
                 onlyFans = "0";
             }
         });
 
         mBinding.btnConfirm.setOnClickListener(view -> {
-            if (check()){
-                switch (status){ // "1", "直接发布" "2", "草稿发布" "3", "编辑发布，原广告下
+            if (check()) {
+                switch (status) { // "1", "直接发布" "2", "草稿发布" "3", "编辑发布，原广告下
 
                     case DAIFABU:
                         sale("1");
@@ -372,10 +381,10 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
         });
 
         mBinding.llSettingSwitch.setOnClickListener(view -> {
-            if (settingSwitch){
+            if (settingSwitch) {
                 settingSwitch = false;
                 mBinding.ivSetting.setBackgroundResource(R.mipmap.more);
-            }else {
+            } else {
                 settingSwitch = true;
                 mBinding.ivSetting.setBackgroundResource(R.mipmap.deal_down);
             }
@@ -396,18 +405,18 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.toString().equals("")){
+                if (editable.toString().equals("")) {
                     mBinding.tvPrice.setText(AccountUtil.formatDouble(marketPrice));
                     showToast("请输入溢价");
-                } else if (editable.toString().equals("-") || editable.toString().equals(".")){
+                } else if (editable.toString().equals("-") || editable.toString().equals(".")) {
                     return;
                 } else {
                     Double price = Double.parseDouble(AccountUtil.formatDouble(marketPrice));
                     Double premiumRate = Double.parseDouble(editable.toString());
 
                     try {
-                        mBinding.tvPrice.setText(AccountUtil.formatDouble(price + (price * premiumRate /100)));
-                    }catch (Exception e){
+                        mBinding.tvPrice.setText(AccountUtil.formatDouble(price + (price * premiumRate / 100)));
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -461,17 +470,18 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
         });
 
         // 限制EditText的小数点前后输入位数
-        mBinding.edtPremium.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtPremium,8,2));
-        mBinding.edtProtectPrice.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtProtectPrice,8,2));
-        mBinding.edtMax.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtMax,8,2));
-        mBinding.edtMin.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtMin,8 ,2));
-        mBinding.edtAmount.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtAmount,8,8));
+        mBinding.edtPremium.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtPremium, 8, 2));
+        mBinding.edtProtectPrice.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtProtectPrice, 8, 2));
+        mBinding.edtMax.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtMax, 8, 2));
+        mBinding.edtMin.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtMin, 8, 2));
+        mBinding.edtAmount.addTextChangedListener(new EditTextJudgeNumberWatcher(mBinding.edtAmount, 8, 8));
 
     }
 
 
     /**
      * 选择自定义时间
+     *
      * @param view
      */
     private void initCustomPopup(View view, int location) {
@@ -479,25 +489,25 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
         popupWindow.setNumberPicker(R.id.np_start_hour, startHours);
         popupWindow.setNumberPicker(R.id.np_end_hour, endHours);
 
-        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
+        popupWindow.setOnClickListener(R.id.tv_cancel, v -> {
             popupWindow.dismiss();
         });
 
-        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+        popupWindow.setOnClickListener(R.id.tv_confirm, v -> {
 
             startHour = startHours[popupWindow.getNumberPickerValue(R.id.np_start_hour)];
             endHour = endHours[popupWindow.getNumberPickerValue(R.id.np_end_hour)];
 
-            if(startHour.equals(getStrRes(R.string.deal_open_time_close)) && !endHour.equals(getStrRes(R.string.deal_open_time_close)) ){
+            if (startHour.equals(getStrRes(R.string.deal_open_time_close)) && !endHour.equals(getStrRes(R.string.deal_open_time_close))) {
                 showToast(getStrRes(R.string.deal_publish_hint_end));
                 return;
             }
-            if (!startHour.equals(getStrRes(R.string.deal_open_time_close)) && endHour.equals(getStrRes(R.string.deal_open_time_close))){
+            if (!startHour.equals(getStrRes(R.string.deal_open_time_close)) && endHour.equals(getStrRes(R.string.deal_open_time_close))) {
                 showToast(getStrRes(R.string.deal_publish_hint_start));
                 return;
             }
 
-            switch (location){
+            switch (location) {
 
                 case 1:
                     mBinding.llOpenTime.tvStart1.setText(startHour);
@@ -544,22 +554,23 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
 
     /**
      * 选择币种
+     *
      * @param view
      */
     private void initPopup(View view) {
         MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
         popupWindow.setNumberPicker(R.id.np_type, CoinUtil.getNotTokenCoinArray());
 
-        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
+        popupWindow.setOnClickListener(R.id.tv_cancel, v -> {
             popupWindow.dismiss();
         });
 
-        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+        popupWindow.setOnClickListener(R.id.tv_confirm, v -> {
             coinType = popupWindow.getNumberPicker(R.id.np_type, CoinUtil.getNotTokenCoinArray());
 
             // 重置价格
             mBinding.tvPrice.setText("");
-            mBinding.tvMarketPrice.setText(getStrRes(R.string.deal_market_price)+"");
+            mBinding.tvMarketPrice.setText(getStrRes(R.string.deal_market_price) + "");
             // 设置币种
             setCoinCurrency();
             // 获取所选币种行情价格
@@ -573,20 +584,21 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
 
     /**
      * 选择支付方式
+     *
      * @param view
      */
     private void initPayTypePopup(View view) {
         MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
         popupWindow.setNumberPicker(R.id.np_type, types);
 
-        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
+        popupWindow.setOnClickListener(R.id.tv_cancel, v -> {
             popupWindow.dismiss();
         });
 
-        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+        popupWindow.setOnClickListener(R.id.tv_confirm, v -> {
             type = popupWindow.getNumberPicker(R.id.np_type, typeValue);
 
-            switch (type){
+            switch (type) {
                 case "0":
                     mBinding.tvWay.setText(getStrRes(R.string.zhifubao));
                     break;
@@ -609,6 +621,7 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
 
     /**
      * 获取广告详情
+     *
      * @return
      */
     private void getDeal() {
@@ -642,35 +655,35 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
     }
 
     private void setView() {
-        mBinding.edtPremium.setText(AccountUtil.formatDouble(bean.getPremiumRate() * 100)+"");
+        mBinding.edtPremium.setText(AccountUtil.formatDouble(bean.getPremiumRate() * 100) + "");
         mBinding.edtMin.setText(AccountUtil.formatDouble(bean.getMinTrade()));
         mBinding.edtMax.setText(AccountUtil.formatDouble(bean.getMaxTrade()));
         mBinding.edtProtectPrice.setText(AccountUtil.formatDouble(bean.getProtectPrice()));
         mBinding.edtAmount.setText(AccountUtil.amountFormatUnit(new BigDecimal(bean.getLeftCountString()), bean.getTradeCoin(), 8));
         mBinding.tvWay.setText(types[Integer.parseInt(bean.getPayType())]);
-        mBinding.tvLimit.setText(bean.getPayLimit()+"");
+        mBinding.tvLimit.setText(bean.getPayLimit() + "");
         mBinding.edtRemark.setText(bean.getLeaveMessage());
 
-        if (bean.getOnlyTrust().equals("1")){
+        if (bean.getOnlyTrust().equals("1")) {
             mBinding.ivTick.setBackgroundResource(R.mipmap.deal_tick);
             onlyFans = "1";
-        }else {
+        } else {
             mBinding.ivTick.setBackgroundResource(R.mipmap.deal_unchoose);
             onlyFans = "0";
         }
 
-        if (bean.getDisplayTime() != null){
+        if (bean.getDisplayTime() != null) {
             if (bean.getDisplayTime().size() == 0)
                 return;
 
-            if (bean.getDisplayTime().size() >7)
+            if (bean.getDisplayTime().size() > 7)
                 return;
 
             mBinding.ivCustom.setBackgroundResource(R.mipmap.deal_choose);
             mBinding.ivAnytime.setBackgroundResource(R.mipmap.deal_unchoose);
             mBinding.llOpenTime.llOpenTime.setVisibility(View.VISIBLE);
 
-            for (int i =0; i<bean.getDisplayTime().size(); i++){
+            for (int i = 0; i < bean.getDisplayTime().size(); i++) {
 
                 int week = Integer.parseInt(bean.getDisplayTime().get(i).getWeek());
                 if (week < 1)
@@ -678,41 +691,41 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
 
                 startTimeList.get(week - 1).setText(formatOpenStartTime(bean.getDisplayTime().get(i).getStartTime(),
                         bean.getDisplayTime().get(i).getEndTime()));
-                endTimeList.get(week -1 ).setText(formatOpenEndTime(bean.getDisplayTime().get(i).getStartTime(),
+                endTimeList.get(week - 1).setText(formatOpenEndTime(bean.getDisplayTime().get(i).getStartTime(),
                         bean.getDisplayTime().get(i).getEndTime()));
 
             }
         }
     }
 
-    private String formatOpenStartTime(int startTime, int endTime){
-        if (startTime == endTime && startTime == 24){
+    private String formatOpenStartTime(int startTime, int endTime) {
+        if (startTime == endTime && startTime == 24) {
             return StringUtil.getString(R.string.deal_open_time_close);
 
-        }else {
-            if (startTime < 10){
-                return "0"+startTime+":00";
-            }else {
-                if (startTime == 24){
+        } else {
+            if (startTime < 10) {
+                return "0" + startTime + ":00";
+            } else {
+                if (startTime == 24) {
                     return "23:59";
-                }else {
-                    return startTime+":00";
+                } else {
+                    return startTime + ":00";
                 }
             }
         }
     }
 
-    private String formatOpenEndTime(int startTime, int endTime){
-        if (startTime == endTime && endTime == 24){
+    private String formatOpenEndTime(int startTime, int endTime) {
+        if (startTime == endTime && endTime == 24) {
             return StringUtil.getString(R.string.deal_open_time_close);
-        }else {
-            if (endTime < 10){
-                return "0"+endTime+":00";
-            }else {
-                if (endTime == 24){
+        } else {
+            if (endTime < 10) {
+                return "0" + endTime + ":00";
+            } else {
+                if (endTime == 24) {
                     return "23:59";
-                }else {
-                    return endTime+":00";
+                } else {
+                    return endTime + ":00";
                 }
             }
         }
@@ -720,6 +733,7 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
 
     /**
      * 获取付款时限
+     *
      * @return
      */
     private void getLimit() {
@@ -744,15 +758,15 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
                 // 初始化付款时限
                 limits = new String[data.size()];
                 int maxLimit = 0;
-                for (int i=0; i<data.size(); i++){
+                for (int i = 0; i < data.size(); i++) {
                     // 遍历出最大的付款时限
-                    if (Integer.parseInt(data.get(i).getDvalue()) > maxLimit){
+                    if (Integer.parseInt(data.get(i).getDvalue()) > maxLimit) {
                         maxLimit = Integer.parseInt(data.get(i).getDvalue());
                     }
 
                     limits[i] = data.get(i).getDvalue();
                 }
-                mBinding.tvLimit.setText(maxLimit+"");
+                mBinding.tvLimit.setText(maxLimit + "");
                 limit = limits[0];
 
             }
@@ -767,17 +781,18 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
 
     /**
      * 选择付款时限
+     *
      * @param view
      */
     private void initLimitPopup(View view) {
         MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
         popupWindow.setNumberPicker(R.id.np_type, limits);
 
-        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
+        popupWindow.setOnClickListener(R.id.tv_cancel, v -> {
             popupWindow.dismiss();
         });
 
-        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+        popupWindow.setOnClickListener(R.id.tv_confirm, v -> {
             limit = popupWindow.getNumberPicker(R.id.np_type, limits);
             mBinding.tvLimit.setText(limit);
 
@@ -788,51 +803,51 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
     }
 
 
-    private Boolean check(){
-        if (mBinding.tvPrice.getText().toString().equals("")){
+    private Boolean check() {
+        if (mBinding.tvPrice.getText().toString().equals("")) {
             showToast(getStrRes(R.string.deal_publish_hint_price));
             return false;
         }
 
-        if (mBinding.edtPremium.getText().toString().equals("")){
+        if (mBinding.edtPremium.getText().toString().equals("")) {
             showToast(StringUtil.getString(R.string.deal_publish_hint_premium));
             return false;
         }
 
         Double premium = Double.parseDouble(mBinding.edtPremium.getText().toString().trim());
-        if (premium < -99.99 || premium > 99.99){
+        if (premium < -99.99 || premium > 99.99) {
             showToast(StringUtil.getString(R.string.deal_publish_hint_premium_scope_start)
                     + "-99.99%~+99.99%"
                     + getStrRes(R.string.deal_publish_hint_premium_scope_end));
             return false;
         }
 
-        if (mBinding.edtProtectPrice.getText().toString().equals("")){
+        if (mBinding.edtProtectPrice.getText().toString().equals("")) {
             showToast(StringUtil.getString(R.string.deal_publish_hint_protect_sale));
             return false;
         }
 
-        if (mBinding.edtMin.getText().toString().equals("")){
+        if (mBinding.edtMin.getText().toString().equals("")) {
             showToast(StringUtil.getString(R.string.deal_publish_hint_min));
             return false;
         }
-        if (mBinding.edtMax.getText().toString().equals("")){
+        if (mBinding.edtMax.getText().toString().equals("")) {
             showToast(StringUtil.getString(R.string.deal_publish_hint_max));
             return false;
         }
-        if (mBinding.edtAmount.getText().toString().equals("")){
+        if (mBinding.edtAmount.getText().toString().equals("")) {
             showToast(StringUtil.getString(R.string.deal_publish_amount_sale_hint));
             return false;
         }
-        if (mBinding.tvWay.getText().toString().equals("")){
+        if (mBinding.tvWay.getText().toString().equals("")) {
             showToast(StringUtil.getString(R.string.deal_publish_hint_way));
             return false;
         }
-        if (mBinding.tvLimit.getText().toString().equals("")){
+        if (mBinding.tvLimit.getText().toString().equals("")) {
             showToast(StringUtil.getString(R.string.deal_publish_hint_limit));
             return false;
         }
-        if (mBinding.edtRemark.getText().toString().equals("")){
+        if (mBinding.edtRemark.getText().toString().equals("")) {
             showToast(StringUtil.getString(R.string.deal_publish_hint_remark));
             return false;
         }
@@ -841,27 +856,26 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
     }
 
     /**
-     *
      * @param startTime 开始时间
-     * @param endTime 结束时间
+     * @param endTime   结束时间
      * @return 时间选择状态
      */
-    private String isOpenTimeOpen(TextView startTime, TextView endTime){
+    private String isOpenTimeOpen(TextView startTime, TextView endTime) {
 
-        if (startTime.getText().equals("00:00") && endTime.getText().equals("23:59")){
+        if (startTime.getText().equals("00:00") && endTime.getText().equals("23:59")) {
             // 时间为00:00~23:59,全天打开
             return "open";
-        } else if (startTime.getText().equals(StringUtil.getString(R.string.deal_open_time_close)) && endTime.getText().equals(StringUtil.getString(R.string.deal_open_time_close))){
+        } else if (startTime.getText().equals(StringUtil.getString(R.string.deal_open_time_close)) && endTime.getText().equals(StringUtil.getString(R.string.deal_open_time_close))) {
             // 全天关闭
             return "close";
-        }else {
+        } else {
             // 开放时间自定义
             return "custom";
         }
 
     }
 
-    private JSONArray getOpenTime(){
+    private JSONArray getOpenTime() {
 
         List<TextView> startTimeList = new ArrayList<>();
         startTimeList.add(mBinding.llOpenTime.tvStart1);
@@ -884,25 +898,25 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
         JSONArray displayTime = new JSONArray();
         JSONObject displayTimeObject;
         try {
-            for (int i=0; i<7; i++){
+            for (int i = 0; i < 7; i++) {
 
                 String status = isOpenTimeOpen(startTimeList.get(i), endTimeList.get(i));
 
-                if (status.equals("custom")){
+                if (status.equals("custom")) {
                     displayTimeObject = new JSONObject();
-                    displayTimeObject.put("endTime",Integer.parseInt(endTimeList.get(i).getText().toString().split(":")[0]));
-                    displayTimeObject.put("startTime",Integer.parseInt(startTimeList.get(i).getText().toString().split(":")[0]));
-                    displayTimeObject.put("week",i+1);
-                } else if(status.equals("close")) {
+                    displayTimeObject.put("endTime", Integer.parseInt(endTimeList.get(i).getText().toString().split(":")[0]));
+                    displayTimeObject.put("startTime", Integer.parseInt(startTimeList.get(i).getText().toString().split(":")[0]));
+                    displayTimeObject.put("week", i + 1);
+                } else if (status.equals("close")) {
                     displayTimeObject = new JSONObject();
-                    displayTimeObject.put("endTime",24);
-                    displayTimeObject.put("startTime",24);
-                    displayTimeObject.put("week",i+1);
+                    displayTimeObject.put("endTime", 24);
+                    displayTimeObject.put("startTime", 24);
+                    displayTimeObject.put("week", i + 1);
                 } else {
                     displayTimeObject = new JSONObject();
-                    displayTimeObject.put("endTime",24);
-                    displayTimeObject.put("startTime",0);
-                    displayTimeObject.put("week",i+1);
+                    displayTimeObject.put("endTime", 24);
+                    displayTimeObject.put("startTime", 0);
+                    displayTimeObject.put("week", i + 1);
                 }
                 displayTime.put(displayTimeObject);
             }
@@ -922,7 +936,7 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
         BigDecimal bigDecimal = new BigDecimal(mBinding.edtAmount.getText().toString().trim());
 
         try {
-            if (bean != null){ // 草稿
+            if (bean != null) { // 草稿
                 object.put("adsCode", bean.getCode());
             }
             object.put("token", SPUtilHelper.getUserToken());
@@ -935,7 +949,7 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
             object.put("onlyTrust", onlyFans);
             object.put("payLimit", mBinding.tvLimit.getText().toString());
             object.put("payType", getPayType(mBinding.tvWay.getText().toString()));
-            object.put("premiumRate", (Double.parseDouble(mBinding.edtPremium.getText().toString()) / 100)+"");
+            object.put("premiumRate", (Double.parseDouble(mBinding.edtPremium.getText().toString()) / 100) + "");
             object.put("totalCount", bigDecimal.multiply(getUnit(coinType)).toString().split("\\.")[0]);
             object.put("protectPrice", mBinding.edtProtectPrice.getText().toString().trim());
             object.put("publishType", publishType);
@@ -959,10 +973,10 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
                 if (data == null)
                     return;
 
-                if (data.isSuccess()){
-                    if (publishType.equals("0")){
+                if (data.isSuccess()) {
+                    if (publishType.equals("0")) {
                         showToast(StringUtil.getString(R.string.deal_publish_save_success));
-                    }else {
+                    } else {
                         EventBusModel model = new EventBusModel();
                         model.setTag(EventTags.DEAL_PAGE_CHANGE);
                         // 交易界面显示的币种
@@ -983,7 +997,7 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
         });
     }
 
-    private void getAccount(){
+    private void getAccount() {
         Map<String, Object> map = new HashMap<>();
         map.put("currency", coinType);
         map.put("userId", SPUtilHelper.getUserId());
@@ -1003,8 +1017,8 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
                 if (data == null)
                     return;
 
-                for (CoinModel.AccountListBean model : data.getAccountList()){
-                    if (model.getCurrency().equals(coinType)){
+                for (CoinModel.AccountListBean model : data.getAccountList()) {
+                    if (model.getCurrency().equals(coinType)) {
 
                         BigDecimal amount = new BigDecimal(model.getAmountString());
                         BigDecimal frozenAmount = new BigDecimal(model.getFrozenAmountString());
@@ -1055,13 +1069,12 @@ public class DealPublishSaleActivity extends AbsBaseActivity {
     }
 
     /**
-     *
      * @return
      */
-    private void getFieldExplain(String key){
+    private void getFieldExplain(String key) {
 
-        for(SystemParameterListModel.ListBean bean : model.getList()){
-            if (bean.getCkey().equals(key)){
+        for (SystemParameterListModel.ListBean bean : model.getList()) {
+            if (bean.getCkey().equals(key)) {
                 new AlertDialog.Builder(this).setTitle(StringUtil.getString(R.string.tip))
                         .setMessage(bean.getCvalue())
                         .setPositiveButton(StringUtil.getString(R.string.confirm), null).show();

@@ -20,6 +20,7 @@ import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
+import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.views.MyPickerPopupWindow;
 import com.cdkj.bcoin.R;
@@ -122,6 +123,14 @@ public class DealPublishBuyActivity extends AbsBaseActivity {
 
         getLimit();
         getListData();
+        getZFQr();
+        mBinding.tvWay.setText(getStrRes(R.string.zhifubao));//默认支付宝不让选择
+    }
+
+    private void getZFQr() {
+
+        mBinding.tvPayName.setText(SPUtilHelper.getZfbAccount());
+        ImgUtils.loadImage(DealPublishBuyActivity.this, SPUtilHelper.getZfbQr(), mBinding.ivQr);
     }
 
     private void init() {
@@ -286,7 +295,7 @@ public class DealPublishBuyActivity extends AbsBaseActivity {
             }
         });
 
-        mBinding.llSelect.setOnClickListener(this::initPayTypePopup);
+//        mBinding.llSelect.setOnClickListener(this::initPayTypePopup);
 
         mBinding.llLimit.setOnClickListener(this::initLimitPopup);
 

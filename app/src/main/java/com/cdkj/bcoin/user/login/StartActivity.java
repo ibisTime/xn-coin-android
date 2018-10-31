@@ -87,7 +87,8 @@ public class StartActivity extends BaseActivity implements TxImLoginInterface {
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {//延迟两秒进行跳转
-                    initTencent();
+//                    initTencent();
+                    SignInActivity.open(StartActivity.this,true);
 
                 }, Throwable::printStackTrace));
     }
