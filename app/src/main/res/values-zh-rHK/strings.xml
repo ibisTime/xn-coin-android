@@ -533,7 +533,7 @@
     <string name="contact_fragment_title">提交工單</string>
     <string name="support_activity_title">常見問題</string>
     <string name="chat_activity_title">聯系客服</string>
-    <string name="user_about_copyright">2018BCOIN版權所有</string>
+    <string name="user_about_copyright">2018KKKOTC版權所有</string>
 
     <string name="user_about_update">更新至最新版本</string>
     <string name="user_about_updated">已經是最新版本</string>
@@ -550,9 +550,25 @@
     <string name="push_bar_order">訂單</string>
 
     <string name="push_publish_hint_price">請填寫價格</string>
-    <string name="user_qr">收款设置</string>
-    <string name="user_title_qr">收款账号</string>
-    <string name="deal_publish_pay_img">付款账号</string>
-    <string name="deal_publish_pay_qr">付款码</string>
+    <string name="user_qr">收款設置</string>
+    <string name="user_title_qr">收款賬賬號</string>
+    <string name="deal_publish_pay_img">付款賬號</string>
+    <string name="deal_publish_pay_qr">支付寶付款碼</string>
+    <string name="user_qrname">收款賬號</string>
+    <string name="user_qr_name_hint">請輸入賬號</string>
+    <string name="user_setting_qr">設置收款二維碼</string>
+    <string name="user_text_yes">確定</string>
+    <string name="qr_100">100元</string>
+    <string name="qr_default">默認收款碼</string>
+    <string name="qr_200">200元</string>
+    <string name="qr_300">300元</string>
+    <string name="qr_400">400元</string>
+    <string name="qr_500">500元</string>
+    <string name="qr_1000">1000元</string>
+    <string name="qr_2000">2000元</string>
+    <string name="qr_5000">5000元</string>
+    <string name="qr_10000">10000元</string>
+    <string name="qr_20000">20000元</string>
+    <string name="qr_50000">50000元</string>
 
 </resources>

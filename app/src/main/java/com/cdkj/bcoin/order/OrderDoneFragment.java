@@ -2,7 +2,6 @@ package com.cdkj.bcoin.order;
 
 import android.text.TextUtils;
 
-import com.cdkj.baseim.activity.TxImLogingActivity;
 import com.cdkj.baseim.model.ImUserInfo;
 import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
@@ -104,9 +103,10 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
             info.setIdentify(bean.getCode());
 
             if (bean.getStatus().equals("-1")) { // 待下单订单
-                TxImLogingActivity.open(mActivity, info, false, true, ORDER_DNS_DONE);
+//                TxImLogingActivity.open(mActivity, info, false, true, ORDER_DNS_DONE);
             } else { // 已下单订单
-                TxImLogingActivity.open(mActivity, info, false, true, ORDER_DONE);
+//                TxImLogingActivity.open(mActivity, info, false, true, ORDER_DONE);
+            OrderDetailActivity.open(mActivity, bean, null);//聊天界面  已经隐藏  参数只有再腾讯云房间里面才有用
             }
         });
 

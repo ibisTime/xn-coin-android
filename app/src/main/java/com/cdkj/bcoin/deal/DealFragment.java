@@ -2,14 +2,13 @@ package com.cdkj.bcoin.deal;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 
 import com.cdkj.baselibrary.activitys.WebViewActivity;
-import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.BaseRefreshFragment;
 import com.cdkj.baselibrary.model.BaseCoinModel;
 import com.cdkj.baselibrary.model.EventBusModel;
-import com.cdkj.baselibrary.nets.BaseResponseListCallBack;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
@@ -22,6 +21,7 @@ import com.cdkj.bcoin.loader.BannerImageLoader;
 import com.cdkj.bcoin.model.BannerModel;
 import com.cdkj.bcoin.model.DealDetailModel;
 import com.cdkj.bcoin.model.DealModel;
+import com.cdkj.bcoin.user.UserQRSetting;
 import com.cdkj.bcoin.util.CoinUtil;
 import com.cdkj.bcoin.util.StringUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -103,11 +103,19 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
 //
 //            }else {
 
-                if (!SPUtilHelper.isLogin(mActivity, false)) {
+            if (!SPUtilHelper.isLogin(mActivity, false)) {
+                return;
+            }
+            if (TextUtils.equals("0", model.getTradeType())) {
+                //说明是出售
+//                判断有没有设置支付信息,没有跳转去设置
+                if (TextUtils.isEmpty(SPUtilHelper.getZfbQr())) {
+                    UserQRSetting.open(mActivity);
                     return;
                 }
+            }
 
-                DealActivity.open(mActivity, model.getCode());
+            DealActivity.open(mActivity, model.getCode());
 
 //            }
 
@@ -123,29 +131,29 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         list.clear();
         list.addAll(CoinUtil.getNotTokenCoinList());
 
-        if (list.size() > 0){
+        if (list.size() > 0) {
             coinType = list.get(0).getSymbol();
-        }else {
+        } else {
             coinType = "";
         }
     }
 
     private void initTitleBar() {
-        setTitleBarNoLeft(StringUtil.getString(R.string.deal_buy),StringUtil.getString(R.string.deal_sale));
+        setTitleBarNoLeft(StringUtil.getString(R.string.deal_buy), StringUtil.getString(R.string.deal_sale));
         setTopTitleLine(true);
 
         setTitleBarBtn1Click(v -> {
             setTitleBarBtnViewChange(1);
 
             tradeType = "1";
-            onMRefresh(1,10, true);
+            onMRefresh(1, 10, true);
         });
 
         setTitleBarBtn2Click(v -> {
             setTitleBarBtnViewChange(0);
 
             tradeType = "0";
-            onMRefresh(1,10, false);
+            onMRefresh(1, 10, false);
         });
 
         setTitleBarRightClick(v -> {
@@ -172,7 +180,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
 
             // 储存选择的币种
             coinType = list.get(position).getSymbol();
-            onMRefresh(1,10,true);
+            onMRefresh(1, 10, true);
         });
     }
 
@@ -180,7 +188,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
     public void onResume() {
         super.onResume();
 
-        onMRefresh(1,10,true);
+        onMRefresh(1, 10, true);
     }
 
 
@@ -206,8 +214,8 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         Map<String, Object> map = new HashMap<>();
         map.put("coin", coinType);
         map.put("tradeType", tradeType);
-        map.put("start", pageIndex+"");
-        map.put("limit", limit+"");
+        map.put("start", pageIndex + "");
+        map.put("limit", limit + "");
 
         Call call = RetrofitUtils.createApi(MyApi.class).getDeal("625228", StringUtils.getJsonToString(map));
 
@@ -254,37 +262,43 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
      * 获取banner
      */
     private void getBanner() {
-        Map<String, String> map = new HashMap<>();
-        map.put("location", "trade"); // 交易位置轮播
-        map.put("systemCode", MyConfig.SYSTEMCODE);
-        map.put("companyCode", MyConfig.COMPANYCODE);
+        //banner暂时写死不请求
+        bannerData.clear();
+        bannerData.add(new BannerModel());
+        banner.add(R.drawable.banner1+"");
+        initBanner();
 
-        Call call = RetrofitUtils.createApi(MyApi.class).getBanner("805806", StringUtils.getJsonToString(map));
-
-        addCall(call);
-
-        showLoadingDialog();
-
-        call.enqueue(new BaseResponseListCallBack<BannerModel>(mActivity) {
-
-            @Override
-            protected void onSuccess(List<BannerModel> data, String SucMessage) {
-                if (data != null){
-                    bannerData = data;
-                    banner.clear();
-                    for (BannerModel model : data) {
-                        banner.add(model.getPic());
-                    }
-                }
-
-                initBanner();
-            }
-
-            @Override
-            protected void onFinish() {
-                disMissLoading();
-            }
-        });
+//        Map<String, String> map = new HashMap<>();
+//        map.put("location", "trade"); // 交易位置轮播
+//        map.put("systemCode", MyConfig.SYSTEMCODE);
+//        map.put("companyCode", MyConfig.COMPANYCODE);
+//
+//        Call call = RetrofitUtils.createApi(MyApi.class).getBanner("805806", StringUtils.getJsonToString(map));
+//
+//        addCall(call);
+//
+//        showLoadingDialog();
+//
+//        call.enqueue(new BaseResponseListCallBack<BannerModel>(mActivity) {
+//
+//            @Override
+//            protected void onSuccess(List<BannerModel> data, String SucMessage) {
+//                if (data != null) {
+//                    bannerData = data;
+//                    banner.clear();
+//                    for (BannerModel model : data) {
+//                        banner.add(model.getPic());
+//                    }
+//                }
+//
+//                initBanner();
+//            }
+//
+//            @Override
+//            protected void onFinish() {
+//                disMissLoading();
+//            }
+//        });
 
     }
 
@@ -310,9 +324,9 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         //设置banner点击事件
         mBinding.banner.setOnBannerClickListener(position -> {
 
-            if (bannerData.get(position-1).getUrl()!=null){
-                if (bannerData.get(position-1).getUrl().indexOf("http") != -1){
-                    WebViewActivity.openURL(mActivity,bannerData.get(position-1).getName(),bannerData.get(position-1).getUrl());
+            if (bannerData.get(position - 1).getUrl() != null) {
+                if (bannerData.get(position - 1).getUrl().indexOf("http") != -1) {
+                    WebViewActivity.openURL(mActivity, bannerData.get(position - 1).getName(), bannerData.get(position - 1).getUrl());
                 }
             }
 
@@ -331,17 +345,17 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
             return;
         }
 
-        switch (eventBusModel.getTag()){
+        switch (eventBusModel.getTag()) {
             case DEAL_PAGE_CHANGE:
 
                 setTitleBarBtnViewChange(eventBusModel.getEvInt());
-                tradeType = eventBusModel.getEvInt()+"";
+                tradeType = eventBusModel.getEvInt() + "";
 
                 // 设置要显示的币种
                 coinType = eventBusModel.getEvInfo();
                 setTitleBarCoin(coinType);
 
-                onMRefresh(1,10, true);
+                onMRefresh(1, 10, true);
 
                 break;
 
@@ -354,7 +368,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
                 inits();
                 coinRecyclerAdapter.notifyDataSetChanged();
 
-                onMRefresh(1,10,true);
+                onMRefresh(1, 10, true);
 
                 break;
         }

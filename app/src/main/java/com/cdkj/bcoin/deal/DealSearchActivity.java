@@ -38,11 +38,11 @@ public class DealSearchActivity extends AbsBaseActivity {
     private String[] payTypes;
     private String[] payTypeValue = {"0", "1", "2"};
 
-    public static void open(Context context, String coinType){
+    public static void open(Context context, String coinType) {
         if (context == null) {
             return;
         }
-        context.startActivity(new Intent(context, DealSearchActivity.class).putExtra("coinType",coinType));
+        context.startActivity(new Intent(context, DealSearchActivity.class).putExtra("coinType", coinType));
     }
 
     @Override
@@ -59,6 +59,7 @@ public class DealSearchActivity extends AbsBaseActivity {
 
         init();
         initListener();
+        mBinding.tvWay.setText(R.string.zhifubao);
     }
 
     private void init() {
@@ -70,7 +71,8 @@ public class DealSearchActivity extends AbsBaseActivity {
         mBinding.tvCoinSelect.setText(coinType);
 
         types = new String[]{getStrRes(R.string.deal_buy), getStrRes(R.string.deal_sale)};
-        payTypes = new String[]{getStrRes(R.string.zhifubao), getStrRes(R.string.weixin), getStrRes(R.string.card)};
+//        payTypes = new String[]{getStrRes(R.string.zhifubao), getStrRes(R.string.weixin), getStrRes(R.string.card)};
+        payTypes = new String[]{getStrRes(R.string.zhifubao)};
     }
 
     private void initListener() {
@@ -107,17 +109,17 @@ public class DealSearchActivity extends AbsBaseActivity {
 
         mBinding.llType.setOnClickListener(this::initTypePopup);
 
-        mBinding.llPayType.setOnClickListener(this::initPayTypePopup);
+//        mBinding.llPayType.setOnClickListener(this::initPayTypePopup);
 
         mBinding.btnConfirm.setOnClickListener(view -> {
-            if (check()){
-                if (searchType.equals("user")){
+            if (check()) {
+                if (searchType.equals("user")) {
                     SearchUserActivity.open(this, mBinding.edtUser.getText().toString().trim());
-                }else {
+                } else {
                     SearchDealActivity.open(this,
                             mBinding.edtMin.getText().toString().trim(),
                             mBinding.edtMax.getText().toString().trim(),
-                            type ,
+                            type,
                             payType,
                             coinType);
 
@@ -128,7 +130,7 @@ public class DealSearchActivity extends AbsBaseActivity {
         });
     }
 
-    private void initView(){
+    private void initView() {
         mBinding.tvAdv.setTextColor(ContextCompat.getColor(this, R.color.black));
         mBinding.tvUser.setTextColor(ContextCompat.getColor(this, R.color.black));
 
@@ -139,17 +141,18 @@ public class DealSearchActivity extends AbsBaseActivity {
 
     /**
      * 选择币种
+     *
      * @param view
      */
     private void initPopup(View view) {
         MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
         popupWindow.setNumberPicker(R.id.np_type, CoinUtil.getNotTokenCoinArray());
 
-        popupWindow.setOnClickListener(R.id.tv_cancel,v -> {
+        popupWindow.setOnClickListener(R.id.tv_cancel, v -> {
             popupWindow.dismiss();
         });
 
-        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+        popupWindow.setOnClickListener(R.id.tv_confirm, v -> {
             coinType = popupWindow.getNumberPicker(R.id.np_type, CoinUtil.getNotTokenCoinArray());
 
             // 设置选择币
@@ -164,6 +167,7 @@ public class DealSearchActivity extends AbsBaseActivity {
 
     /**
      * 选择广告类型
+     *
      * @param view
      */
     private void initTypePopup(View view) {
@@ -172,7 +176,7 @@ public class DealSearchActivity extends AbsBaseActivity {
 
         popupWindow.setOnClickListener(R.id.tv_cancel, (View v) -> popupWindow.dismiss());
 
-        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+        popupWindow.setOnClickListener(R.id.tv_confirm, v -> {
             type = typeValue[popupWindow.getNumberPickerValue(R.id.np_type)];
             mBinding.tvType.setText(popupWindow.getNumberPicker(R.id.np_type, types));
 
@@ -185,15 +189,16 @@ public class DealSearchActivity extends AbsBaseActivity {
 
     /**
      * 选择支付方式
+     *
      * @param view
      */
     private void initPayTypePopup(View view) {
         MyPickerPopupWindow popupWindow = new MyPickerPopupWindow(this, R.layout.popup_picker);
         popupWindow.setNumberPicker(R.id.np_type, payTypes);
 
-        popupWindow.setOnClickListener(R.id.tv_cancel,v -> popupWindow.dismiss());
+        popupWindow.setOnClickListener(R.id.tv_cancel, v -> popupWindow.dismiss());
 
-        popupWindow.setOnClickListener(R.id.tv_confirm,v -> {
+        popupWindow.setOnClickListener(R.id.tv_confirm, v -> {
             payType = payTypeValue[popupWindow.getNumberPickerValue(R.id.np_type)];
             mBinding.tvWay.setText(popupWindow.getNumberPicker(R.id.np_type, payTypes));
 
@@ -204,20 +209,20 @@ public class DealSearchActivity extends AbsBaseActivity {
     }
 
 
-    private boolean check(){
-        if (searchType.equals("adv")){
+    private boolean check() {
+        if (searchType.equals("adv")) {
 
-            if (type.equals("")){
+            if (type.equals("")) {
                 showToast(getStrRes(R.string.deal_search_hint_type));
                 return false;
             }
 
-            if (mBinding.edtMin.getText().toString().trim().equals("")){
+            if (mBinding.edtMin.getText().toString().trim().equals("")) {
                 showToast(getStrRes(R.string.deal_search_hint_min));
                 return false;
             }
 
-            if (mBinding.edtMax.getText().toString().trim().equals("")){
+            if (mBinding.edtMax.getText().toString().trim().equals("")) {
                 showToast(getStrRes(R.string.deal_search_hint_max));
                 return false;
             }
@@ -227,9 +232,9 @@ public class DealSearchActivity extends AbsBaseActivity {
 //                return false;
 //            }
 
-        }else {
+        } else {
 
-            if (mBinding.edtUser.getText().toString().trim().equals("")){
+            if (mBinding.edtUser.getText().toString().trim().equals("")) {
                 showToast(getStrRes(R.string.deal_search_hint_user));
                 return false;
             }

@@ -2,77 +2,76 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <ImageView
-            android:background="@mipmap/app_icon"
-            android:layout_marginTop="36dp"
             android:layout_width="77dp"
-            android:layout_height="77dp" />
+            android:layout_height="77dp"
+            android:layout_marginTop="36dp"
+            android:background="@mipmap/app_icon" />
 
         <TextView
             android:id="@+id/tv_app_name"
-            android:layout_marginTop="25dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_version"
-            android:layout_marginTop="10dp"
-            android:textSize="13sp"
-            android:textColor="@color/gray_999999"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/gray_999999"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:textSize="14sp"
             android:text="@string/user_about_update"
             android:textColor="@color/colorAccent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="14sp" />
 
         <View
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp" />
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <TextView
-            android:textSize="14sp"
-            android:text="www.bcoin.im"
-            android:textColor="@color/gray_666666"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="kkkotc.com"
+            android:textColor="@color/gray_666666"
+            android:textSize="14sp" />
 
         <LinearLayout
-            android:gravity="center"
-            android:layout_marginTop="9dp"
-            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="9dp"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/tv_fuhao"
-                android:textSize="14sp"
-                android:textColor="@color/gray_666666"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_666666"
+                android:textSize="14sp" />
 
             <TextView
-                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/user_about_copyright"
                 android:textColor="@color/gray_666666"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="14sp" />
         </LinearLayout>
-
 
 
     </LinearLayout>

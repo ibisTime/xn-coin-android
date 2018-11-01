@@ -54,7 +54,16 @@ public class SendPhoneCodePresenter {
         hashMap.put("bizType", bizType);
         hashMap.put("kind", kind);
 
-        call = RetrofitUtils.getBaseAPiService().successRequest("805950", StringUtils.getJsonToString(hashMap));
+        String code;
+        if (phone.contains("@")) {
+            //邮箱验证码
+            code = "805952";
+        } else {
+            //手机验证码
+            code = "805950";
+        }
+
+        call = RetrofitUtils.getBaseAPiService().successRequest(code, StringUtils.getJsonToString(hashMap));
 
         mListener.StartSend();
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(mContext) {

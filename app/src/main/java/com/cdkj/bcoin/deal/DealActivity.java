@@ -91,6 +91,7 @@ public class DealActivity extends AbsBaseActivity {
         setSubLeftImgState(true);
 
         init();
+        getZFQr();
         initListener();
         getTradeRemind();
 
@@ -105,6 +106,13 @@ public class DealActivity extends AbsBaseActivity {
         }
     }
 
+    /**
+     * 获取支付信息
+     */
+    private void getZFQr() {
+
+        ImgUtils.loadImage(DealActivity.this, SPUtilHelper.getZfbQr(), mBinding.ivQr);
+    }
     private void init() {
         if (getIntent() == null)
             return;

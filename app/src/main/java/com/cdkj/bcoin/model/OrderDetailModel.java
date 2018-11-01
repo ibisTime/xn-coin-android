@@ -53,8 +53,17 @@ public class OrderDetailModel implements Serializable {
     private String updater;
     private String updateDatatime;
     private String remark;
+    private String payAccountQr;
     private BuyUserInfoBean buyUserInfo;
     private SellUserInfoBean sellUserInfo;
+
+    public String getPayAccountQr() {
+        return payAccountQr;
+    }
+
+    public void setPayAccountQr(String payAccountQr) {
+        this.payAccountQr = payAccountQr;
+    }
 
     public String getBsComment() {
         return bsComment;

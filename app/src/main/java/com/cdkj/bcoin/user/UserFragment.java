@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,10 +85,19 @@ public class UserFragment extends BaseLazyFragment {
         });
 
         mBinding.llBuy.setOnClickListener(view -> {
+            if (TextUtils.isEmpty(SPUtilHelper.getZfbQr())) {
+                UserQRSetting.open(mActivity);
+                return;
+            }
+
             DealPublishBuyActivity.open(mActivity, DAIFABU, null);
         });
 
         mBinding.llSale.setOnClickListener(view -> {
+            if (TextUtils.isEmpty(SPUtilHelper.getZfbQr())) {
+                UserQRSetting.open(mActivity);
+                return;
+            }
             DealPublishSaleActivity.open(mActivity, DAIFABU, null);
         });
 

@@ -7,593 +7,598 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:background="@color/gray_f7f7f7"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/gray_f7f7f7"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/ll_coin_select"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:text="@string/deal_publish_coin"
-                    android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_coin_select"
-                    android:gravity="center_vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
                     android:background="@null"
                     android:clickable="false"
-                    android:layout_marginLeft="20dp"
-                    android:textSize="14sp"
+                    android:gravity="center_vertical"
                     android:hint="@string/deal_publish_coin_hint"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray_999999"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent" />
+                    android:textSize="14sp" />
 
                 <LinearLayout
-                    android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
                     <ImageView
-                        android:background="@mipmap/more"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/more" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_coin"
-                    android:tag="tradeCoin"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:tag="tradeCoin">
 
                     <ImageView
-                        android:background="@mipmap/deal_what"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@mipmap/deal_what" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <View
-                android:background="@color/gray_eeeeee"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                android:background="@color/gray_eeeeee" />
 
             <!--<LinearLayout-->
-                <!--android:background="@color/white"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="30dp">-->
+            <!--android:background="@color/white"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="30dp">-->
 
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_market_price"-->
-                    <!--android:textSize="12sp"-->
-                    <!--android:text="@string/deal_market_price"-->
-                    <!--android:layout_marginLeft="15dp"-->
-                    <!--android:textColor="@color/colorPrimary"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content" />-->
+            <!--<TextView-->
+            <!--android:id="@+id/tv_market_price"-->
+            <!--android:textSize="12sp"-->
+            <!--android:text="@string/deal_market_price"-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:textColor="@color/colorPrimary"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
             <!--</LinearLayout>-->
 
             <!--<View-->
-                <!--android:background="@color/gray_eeeeee"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"/>-->
+            <!--android:background="@color/gray_eeeeee"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"/>-->
 
             <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:text="@string/deal_publish_price"
-                    android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="14sp" />
 
                 <EditText
                     android:id="@+id/edt_price"
-                    android:background="@null"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:background="@null"
                     android:gravity="center_vertical"
-                    android:textSize="14sp"
                     android:hint="@string/deal_publish_price_hint"
                     android:inputType="numberDecimal"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray_999999"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent" />
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:text="CNY"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="CNY"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:id="@+id/ll_price"
-                    android:tag="price"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:tag="price">
 
                     <ImageView
-                        android:background="@mipmap/deal_what"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="15dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:background="@mipmap/deal_what" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <View
-                android:background="@color/gray_eeeeee"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                android:background="@color/gray_eeeeee" />
 
             <!--<LinearLayout-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:background="@color/white"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="50dp">-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:background="@color/white"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp">-->
 
-                <!--<TextView-->
-                    <!--android:layout_marginLeft="15dp"-->
-                    <!--android:text="@string/deal_publish_premium"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content" />-->
+            <!--<TextView-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:text="@string/deal_publish_premium"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
-                <!--<EditText-->
-                    <!--android:id="@+id/edt_premium"-->
-                    <!--android:background="@null"-->
-                    <!--android:layout_marginLeft="20dp"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:hint="@string/deal_publish_premium_hint"-->
-                    <!--android:inputType="numberSigned|numberDecimal"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textColorHint="@color/gray_999999"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent" />-->
+            <!--<EditText-->
+            <!--android:id="@+id/edt_premium"-->
+            <!--android:background="@null"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:textSize="14sp"-->
+            <!--android:hint="@string/deal_publish_premium_hint"-->
+            <!--android:inputType="numberSigned|numberDecimal"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textColorHint="@color/gray_999999"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent" />-->
 
-                <!--<TextView-->
-                    <!--android:text="%"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent" />-->
+            <!--<TextView-->
+            <!--android:text="%"-->
+            <!--android:textSize="14sp"-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent" />-->
 
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/ll_premiumRate"-->
-                    <!--android:tag="premiumRate"-->
-                    <!--android:gravity="center"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent">-->
+            <!--<LinearLayout-->
+            <!--android:id="@+id/ll_premiumRate"-->
+            <!--android:tag="premiumRate"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent">-->
 
-                    <!--<ImageView-->
-                        <!--android:background="@mipmap/deal_what"-->
-                        <!--android:layout_marginLeft="10dp"-->
-                        <!--android:layout_marginRight="15dp"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content" />-->
+            <!--<ImageView-->
+            <!--android:background="@mipmap/deal_what"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="15dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
-                <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
 
             <!--</LinearLayout>-->
 
             <!--<View-->
-                <!--android:background="@color/gray_eeeeee"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"/>-->
+            <!--android:background="@color/gray_eeeeee"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"/>-->
 
             <!--<LinearLayout-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:background="@color/white"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="50dp">-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:background="@color/white"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp">-->
 
-                <!--<TextView-->
-                    <!--android:layout_marginLeft="15dp"-->
-                    <!--android:text="@string/deal_publish_pt_price_min"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content" />-->
+            <!--<TextView-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:text="@string/deal_publish_pt_price_min"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
-                <!--<EditText-->
-                    <!--android:id="@+id/edt_protectPrice"-->
-                    <!--android:background="@null"-->
-                    <!--android:layout_marginLeft="20dp"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:hint="@string/deal_publish_pt_price_min_hint"-->
-                    <!--android:inputType="numberDecimal"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textColorHint="@color/gray_999999"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="match_parent" />-->
+            <!--<EditText-->
+            <!--android:id="@+id/edt_protectPrice"-->
+            <!--android:background="@null"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:textSize="14sp"-->
+            <!--android:hint="@string/deal_publish_pt_price_min_hint"-->
+            <!--android:inputType="numberDecimal"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textColorHint="@color/gray_999999"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent" />-->
 
-                <!--<TextView-->
-                    <!--android:text="CNY"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:gravity="center"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent" />-->
+            <!--<TextView-->
+            <!--android:text="CNY"-->
+            <!--android:textSize="14sp"-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent" />-->
 
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/ll_protectPrice"-->
-                    <!--android:tag="protectPrice"-->
-                    <!--android:gravity="center"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent">-->
+            <!--<LinearLayout-->
+            <!--android:id="@+id/ll_protectPrice"-->
+            <!--android:tag="protectPrice"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent">-->
 
-                    <!--<ImageView-->
-                        <!--android:background="@mipmap/deal_what"-->
-                        <!--android:layout_marginRight="15dp"-->
-                        <!--android:layout_marginLeft="10dp"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content" />-->
+            <!--<ImageView-->
+            <!--android:background="@mipmap/deal_what"-->
+            <!--android:layout_marginRight="15dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
-                <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
 
             <!--</LinearLayout>-->
 
             <!--<View-->
-                <!--android:background="@color/gray_eeeeee"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"/>-->
+            <!--android:background="@color/gray_eeeeee"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"/>-->
 
             <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:text="@string/deal_publish_min"
-                    android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="14sp" />
 
                 <EditText
                     android:id="@+id/edt_min"
-                    android:background="@null"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:textSize="14sp"
+                    android:layout_weight="1"
+                    android:background="@null"
                     android:hint="@string/deal_publish_min_hint"
                     android:inputType="numberDecimal"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray_999999"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent" />
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:text="CNY"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="CNY"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:id="@+id/ll_minTrade"
-                    android:tag="minTrade"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:tag="minTrade">
 
                     <ImageView
-                        android:background="@mipmap/deal_what"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@mipmap/deal_what" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <View
-                android:background="@color/gray_eeeeee"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                android:background="@color/gray_eeeeee" />
 
             <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:text="@string/deal_publish_max"
-                    android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="14sp" />
 
                 <EditText
                     android:id="@+id/edt_max"
-                    android:background="@null"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:textSize="14sp"
+                    android:layout_weight="1"
+                    android:background="@null"
                     android:hint="@string/deal_publish_max_hint"
                     android:inputType="numberDecimal"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray_999999"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent" />
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:text="CNY"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="CNY"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:id="@+id/ll_maxTrade"
-                    android:tag="maxTrade"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:tag="maxTrade">
 
                     <ImageView
-                        android:background="@mipmap/deal_what"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="15dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:background="@mipmap/deal_what" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <View
-                android:background="@color/gray_eeeeee"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                android:background="@color/gray_eeeeee" />
 
             <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:text="@string/deal_publish_amount_sale"
-                    android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="14sp" />
 
                 <EditText
                     android:id="@+id/edt_amount"
-                    android:background="@null"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:textSize="14sp"
+                    android:layout_weight="1"
+                    android:background="@null"
                     android:hint="@string/deal_publish_amount_sale_hint"
                     android:inputType="numberDecimal"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray_999999"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_amount_coin"
-                    android:text="ETH"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="ETH"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:id="@+id/ll_totalCount"
-                    android:tag="totalCount"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:tag="totalCount">
 
                     <ImageView
-                        android:background="@mipmap/deal_what"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="15dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:background="@mipmap/deal_what" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <View
-                android:background="@color/gray_eeeeee"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                android:background="@color/gray_eeeeee" />
 
             <LinearLayout
-                android:background="@color/white"
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="30dp"
+                android:background="@color/white"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/tv_balance"
-                    android:textSize="12sp"
-                    android:text="@string/deal_account_balance"
-                    android:layout_marginLeft="15dp"
-                    android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/deal_account_balance"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_limit"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/deal_publish_limit"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_limit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:gravity="center_vertical"
+                    android:hint="@string/deal_publish_limit_hint"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_999999"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/deal_publish_limit_minutes"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_payLimit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:tag="payLimit">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@mipmap/deal_what" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_select"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@color/white"
+
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:text="@string/deal_publish_pay_type"
-                    android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_way"
-                    android:gravity="center_vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
                     android:background="@null"
                     android:clickable="false"
-                    android:layout_marginLeft="20dp"
-                    android:textSize="14sp"
+                    android:gravity="center_vertical"
                     android:hint="@string/deal_publish_pay_type_hint"
                     android:textColor="@color/black"
                     android:textColorHint="@color/gray_999999"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent" />
+                    android:textSize="14sp" />
 
                 <LinearLayout
-                    android:gravity="center"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center">
 
                     <ImageView
-                        android:background="@mipmap/more"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/more" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_payType"
-                    android:tag="payType"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:tag="payType"
+                    android:visibility="gone">
 
                     <ImageView
-                        android:background="@mipmap/deal_what"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@mipmap/deal_what" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <View
-                android:background="@color/gray_eeeeee"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-
-            <LinearLayout
-                android:id="@+id/ll_limit"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-
-                <TextView
-                    android:layout_marginLeft="15dp"
-                    android:text="@string/deal_publish_limit"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/tv_limit"
-                    android:gravity="center_vertical"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:layout_marginLeft="20dp"
-                    android:textSize="14sp"
-                    android:hint="@string/deal_publish_limit_hint"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/gray_999999"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:text="@string/deal_publish_limit_minutes"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
-
-                <LinearLayout
-                    android:id="@+id/ll_payLimit"
-                    android:tag="payLimit"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:background="@mipmap/deal_what"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+                android:layout_height="1dp"
+                android:background="@color/gray_eeeeee" />
 
             <LinearLayout
                 android:id="@+id/ll_payName"
@@ -601,7 +606,8 @@
                 android:layout_height="50dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -651,10 +657,6 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_eeeeee" />
 
             <LinearLayout
                 android:id="@+id/ll_payImg"
@@ -680,24 +682,24 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="10dp"
-                    tools:src="@mipmap/ic_launcher" />
+                    tools:src="@drawable/default_pic" />
 
             </LinearLayout>
 
             <EditText
                 android:id="@+id/edt_remark"
-                android:gravity="top"
-                android:padding="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:backgroundTint="@null"
+                android:gravity="top"
+                android:hint="@string/deal_publish_remark_hint"
                 android:maxLength="100"
                 android:maxLines="5"
-                android:textColorHint="@color/gray_999999"
-                android:hint="@string/deal_publish_remark_hint"
+                android:padding="15dp"
                 android:textColor="@color/black"
+                android:textColorHint="@color/gray_999999"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -741,102 +743,101 @@
 
             <LinearLayout
                 android:id="@+id/ll_setting"
-                android:visibility="gone"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <View
-                    android:background="@color/gray_eeeeee"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
+                    android:layout_height="1dp"
+                    android:background="@color/gray_eeeeee" />
 
                 <LinearLayout
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:background="@color/white"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp">
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:text="@string/deal_publish_open_time"
-                        android:textSize="12sp"
                         android:textColor="@color/black"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textSize="12sp" />
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <LinearLayout
                         android:id="@+id/ll_anytime"
-                        android:gravity="center"
-                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/iv_anytime"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:background="@mipmap/deal_choose"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@mipmap/deal_choose" />
 
                         <TextView
-                            android:text="@string/deal_publish_anytime"
-                            android:textSize="12sp"
-                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:text="@string/deal_publish_anytime"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
 
                     <LinearLayout
                         android:id="@+id/ll_custom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
                         android:gravity="center"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/iv_custom"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="5dp"
-                            android:background="@mipmap/deal_unchoose"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@mipmap/deal_unchoose" />
 
                         <TextView
                             android:id="@+id/tv_custom"
-                            android:text="@string/deal_publish_custom"
-                            android:textSize="12sp"
-                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:text="@string/deal_publish_custom"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
 
-
                     <LinearLayout
                         android:id="@+id/ll_displayTime"
-                        android:tag="displayTime"
-                        android:gravity="center"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:tag="displayTime">
 
                         <ImageView
-                            android:background="@mipmap/deal_what"
-                            android:layout_marginRight="15dp"
-                            android:layout_marginLeft="10dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="15dp"
+                            android:background="@mipmap/deal_what" />
 
                     </LinearLayout>
 
@@ -847,61 +848,61 @@
                     layout="@layout/deal_open_time" />
 
                 <View
-                    android:background="@color/gray_eeeeee"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
+                    android:layout_height="1dp"
+                    android:background="@color/gray_eeeeee" />
 
                 <LinearLayout
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:background="@color/white"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp">
+                    android:layout_height="50dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:text="@string/deal_publish_only_fans"
-                        android:textSize="12sp"
                         android:textColor="@color/black"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textSize="12sp" />
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
 
                     <LinearLayout
                         android:id="@+id/ll_tick"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center">
 
                         <ImageView
                             android:id="@+id/iv_tick"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="@mipmap/deal_unchoose"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@mipmap/deal_unchoose" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_trust"
-                        android:tag="trust"
-                        android:gravity="center"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:tag="trust">
 
                         <ImageView
-                            android:background="@mipmap/deal_what"
-                            android:layout_marginRight="15dp"
-                            android:layout_marginLeft="10dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="15dp"
+                            android:background="@mipmap/deal_what" />
 
                     </LinearLayout>
 
@@ -911,18 +912,18 @@
 
             <Button
                 android:id="@+id/btn_confirm"
-                android:text="@string/deal_publish_confirm"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="25dp"
                 android:background="@drawable/corner_sign_btn"
                 android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="45dp" />
+                android:text="@string/deal_publish_confirm"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
         </LinearLayout>
 

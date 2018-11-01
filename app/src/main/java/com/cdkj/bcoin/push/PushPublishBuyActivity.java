@@ -132,7 +132,6 @@ public class PushPublishBuyActivity extends AbsBaseActivity {
      */
     private void getZFQr() {
 
-        mBinding.tvPayName.setText(SPUtilHelper.getZfbAccount());
         ImgUtils.loadImage(PushPublishBuyActivity.this, SPUtilHelper.getZfbQr(), mBinding.ivQr);
     }
 

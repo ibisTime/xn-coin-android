@@ -93,13 +93,8 @@ public class FindPwdActivity extends AbsBaseActivity implements SendCodeInterfac
                     ToastUtil.show(FindPwdActivity.this, getStrRes(R.string.activity_mobile_mobile_hint));
                     return;
                 }
-                if (name.contains("@")) {
-                    //邮箱验证码
-                    mSendCOdePresenter.sendCodeRequest(name, "805952", MyConfig.USERTYPE, FindPwdActivity.this);
-                } else {
-                    //手机验证码
                     mSendCOdePresenter.sendCodeRequest(name, "805063", MyConfig.USERTYPE, FindPwdActivity.this);
-                }
+
             }
         });
 

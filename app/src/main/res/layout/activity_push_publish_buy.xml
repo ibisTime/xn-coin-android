@@ -462,76 +462,10 @@
                 android:background="@color/gray_eeeeee" />
 
             <LinearLayout
-                android:id="@+id/ll_select"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:text="@string/deal_publish_pay_type"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tv_way"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:gravity="center_vertical"
-                    android:hint="@string/deal_publish_pay_type_hint"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/gray_999999"
-                    android:textSize="14sp" />
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/more" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_payType"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:tag="payType">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
-                        android:background="@mipmap/deal_what" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_eeeeee" />
-
-            <LinearLayout
                 android:id="@+id/ll_limit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -590,6 +524,77 @@
                 android:background="@color/gray_eeeeee" />
 
             <LinearLayout
+                android:id="@+id/ll_select"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingRight="15dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/deal_publish_pay_type"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_way"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:gravity="center_vertical"
+                    android:hint="@string/deal_publish_pay_type_hint"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray_999999"
+                    android:textSize="14sp" />
+
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/more" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_payType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:tag="payType">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@mipmap/deal_what" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_eeeeee" />
+
+            <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ll_payName"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -645,10 +650,7 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_eeeeee" />
+
 
             <LinearLayout
                 android:id="@+id/ll_payImg"
@@ -674,7 +676,7 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="10dp"
-                    tools:src="@mipmap/ic_launcher" />
+                    tools:src="@drawable/default_pic" />
 
             </LinearLayout>
 

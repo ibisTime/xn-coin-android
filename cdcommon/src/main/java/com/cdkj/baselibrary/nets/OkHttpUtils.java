@@ -30,9 +30,9 @@ import okio.Buffer;
  */
 public class OkHttpUtils {
 
-    private final static int CONNECT_TIMEOUT = 35;//连接超时
-    private final static int READ_TIMEOUT = 35;//数据返回超时
-    private final static int WRITE_TIMEOUT = 35;//请求超时
+    private final static int CONNECT_TIMEOUT = 45;//连接超时
+    private final static int READ_TIMEOUT = 45;//数据返回超时
+    private final static int WRITE_TIMEOUT = 45;//请求超时
 
     // This should be less than the lowest "normal" upload bandwidth times SOCKET_TIMEOUT_SECS,
     // but not too low or upload speed with long fat networks will suffer.

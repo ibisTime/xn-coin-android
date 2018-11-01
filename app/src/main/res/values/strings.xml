@@ -533,7 +533,7 @@
     <string name="contact_fragment_title">提交工单</string>
     <string name="support_activity_title">常见问题</string>
     <string name="chat_activity_title">联系客服</string>
-    <string name="user_about_copyright">2018BCOIN版权所有</string>
+    <string name="user_about_copyright">2018KKKOTC版权所有</string>
 
     <string name="user_about_update">更新至最新版本</string>
     <string name="user_about_updated">已经是最新版本</string>
@@ -553,7 +553,23 @@
     <string name="user_qr">收款设置</string>
     <string name="user_title_qr">收款账号</string>
     <string name="deal_publish_pay_img">付款账号</string>
-    <string name="deal_publish_pay_qr">付款码</string>
+    <string name="deal_publish_pay_qr">支付宝付款码</string>
+    <string name="user_qrname">收款账号</string>
+    <string name="user_qr_name_hint">请输入账号</string>
+    <string name="user_setting_qr">设置收款二维码</string>
+    <string name="user_text_yes">确定</string>
+    <string name="qr_100">100元</string>
+    <string name="qr_default">默认收款码</string>
+    <string name="qr_200">200元</string>
+    <string name="qr_300">300元</string>
+    <string name="qr_400">400元</string>
+    <string name="qr_500">500元</string>
+    <string name="qr_1000">1000元</string>
+    <string name="qr_2000">2000元</string>
+    <string name="qr_5000">5000元</string>
+    <string name="qr_10000">10000元</string>
+    <string name="qr_20000">20000元</string>
+    <string name="qr_50000">50000元</string>
 
 
 </resources>

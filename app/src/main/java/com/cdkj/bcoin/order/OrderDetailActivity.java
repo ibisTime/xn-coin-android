@@ -28,6 +28,7 @@ import com.cdkj.baselibrary.model.IsSuccessModes;
 import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.DateUtil;
+import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
 import com.cdkj.baselibrary.utils.ToastUtil;
 import com.cdkj.bcoin.R;
@@ -66,17 +67,17 @@ public class OrderDetailActivity extends AbsBaseActivity {
 
     private ImUserInfo imUserInfo;
 
-    public static void open(Context context, OrderDetailModel model, ImUserInfo imUserInfo){
+    public static void open(Context context, OrderDetailModel model, ImUserInfo imUserInfo) {
         if (context == null) {
             return;
         }
 
-        context.startActivity(new Intent(context, OrderDetailActivity.class).putExtra("model", model).putExtra("imUserInfo",imUserInfo));
+        context.startActivity(new Intent(context, OrderDetailActivity.class).putExtra("model", model).putExtra("imUserInfo", imUserInfo));
     }
 
     @Override
     public View addMainView() {
-        mBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_order_detail, null ,false);
+        mBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_order_detail, null, false);
 
         return mBinding.getRoot();
     }
@@ -104,7 +105,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
         // 重写键盘，不根据点击坐标隐藏键盘，避免与聊天Fragment冲突
         isNeedHideKeyBord = false;
 
-        initChatFragment();
+//        initChatFragment();
     }
 
     private void initChatFragment() {
@@ -117,7 +118,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
 
     private void initListener() {
         mBinding.llOrderId.setOnClickListener(view -> {
-            if (! TextUtils.isEmpty(mBinding.tvOrderId.getText().toString())){
+            if (!TextUtils.isEmpty(mBinding.tvOrderId.getText().toString())) {
                 ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 cmb.setText(mBinding.tvOrderId.getText().toString().trim()); //将内容放入粘贴管理器,在别的地方长按选择"粘贴"即可
                 ToastUtil.show(this, StringUtil.getString(R.string.order_copy_id));
@@ -126,22 +127,22 @@ public class OrderDetailActivity extends AbsBaseActivity {
 
         mBinding.tvAmount.setOnClickListener(view -> {
             String amount = mBinding.tvAmount.getText().toString();
-            if (! TextUtils.isEmpty(amount)){
+            if (!TextUtils.isEmpty(amount)) {
                 ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                cmb.setText(amount.substring(0,amount.length()-3)); //将内容放入粘贴管理器,在别的地方长按选择"粘贴"即可
+                cmb.setText(amount.substring(0, amount.length() - 3)); //将内容放入粘贴管理器,在别的地方长按选择"粘贴"即可
                 ToastUtil.show(this, StringUtil.getString(R.string.order_copy_amount));
             }
         });
 
         mBinding.btnConfirm.setOnClickListener(view -> {
 
-            if (mBinding.btnConfirm.getText().equals(StringUtil.getString(R.string.order_tag))){
+            if (mBinding.btnConfirm.getText().equals(StringUtil.getString(R.string.order_tag))) {
                 tip(StringUtil.getString(R.string.order_tag_confirm));
-            }else if (mBinding.btnConfirm.getText().equals(StringUtil.getString(R.string.order_release))){
+            } else if (mBinding.btnConfirm.getText().equals(StringUtil.getString(R.string.order_release))) {
                 tip(StringUtil.getString(R.string.order_release_confirm));
-            }else if (mBinding.btnConfirm.getText().equals(StringUtil.getString(R.string.order_evaluation))){
+            } else if (mBinding.btnConfirm.getText().equals(StringUtil.getString(R.string.order_evaluation))) {
                 showEvaluate(view);
-            }else if(mBinding.btnConfirm.getText().equals(StringUtil.getString(R.string.order_wallet))){
+            } else if (mBinding.btnConfirm.getText().equals(StringUtil.getString(R.string.order_wallet))) {
                 finish();
                 EventBusModel eventBusModel = new EventBusModel();
                 eventBusModel.setEvInt(MainActivity.WALLET); //显示认证界面
@@ -156,7 +157,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
         });
     }
 
-    private void tag(){
+    private void tag() {
         Map<String, Object> map = new HashMap<>();
         map.put("code", model.getCode());
         map.put("updater", SPUtilHelper.getUserId());
@@ -176,7 +177,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
                 if (data == null)
                     return;
 
-                if (data.isSuccess()){
+                if (data.isSuccess()) {
                     showToast(StringUtil.getString(R.string.order_tag_success));
                     getOrder(true);
                 }
@@ -190,7 +191,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
         });
     }
 
-    private void cancel(){
+    private void cancel() {
         Map<String, Object> map = new HashMap<>();
         map.put("code", model.getCode());
         map.put("updater", SPUtilHelper.getUserId());
@@ -210,7 +211,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
                 if (data == null)
                     return;
 
-                if (data.isSuccess()){
+                if (data.isSuccess()) {
                     showToast(StringUtil.getString(R.string.order_cancel_success));
                     getOrder(true);
                 }
@@ -224,7 +225,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
         });
     }
 
-    private void release(){
+    private void release() {
         Map<String, Object> map = new HashMap<>();
         map.put("code", model.getCode());
         map.put("updater", SPUtilHelper.getUserId());
@@ -244,7 +245,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
                 if (data == null)
                     return;
 
-                if (data.isSuccess()){
+                if (data.isSuccess()) {
                     showToast(StringUtil.getString(R.string.order_release_success));
                     getOrder(true);
                 }
@@ -257,7 +258,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
         });
     }
 
-    private void showEvaluate(View view){
+    private void showEvaluate(View view) {
         final String[] evaluate = {"2"};
         DialogOrderEvaluateBinding popupBinding;
 
@@ -304,9 +305,9 @@ public class OrderDetailActivity extends AbsBaseActivity {
 
 
         popupBinding.tvConfirm.setOnClickListener(v -> {
-            if (evaluate[0].equals("")){
+            if (evaluate[0].equals("")) {
                 showToast("");
-            }else {
+            } else {
                 popupWindow.dismiss();
                 evaluate(evaluate[0]);
             }
@@ -319,7 +320,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
     }
 
-    public void initPopupView(DialogOrderEvaluateBinding popupBinding){
+    public void initPopupView(DialogOrderEvaluateBinding popupBinding) {
         popupBinding.ivGood.setBackgroundResource(R.mipmap.order_eva_good_g);
         popupBinding.tvGood.setTextColor(getResources().getColor(R.color.gray_b3b3b3));
 
@@ -330,7 +331,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
         popupBinding.tvBad.setTextColor(getResources().getColor(R.color.gray_b3b3b3));
     }
 
-    private void evaluate(String comment){
+    private void evaluate(String comment) {
         Map<String, Object> map = new HashMap<>();
         map.put("code", model.getCode());
         map.put("comment", comment);
@@ -350,7 +351,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
                 if (data == null)
                     return;
 
-                if (data.isSuccess()){
+                if (data.isSuccess()) {
                     showToast(StringUtil.getString(R.string.order_evaluation_success));
                     getOrder(true);
                 }
@@ -397,12 +398,13 @@ public class OrderDetailActivity extends AbsBaseActivity {
     }
 
     private void setView() {
-        mBinding.tvOrderId.setText(model.getCode().substring(model.getCode().length()-8, model.getCode().length()));
+        mBinding.tvOrderId.setText(model.getCode().substring(model.getCode().length() - 8, model.getCode().length()));
         mBinding.tvStatus.setText(getOrderStatus(model.getStatus()));
 
-        mBinding.tvPrice.setText(AccountUtil.formatDouble(model.getTradePrice())+MyConfig.CURRENCY);
-        mBinding.tvAmount.setText(AccountUtil.formatDouble(model.getTradeAmount())+MyConfig.CURRENCY);
-        mBinding.tvQuantity.setText(AccountUtil.amountFormatUnit(new BigDecimal(model.getCountString()), model.getTradeCoin(), 8)+model.getTradeCoin());
+        mBinding.tvPrice.setText(AccountUtil.formatDouble(model.getTradePrice()) + MyConfig.CURRENCY);
+        mBinding.tvAmount.setText(AccountUtil.formatDouble(model.getTradeAmount()) + MyConfig.CURRENCY);
+        mBinding.tvQuantity.setText(AccountUtil.amountFormatUnit(new BigDecimal(model.getCountString()), model.getTradeCoin(), 8) + model.getTradeCoin());
+        ImgUtils.loadImage(this, TextUtils.isEmpty(model.getPayAccountQr()) ? "" : model.getPayAccountQr(), mBinding.ivQr);
 
         mBinding.tvBuyer.setText(model.getBuyUserInfo().getNickname());
         mBinding.tvSeller.setText(model.getSellUserInfo().getNickname());
@@ -426,35 +428,35 @@ public class OrderDetailActivity extends AbsBaseActivity {
                     tip(getStrRes(R.string.order_cancel_confirm));
                 });
 
-            }else {
+            } else {
                 mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_tag_wait));
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn_gray);
             }
 
-            tip = StringUtil.getString(R.string.order_save_limit_start)+"<font color='#f15353'>"
+            tip = StringUtil.getString(R.string.order_save_limit_start) + "<font color='#f15353'>"
                     + DateUtil.formatStringData(model.getInvalidDatetime(), DateUtil.DATE_HMS)
-                    + "</font>"+StringUtil.getString(R.string.order_save_limit_end);
+                    + "</font>" + StringUtil.getString(R.string.order_save_limit_end);
 
-        } else if (model.getStatus().equals("1")){ //已支付待释放
+        } else if (model.getStatus().equals("1")) { //已支付待释放
 
             if (TextUtils.equals(model.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
                 mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_release_wait));
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn_gray);
-            }else { // 自己是卖家
+            } else { // 自己是卖家
                 mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_release));
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
             }
 
-            tip = StringUtil.getString(R.string.order_save_limit_start)+"<font color='#f15353'>"
+            tip = StringUtil.getString(R.string.order_save_limit_start) + "<font color='#f15353'>"
                     + DateUtil.formatStringData(model.getInvalidDatetime(), DateUtil.DATE_HMS)
-                    + "</font>"+StringUtil.getString(R.string.order_save_limit_end);
+                    + "</font>" + StringUtil.getString(R.string.order_save_limit_end);
 
             // 可以申请仲裁
             setSubRightTitleAndClick(StringUtil.getString(R.string.order_arbitrate), v -> {
                 popupArbitrate(v);
             });
 
-        } else if(model.getStatus().equals("2")){ //待评价
+        } else if (model.getStatus().equals("2")) { //待评价
 
             if (TextUtils.equals(model.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
 
@@ -462,30 +464,30 @@ public class OrderDetailActivity extends AbsBaseActivity {
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
                 tip = StringUtil.getString(R.string.order_evaluation_tip);
 
-                if (!TextUtils.isEmpty(model.getBsComment())){ // 买家已评价
+                if (!TextUtils.isEmpty(model.getBsComment())) { // 买家已评价
                     mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_evaluation_by_b));
                     mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn_gray);
                     tip = StringUtil.getString(R.string.order_evaluation_tip_by_b);
                 }
 
-                if (!TextUtils.isEmpty(model.getSbComment())){ // 卖家已评价
+                if (!TextUtils.isEmpty(model.getSbComment())) { // 卖家已评价
                     mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_evaluation));
                     mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
                     tip = StringUtil.getString(R.string.order_evaluation_tip_by_s);
                 }
 
-            }else { // 自己是卖家
+            } else { // 自己是卖家
                 mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_evaluation));
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
                 tip = StringUtil.getString(R.string.order_evaluation_tip);
 
-                if (!TextUtils.isEmpty(model.getBsComment())){ // 买家已评价
+                if (!TextUtils.isEmpty(model.getBsComment())) { // 买家已评价
                     mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_evaluation));
                     mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
                     tip = StringUtil.getString(R.string.order_evaluation_tip_by_b);
                 }
 
-                if (!TextUtils.isEmpty(model.getSbComment())){ // 卖家已评价
+                if (!TextUtils.isEmpty(model.getSbComment())) { // 卖家已评价
                     mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_evaluation_by_s));
                     mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn_gray);
                     tip = StringUtil.getString(R.string.order_evaluation_tip_by_s);
@@ -493,12 +495,12 @@ public class OrderDetailActivity extends AbsBaseActivity {
 
             }
 
-        } else if(model.getStatus().equals("3")){ //已完成
+        } else if (model.getStatus().equals("3")) { //已完成
 
             if (TextUtils.equals(model.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
                 mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_wallet));
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
-            }else { // 自己是卖家
+            } else { // 自己是卖家
                 mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_wallet));
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
             }
@@ -519,11 +521,11 @@ public class OrderDetailActivity extends AbsBaseActivity {
         new AlertDialog.Builder(this).setTitle(StringUtil.getString(R.string.attention))
                 .setMessage(msg)
                 .setPositiveButton(StringUtil.getString(R.string.confirm), (dialogInterface, i) -> {
-                    if (msg.equals(StringUtil.getString(R.string.order_release_confirm))){ // 释放货币
+                    if (msg.equals(StringUtil.getString(R.string.order_release_confirm))) { // 释放货币
                         release();
-                    }else if (msg.equals(StringUtil.getString(R.string.order_cancel_confirm))){ // 取消订单
+                    } else if (msg.equals(StringUtil.getString(R.string.order_cancel_confirm))) { // 取消订单
                         cancel();
-                    }else {
+                    } else {
                         tag();
                     }
 
@@ -569,7 +571,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
 
     }
 
-    private void arbitrate(String reason){
+    private void arbitrate(String reason) {
         Map<String, String> map = new HashMap<>();
         map.put("code", model.getCode());
         map.put("applyUser", SPUtilHelper.getUserId());
@@ -591,7 +593,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
                 if (data == null)
                     return;
 
-                if (data.isSuccess()){
+                if (data.isSuccess()) {
                     showToast(StringUtil.getString(R.string.order_arbitrate_success));
                     getOrder(true);
                 }
@@ -608,7 +610,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
 
     @Subscribe
     public void imMsgUpdate(String tag) {
-        if (tag.equals(IM_MSG_UPDATE_ORDER)){
+        if (tag.equals(IM_MSG_UPDATE_ORDER)) {
 
             getOrder(false);
 

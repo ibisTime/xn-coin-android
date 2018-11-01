@@ -103,16 +103,14 @@ public class PayPwdModifyActivity extends AbsBaseActivity implements SendCodeInt
                         ToastUtil.show(PayPwdModifyActivity.this, getString(R.string.activity_mobile_mobile_hint));
                         return;
                     }
-                    if (name.contains("@")) {
-                        //发送邮箱验证码
-                        bizType = "805952";//修改
-                    } else {
-                        //发送  手机验证码
-                        bizType = "805067";//修改
-                    }
-
+                    bizType = "805067";//修改
 
                 } else {
+                    String name = mBinding.edtPhone.getText().toString();
+                    if (TextUtils.isEmpty(name)) {
+                        ToastUtil.show(PayPwdModifyActivity.this, getString(R.string.activity_mobile_mobile_hint));
+                        return;
+                    }
                     bizType = "805066";
                 }
 
@@ -165,6 +163,13 @@ public class PayPwdModifyActivity extends AbsBaseActivity implements SendCodeInt
             object.put("newTradePwd", mBinding.edtRepassword.getText().toString().trim());
         } else {
             object.put("tradePwd", mBinding.edtRepassword.getText().toString().trim());
+        }
+        if (mBinding.edtPhone.getText().toString().trim().contains("@")) {
+            //邮箱
+            object.put("type", "2");
+        } else {
+            //手机号
+            object.put("type", "1");
         }
 
         object.put("smsCaptcha", mBinding.edtCode.getText().toString().toString());

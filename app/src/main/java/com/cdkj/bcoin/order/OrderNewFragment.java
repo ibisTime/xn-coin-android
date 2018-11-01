@@ -96,7 +96,6 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
 
             ImUserInfo info = new ImUserInfo();
             if (TextUtils.equals(bean.getBuyUser(), SPUtilHelper.getUserId())) { // 自己是买家
-
                 info.setLeftImg(bean.getSellUserInfo().getPhoto());
                 info.setLeftName(bean.getSellUserInfo().getNickname());
 
@@ -110,9 +109,10 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
             info.setIdentify(bean.getCode());
 
             if (bean.getStatus().equals("-1")) { // 待下单订单
-                TxImLogingActivity.open(mActivity, info, false, true, ORDER_DNS_NEW);
+//                TxImLogingActivity.open(mActivity, info, false, true, ORDER_DNS_NEW);
             } else { // 已下单订单
-                TxImLogingActivity.open(mActivity, info, false, true, ORDER_NEW);
+//                TxImLogingActivity.open(mActivity, info, false, true, ORDER_NEW);
+                OrderDetailActivity.open(mActivity, bean, null);//聊天界面  已经隐藏  参数不
             }
         });
 

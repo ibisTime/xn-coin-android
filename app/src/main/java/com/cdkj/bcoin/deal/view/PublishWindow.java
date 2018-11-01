@@ -238,7 +238,7 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
 //                getCoin(R.id.ll_buy);
 
                 //判断有没有设置收款账号和二维码
-                if (TextUtils.isEmpty(SPUtilHelper.getZfbAccount()) || TextUtils.isEmpty(SPUtilHelper.getZfbQr())) {
+                if (TextUtils.isEmpty(SPUtilHelper.getZfbQr())) {
                     UserQRSetting.open(mContext);
                     return;
                 }
@@ -267,7 +267,7 @@ public class PublishWindow extends PopupWindow implements View.OnClickListener {
             case R.id.ll_sale:
 //                getCoin(R.id.ll_sale);
                 //判断有没有设置收款账号和二维码
-                if (TextUtils.isEmpty(SPUtilHelper.getZfbAccount()) || TextUtils.isEmpty(SPUtilHelper.getZfbQr())) {
+                if (TextUtils.isEmpty(SPUtilHelper.getZfbQr())) {
                     UserQRSetting.open(mContext);
                     return;
                 }

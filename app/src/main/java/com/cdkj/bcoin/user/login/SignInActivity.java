@@ -111,10 +111,10 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
             showToast(getStrRes(R.string.user_mobile_hint));
             return false;
         }
-        if (mBinding.edtUsername.getText().toString().trim().length() != 11){
-            showToast(getStrRes(R.string.user_mobile_format_hint));
-            return false;
-        }
+//        if (mBinding.edtUsername.getText().toString().trim().length() != 11){
+//            showToast(getStrRes(R.string.user_mobile_format_hint));
+//            return false;
+//        }
         if (mBinding.edtPassword.getText().toString().trim().length() < 6){
             showToast(getStrRes(R.string.user_password_format_hint));
             return false;

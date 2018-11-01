@@ -30,7 +30,7 @@ public class MyConfig {
     public static final String BASE_URL_DEV = "http://loveotc.com/"; // 研发
     public static final String BASE_URL_TEST = "http://loveotc.com/"; // 测试
 //    public static final String BASE_URL_ONLINE = "http://47.52.77.214:4001/forward-service/"; // 线上
-    public static final String BASE_URL_ONLINE = "http://178.128.31.228:5501/forward-service/"; // 线上
+    public static final String BASE_URL_ONLINE = "https://kkkotc.com/"; // 线上
 //    https://kkkotc.com/api
 
 }
