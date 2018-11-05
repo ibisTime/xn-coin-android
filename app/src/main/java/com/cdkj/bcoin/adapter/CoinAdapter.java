@@ -2,6 +2,7 @@ package com.cdkj.bcoin.adapter;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.cdkj.baselibrary.activitys.AuthenticateActivity;
@@ -41,15 +42,17 @@ public class CoinAdapter extends BaseQuickAdapter<CoinModel.AccountListBean, Bas
         BigDecimal amount;
         BigDecimal frozenAmount;
 
-        helper.setText(R.id.tv_name, getCoinNameWithCurrency(item.getCurrency())+"("+item.getCurrency()+")");
+        helper.setText(R.id.tv_name, getCoinNameWithCurrency(item.getCurrency()) + "(" + item.getCurrency() + ")");
 
         amount = new BigDecimal(item.getAmountString());
         frozenAmount = new BigDecimal(item.getFrozenAmountString());
         helper.setText(R.id.tv_amount, AccountUtil.amountFormatUnit(amount.subtract(frozenAmount), item.getCurrency(), 8));
 
-        helper.setText(R.id.tv_frozen, StringUtil.getString(R.string.freeze)+ AccountUtil.amountFormatUnit(new BigDecimal(item.getFrozenAmountString()),item.getCurrency(), 8));
+        helper.setText(R.id.tv_frozen, StringUtil.getString(R.string.freeze) + AccountUtil.amountFormatUnit(new BigDecimal(item.getFrozenAmountString()), item.getCurrency(), 8));
         ImageView ivCoin = helper.getView(R.id.iv_watermark);
-        ImgUtils.loadImage(mContext, getCoinWatermarkWithCurrency(item.getCurrency(),1), ivCoin);
+        ImgUtils.loadImage(mContext, getCoinWatermarkWithCurrency(item.getCurrency(), 1), ivCoin);
+        String coinWatermarkWithCurrency = getCoinWatermarkWithCurrency(item.getCurrency(), 1);
+        Log.i(TAG, "convert: pppppp" + coinWatermarkWithCurrency);
 
         helper.getView(R.id.ll_recharge).setOnClickListener(v -> {
             RechargeActivity.open(mContext, item);
@@ -57,13 +60,13 @@ public class CoinAdapter extends BaseQuickAdapter<CoinModel.AccountListBean, Bas
 
         helper.getView(R.id.ll_withdraw).setOnClickListener(v -> {
 
-            if (TextUtils.isEmpty(SPUtilHelper.getRealName())){
+            if (TextUtils.isEmpty(SPUtilHelper.getRealName())) {
                 AuthenticateActivity.open(mContext);
-            }else {
-                if (SPUtilHelper.getTradePwdFlag()){
+            } else {
+                if (SPUtilHelper.getTradePwdFlag()) {
                     WithdrawActivity.open(mContext, item);
-                }else {
-                    PayPwdModifyActivity.open(mContext,SPUtilHelper.getTradePwdFlag(),SPUtilHelper.getUserPhoneNum());
+                } else {
+                    PayPwdModifyActivity.open(mContext, SPUtilHelper.getTradePwdFlag(), SPUtilHelper.getUserPhoneNum());
                 }
             }
 

@@ -48,7 +48,7 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
     private String status;
     private String bizType;
 
-    public static void open(Context context,String status){
+    public static void open(Context context, String status) {
         if (context == null) {
             return;
         }
@@ -73,12 +73,12 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
     }
 
     @Subscribe
-    public void changeUi(String tag){
+    public void changeUi(String tag) {
         if (tag == null)
             return;
 
-        if (tag.equals(EventTags.CHANGE_CODE_BTN)){
-            mBinding.btnSend.setBackground(ContextCompat.getDrawable(UserGoogleActivity.this,R.drawable.corner_sign_btn));
+        if (tag.equals(EventTags.CHANGE_CODE_BTN)) {
+            mBinding.btnSend.setBackground(ContextCompat.getDrawable(UserGoogleActivity.this, R.drawable.corner_sign_btn));
         }
     }
 
@@ -89,7 +89,7 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
         mSubscription.add(AppUtils.startCodeDown(60, mBinding.btnSend));
 
         //改变ui
-        mBinding.btnSend.setBackground(ContextCompat.getDrawable(this,R.drawable.corner_sign_btn_gray));
+        mBinding.btnSend.setBackground(ContextCompat.getDrawable(this, R.drawable.corner_sign_btn_gray));
     }
 
     @Override
@@ -121,19 +121,19 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
             return;
 
         status = getIntent().getStringExtra("status");
-        if (status.equals("close")){ // 关闭谷歌验证
+        if (status.equals("close")) { // 关闭谷歌验证
 
             mBinding.llKey.setVisibility(View.GONE);
             mBinding.lineKey.setVisibility(View.GONE);
 
             mBinding.btnConfirm.setText(getStrRes(R.string.user_google_btn_close));
 
-        }else if (status.equals("modify")){ // 修改谷歌验证
+        } else if (status.equals("modify")) { // 修改谷歌验证
             // 获取密钥
             getGoogleKey();
 
             mBinding.btnConfirm.setText(getStrRes(R.string.user_google_btn_modify));
-        }else { // 打开修改谷歌验证
+        } else { // 打开修改谷歌验证
             // 获取密钥
             getGoogleKey();
         }
@@ -153,19 +153,21 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
 
         mBinding.btnSend.setOnClickListener(view -> {
 
-            if (status.equals("close")){
+            if (status.equals("close")) {
                 bizType = "805072";
-            }else {
+            } else {
                 bizType = "805071";
             }
-            mPresenter.sendCodeRequest(SPUtilHelper.getUserPhoneNum(), bizType,"C",this);
+            //优先使用手机号,没有手机号就使用邮箱  两个至少会有一个  不存在全部没有的情况
+//            TextUtils.isEmpty(SPUtilHelper.getUserPhoneNum()) ? SPUtilHelper.getUserEmail() : SPUtilHelper.getUserPhoneNum()
+            mPresenter.sendCodeRequest(SPUtilHelper.getUserEmail(), bizType, "C", this);
         });
 
         mBinding.btnConfirm.setOnClickListener(view -> {
             if (check())
-                if (status.equals("close")){ // 关闭谷歌验证
+                if (status.equals("close")) { // 关闭谷歌验证
                     closeGoogleKey();
-                }else { // 打开或者修改谷歌验证
+                } else { // 打开或者修改谷歌验证
                     openGoogleKey();
                 }
 
@@ -200,8 +202,8 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
         });
     }
 
-    private boolean check(){
-        if (TextUtils.isEmpty(mBinding.edtGoogle.getText().toString())){
+    private boolean check() {
+        if (TextUtils.isEmpty(mBinding.edtGoogle.getText().toString())) {
             showToast(getStrRes(R.string.google_code_hint));
             return false;
         }
@@ -211,7 +213,7 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
             return false;
         }
 
-        if (TextUtils.isEmpty(mBinding.edtCode.getText().toString())){
+        if (TextUtils.isEmpty(mBinding.edtCode.getText().toString())) {
             showToast(getStrRes(R.string.sms_code_hint));
             return false;
         }
@@ -221,13 +223,14 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
 
     /**
      * 判断是否为纯数字
+     *
      * @param str
      * @return
      */
-    public boolean isNumeric(String str){
+    public boolean isNumeric(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");
         Matcher isNum = pattern.matcher(str);
-        if( !isNum.matches() ){
+        if (!isNum.matches()) {
             return false;
         }
         return true;
@@ -240,6 +243,14 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
         map.put("secret", mBinding.tvKey.getText().toString());
         map.put("smsCaptcha", mBinding.edtCode.getText().toString());
         map.put("userId", SPUtilHelper.getUserId());
+
+        String zhanghao = TextUtils.isEmpty(SPUtilHelper.getUserPhoneNum()) ? SPUtilHelper.getUserEmail() : SPUtilHelper.getUserPhoneNum();
+        if (zhanghao.contains("@")) {
+            //判断是不是 手机号
+            map.put("type", "2");
+        } else {
+            map.put("type", "1");
+        }
 
         Call call = RetrofitUtils.getBaseAPiService().successRequest("805071", StringUtils.getJsonToString(map));
 
@@ -254,7 +265,7 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
                 if (data == null)
                     return;
 
-                if (data.isSuccess()){
+                if (data.isSuccess()) {
                     SPUtilHelper.saveGoogleAuthFlag(true);
                     finish();
                 }
@@ -276,6 +287,14 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
         map.put("userId", SPUtilHelper.getUserId());
         map.put("token", SPUtilHelper.getUserToken());
 
+        String zhanghao = TextUtils.isEmpty(SPUtilHelper.getUserPhoneNum()) ? SPUtilHelper.getUserEmail() : SPUtilHelper.getUserPhoneNum();
+        if (zhanghao.contains("@")) {
+            //判断是不是 手机号
+            map.put("type", "2");
+        } else {
+            map.put("type", "1");
+        }
+
         Call call = RetrofitUtils.getBaseAPiService().successRequest("805072", StringUtils.getJsonToString(map));
 
         addCall(call);
@@ -289,7 +308,7 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
                 if (data == null)
                     return;
 
-                if (data.isSuccess()){
+                if (data.isSuccess()) {
                     SPUtilHelper.saveGoogleAuthFlag(false);
                     finish();
                 }

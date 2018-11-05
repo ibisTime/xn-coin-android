@@ -138,7 +138,7 @@ public class UserPublishedActivity extends BaseRefreshActivity<DealDetailModel> 
 
 
             }else {
-                DealActivity.open(this, model.getCode());
+                DealActivity.open(this, model.getCode(),model.getTradeType());
             }
 
         });

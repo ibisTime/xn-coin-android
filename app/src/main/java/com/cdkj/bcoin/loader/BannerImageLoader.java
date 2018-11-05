@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.cdkj.bcoin.R;
 import com.youth.banner.loader.ImageLoader;
 
 public class BannerImageLoader extends ImageLoader {
@@ -13,7 +12,7 @@ public class BannerImageLoader extends ImageLoader {
     public void displayImage(Context context, Object path, ImageView imageView) {
 
         Glide.with(context)
-                .load(R.drawable.banner1)
+                .load(Integer.parseInt((String) path))
                 .into(imageView);
 
 //        if (path.toString().indexOf("http") != -1) {

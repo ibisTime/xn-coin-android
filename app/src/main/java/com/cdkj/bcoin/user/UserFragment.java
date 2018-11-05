@@ -21,6 +21,7 @@ import com.cdkj.baselibrary.nets.BaseResponseModelCallBack;
 import com.cdkj.baselibrary.nets.RetrofitUtils;
 import com.cdkj.baselibrary.utils.ImgUtils;
 import com.cdkj.baselibrary.utils.StringUtils;
+import com.cdkj.baselibrary.utils.ToastUtil;
 import com.cdkj.bcoin.R;
 import com.cdkj.bcoin.api.MyApi;
 import com.cdkj.bcoin.databinding.FragmentUserBinding;
@@ -28,6 +29,7 @@ import com.cdkj.bcoin.deal.DealPublishBuyActivity;
 import com.cdkj.bcoin.deal.DealPublishSaleActivity;
 import com.cdkj.bcoin.order.OrderActivity;
 import com.cdkj.bcoin.util.AccountUtil;
+import com.cdkj.bcoin.util.AliOssUtils;
 import com.zendesk.sdk.support.SupportActivity;
 import com.zopim.android.sdk.api.ZopimChat;
 import com.zopim.android.sdk.model.VisitorInfo;
@@ -185,20 +187,17 @@ public class UserFragment extends BaseLazyFragment {
         if (requestCode == PHOTOFLAG) {
             String path = data.getStringExtra(ImageSelectActivity.staticPath);
 
-//            AliOssUtils.build(mActivity, path, null);
+            new AliOssUtils(mActivity).getAliURL(new AliOssUtils.AliUpLoadBack() {
+                @Override
+                public void onSuccess(String name, String etag, String requestId) {
+                    updateUserPhoto(name);
+                }
 
-
-//            new QiNiuUtil(mActivity).getQiniuURL(new QiNiuUtil.QiNiuCallBack() {
-//                @Override
-//                public void onSuccess(String key, ResponseInfo info, JSONObject res) {
-//                    updateUserPhoto(key);
-//                }
-//
-//                @Override
-//                public void onFal(String info) {
-//                }
-//            }, path);
-
+                @Override
+                public void onFal(String info) {
+                    ToastUtil.show(mActivity, "上传失败");
+                }
+            }, path);
         }
     }
 
@@ -243,7 +242,6 @@ public class UserFragment extends BaseLazyFragment {
         Call call = RetrofitUtils.createApi(MyApi.class).getUserInfoDetails("805121", StringUtils.getJsonToString(map));
 
         addCall(call);
-
         call.enqueue(new BaseResponseModelCallBack<UserInfoModel>(mActivity) {
             @Override
             protected void onSuccess(UserInfoModel data, String SucMessage) {

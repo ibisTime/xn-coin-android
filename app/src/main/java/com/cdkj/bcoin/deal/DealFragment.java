@@ -55,7 +55,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
     private CoinRecyclerAdapter coinRecyclerAdapter;
 
     // 广告交易类型，买币页面应该取"卖币类型广告"，卖币反之
-    private String tradeType = "1"; // 0：买币，1：卖币
+    private String tradeType = "1"; // 0：买币，1：卖币  这个注释好像说反了  应该是  买币是1  卖币是0
 
     private List<String> banner = new ArrayList<>();
     private List<BannerModel> bannerData = new ArrayList<>();
@@ -115,7 +115,7 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
                 }
             }
 
-            DealActivity.open(mActivity, model.getCode());
+            DealActivity.open(mActivity, model.getCode(),tradeType);
 
 //            }
 
@@ -265,7 +265,10 @@ public class DealFragment extends BaseRefreshFragment<DealDetailModel> {
         //banner暂时写死不请求
         bannerData.clear();
         bannerData.add(new BannerModel());
+        bannerData.add(new BannerModel());
+        banner.clear();
         banner.add(R.drawable.banner1+"");
+        banner.add(R.drawable.banner2+"");
         initBanner();
 
 //        Map<String, String> map = new HashMap<>();

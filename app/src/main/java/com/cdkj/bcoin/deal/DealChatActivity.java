@@ -43,16 +43,16 @@ public class DealChatActivity extends AbsBaseActivity {
     private OrderDetailModel model;
     private ImUserInfo imUserInfo;
 
-    public static void open(Context context, OrderDetailModel model, ImUserInfo imUserInfo){
+    public static void open(Context context, OrderDetailModel model, ImUserInfo imUserInfo) {
         if (context == null) {
             return;
         }
-        context.startActivity(new Intent(context, DealChatActivity.class).putExtra("model", model).putExtra("imUserInfo",imUserInfo));
+        context.startActivity(new Intent(context, DealChatActivity.class).putExtra("model", model).putExtra("imUserInfo", imUserInfo));
     }
 
     @Override
     public View addMainView() {
-        mBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_deal_chat, null ,false);
+        mBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_deal_chat, null, false);
         return mBinding.getRoot();
     }
 
@@ -111,8 +111,6 @@ public class DealChatActivity extends AbsBaseActivity {
             protected void onSuccess(DealDetailModel data, String SucMessage) {
                 if (data == null)
                     return;
-
-
                 setView(data);
             }
 
@@ -124,26 +122,26 @@ public class DealChatActivity extends AbsBaseActivity {
     }
 
     private void setView(DealDetailModel data) {
-        mBinding.tvPrice.setText(getStrRes(R.string.quoted) + AccountUtil.formatDouble(data.getTruePrice())+CURRENCY);
-        mBinding.tvLimit.setText(getStrRes(R.string.limit)+data.getMinTrade() + "-"+formatDouble(data.getMaxTrade())+CURRENCY);
+        mBinding.tvPrice.setText(getStrRes(R.string.quoted) + AccountUtil.formatDouble(data.getTruePrice()) + CURRENCY);
+        mBinding.tvLimit.setText(getStrRes(R.string.limit) + data.getMinTrade() + "-" + formatDouble(data.getMaxTrade()) + CURRENCY);
 
-        if (data.getTradeType().equals("1")){ // 1是卖币，UI展示买币
-            setTopTitle(getStrRes(R.string.buy_order)+"("+data.getUser().getNickname()+")");
+        if (data.getTradeType().equals("1")) { // 1是卖币，UI展示买币
+            setTopTitle(getStrRes(R.string.buy_order) + "(" + data.getUser().getNickname() + ")");
             mBinding.btnConfirm.setText(getStrRes(R.string.buy));
-        }else{ //反之
-            setTopTitle(getStrRes(R.string.sale_order)+"("+data.getUser().getNickname()+")");
+        } else { //反之
+            setTopTitle(getStrRes(R.string.sale_order) + "(" + data.getUser().getNickname() + ")");
             mBinding.btnConfirm.setText(getStrRes(R.string.sale));
         }
 
         Double leftAmount = Double.parseDouble(data.getLeftCountString());
-        if (leftAmount == 0){
+        if (leftAmount == 0) {
             mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn_gray);
-        }else {
+        } else {
             mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
         }
 
         mBinding.btnConfirm.setOnClickListener(view -> {
-            DealActivity.open(this, data.getCode());
+            DealActivity.open(this, data.getCode(), data.getTradeType());
             finish();
         });
     }

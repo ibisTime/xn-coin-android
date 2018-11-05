@@ -93,6 +93,7 @@ public class OrderDetailActivity extends AbsBaseActivity {
     }
 
     private void init() {
+
         if (getIntent() == null)
             return;
 
@@ -398,13 +399,16 @@ public class OrderDetailActivity extends AbsBaseActivity {
     }
 
     private void setView() {
+        //显示支付宝付款码
+        ImgUtils.loadImage(this, TextUtils.isEmpty(model.getPayAccountQr()) ? "" : model.getPayAccountQr(), mBinding.ivQr);
+
+
         mBinding.tvOrderId.setText(model.getCode().substring(model.getCode().length() - 8, model.getCode().length()));
         mBinding.tvStatus.setText(getOrderStatus(model.getStatus()));
 
         mBinding.tvPrice.setText(AccountUtil.formatDouble(model.getTradePrice()) + MyConfig.CURRENCY);
         mBinding.tvAmount.setText(AccountUtil.formatDouble(model.getTradeAmount()) + MyConfig.CURRENCY);
         mBinding.tvQuantity.setText(AccountUtil.amountFormatUnit(new BigDecimal(model.getCountString()), model.getTradeCoin(), 8) + model.getTradeCoin());
-        ImgUtils.loadImage(this, TextUtils.isEmpty(model.getPayAccountQr()) ? "" : model.getPayAccountQr(), mBinding.ivQr);
 
         mBinding.tvBuyer.setText(model.getBuyUserInfo().getNickname());
         mBinding.tvSeller.setText(model.getSellUserInfo().getNickname());

@@ -28,6 +28,8 @@ public class DealDetailModel implements Serializable {
     private String payType;
     private int payLimit;
     private String status;
+    private String payAccountQr;
+
     private String createDatetime;
     private String updateDatetime;
     private String leaveMessage;
@@ -40,6 +42,14 @@ public class DealDetailModel implements Serializable {
 
     public void setDisplayTime(List<DisplayTimeBean> displayTime) {
         this.displayTime = displayTime;
+    }
+
+    public String getPayAccountQr() {
+        return payAccountQr;
+    }
+
+    public void setPayAccountQr(String payAccountQr) {
+        this.payAccountQr = payAccountQr;
     }
 
     public int getIsTrust() {
@@ -242,6 +252,24 @@ public class DealDetailModel implements Serializable {
         private String companyCode;
         private String systemCode;
         private boolean tradepwdFlag;
+        private String zfbQr;
+        private String zfbAccount;
+
+        public String getZfbQr() {
+            return zfbQr;
+        }
+
+        public void setZfbQr(String zfbQr) {
+            this.zfbQr = zfbQr;
+        }
+
+        public String getZfbAccount() {
+            return zfbAccount;
+        }
+
+        public void setZfbAccount(String zfbAccount) {
+            this.zfbAccount = zfbAccount;
+        }
 
         public String getLastLogin() {
             return lastLogin;

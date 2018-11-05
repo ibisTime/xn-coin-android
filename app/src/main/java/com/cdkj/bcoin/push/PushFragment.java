@@ -82,7 +82,7 @@ public class PushFragment extends BaseRefreshFragment<DealDetailModel> {
                 return;
             }
 
-            DealActivity.open(mActivity, model.getCode());
+            DealActivity.open(mActivity, model.getCode(),model.getTradeType());
 
         });
 

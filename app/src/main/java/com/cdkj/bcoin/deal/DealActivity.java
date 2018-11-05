@@ -71,12 +71,16 @@ public class DealActivity extends AbsBaseActivity {
     private String tradeString = StringUtil.getString(R.string.sale);
 
     private String inputType = "";
+    private String tradeType;//1是买币显示广告的二维码   0是卖币  显示自己的二维码
 
-    public static void open(Context context, String code){
+    public static void open(Context context, String code, String tradeType) {
         if (context == null) {
             return;
         }
-        context.startActivity(new Intent(context, DealActivity.class).putExtra("code",code));
+        Intent intent = new Intent(context, DealActivity.class);
+        intent.putExtra("code", code);
+        intent.putExtra("tradeType", tradeType);
+        context.startActivity(intent);
     }
 
     @Override
@@ -89,35 +93,37 @@ public class DealActivity extends AbsBaseActivity {
     public void afterCreate(Bundle savedInstanceState) {
         setTopLineState(true);
         setSubLeftImgState(true);
-
         init();
-        getZFQr();
+        getZFQR();
         initListener();
         getTradeRemind();
 
+    }
+
+    private void getZFQR() {
+
+        if (TextUtils.equals("0", tradeType)) {
+            //卖币  显示自己的二维码
+            ImgUtils.loadImage(DealActivity.this, SPUtilHelper.getZfbQr(), mBinding.ivQr);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (code != null){
+        if (code != null) {
             getDeal();
         }
     }
 
-    /**
-     * 获取支付信息
-     */
-    private void getZFQr() {
 
-        ImgUtils.loadImage(DealActivity.this, SPUtilHelper.getZfbQr(), mBinding.ivQr);
-    }
     private void init() {
         if (getIntent() == null)
             return;
 
         code = getIntent().getStringExtra("code");
+        tradeType = getIntent().getStringExtra("tradeType");
 
     }
 
@@ -152,13 +158,17 @@ public class DealActivity extends AbsBaseActivity {
         });
     }
 
-    private void setView(){
+    private void setView() {
+        if (TextUtils.equals("1", tradeType)) {
+            //买币  显示广告的二维码
+            ImgUtils.loadImage(DealActivity.this, bean.getUser() == null ? "" : bean.getPayAccountQr(), mBinding.ivQr);
+        }
         // 初始化交易币种
         mBinding.tvCoin.setText(bean.getTradeCoin());
 
-        if (bean.getTradeType().equals("1")){ // 1是卖币，UI展示买币
+        if (bean.getTradeType().equals("1")) { // 1是卖币，UI展示买币
             tradeString = getStrRes(R.string.buy);
-        }else{ //反之
+        } else { //反之
             tradeString = getStrRes(R.string.sale);
 
             mBinding.tvLeft.setVisibility(View.GONE);
@@ -168,46 +178,46 @@ public class DealActivity extends AbsBaseActivity {
         // 设置标题和按钮内容
         setTopTitle(tradeString);
         mBinding.tvConfirm.setText(tradeString);
-        mBinding.tvHowMany.setText(getStrRes(R.string.you_want)+tradeString+getStrRes(R.string.how_many));
+        mBinding.tvHowMany.setText(getStrRes(R.string.you_want) + tradeString + getStrRes(R.string.how_many));
 
         // 是否信任
-        if (bean.getIsTrust() == 0){
+        if (bean.getIsTrust() == 0) {
             mBinding.btnTrust.setText(getStrRes(R.string.get_trust));
-        }else {
+        } else {
             mBinding.btnTrust.setText(getStrRes(R.string.lost_trust));
         }
 
         // 填充数据
-        mBinding.tvDeal.setText(bean.getUserStatistics().getJiaoYiCount()+"");
-        mBinding.tvTrust.setText(bean.getUserStatistics().getBeiXinRenCount()+"");
-        if(bean.getUserStatistics().getBeiPingJiaCount() == 0){
+        mBinding.tvDeal.setText(bean.getUserStatistics().getJiaoYiCount() + "");
+        mBinding.tvTrust.setText(bean.getUserStatistics().getBeiXinRenCount() + "");
+        if (bean.getUserStatistics().getBeiPingJiaCount() == 0) {
             mBinding.tvGood.setText("0%");
-        }else {
+        } else {
             double hpRate = bean.getUserStatistics().getBeiHaoPingCount() / bean.getUserStatistics().getBeiPingJiaCount();
-            mBinding.tvGood.setText(AccountUtil.formatInt(hpRate * 100)+"%");
+            mBinding.tvGood.setText(AccountUtil.formatInt(hpRate * 100) + "%");
         }
 
         setDealPayType(this, bean, mBinding.tvType);
         mBinding.tvAdv.setText(bean.getLeaveMessage());
-        mBinding.tvPrice.setText(AccountUtil.formatDouble(bean.getTruePrice())+ CURRENCY);
+        mBinding.tvPrice.setText(AccountUtil.formatDouble(bean.getTruePrice()) + CURRENCY);
         mBinding.tvLeft.setText(getStrRes(R.string.left_count) + AccountUtil.amountFormatUnit(new BigDecimal(bean.getLeftCountString()), bean.getTradeCoin(), 8));
-        mBinding.tvLimit.setText(getStrRes(R.string.limit) + bean.getMinTrade()+"-"+formatDouble(bean.getMaxTrade())+CURRENCY);
-        mBinding.edtCny.setHint(bean.getMinTrade()+"-"+formatDouble(bean.getMaxTrade())+CURRENCY);
+        mBinding.tvLimit.setText(getStrRes(R.string.limit) + bean.getMinTrade() + "-" + formatDouble(bean.getMaxTrade()) + CURRENCY);
+        mBinding.edtCny.setHint(bean.getMinTrade() + "-" + formatDouble(bean.getMaxTrade()) + CURRENCY);
 
         // 是否是自己的广告
-        if (bean.getUser().getUserId().equals(SPUtilHelper.getUserId())){
+        if (bean.getUser().getUserId().equals(SPUtilHelper.getUserId())) {
             // 隐藏信任按钮
             mBinding.btnTrust.setVisibility(View.INVISIBLE);
             // 隐藏聊天按钮，设置操作按钮内容为编辑
             mBinding.llChat.setVisibility(View.INVISIBLE);
             mBinding.tvConfirm.setText("编辑");
 
-            if (bean.getStatus().equals("2")){ // 已下架
+            if (bean.getStatus().equals("2")) { // 已下架
                 // 已下架时隐藏底部按钮
                 mBinding.llBottom.setVisibility(View.GONE);
 
-            }else {
-                setSubRightTitleAndClick(getStrRes(R.string.out),v -> {
+            } else {
+                setSubRightTitleAndClick(getStrRes(R.string.out), v -> {
                     tip();
                 });
             }
@@ -226,24 +236,24 @@ public class DealActivity extends AbsBaseActivity {
         if (bean.getUserStatistics() == null)
             return;
         String amount;
-        amount = AccountUtil.amountFormatUnit(new BigDecimal(bean.getUserStatistics().getTotalTradeCount()),bean.getTradeCoin(), 8);
+        amount = AccountUtil.amountFormatUnit(new BigDecimal(bean.getUserStatistics().getTotalTradeCount()), bean.getTradeCoin(), 8);
         double dh = Double.parseDouble(amount);
 
-        if(dh == 0){
-            mBinding.tvHistory.setText("0 "+bean.getTradeCoin());
-        } else if (dh < 0.5){
-            mBinding.tvHistory.setText("0-0.5 "+bean.getTradeCoin());
-        }else if(0.5 <= dh && dh <= 1){
-            mBinding.tvHistory.setText("0.5-1 "+bean.getTradeCoin());
-        }else {
-            mBinding.tvHistory.setText(amount.split("\\.")[0]+"+ "+bean.getTradeCoin());
+        if (dh == 0) {
+            mBinding.tvHistory.setText("0 " + bean.getTradeCoin());
+        } else if (dh < 0.5) {
+            mBinding.tvHistory.setText("0-0.5 " + bean.getTradeCoin());
+        } else if (0.5 <= dh && dh <= 1) {
+            mBinding.tvHistory.setText("0.5-1 " + bean.getTradeCoin());
+        } else {
+            mBinding.tvHistory.setText(amount.split("\\.")[0] + "+ " + bean.getTradeCoin());
         }
 
     }
 
     private void initListener() {
         mBinding.rlIcon.setOnClickListener(view -> {
-            UserPersonActivity.open(this, bean.getUserId(),bean.getUser().getNickname(),bean.getUser().getPhoto(),bean.getTradeCoin());
+            UserPersonActivity.open(this, bean.getUserId(), bean.getUser().getNickname(), bean.getUser().getPhoto(), bean.getTradeCoin());
         });
 
         mBinding.btnTrust.setOnClickListener(view -> trust());
@@ -253,42 +263,42 @@ public class DealActivity extends AbsBaseActivity {
                 return;
             }
 
-            if (mBinding.tvConfirm.getText().equals("编辑")){
+            if (mBinding.tvConfirm.getText().equals("编辑")) {
 
                 // 当前广告的币种是否是Token币种
-                if (Arrays.asList(CoinUtil.getTokenCoinArray()).contains(bean.getTradeCoin())){
-                    if (bean.getTradeType().equals("0")){ // 买币
+                if (Arrays.asList(CoinUtil.getTokenCoinArray()).contains(bean.getTradeCoin())) {
+                    if (bean.getTradeType().equals("0")) { // 买币
                         PushPublishBuyActivity.open(this, YIFABU, bean);
-                    }else {
+                    } else {
                         PushPublishSaleActivity.open(this, YIFABU, bean);
                     }
-                }else {
-                    if (bean.getTradeType().equals("0")){ // 买币
+                } else {
+                    if (bean.getTradeType().equals("0")) { // 买币
                         DealPublishBuyActivity.open(this, YIFABU, bean);
-                    }else {
+                    } else {
                         DealPublishSaleActivity.open(this, YIFABU, bean);
                     }
                 }
 
-            }else { // 购买或者出售
+            } else { // 购买或者出售
 
-                if (check()){
+                if (check()) {
 
                     Double cny = Double.parseDouble(mBinding.edtCny.getText().toString());
-                    if (bean.getMinTrade() <= cny && cny <= bean.getMaxTrade()){
+                    if (bean.getMinTrade() <= cny && cny <= bean.getMaxTrade()) {
 
                         // 购买数字货币之前需实名认证
-                        if (tradeString.equals(getStrRes(R.string.buy))){
-                            if (TextUtils.isEmpty(SPUtilHelper.getRealName())){
+                        if (tradeString.equals(getStrRes(R.string.buy))) {
+                            if (TextUtils.isEmpty(SPUtilHelper.getRealName())) {
                                 AuthenticateActivity.open(this);
-                            }else {
+                            } else {
                                 popupType(view);
                             }
-                        }else {
+                        } else {
                             popupType(view);
                         }
-                    }else {
-                        showToast(getStrRes(R.string.trade_limit)+bean.getMinTrade()+"-"+formatDouble(bean.getMaxTrade())+CURRENCY);
+                    } else {
+                        showToast(getStrRes(R.string.trade_limit) + bean.getMinTrade() + "-" + formatDouble(bean.getMaxTrade()) + CURRENCY);
                     }
 
                 }
@@ -301,13 +311,13 @@ public class DealActivity extends AbsBaseActivity {
             }
 
             // 购买数字货币聊天之前需实名认证
-            if (tradeString.equals(getStrRes(R.string.buy))){
-                if (TextUtils.isEmpty(SPUtilHelper.getRealName())){
+            if (tradeString.equals(getStrRes(R.string.buy))) {
+                if (TextUtils.isEmpty(SPUtilHelper.getRealName())) {
                     AuthenticateActivity.open(this);
-                }else {
+                } else {
                     chatOrder();
                 }
-            }else {
+            } else {
                 chatOrder();
             }
 
@@ -324,19 +334,19 @@ public class DealActivity extends AbsBaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (inputType.equals("edtCny")){
+                if (inputType.equals("edtCny")) {
 
                     // 限制edtCny的 小数点前后输入位数
-                    EditTextJudgeNumberWatcher.judgeNumber(editable, mBinding.edtCny, 10,2);
+                    EditTextJudgeNumberWatcher.judgeNumber(editable, mBinding.edtCny, 10, 2);
 
-                    if (editable.toString().equals("")){
+                    if (editable.toString().equals("")) {
                         mBinding.edtCoin.setText("");
-                    }else {
+                    } else {
                         Double cny = Double.parseDouble(editable.toString());
                         Double price = bean.getTruePrice();
 
                         try {
-                            mBinding.edtCoin.setText(AccountUtil.div(cny ,price, 8));
+                            mBinding.edtCoin.setText(AccountUtil.div(cny, price, 8));
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }
@@ -358,13 +368,13 @@ public class DealActivity extends AbsBaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (inputType.equals("edtCoin")){
+                if (inputType.equals("edtCoin")) {
 
-                    EditTextJudgeNumberWatcher.judgeNumber(editable, mBinding.edtCoin, 10,8);
+                    EditTextJudgeNumberWatcher.judgeNumber(editable, mBinding.edtCoin, 10, 8);
 
-                    if (editable.toString().equals("")){
+                    if (editable.toString().equals("")) {
                         mBinding.edtCny.setText("");
-                    }else {
+                    } else {
                         Double coin = Double.parseDouble(editable.toString());
 
                         mBinding.edtCny.setText(AccountUtil.formatDouble(coin * bean.getTruePrice()));
@@ -383,13 +393,13 @@ public class DealActivity extends AbsBaseActivity {
         });
     }
 
-    private boolean check(){
+    private boolean check() {
 
-        if (mBinding.edtCny.getText().toString().equals("")){
+        if (mBinding.edtCny.getText().toString().equals("")) {
             showToast(getStrRes(R.string.deal_buy_cny_hint));
             return false;
         }
-        if (mBinding.edtCoin.getText().toString().equals("")){
+        if (mBinding.edtCoin.getText().toString().equals("")) {
             showToast(getStrRes(R.string.deal_buy_coin_hint));
             return false;
         }
@@ -404,9 +414,9 @@ public class DealActivity extends AbsBaseActivity {
         map.put("userId", SPUtilHelper.getUserId());
         map.put("token", SPUtilHelper.getUserToken());
 
-        if (mBinding.btnTrust.getText().equals(getStrRes(R.string.get_trust))){
+        if (mBinding.btnTrust.getText().equals(getStrRes(R.string.get_trust))) {
             code = "805110";
-        }else {
+        } else {
             code = "805111";
         }
 
@@ -455,17 +465,17 @@ public class DealActivity extends AbsBaseActivity {
             return false;
         });
 
-        popupBinding.tvPopTip.setText(getStrRes(R.string.dialog_deal_tip1)+bean.getTradeCoin()+getStrRes(R.string.dialog_deal_tip2));
+        popupBinding.tvPopTip.setText(getStrRes(R.string.dialog_deal_tip1) + bean.getTradeCoin() + getStrRes(R.string.dialog_deal_tip2));
 
-        popupBinding.tvPriceTitle.setText(tradeString+getStrRes(R.string.price));
-        popupBinding.tvAmountTitle.setText(tradeString+getStrRes(R.string.amount));
-        popupBinding.tvQuantityTitle.setText(tradeString+getStrRes(R.string.quantity));
-        popupBinding.tvCancel.setText(getStrRes(R.string.cancel)+tradeString);
-        popupBinding.tvConfirm.setText(getStrRes(R.string.confirm)+tradeString);
+        popupBinding.tvPriceTitle.setText(tradeString + getStrRes(R.string.price));
+        popupBinding.tvAmountTitle.setText(tradeString + getStrRes(R.string.amount));
+        popupBinding.tvQuantityTitle.setText(tradeString + getStrRes(R.string.quantity));
+        popupBinding.tvCancel.setText(getStrRes(R.string.cancel) + tradeString);
+        popupBinding.tvConfirm.setText(getStrRes(R.string.confirm) + tradeString);
 
-        popupBinding.tvPrice.setText(AccountUtil.formatDouble(bean.getTruePrice())+CURRENCY);
-        popupBinding.tvAmount.setText(mBinding.edtCny.getText().toString().trim()+CURRENCY);
-        popupBinding.tvQuantity.setText(mBinding.edtCoin.getText().toString().trim()+bean.getTradeCoin());
+        popupBinding.tvPrice.setText(AccountUtil.formatDouble(bean.getTruePrice()) + CURRENCY);
+        popupBinding.tvAmount.setText(mBinding.edtCny.getText().toString().trim() + CURRENCY);
+        popupBinding.tvQuantity.setText(mBinding.edtCoin.getText().toString().trim() + bean.getTradeCoin());
 
         popupBinding.tvCancel.setOnClickListener(v -> {
             popupWindow.dismiss();
@@ -473,9 +483,9 @@ public class DealActivity extends AbsBaseActivity {
 
         popupBinding.tvConfirm.setOnClickListener(v -> {
             popupWindow.dismiss();
-            if (tradeString.equals(getStrRes(R.string.buy))){
+            if (tradeString.equals(getStrRes(R.string.buy))) {
                 buy();
-            }else {
+            } else {
                 sale();
             }
         });
@@ -487,7 +497,7 @@ public class DealActivity extends AbsBaseActivity {
 
     }
 
-    private void getAccount(){
+    private void getAccount() {
         Map<String, Object> map = new HashMap<>();
         map.put("currency", bean.getTradeCoin());
         map.put("userId", SPUtilHelper.getUserId());
@@ -505,8 +515,8 @@ public class DealActivity extends AbsBaseActivity {
                 if (data == null)
                     return;
 
-                for (CoinModel.AccountListBean model : data.getAccountList()){
-                    if (model.getCurrency().equals(bean.getTradeCoin())){
+                for (CoinModel.AccountListBean model : data.getAccountList()) {
+                    if (model.getCurrency().equals(bean.getTradeCoin())) {
                         BigDecimal amount = new BigDecimal(model.getAmountString());
                         BigDecimal frozenAmount = new BigDecimal(model.getFrozenAmountString());
                         mBinding.tvBalance.setText(getStrRes(R.string.deal_account_balance) +
@@ -524,7 +534,7 @@ public class DealActivity extends AbsBaseActivity {
     }
 
 
-    private void buy(){
+    private void buy() {
         BigDecimal bigDecimal = new BigDecimal(mBinding.edtCoin.getText().toString().trim());
 
         Map<String, Object> map = new HashMap<>();
@@ -563,7 +573,7 @@ public class DealActivity extends AbsBaseActivity {
         });
     }
 
-    private void sale(){
+    private void sale() {
         BigDecimal bigDecimal = new BigDecimal(mBinding.edtCoin.getText().toString().trim());
 
         Map<String, Object> map = new HashMap<>();
@@ -582,18 +592,18 @@ public class DealActivity extends AbsBaseActivity {
 
         call.enqueue(new BaseResponseModelCallBack<DealResultModel>(this) {
 
-                @Override
-                protected void onSuccess(DealResultModel model, String SucMessage) {
-                    showToast(getStrRes(R.string.sale_success));
-                    finish();
+            @Override
+            protected void onSuccess(DealResultModel model, String SucMessage) {
+                showToast(getStrRes(R.string.sale_success));
+                finish();
 
-                    // 出售成功后跳到订单
+                // 出售成功后跳到订单
 //                    EventBusModel eventBusModel = new EventBusModel();
 //                    eventBusModel.setEvInt(MainActivity.ORDER);
 //                    eventBusModel.setEvInfo(bean.getTradeCoin());
 //                    eventBusModel.setTag(EventTags.MAIN_CHANGE_SHOW_INDEX);
 //                    EventBus.getDefault().post(eventBusModel);
-                }
+            }
 
             @Override
             protected void onFinish() {
@@ -610,7 +620,7 @@ public class DealActivity extends AbsBaseActivity {
                 }).setNegativeButton(getStrRes(R.string.cancel), null).show();
     }
 
-    private void out(){
+    private void out() {
         Map<String, Object> map = new HashMap<>();
         map.put("adsCode", bean.getCode());
         map.put("userId", SPUtilHelper.getUserId());
@@ -641,17 +651,17 @@ public class DealActivity extends AbsBaseActivity {
     /**
      * 聊天时生成一个待交易的订单作为聊天入口
      */
-    private void chatOrder(){
+    private void chatOrder() {
         String code;
 
         Map<String, Object> map = new HashMap<>();
         map.put("adsCode", bean.getCode());
         map.put("token", SPUtilHelper.getUserToken());
 
-        if (bean.getTradeType().equals("1")){ // 1是卖币，UI展示买币
+        if (bean.getTradeType().equals("1")) { // 1是卖币，UI展示买币
             code = "625247";
             map.put("buyUser", SPUtilHelper.getUserId());
-        }else { //反之
+        } else { //反之
             code = "625248";
             map.put("sellUser", SPUtilHelper.getUserId());
         }
@@ -676,7 +686,7 @@ public class DealActivity extends AbsBaseActivity {
 
                 info.setIdentify(model.getCode());
 
-                TxImLogingActivity.open(DealActivity.this, info,false,true, DEAL);
+                TxImLogingActivity.open(DealActivity.this, info, false, true, DEAL);
             }
 
             @Override
@@ -687,9 +697,9 @@ public class DealActivity extends AbsBaseActivity {
     }
 
     @Subscribe
-    public void openDealChatActivity(ImUserInfo imUserInfo){
+    public void openDealChatActivity(ImUserInfo imUserInfo) {
 
-        if (imUserInfo.getEventTag().equals(DEAL)){
+        if (imUserInfo.getEventTag().equals(DEAL)) {
 
             // 构建一个订单详情类
             OrderDetailModel orderDetailModel = new OrderDetailModel();
@@ -701,6 +711,7 @@ public class DealActivity extends AbsBaseActivity {
 
     /**
      * 获取交易提醒
+     *
      * @return
      */
     private void getTradeRemind() {
@@ -722,7 +733,7 @@ public class DealActivity extends AbsBaseActivity {
                 if (data == null)
                     return;
 
-                mBinding.tvTip.setText(data.getCvalue()+"");
+                mBinding.tvTip.setText(data.getCvalue() + "");
 
             }
 

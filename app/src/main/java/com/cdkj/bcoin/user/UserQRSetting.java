@@ -75,7 +75,7 @@ public class UserQRSetting extends AbsBaseActivity {
             mBinding.etName.setText(SPUtilHelper.getZfbAccount());
         }
         if (!TextUtils.isEmpty(SPUtilHelper.getZfbQr())) {
-            ImgUtils.loadImage(UserQRSetting.this, SPUtilHelper.getZfbQr(), mBinding.ivQr);
+            ImgUtils.loadImageDefault(UserQRSetting.this, SPUtilHelper.getZfbQr(), mBinding.ivQr);
         }
         getData();
     }
@@ -114,51 +114,51 @@ public class UserQRSetting extends AbsBaseActivity {
             }
             switch (item.getAmount()) {
                 case "0":
-                    ImgUtils.loadImage(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg11);
+                    ImgUtils.loadImageDefault(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg11);
                     break;
                 case "100":
-                    ImgUtils.loadImage(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg12);
+                    ImgUtils.loadImageDefault(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg12);
                     amount = "100";
                     break;
                 case "200":
-                    ImgUtils.loadImage(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg13);
+                    ImgUtils.loadImageDefault(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg13);
                     amount = "200";
 
                     break;
                 case "300":
-                    ImgUtils.loadImage(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg21);
+                    ImgUtils.loadImageDefault(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg21);
                     amount = "300";
                     break;
                 case "400":
-                    ImgUtils.loadImage(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg22);
+                    ImgUtils.loadImageDefault(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg22);
                     amount = "400";
                     break;
                 case "500":
-                    ImgUtils.loadImage(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg23);
+                    ImgUtils.loadImageDefault(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg23);
                     amount = "500";
                     break;
                 case "1000":
-                    ImgUtils.loadImage(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg31);
+                    ImgUtils.loadImageDefault(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg31);
                     amount = "1000";
                     break;
                 case "2000":
-                    ImgUtils.loadImage(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg32);
+                    ImgUtils.loadImageDefault(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg32);
                     amount = "2000";
                     break;
                 case "5000":
-                    ImgUtils.loadImage(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg33);
+                    ImgUtils.loadImageDefault(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg33);
                     amount = "5000";
                     break;
                 case "10000":
-                    ImgUtils.loadImage(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg41);
+                    ImgUtils.loadImageDefault(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg41);
                     amount = "10000";
                     break;
                 case "20000":
-                    ImgUtils.loadImage(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg42);
+                    ImgUtils.loadImageDefault(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg42);
                     amount = "20000";
                     break;
                 case "50000":
-                    ImgUtils.loadImage(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg43);
+                    ImgUtils.loadImageDefault(UserQRSetting.this, item.getZfbQrUrl(), mBinding.ivImg43);
                     amount = "50000";
                     break;
             }
@@ -244,7 +244,7 @@ public class UserQRSetting extends AbsBaseActivity {
         new AliOssUtils(this).getAliURL(new AliOssUtils.AliUpLoadBack() {
             @Override
             public void onSuccess(String name, String etag, String requestId) {
-//                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivQr);
+//                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivQr);
 //                QRName = name;
                 setImage(requestCode, name);
             }
@@ -262,7 +262,7 @@ public class UserQRSetting extends AbsBaseActivity {
 //            new AliOssUtils(this).getAliURL(new AliOssUtils.AliUpLoadBack() {
 //                @Override
 //                public void onSuccess(String name, String etag, String requestId) {
-//                    ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivQr);
+//                    ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivQr);
 //                    QRName = name;
 //                }
 //
@@ -284,51 +284,51 @@ public class UserQRSetting extends AbsBaseActivity {
         switch (requestCode) {
             case 11:
                 amount = "";
-                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivImg11);
+                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivImg11);
                 break;
             case 12:
-                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivImg12);
+                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivImg12);
                 amount = "100";
                 break;
             case 13:
-                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivImg13);
+                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivImg13);
                 amount = "200";
 
                 break;
             case 21:
-                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivImg21);
+                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivImg21);
                 amount = "300";
                 break;
             case 22:
-                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivImg22);
+                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivImg22);
                 amount = "400";
                 break;
             case 23:
-                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivImg23);
+                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivImg23);
                 amount = "500";
                 break;
             case 31:
-                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivImg31);
+                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivImg31);
                 amount = "1000";
                 break;
             case 32:
-                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivImg32);
+                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivImg32);
                 amount = "2000";
                 break;
             case 33:
-                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivImg33);
+                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivImg33);
                 amount = "5000";
                 break;
             case 41:
-                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivImg41);
+                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivImg41);
                 amount = "10000";
                 break;
             case 42:
-                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivImg42);
+                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivImg42);
                 amount = "20000";
                 break;
             case 43:
-                ImgUtils.loadImage(UserQRSetting.this, name, mBinding.ivImg43);
+                ImgUtils.loadImageDefault(UserQRSetting.this, name, mBinding.ivImg43);
                 amount = "50000";
                 break;
         }

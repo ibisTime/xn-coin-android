@@ -503,9 +503,9 @@
     <string name="camera_refused">已拒绝打开相机</string>
 
 
-    <string name="sms_code_title">手机验证码</string>
+    <string name="sms_code_title">验证码</string>
     <string name="sms_code_send">获取验证码</string>
-    <string name="sms_code_hint">请输入短信验证码</string>
+    <string name="sms_code_hint">请输入验证码</string>
     <string name="trade_code_hint">请输入资金密码</string>
     <string name="google_code_title">谷歌验证码</string>
     <string name="google_code_hint">请输入谷歌验证码</string>

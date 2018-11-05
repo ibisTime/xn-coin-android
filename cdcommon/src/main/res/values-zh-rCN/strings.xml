@@ -41,7 +41,7 @@
     <string name="activity_paypwd_mobile_hint">请输入手机号</string>
     <string name="activity_paypwd_code_hint">请输入验证码</string>
     <string name="activity_paypwd_google_hint">请输入谷歌验证码</string>
-    <string name="activity_paypwd_pwd_hint">请输入资金密码</string>
+    <string name="activity_paypwd_pwd_hint">请输入新的资金密码</string>
     <string name="activity_paypwd_pwd_format_hint">资金密码不能低于6位数</string>
     <string name="activity_paypwd_modify_sucess">修改成功</string>
     <string name="activity_paypwd_set_success">设置成功</string>

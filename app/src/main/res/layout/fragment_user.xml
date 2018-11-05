@@ -368,6 +368,7 @@
             </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@color/gray_eeeeee"
@@ -375,6 +376,7 @@
                 android:layout_height="1px"/>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ll_invite"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"

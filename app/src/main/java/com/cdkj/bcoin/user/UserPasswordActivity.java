@@ -79,8 +79,8 @@ public class UserPasswordActivity extends AbsBaseActivity {
                 return;
             }
 
-            if (SPUtilHelper.getGoogleAuthFlag()){
-                if (TextUtils.isEmpty(mBinding.edtGoogle.getText().toString())){
+            if (SPUtilHelper.getGoogleAuthFlag()) {
+                if (TextUtils.isEmpty(mBinding.edtGoogle.getText().toString())) {
                     showToast(getString(R.string.user_password_google_hint));
                     return;
                 }
@@ -125,10 +125,11 @@ public class UserPasswordActivity extends AbsBaseActivity {
         hashMap.put("systemCode", MyConfig.SYSTEMCODE);
         hashMap.put("companyCode", MyConfig.COMPANYCODE);
 
-        Call call=RetrofitUtils.getBaseAPiService().successRequest("805064", StringUtils.getJsonToString(hashMap));
+        Call call = RetrofitUtils.getBaseAPiService().successRequest("805064", StringUtils.getJsonToString(hashMap));
 
         addCall(call);
 
+        showLoadingDialog();
         call.enqueue(new BaseResponseModelCallBack<IsSuccessModes>(UserPasswordActivity.this) {
             @Override
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
@@ -142,7 +143,7 @@ public class UserPasswordActivity extends AbsBaseActivity {
 
             @Override
             protected void onFinish() {
-             disMissLoading();
+                disMissLoading();
             }
         });
 

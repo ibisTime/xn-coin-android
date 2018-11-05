@@ -81,7 +81,7 @@ public class SearchDealActivity extends BaseRefreshActivity<DealDetailModel> {
                     return;
                 }
 
-                DealActivity.open(this, model.getCode());
+                DealActivity.open(this, model.getCode(),model.getTradeType());
             }
         });
     }

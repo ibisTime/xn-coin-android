@@ -41,7 +41,7 @@
     <string name="activity_paypwd_mobile_hint">請輸入手機號</string>
     <string name="activity_paypwd_code_hint">請輸入驗證碼</string>
     <string name="activity_paypwd_google_hint">請輸入谷歌驗證碼</string>
-    <string name="activity_paypwd_pwd_hint">請輸入資金密碼</string>
+    <string name="activity_paypwd_pwd_hint">請輸入新的資金密碼</string>
     <string name="activity_paypwd_pwd_format_hint">資金密碼不能低于6位數</string>
     <string name="activity_paypwd_modify_sucess">修改成功</string>
     <string name="activity_paypwd_set_success">設置成功</string>

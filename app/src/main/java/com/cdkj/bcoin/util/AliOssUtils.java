@@ -60,7 +60,7 @@ public class AliOssUtils {
     }
 
     /**
-     * 获取七牛url
+     * 获取七牛url  同步的
      *
      * @param callBack
      */
@@ -79,7 +79,7 @@ public class AliOssUtils {
                 String securityToken = mo.getSecurityToken();
 
                 try {
-                    String key = ANDROID + timestamp() + getImageWidthHeight(data) + ".jpg";
+                    String key = MyConfig.IMGURL_ALI_HEAD + ANDROID + timestamp() + getImageWidthHeight(data) + ".jpg";
                     build2(accessKeyId, accessKeySecret, securityToken, data, key, callBack);
 //                    uploadSingle(callBack,data);
                 } catch (Exception e) {
@@ -114,47 +114,149 @@ public class AliOssUtils {
 
     }
 
-
-    public static void build(Context context, String path, AliUpLoadBack callBack) {
-
-        //if null , default will be init
-        ClientConfiguration conf = new ClientConfiguration();
-        conf.setConnectionTimeout(15 * 1000); // connction time out default 15s
-        conf.setSocketTimeout(15 * 1000); // socket timeout，default 15s
-        conf.setMaxConcurrentRequest(5); // synchronous request number，default 5
-        conf.setMaxErrorRetry(2); // retry，default 2
-        OSSLog.enableLog(); //write local log file ,path is SDCard_path\OSSLog\logs.csv
-        String AccessKeyId = "STS.NHCqkbHmzfgqufGuR1EZMzAh1";
-        String AccessKeySecret = "GeZynyywkxJnTgpCqeCvttN4XKs9ejA9jxx19fMWuULU";
-        String SecurityToken = "CAISmwJ1q6Ft5B2yfSjIr4v2OtHWpbJb0aWad0D2kVJkSdVhlYTD0zz2IHpPf3lhBOEasvUznmBS7P8Ylrh+W4NIX0rNaY5t9ZlN9wqkbtITC18RafhW5qe+EE2/VjTJvqaLEdibIfrZfvCyESem8gZ43br9cxi7QlWhKufnoJV7b9MRLGbaAD1dH4UUXEgAzvUXLnzML/2gHwf3i27LdipStxF7lHl05NbYoKiV4QGMi0bhmK1H5dazAOD9MZI0bMwuCInsgLcuLfqf6kMKtUgWrpURpbdf5DLKsuuaB1Rs+BicO4LWiIY1d1QpN/VrR/IV8KKsz6ch4PagnoD22gtLOvpOTyPcSYavzc3JAuq1McwjcrL2K+5jcT4xuQOfGoABWsXikl6vs1o6JwuCvJmfnGppzWUDL6CMrIC2IHxloczlFUBSj66QADAcoZ9PVxcUQio7aLn5bojglVfsNK/xUu+4kSoxro9qoW7D1gj4yyHQerAMRSzGeh371wkIAx5OvW2qIShrHCjUGxiJFNJfqhvsTz+/GxtML2jUE+pWS1o=";
-
-        OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(AccessKeyId, AccessKeySecret, SecurityToken);
-
-        OSS oss = new OSSClient(context, endpoint, credentialProvider, conf);
-
-        // Construct an upload request
-        //上传名称  token   文件地址
-        PutObjectRequest put = new PutObjectRequest("kkkotc", "abc.jpg", path);
-
-        // You can set progress callback during asynchronous upload
-        put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+    /**
+     * 获取七牛url  异步的
+     *
+     * @param callBack
+     */
+    public void getAliURLAsync(final AliUpLoadBack callBack, final String data) {
+        if (context instanceof BaseActivity) {
+            ((BaseActivity) context).showLoadingDialog();
+        }
+        getAliToeknRequest().enqueue(new BaseResponseModelCallBack<AliTokenModel>(context) {
             @Override
-            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
-                Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
+            protected void onSuccess(AliTokenModel mo, String SucMessage) {
+                if (mo == null || TextUtils.isEmpty(mo.getSecurityToken())) {
+                    return;
+                }
+                String accessKeyId = mo.getAccessKeyId();
+                String accessKeySecret = mo.getAccessKeySecret();
+                String securityToken = mo.getSecurityToken();
+
+                try {
+                    String key = ANDROID + timestamp() + getImageWidthHeight(data) + ".jpg";
+                    build(accessKeyId, accessKeySecret, securityToken, data, key, callBack);
+//                    uploadSingle(callBack,data);
+                } catch (Exception e) {
+                    if (callBack != null) {
+                        callBack.onFal("图片上传失败,请选择正确的图片");
+                    }
+                }
+            }
+
+            @Override
+            protected void onBuinessFailure(String code, String error) {
+                callBack.onFal("图片上传失败,请选择正确的图片");
+            }
+
+            @Override
+            protected void onReqFailure(int errorCode, String errorMessage) {
+                callBack.onFal("图片上传失败,请选择正确的图片");
+            }
+
+            @Override
+            protected void onNull() {
+                callBack.onFal("图片上传失败,请选择正确的图片");
+            }
+
+            @Override
+            protected void onFinish() {
+                if (context instanceof BaseActivity) {
+                    ((BaseActivity) context).disMissLoading();
+                }
             }
         });
 
-        try {
-            PutObjectResult putObjectResult = oss.putObject(put);
-            if (callBack != null)
-                callBack.onSuccess("", putObjectResult.getETag(), putObjectResult.getRequestId());
-            Log.d("ppppppPutObject成功", putObjectResult.getETag());
-            Log.d("ppppppPutObject成功", putObjectResult.getRequestId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (callBack != null)
-                callBack.onFal(e.getMessage());
+    }
+
+
+    public void build(String AccessKeyId, String AccessKeySecret, String SecurityToken, String path, String name, AliUpLoadBack callBack) {
+        if (context instanceof BaseActivity) {
+            ((BaseActivity) context).showLoadingDialog();
         }
+        getAliToeknRequest().enqueue(new BaseResponseModelCallBack<AliTokenModel>(context) {
+            @Override
+            protected void onSuccess(AliTokenModel mo, String SucMessage) {
+                if (mo == null || TextUtils.isEmpty(mo.getSecurityToken())) {
+                    return;
+                }
+                String accessKeyId = mo.getAccessKeyId();
+                String accessKeySecret = mo.getAccessKeySecret();
+                String securityToken = mo.getSecurityToken();
+
+                try {
+                    String key = ANDROID + timestamp() + getImageWidthHeight(path) + ".jpg";
+                    build2(accessKeyId, accessKeySecret, securityToken, path, key, callBack);
+//                    uploadSingle(callBack,data);
+                } catch (Exception e) {
+                    if (callBack != null) {
+                        callBack.onFal("图片上传失败,请选择正确的图片");
+                    }
+                }
+            }
+
+            @Override
+            protected void onBuinessFailure(String code, String error) {
+                callBack.onFal("图片上传失败,请选择正确的图片");
+            }
+
+            @Override
+            protected void onReqFailure(int errorCode, String errorMessage) {
+                callBack.onFal("图片上传失败,请选择正确的图片");
+            }
+
+            @Override
+            protected void onNull() {
+                callBack.onFal("图片上传失败,请选择正确的图片");
+            }
+
+            @Override
+            protected void onFinish() {
+                if (context instanceof BaseActivity) {
+                    ((BaseActivity) context).disMissLoading();
+                }
+            }
+        });
+
+
+//        //if null , default will be init
+//        ClientConfiguration conf = new ClientConfiguration();
+//        conf.setConnectionTimeout(15 * 1000); // connction time out default 15s
+//        conf.setSocketTimeout(15 * 1000); // socket timeout，default 15s
+//        conf.setMaxConcurrentRequest(5); // synchronous request number，default 5
+//        conf.setMaxErrorRetry(2); // retry，default 2
+//        OSSLog.enableLog(); //write local log file ,path is SDCard_path\OSSLog\logs.csv
+//        String AccessKeyId = "STS.NHCqkbHmzfgqufGuR1EZMzAh1";
+//        String AccessKeySecret = "GeZynyywkxJnTgpCqeCvttN4XKs9ejA9jxx19fMWuULU";
+//        String SecurityToken = "CAISmwJ1q6Ft5B2yfSjIr4v2OtHWpbJb0aWad0D2kVJkSdVhlYTD0zz2IHpPf3lhBOEasvUznmBS7P8Ylrh+W4NIX0rNaY5t9ZlN9wqkbtITC18RafhW5qe+EE2/VjTJvqaLEdibIfrZfvCyESem8gZ43br9cxi7QlWhKufnoJV7b9MRLGbaAD1dH4UUXEgAzvUXLnzML/2gHwf3i27LdipStxF7lHl05NbYoKiV4QGMi0bhmK1H5dazAOD9MZI0bMwuCInsgLcuLfqf6kMKtUgWrpURpbdf5DLKsuuaB1Rs+BicO4LWiIY1d1QpN/VrR/IV8KKsz6ch4PagnoD22gtLOvpOTyPcSYavzc3JAuq1McwjcrL2K+5jcT4xuQOfGoABWsXikl6vs1o6JwuCvJmfnGppzWUDL6CMrIC2IHxloczlFUBSj66QADAcoZ9PVxcUQio7aLn5bojglVfsNK/xUu+4kSoxro9qoW7D1gj4yyHQerAMRSzGeh371wkIAx5OvW2qIShrHCjUGxiJFNJfqhvsTz+/GxtML2jUE+pWS1o=";
+//
+//        OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(AccessKeyId, AccessKeySecret, SecurityToken);
+//
+//        OSS oss = new OSSClient(context, endpoint, credentialProvider, conf);
+//
+//        // Construct an upload request
+//        //上传名称  token   文件地址
+//        PutObjectRequest put = new PutObjectRequest("kkkotc", "abc.jpg", path);
+//
+//        // You can set progress callback during asynchronous upload
+//        put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+//            @Override
+//            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
+//                Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
+//            }
+//        });
+//
+//        try {
+//            PutObjectResult putObjectResult = oss.putObject(put);
+//            if (callBack != null)
+//                callBack.onSuccess("", putObjectResult.getETag(), putObjectResult.getRequestId());
+//            Log.d("ppppppPutObject成功", putObjectResult.getETag());
+//            Log.d("ppppppPutObject成功", putObjectResult.getRequestId());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            if (callBack != null)
+//                callBack.onFal(e.getMessage());
+//        }
 
 //        OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
 //            @Override
@@ -271,6 +373,8 @@ public class AliOssUtils {
         String AccessKeySecret = "GeZynyywkxJnTgpCqeCvttN4XKs9ejA9jxx19fMWuULU";
         String SecurityToken = "CAISmwJ1q6Ft5B2yfSjIr4v2OtHWpbJb0aWad0D2kVJkSdVhlYTD0zz2IHpPf3lhBOEasvUznmBS7P8Ylrh+W4NIX0rNaY5t9ZlN9wqkbtITC18RafhW5qe+EE2/VjTJvqaLEdibIfrZfvCyESem8gZ43br9cxi7QlWhKufnoJV7b9MRLGbaAD1dH4UUXEgAzvUXLnzML/2gHwf3i27LdipStxF7lHl05NbYoKiV4QGMi0bhmK1H5dazAOD9MZI0bMwuCInsgLcuLfqf6kMKtUgWrpURpbdf5DLKsuuaB1Rs+BicO4LWiIY1d1QpN/VrR/IV8KKsz6ch4PagnoD22gtLOvpOTyPcSYavzc3JAuq1McwjcrL2K+5jcT4xuQOfGoABWsXikl6vs1o6JwuCvJmfnGppzWUDL6CMrIC2IHxloczlFUBSj66QADAcoZ9PVxcUQio7aLn5bojglVfsNK/xUu+4kSoxro9qoW7D1gj4yyHQerAMRSzGeh371wkIAx5OvW2qIShrHCjUGxiJFNJfqhvsTz+/GxtML2jUE+pWS1o=";
         OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(AccessKeyId, AccessKeySecret, SecurityToken);
+//        OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(AccessKeyId, AccessKeySecret, SecurityToken);
+
 
         OSS oss = new OSSClient(context, endpoint, credentialProvider, conf);
 

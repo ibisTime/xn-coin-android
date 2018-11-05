@@ -132,8 +132,8 @@ public class OrderFragment extends BaseLazyFragment {
         //设置fragment数据
         fragments = new ArrayList<>();
 
-        fragments.add(OrderNewFragment.getInstance());
-        fragments.add(OrderDoneFragment.getInstance());
+        fragments.add(OrderNewFragment.getInstance());//待处理
+        fragments.add(OrderDoneFragment.getInstance());//一结束
 
         mBinding.pagerMain.setAdapter(new ViewPagerAdapter(getChildFragmentManager(), fragments));
         mBinding.pagerMain.setOffscreenPageLimit(fragments.size());
