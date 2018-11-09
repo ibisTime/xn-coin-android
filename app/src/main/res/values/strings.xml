@@ -397,6 +397,7 @@
     <string name="user_address_add_tip">向认证账户提现不再输入资金密码、谷歌验证码</string>
 
     <string name="user_title_email_bind">绑定邮箱</string>
+    <string name="user_title_moblie_bind">绑定手机</string>
     <string name="user_title_email_modify">修改邮箱</string>
     <string name="user_email_bind_success">绑定成功</string>
     <string name="user_email_modify_success">修改成功</string>
@@ -430,6 +431,7 @@
     <string name="user_setting_trade_pwd">资金密码</string>
     <string name="user_setting_identity">实名认证</string>
     <string name="user_setting_mail">绑定邮箱</string>
+    <string name="user_setting_bd_mail">绑定手机号</string>
     <string name="user_setting_mobile">修改手机号</string>
     <string name="user_setting_password">修改登录密码</string>
     <string name="user_setting_google">谷歌验证</string>
@@ -570,6 +572,10 @@
     <string name="qr_10000">10000元</string>
     <string name="qr_20000">20000元</string>
     <string name="qr_50000">50000元</string>
+    <string name="user_mobile">手机号</string>
+    <string name="moblie_code_send_failure">验证码发送失败</string>
+    <string name="user_bind_mobile_ok">您已绑定无需重复操作</string>
+    <string name="order_release_wait_buy">买家已支付,等待卖家释放</string>
 
 
 </resources>

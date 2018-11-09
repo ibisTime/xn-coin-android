@@ -37,7 +37,7 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 import java.util.Locale;
 
 @Route(path = "/user/login")
-public class SignInActivity extends AbsBaseActivity implements LoginInterface,TxImLoginInterface {
+public class SignInActivity extends AbsBaseActivity implements LoginInterface, TxImLoginInterface {
 
     private boolean canOpenMain;
 
@@ -55,8 +55,8 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
         if (context == null) {
             return;
         }
-        Intent intent= new Intent(context, SignInActivity.class);
-        intent.putExtra("canOpenMain",canOpenMain);
+        Intent intent = new Intent(context, SignInActivity.class);
+        intent.putExtra("canOpenMain", canOpenMain);
         context.startActivity(intent);
     }
 
@@ -72,7 +72,7 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
         setTopTitle(getStrRes(R.string.user_title_sign_in));
         setTopLineState(true);
         setSubLeftImgState(true);
-        setSubRightTitleAndClick(getStrRes(R.string.user_title_sign_up),v -> {
+        setSubRightTitleAndClick(getStrRes(R.string.user_title_sign_up), v -> {
             SignUpActivity.open(SignInActivity.this);
         });
 
@@ -88,13 +88,13 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
         if (getIntent() == null)
             return;
 
-        canOpenMain = getIntent().getBooleanExtra("canOpenMain",false);
+        canOpenMain = getIntent().getBooleanExtra("canOpenMain", false);
     }
 
     private void initListener() {
         //登录
         mBinding.btnConfirm.setOnClickListener(v -> {
-            if (check()){
+            if (check()) {
                 mPresenter.login(mBinding.edtUsername.getText().toString(), mBinding.edtPassword.getText().toString(), this);
             }
 
@@ -106,8 +106,8 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
         });
     }
 
-    private boolean check(){
-        if (TextUtils.isEmpty(mBinding.edtUsername.getText().toString().trim())){
+    private boolean check() {
+        if (TextUtils.isEmpty(mBinding.edtUsername.getText().toString().trim())) {
             showToast(getStrRes(R.string.user_mobile_hint));
             return false;
         }
@@ -115,7 +115,7 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
 //            showToast(getStrRes(R.string.user_mobile_format_hint));
 //            return false;
 //        }
-        if (mBinding.edtPassword.getText().toString().trim().length() < 6){
+        if (mBinding.edtPassword.getText().toString().trim().length() < 6) {
             showToast(getStrRes(R.string.user_password_format_hint));
             return false;
         }
@@ -138,17 +138,17 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (mBinding.edtUsername.getText().toString().length() == 11){
-                    if (mBinding.edtPassword.getText().toString().length() >= 6){
+                if (mBinding.edtUsername.getText().toString().length() == 11) {
+                    if (mBinding.edtPassword.getText().toString().length() >= 6) {
                         // 可以登录
-                        mBinding.btnConfirm.setTextColor(ContextCompat.getColor(SignInActivity.this,R.color.white));
-                    }else {
+                        mBinding.btnConfirm.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.white));
+                    } else {
                         // 不可登录
-                        mBinding.btnConfirm.setTextColor(ContextCompat.getColor(SignInActivity.this,R.color.white_80));
+                        mBinding.btnConfirm.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.white_80));
                     }
-                }else {
+                } else {
                     // 不可登录
-                    mBinding.btnConfirm.setTextColor(ContextCompat.getColor(SignInActivity.this,R.color.white_80));
+                    mBinding.btnConfirm.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.white_80));
                 }
             }
         });
@@ -166,17 +166,17 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (mBinding.edtUsername.getText().toString().length() == 11){
-                    if (mBinding.edtPassword.getText().toString().length() >= 6){
+                if (mBinding.edtUsername.getText().toString().length() == 11) {
+                    if (mBinding.edtPassword.getText().toString().length() >= 6) {
                         // 可以登录
-                        mBinding.btnConfirm.setTextColor(ContextCompat.getColor(SignInActivity.this,R.color.white));
-                    }else {
+                        mBinding.btnConfirm.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.white));
+                    } else {
                         // 不可登录
-                        mBinding.btnConfirm.setTextColor(ContextCompat.getColor(SignInActivity.this,R.color.white_80));
+                        mBinding.btnConfirm.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.white_80));
                     }
-                }else {
+                } else {
                     // 不可登录
-                    mBinding.btnConfirm.setTextColor(ContextCompat.getColor(SignInActivity.this,R.color.white_80));
+                    mBinding.btnConfirm.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.white_80));
                 }
             }
         });
@@ -188,7 +188,11 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
 
         SPUtilHelper.saveUserId(user.getUserId());
         SPUtilHelper.saveUserToken(user.getToken());
-        SPUtilHelper.saveUserPhoneNum(mBinding.edtUsername.getText().toString().trim());
+        if (mBinding.edtUsername.getText().toString().trim().contains("@")) {
+            SPUtilHelper.saveUserEmail(mBinding.edtUsername.getText().toString().trim());
+        } else {
+            SPUtilHelper.saveUserPhoneNum(mBinding.edtUsername.getText().toString().trim());
+        }
         ARouter.getInstance().build("/main/page").navigation();
 //        loginTencent();
 
@@ -208,7 +212,7 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
     @Override
     public void EndLogin() {
         // 不隐藏Dialog，避免出现 腾讯云登录Dialog隐藏再二次打开的效果，腾讯云登录回调隐藏
-//        disMissLoading();
+        disMissLoading();
     }
 
     /**
@@ -254,12 +258,11 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
         String vendor = android.os.Build.MANUFACTURER;
 
 
-
         //注册小米和华为推送
-        if(vendor.toLowerCase(Locale.ENGLISH).contains("xiaomi")) {
+        if (vendor.toLowerCase(Locale.ENGLISH).contains("xiaomi")) {
             //注册小米推送服务
             MiPushClient.registerPush(this, "2882303761517705483", "5941770524483");
-        }else if(vendor.toLowerCase(Locale.ENGLISH).contains("huawei")) {
+        } else if (vendor.toLowerCase(Locale.ENGLISH).contains("huawei")) {
             //请求华为推送设备token
             PushManager.requestToken(this);
         }
@@ -278,7 +281,7 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
     /**
      * 设置腾讯云监听,登录腾讯云
      */
-    public void groupEvent(){
+    public void groupEvent() {
         //登录之前要初始化群和好友关系链缓存
         TIMUserConfig userConfig = new TIMUserConfig();
 
@@ -302,25 +305,22 @@ public class SignInActivity extends AbsBaseActivity implements LoginInterface,Tx
 
     @Override
     protected boolean canFinish() {
-        if(canOpenMain){
+        if (canOpenMain) {
             MainActivity.open(this);
             finish();
             return false;
-        }else{
+        } else {
             return true;
         }
     }
 
     @Override
     public void onBackPressed() {
-        if(canOpenMain){
+        if (canOpenMain) {
             MainActivity.open(this);
             finish();
-        }else{
+        } else {
             super.onBackPressed();
         }
     }
-
-
-
 }

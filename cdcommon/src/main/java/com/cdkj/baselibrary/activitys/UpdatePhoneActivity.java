@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.baselibrary.R;
 import com.cdkj.baselibrary.appmanager.EventTags;
+import com.cdkj.baselibrary.appmanager.MyConfig;
 import com.cdkj.baselibrary.appmanager.SPUtilHelper;
 import com.cdkj.baselibrary.base.AbsBaseActivity;
 import com.cdkj.baselibrary.databinding.ActivityModifyPhoneBinding;
@@ -62,7 +62,7 @@ public class UpdatePhoneActivity extends AbsBaseActivity implements SendCodeInte
     @Override
     public void afterCreate(Bundle savedInstanceState) {
 
-        setTopTitle(getString(R.string.activity_mobile_title));
+        setTopTitle(getString(R.string.user_setting_bd_mail));
         setSubLeftImgState(true);
 
         mSendCodePresenter = new SendPhoneCodePresenter(this);
@@ -121,11 +121,13 @@ public class UpdatePhoneActivity extends AbsBaseActivity implements SendCodeInte
             protected void onSuccess(IsSuccessModes data, String SucMessage) {
                 if (data.isSuccess()) {
 
-                    showToast(getString(R.string.activity_mobile_modify_success));
+                    showToast(getString(R.string.activity_mobile_bind_modify_success));
 
                     EventBusModel eventBusModel=new EventBusModel();      //刷新上一页数据
                     eventBusModel.setTag(EventTags.CHANGEPHONENUMBER_REFRESH);
                     eventBusModel.setEvInfo(mBinding.edtPhoneNew.getText().toString());
+//                    EventBus.getDefault().post(eventBusModel);
+                    SPUtilHelper.saveUserPhoneNum(mBinding.edtPhoneNew.getText().toString());
                    finish();
                 }
             }

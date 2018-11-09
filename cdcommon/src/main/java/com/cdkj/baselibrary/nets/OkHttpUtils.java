@@ -39,49 +39,67 @@ public class OkHttpUtils {
     // Because it also affects the TCP window size it should preferably be a power of two.
     private static final int SEND_WINDOW_SIZE_BYTES = (int) Math.pow(2, 16); // 64 KiB
 
+    //这个是 KKK环境的证书
+//    private static  String CER_BKY="-----BEGIN CERTIFICATE-----\n" +
+//            "MIIE4jCCBImgAwIBAgIQA4sfR0/lWgOixfdd6VTcOjAKBggqhkjOPQQDAjBvMQsw\n" +
+//            "CQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDVNhbiBGcmFuY2lzY28x\n" +
+//            "GTAXBgNVBAoTEENsb3VkRmxhcmUsIEluYy4xIDAeBgNVBAMTF0Nsb3VkRmxhcmUg\n" +
+//            "SW5jIEVDQyBDQS0yMB4XDTE4MTAxMTAwMDAwMFoXDTE5MTAxMTEyMDAwMFowbTEL\n" +
+//            "MAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1TYW4gRnJhbmNpc2Nv\n" +
+//            "MRkwFwYDVQQKExBDbG91ZEZsYXJlLCBJbmMuMR4wHAYDVQQDExVzbmkuY2xvdWRm\n" +
+//            "bGFyZXNzbC5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQ2Rrgg9NW75Bpd\n" +
+//            "06VjBgG6VblrywmtPfOueI7sTzFdCboE0mPcZ4Q65mu6RSBgO0JkY+AE8va+a0Ao\n" +
+//            "sA+v4a50o4IDBzCCAwMwHwYDVR0jBBgwFoAUPnQtH89FdQR+P8Cihz5MQ4NRE8Yw\n" +
+//            "HQYDVR0OBBYEFFkjNF9+cIy+FhpQzMYemKz+h6KkMDoGA1UdEQQzMDGCDCoua2tr\n" +
+//            "b3RjLmNvbYIKa2trb3RjLmNvbYIVc25pLmNsb3VkZmxhcmVzc2wuY29tMA4GA1Ud\n" +
+//            "DwEB/wQEAwIHgDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIweQYDVR0f\n" +
+//            "BHIwcDA2oDSgMoYwaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0Nsb3VkRmxhcmVJ\n" +
+//            "bmNFQ0NDQTIuY3JsMDagNKAyhjBodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vQ2xv\n" +
+//            "dWRGbGFyZUluY0VDQ0NBMi5jcmwwTAYDVR0gBEUwQzA3BglghkgBhv1sAQEwKjAo\n" +
+//            "BggrBgEFBQcCARYcaHR0cHM6Ly93d3cuZGlnaWNlcnQuY29tL0NQUzAIBgZngQwB\n" +
+//            "AgIwdgYIKwYBBQUHAQEEajBoMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdp\n" +
+//            "Y2VydC5jb20wQAYIKwYBBQUHMAKGNGh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNv\n" +
+//            "bS9DbG91ZEZsYXJlSW5jRUNDQ0EtMi5jcnQwDAYDVR0TAQH/BAIwADCCAQUGCisG\n" +
+//            "AQQB1nkCBAIEgfYEgfMA8QB2ALvZ37wfinG1k5Qjl6qSe0c4V5UKq1LoGpCWZDaO\n" +
+//            "HtGFAAABZmKuzhkAAAQDAEcwRQIhAIPqHEoDbFYH+w+EJ9xMWdVoUrVoR/O03OkC\n" +
+//            "zvCoUnzRAiAGjF2FzyN0Lz/26OCf8ffCe1YR0d3SHrpBfxZO++5qJwB3AHR+2oMx\n" +
+//            "rTMQkSGcziVPQnDCv/1eQiAIxjc1eeYQe8xWAAABZmKuzjUAAAQDAEgwRgIhAPjb\n" +
+//            "xFvO4XORkw2PHddzqH0v3Qqq+jaUl9INoPX4tpSjAiEAjy4kz/YCbc43uCPw0dhk\n" +
+//            "+GGpYx2IRQR+2BXJFtI6lNswCgYIKoZIzj0EAwIDRwAwRAIga1kbZMVmImSEBnw1\n" +
+//            "5aHb9DpuQh8XeUtW9IRjJHKAmrACIEUWXQwUkuNEGeNCqql5lPKL2uD182558MJD\n" +
+//            "Y6s2dyek\n" +
+//            "-----END CERTIFICATE-----";
+    //这个是love环境的
     private static String CER_BKY = "-----BEGIN CERTIFICATE-----\n" +
-            "MIIHgTCCBmmgAwIBAgIQChWkeoN6cFv/H2K22emQ4DANBgkqhkiG9w0BAQsFADB1\n" +
-            "MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\n" +
-            "d3cuZGlnaWNlcnQuY29tMTQwMgYDVQQDEytEaWdpQ2VydCBTSEEyIEV4dGVuZGVk\n" +
-            "IFZhbGlkYXRpb24gU2VydmVyIENBMB4XDTE3MTIyNTAwMDAwMFoXDTE5MTIyNTEy\n" +
-            "MDAwMFowgZUxHTAbBgNVBA8MFFByaXZhdGUgT3JnYW5pemF0aW9uMRMwEQYLKwYB\n" +
-            "BAGCNzwCAQMTAkhLMQ8wDQYDVQQFEwYyNTg5NjQxCzAJBgNVBAYTAkhLMRAwDgYD\n" +
-            "VQQHEwdNT05HS09LMRgwFgYDVQQKEw9CRUlDT0lOIExJTUlURUQxFTATBgNVBAMT\n" +
-            "DHd3dy5iY29pbi5pbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJfy\n" +
-            "24/p7OcctSuCljeF+1yQbLRsnnjPJ2CGvYzsvYhN8e+gjLsXOAO7m/z/7v8xLKL6\n" +
-            "L+M/QyfonWqCb8YbUCGtdHNVnpiuC+J0+cVnHZ6wWZ8CI4JfjgtUPkAv4LozWjc1\n" +
-            "1b3E0jPg9lWja6KPna1d4quenApwOFLLUHpRvUjywlR6OyGsfweniZ3JpSiN2mpp\n" +
-            "kcUcyY72BQj6XZEneX1iFjQVVbfyA5rJqpVJ19z0BGSLiOOo7j1aGeXkMx03FHst\n" +
-            "IufZG5v/VfnXGuusPY89ZVigR+GOjpTfCDfIpTrcGGOaDpLJqvYNnJNeD5BtBXIQ\n" +
-            "3YIrHG96lA+AQgg79okCAwEAAaOCA+owggPmMB8GA1UdIwQYMBaAFD3TUKXWoK3u\n" +
-            "80pgCmXTIdT4+NYPMB0GA1UdDgQWBBQ+Zxrzp2pRkZTiV9B5JMeLEtdmojAhBgNV\n" +
-            "HREEGjAYggx3d3cuYmNvaW4uaW2CCGJjb2luLmltMA4GA1UdDwEB/wQEAwIFoDAd\n" +
-            "BgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwdQYDVR0fBG4wbDA0oDKgMIYu\n" +
-            "aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL3NoYTItZXYtc2VydmVyLWcyLmNybDA0\n" +
-            "oDKgMIYuaHR0cDovL2NybDQuZGlnaWNlcnQuY29tL3NoYTItZXYtc2VydmVyLWcy\n" +
-            "LmNybDBLBgNVHSAERDBCMDcGCWCGSAGG/WwCATAqMCgGCCsGAQUFBwIBFhxodHRw\n" +
-            "czovL3d3dy5kaWdpY2VydC5jb20vQ1BTMAcGBWeBDAEBMIGIBggrBgEFBQcBAQR8\n" +
-            "MHowJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBSBggrBgEF\n" +
-            "BQcwAoZGaHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0U0hBMkV4\n" +
-            "dGVuZGVkVmFsaWRhdGlvblNlcnZlckNBLmNydDAJBgNVHRMEAjAAMIIB9gYKKwYB\n" +
-            "BAHWeQIEAgSCAeYEggHiAeAAdQCkuQmQtBhYFIe7E6LMZ3AKPDWYBPkb37jjd80O\n" +
-            "yA3cEAAAAWCLVaCcAAAEAwBGMEQCIGrt+tvFrO2OdgUHF5YAGweIY7zo+8bEgYLN\n" +
-            "dJNhBYKpAiAfJHn/riyjKJBoWgmQj1ozaSgKL7wa+vhtQOFSb6NTpgB2AFYUBpov\n" +
-            "18Ls0/XhvUSyPsdGdrm8mRFcwO+UmFXWidDdAAABYItVoW0AAAQDAEcwRQIgFpHG\n" +
-            "dDYnDduZmFeXtfZ4BSU3iZac+PaDH18a+3edX/UCIQCiqVZD+mm7BeB3bGgCKf/k\n" +
-            "3pCzBBJVwiBmkXj2ZnDMsAB3AO5Lvbd1zmC64UJpH6vhnmajD35fsHLYgwDEe4l6\n" +
-            "qP3LAAABYItVo5YAAAQDAEgwRgIhAPArCUR/ddnmX1fKeDUIrpKbIVpHqO93KMJx\n" +
-            "x3a8H4L8AiEA+Q4pUX1R4A+gEAtU1H8GLmvr2pS76MbnoU8XvCgDR7sAdgC72d+8\n" +
-            "H4pxtZOUI5eqkntHOFeVCqtS6BqQlmQ2jh7RhQAAAWCLVaCLAAAEAwBHMEUCIFem\n" +
-            "NKIf43W2qVuE7Thm7DOPkQnorVsnRoFOFUyPpXU/AiEAou5Bq4k7TTdNPMpTxwsM\n" +
-            "RzuMkC8D5iNQvxtgCcFWpiwwDQYJKoZIhvcNAQELBQADggEBAJu3OJ3c2TvqTVIT\n" +
-            "jVaDcwB83JsAIbDPmMUBgqWi52EFHWHGjbwAvp2q1WNqdTuEpsUiGzoVKbqhYARu\n" +
-            "QmQYJx2vQrXYr9tStXDOy2H0KR/pbpKtE431gJx5p/zngvwT/bKRqWZCG5evTcdk\n" +
-            "4d7fgqPYam67wjFUeBgia2kT1Dgdf+guwrhln5/tqK9qN59bzFZQ0Y1vrdz9C5lE\n" +
-            "hkzzRLwYXdhvDsmR+iQjyr6zXBPHXJAnMYuU17fIrX8AGeBoGLwCU4UddNFTsFes\n" +
-            "gosT0wk6hW232wNasvPUPTwWWOEgOlN231MHFQ/Fd9/KPqz9148EJyrbjYte+BlS\n" +
-            "YNUTr/w=\n" +
+            "MIIE5DCCBImgAwIBAgIQDuj3xuEcL3w/jCoBnp1PyzAKBggqhkjOPQQDAjBvMQsw\n" +
+            "CQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDVNhbiBGcmFuY2lzY28x\n" +
+            "GTAXBgNVBAoTEENsb3VkRmxhcmUsIEluYy4xIDAeBgNVBAMTF0Nsb3VkRmxhcmUg\n" +
+            "SW5jIEVDQyBDQS0yMB4XDTE4MDkyODAwMDAwMFoXDTE5MDkyODEyMDAwMFowbTEL\n" +
+            "MAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1TYW4gRnJhbmNpc2Nv\n" +
+            "MRkwFwYDVQQKExBDbG91ZEZsYXJlLCBJbmMuMR4wHAYDVQQDExVzbmkuY2xvdWRm\n" +
+            "bGFyZXNzbC5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASXHlUg/o0Km95l\n" +
+            "BumxrEfTDpuXWSNH+K3cfaBUuP4yoGNAKpzH67y3wTp3R8Rgv1eSCjw8oua7s8Uu\n" +
+            "0ElqWdTdo4IDBzCCAwMwHwYDVR0jBBgwFoAUPnQtH89FdQR+P8Cihz5MQ4NRE8Yw\n" +
+            "HQYDVR0OBBYEFKxYRS7zyH8k4jiYCbxECz7g8F5NMDwGA1UdEQQ1MDOCFXNuaS5j\n" +
+            "bG91ZGZsYXJlc3NsLmNvbYILbG92ZW90Yy5jb22CDSoubG92ZW90Yy5jb20wDgYD\n" +
+            "VR0PAQH/BAQDAgeAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjB5BgNV\n" +
+            "HR8EcjBwMDagNKAyhjBodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vQ2xvdWRGbGFy\n" +
+            "ZUluY0VDQ0NBMi5jcmwwNqA0oDKGMGh0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNvbS9D\n" +
+            "bG91ZEZsYXJlSW5jRUNDQ0EyLmNybDBMBgNVHSAERTBDMDcGCWCGSAGG/WwBATAq\n" +
+            "MCgGCCsGAQUFBwIBFhxodHRwczovL3d3dy5kaWdpY2VydC5jb20vQ1BTMAgGBmeB\n" +
+            "DAECAjB2BggrBgEFBQcBAQRqMGgwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRp\n" +
+            "Z2ljZXJ0LmNvbTBABggrBgEFBQcwAoY0aHR0cDovL2NhY2VydHMuZGlnaWNlcnQu\n" +
+            "Y29tL0Nsb3VkRmxhcmVJbmNFQ0NDQS0yLmNydDAMBgNVHRMBAf8EAjAAMIIBAwYK\n" +
+            "KwYBBAHWeQIEAgSB9ASB8QDvAHYAu9nfvB+KcbWTlCOXqpJ7RzhXlQqrUugakJZk\n" +
+            "No4e0YUAAAFmH3lJvgAABAMARzBFAiA34nN1G278lC8vX9gBjbsvlPtkN+1DyuW5\n" +
+            "A6SnovbFPAIhAI8d7GCDf/FF2lkN59uGSsR/pi1JnnS2vMfXNStufl9dAHUAdH7a\n" +
+            "gzGtMxCRIZzOJU9CcMK//V5CIAjGNzV55hB7zFYAAAFmH3lJngAABAMARjBEAiAg\n" +
+            "y6VKrSaW8ty9f95E2NRtfqURleY/bhfHv8QtMAvllQIgNxae1/T9McY35wOYTsqP\n" +
+            "y6WuoITPTo3eVO4odQKBw50wCgYIKoZIzj0EAwIDSQAwRgIhAJyORV0CkYG2JZa/\n" +
+            "GpD/NhfTLbAFJSAvEsknNvdf9et2AiEAzACmZ6r269gw5VuuX+C3xFekAnoWVoKE\n" +
+            "A96yOuLVP/M=\n" +
             "-----END CERTIFICATE-----";
+
 
     public OkHttpUtils() {}
 

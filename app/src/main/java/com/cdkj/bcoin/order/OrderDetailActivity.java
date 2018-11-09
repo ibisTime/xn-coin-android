@@ -450,10 +450,11 @@ public class OrderDetailActivity extends AbsBaseActivity {
                 mBinding.btnConfirm.setText(StringUtil.getString(R.string.order_release));
                 mBinding.btnConfirm.setBackgroundResource(R.drawable.corner_order_btn);
             }
+            tip=getString(R.string.order_release_wait_buy);
 
-            tip = StringUtil.getString(R.string.order_save_limit_start) + "<font color='#f15353'>"
-                    + DateUtil.formatStringData(model.getInvalidDatetime(), DateUtil.DATE_HMS)
-                    + "</font>" + StringUtil.getString(R.string.order_save_limit_end);
+//            tip = StringUtil.getString(R.string.order_save_limit_start) + "<font color='#f15353'>"
+//                    + DateUtil.formatStringData(model.getInvalidDatetime(), DateUtil.DATE_HMS)
+//                    + "</font>" + StringUtil.getString(R.string.order_save_limit_end);
 
             // 可以申请仲裁
             setSubRightTitleAndClick(StringUtil.getString(R.string.order_arbitrate), v -> {

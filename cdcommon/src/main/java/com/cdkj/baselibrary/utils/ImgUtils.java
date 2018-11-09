@@ -32,13 +32,13 @@ public class ImgUtils {
             if (imgid.indexOf("http://") != -1) {
                 Glide.with(context).load(imgid).placeholder(R.drawable.photo_default).error(R.drawable.photo_default).transform(new GlideCircleTransform(context)).into(img);
             } else {
-                String url = "";
-                if (imgid.contains(MyConfig.IMGURL_ALI_HEAD)) {
-                    url = MyConfig.IMGURL;
-                } else {
-                    url = MyConfig.IMGURL_QINIU;
-                }
-                Glide.with(context).load(url + imgid).placeholder(R.drawable.photo_default).error(R.drawable.photo_default).transform(new GlideCircleTransform(context)).into(img);
+//                String url = "";
+//                if (imgid.contains(MyConfig.IMGURL_ALI_HEAD)) {
+//                    url = MyConfig.IMGURL;
+//                } else {
+//                    url = MyConfig.IMGURL_QINIU;
+//                }
+                Glide.with(context).load(MyConfig.IMGURL + imgid).placeholder(R.drawable.photo_default).error(R.drawable.photo_default).transform(new GlideCircleTransform(context)).into(img);
             }
 
         } catch (Exception e) {
@@ -56,13 +56,13 @@ public class ImgUtils {
             if (imgid.indexOf("http://") != -1) {
                 Glide.with(context).load(imgid).placeholder(R.drawable.photo_default).error(R.drawable.photo_default).transform(new GlideCircleTransform(context)).into(img);
             } else {
-                String url = "";
-                if (imgid.contains(MyConfig.IMGURL_ALI_HEAD)) {
-                    url = MyConfig.IMGURL;
-                } else {
-                    url = MyConfig.IMGURL_QINIU;
-                }
-                Glide.with(context).load(url + imgid).placeholder(R.drawable.photo_default).error(R.drawable.photo_default).transform(new GlideCircleTransform(context)).into(img);
+//                String url = "";
+//                if (imgid.contains(MyConfig.IMGURL_ALI_HEAD)) {
+//                    url = MyConfig.IMGURL;
+//                } else {
+//                    url = MyConfig.IMGURL_QINIU;
+//                }
+                Glide.with(context).load(MyConfig.IMGURL + imgid).placeholder(R.drawable.photo_default).error(R.drawable.photo_default).transform(new GlideCircleTransform(context)).into(img);
             }
         } catch (Exception e) {
             LogUtil.E("图片加载错误");
@@ -156,14 +156,14 @@ public class ImgUtils {
                     .into(iv);
         } else {
 
-            String url = "";
-            if (path.contains(MyConfig.IMGURL_ALI_HEAD)) {
-                url = MyConfig.IMGURL;
-            } else {
-                url = MyConfig.IMGURL_QINIU;
-            }
+//            String url = "";
+//            if (path.contains(MyConfig.IMGURL_ALI_HEAD)) {
+//                url = MyConfig.IMGURL;
+//            } else {
+//                url = MyConfig.IMGURL_QINIU;
+//            }
             Glide.with(context)
-                    .load(url + path.toString())
+                    .load(MyConfig.IMGURL + path.toString())
 //                    .placeholder(R.drawable.default_pic)//设置占位图
 //                    .error(R.drawable.default_pic)//设置加载失败的图片
                     .into(iv);
@@ -191,14 +191,14 @@ public class ImgUtils {
                     .into(iv);
         } else {
 
-            String url = "";
-            if (path.contains(MyConfig.IMGURL_ALI_HEAD)) {
-                url = MyConfig.IMGURL;
-            } else {
-                url = MyConfig.IMGURL_QINIU;
-            }
+//            String url = "";
+//            if (path.contains(MyConfig.IMGURL_ALI_HEAD)) {
+//                url = MyConfig.IMGURL;
+//            } else {
+//                url = MyConfig.IMGURL_QINIU;
+//            }
             Glide.with(context)
-                    .load(url + path.toString())
+                    .load(MyConfig.IMGURL + path.toString())
                     .placeholder(R.drawable.default_pic)//设置占位图
                     .error(R.drawable.default_pic)//设置加载失败的图片
                     .into(iv);
@@ -238,14 +238,14 @@ public class ImgUtils {
 
             try {
 
-                String url = "";
-                if (imgUrl.contains(MyConfig.IMGURL_ALI_HEAD)) {
-                    url = MyConfig.IMGURL;
-                } else {
-                    url = MyConfig.IMGURL_QINIU;
-                }
+//                String url = "";
+//                if (imgUrl.contains(MyConfig.IMGURL_ALI_HEAD)) {
+//                    url = MyConfig.IMGURL;
+//                } else {
+//                    url = MyConfig.IMGURL_QINIU;
+//                }
                 Glide.with(context)
-                        .load(url + imgUrl)
+                        .load(MyConfig.IMGURL + imgUrl)
                         .placeholder(R.drawable.photo_default)
                         .error(R.drawable.photo_default)
                         .transform(new GlideCircleTransform(context)).into(imgAvatar);
@@ -264,7 +264,5 @@ public class ImgUtils {
                 LogUtil.E("图片加载错误");
             }
         }
-
     }
-
 }

@@ -197,7 +197,4 @@ public class UserEmailActivity extends AbsBaseActivity {
 
 
     }
-
-
-
 }

@@ -3,7 +3,6 @@ package com.cdkj.bcoin.order;
 import android.app.AlertDialog;
 import android.text.TextUtils;
 
-import com.cdkj.baseim.activity.TxImLogingActivity;
 import com.cdkj.baseim.model.ImUserInfo;
 import com.cdkj.baselibrary.appmanager.EventTags;
 import com.cdkj.baselibrary.appmanager.MyConfig;
@@ -67,7 +66,7 @@ public class OrderNewFragment extends BaseRefreshFragment<OrderDetailModel> {
 
     @Override
     protected void afterCreate(int pageIndex, int limit) {
-        subscribe = Observable.interval(10, 10, TimeUnit.MINUTES)//分钟
+        subscribe = Observable.interval(2, 2, TimeUnit.MINUTES)//  MINUTES2分钟  刷新一次
                 .compose(new ObservableTransformer<Long, Long>() {
                     @Override
                     public ObservableSource<Long> apply(Observable<Long> upstream) {

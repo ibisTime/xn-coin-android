@@ -160,7 +160,7 @@ public class UserGoogleActivity extends AbsBaseActivity implements SendCodeInter
             }
             //优先使用手机号,没有手机号就使用邮箱  两个至少会有一个  不存在全部没有的情况
 //            TextUtils.isEmpty(SPUtilHelper.getUserPhoneNum()) ? SPUtilHelper.getUserEmail() : SPUtilHelper.getUserPhoneNum()
-            mPresenter.sendCodeRequest(SPUtilHelper.getUserEmail(), bizType, "C", this);
+            mPresenter.sendCodeRequest(TextUtils.isEmpty(SPUtilHelper.getUserPhoneNum()) ? SPUtilHelper.getUserEmail() : SPUtilHelper.getUserPhoneNum(), bizType, "C", this);
         });
 
         mBinding.btnConfirm.setOnClickListener(view -> {

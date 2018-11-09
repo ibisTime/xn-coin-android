@@ -76,7 +76,11 @@ public class UserSettingActivity extends AbsBaseActivity implements TxImLogoutIn
             }
             mBinding.tvIdentity.setText(name + SPUtilHelper.getRealName().substring(SPUtilHelper.getRealName().length() - 1, SPUtilHelper.getRealName().length()));
         }
-        mBinding.tvMobile.setText(SPUtilHelper.getUserPhoneNum().substring(0, 3) + "****" + SPUtilHelper.getUserPhoneNum().substring(SPUtilHelper.getUserPhoneNum().length() - 4, SPUtilHelper.getUserPhoneNum().length()));
+
+        if (!TextUtils.isEmpty(SPUtilHelper.getUserPhoneNum()) && SPUtilHelper.getUserPhoneNum().length() >= 11) {
+
+            mBinding.tvMobile.setText(SPUtilHelper.getUserPhoneNum().substring(0, 3) + "****" + SPUtilHelper.getUserPhoneNum().substring(SPUtilHelper.getUserPhoneNum().length() - 4, SPUtilHelper.getUserPhoneNum().length()));
+        }
 
         if (!SPUtilHelper.getGoogleAuthFlag()) { // 未打开谷歌验证
             mBinding.tvGoogle.setText(getStrRes(R.string.user_google_close));
@@ -109,8 +113,17 @@ public class UserSettingActivity extends AbsBaseActivity implements TxImLogoutIn
             UserEmailActivity.open(this, SPUtilHelper.getUserEmail());
         });
 
+        mBinding.llBdMobile.setOnClickListener(view -> {
+            UserEmailActivity.open(this, SPUtilHelper.getUserEmail());
+        });
+
         mBinding.llMobile.setOnClickListener(view -> {
-            UpdatePhoneActivity.open(this);
+
+            if (!TextUtils.isEmpty(SPUtilHelper.getUserPhoneNum())) {
+                showToast(getString(R.string.user_bind_mobile_ok));
+            } else {
+                UpdatePhoneActivity.open(this);
+            }
         });
 
         mBinding.llPassword.setOnClickListener(view -> {
@@ -218,4 +231,22 @@ public class UserSettingActivity extends AbsBaseActivity implements TxImLogoutIn
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 50);
 
     }
+
+    /**
+     * 绑定手机号成功后接收的回调
+     *
+     * @param eventBusModel
+     */
+//    @Subscribe
+//    public void bindMoblie(EventBusModel eventBusModel) {
+//
+//        if (eventBusModel == null) {
+//            return;
+//        }
+//        if (!TextUtils.isEmpty(eventBusModel.getEvInfo()) && eventBusModel.getEvInfo().length() == 11) {
+//            Log.i("pppppp", "bindMoblie: 返回的值为"+eventBusModel.getEvInfo());
+//            Log.i("pppppp", "bindMoblie: 设置的值为:"+eventBusModel.getEvInfo().substring(0, 3) + "****" + eventBusModel.getEvInfo().substring(eventBusModel.getEvInfo().length() - 4, eventBusModel.getEvInfo().length()));
+//            mBinding.tvMobile.setText(eventBusModel.getEvInfo().substring(0, 3) + "****" + eventBusModel.getEvInfo().substring(eventBusModel.getEvInfo().length() - 4, eventBusModel.getEvInfo().length()));
+//        }
+//    }
 }

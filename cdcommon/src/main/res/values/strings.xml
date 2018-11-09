@@ -49,6 +49,7 @@
     <string name="activity_mobile_mobile_hint">请输入账号</string>
     <string name="activity_mobile_code_hint">请输入验证码</string>
     <string name="activity_mobile_modify_success">手机号修改成功</string>
+    <string name="activity_mobile_bind_modify_success">手机号绑定成功</string>
     <string name="activity_base_tip">提示</string>
     <string name="activity_base_confirm">确定</string>
     <string name="activity_base_cancel">取消</string>
@@ -74,4 +75,6 @@
     <string name="smscode_send_failure">验证码发送失败</string>
     <string name="storage_refused">已拒绝BCoin获取您的内存权限</string>
     <string name="web_create_pic_failure">生成图片失败</string>
+    <string name="text_moblie">手机号</string>
+    <string name="user_setting_bd_mail">绑定手机号</string>
 </resources>

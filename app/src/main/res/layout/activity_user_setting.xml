@@ -115,7 +115,6 @@
             </LinearLayout>
 
             <View
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginLeft="15dp"
@@ -123,8 +122,8 @@
                 android:background="@color/gray_eeeeee" />
 
             <LinearLayout
-                android:id="@+id/ll_mobile"
                 android:visibility="gone"
+                android:id="@+id/ll_bd_mobile"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical">
@@ -134,7 +133,49 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="1"
-                    android:text="@string/user_setting_mobile"
+                    android:text="@string/user_setting_bd_mail"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_bd_mobile"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginRight="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@mipmap/more" />
+
+            </LinearLayout>
+
+
+            <View
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/gray_eeeeee" />
+
+            <LinearLayout
+
+                android:id="@+id/ll_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical">
+
+                    <!--android:text="@string/user_setting_mobile"-->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:text="@string/user_setting_bd_mail"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 

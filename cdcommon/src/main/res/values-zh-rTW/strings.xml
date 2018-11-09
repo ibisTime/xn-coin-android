@@ -49,6 +49,7 @@
     <string name="activity_mobile_mobile_hint">請輸入賬號</string>
     <string name="activity_mobile_code_hint">請輸入驗證碼</string>
     <string name="activity_mobile_modify_success">手機號修改成功</string>
+    <string name="activity_mobile_bind_modify_success">手機號綁定成功</string>
     <string name="activity_base_tip">提示</string>
     <string name="activity_base_confirm">確定</string>
     <string name="activity_base_cancel">取消</string>
@@ -74,4 +75,6 @@
     <string name="smscode_send_failure">驗證碼發送失敗</string>
     <string name="storage_refused">已拒絕BCoin獲取您的內存權限</string>
     <string name="web_create_pic_failure">生成圖片失敗</string>
+    <string name="text_moblie">手機號</string>
+    <string name="user_setting_bd_mail">綁定手機號</string>
 </resources>

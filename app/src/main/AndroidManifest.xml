@@ -90,8 +90,8 @@
         <activity android:name=".user.UserInviteProfitActivity" />
         <activity android:name=".order.OrderActivity" />
 
-        <service android:name=".service.OrderTipService"></service>
-        <service android:name=".service.CoinListService"></service>
+        <service android:name=".service.OrderTipService" />
+        <service android:name=".service.CoinListService" />
         //找回密码
         <activity
             android:name="com.cdkj.baselibrary.activitys.FindPwdActivity"
@@ -190,11 +190,11 @@
         <service
             android:name="com.tencent.qalsdk.service.QalService"
             android:exported="true"
-            android:process=":QALSERVICE"></service>
+            android:process=":QALSERVICE" />
         <service
             android:name="com.tencent.qalsdk.service.QalAssistService"
             android:exported="false"
-            android:process=":QALSERVICE"></service>
+            android:process=":QALSERVICE" />
 
         <!-- 【必须】 离线消息广播接收器 -->
         <receiver
@@ -339,7 +339,8 @@
 
         <!-- hwpush -->
 
-        <activity android:name=".user.UserQRSetting"></activity>
+        <activity android:name=".user.UserQRSetting" />
+        <activity android:name=".user.UserBDMobileActivity"></activity>
     </application>
 
 </manifest>

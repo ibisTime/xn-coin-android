@@ -33,7 +33,7 @@ android {
 
             ndk {
                 // 需要将 x86 架构过滤掉
-                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "arm64"
             }
         }
 

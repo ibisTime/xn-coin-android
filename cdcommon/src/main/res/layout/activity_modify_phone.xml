@@ -114,7 +114,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
-                    android:text="@string/activity_mobile_mobile"
+                    android:text="@string/text_moblie"
                     android:textColor="@color/fontColor_gray"
                     android:textSize="15sp" />
 
@@ -125,7 +125,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:hint="@string/activity_mobile_mobile_hint"
+                    android:hint="@string/activity_paypwd_mobile_hint"
                     android:inputType="phone"
                     android:maxLength="11"
                     android:textColor="@color/fontColor_gray"

@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import retrofit2.Call;
@@ -63,7 +64,8 @@ public class OrderDoneFragment extends BaseRefreshFragment<OrderDetailModel> {
     @Override
     protected void afterCreate(int pageIndex, int limit) {
 
-        subscribe = Observable.interval(10, 10, TimeUnit.MINUTES)//分钟
+        subscribe = Observable.interval(2, 2, TimeUnit.MINUTES)//分钟
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .compose(new ObservableTransformer<Long, Long>() {
                     @Override
                     public ObservableSource<Long> apply(Observable<Long> upstream) {

@@ -43,7 +43,7 @@ public class SendPhoneCodePresenter {
     /**
      * 请求
      */
-    private void request(String phone, String bizType, String kind) {
+        private void request(String phone, String bizType, String kind) {
 
         HashMap<String, String> hashMap = new HashMap<>();
 
