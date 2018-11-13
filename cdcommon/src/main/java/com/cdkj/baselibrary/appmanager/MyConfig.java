@@ -28,7 +28,7 @@ public class MyConfig {
     // 环境访问地址
 //    public static final String BASE_URL_DEV = "http://121.43.101.148:4001/forward-service/"; // 研发  老研发
 //    public static final String BASE_URL_DEV = "http://13.211.205.147:5501/forward-service/"; // 研发  新研发
-    public static final String BASE_URL_DEV = "https://loveotc.com/"; // 研发
+    public static final String BASE_URL_DEV = "https://kkkotc.com/"; // 研发
     public static final String BASE_URL_TEST = "https://loveotc.com/"; // 测试
     //    public static final String BASE_URL_ONLINE = "http://47.52.77.214:4001/forward-service/"; // 线上
     public static final String BASE_URL_ONLINE = "https://kkkotc.com/"; // 线上
